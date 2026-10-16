@@ -1,0 +1,56 @@
+{
+  "request": {
+    "stream": false,
+    "prompt": "Explain what a container is in three short sentences.",
+    "model": "qwen2.5:0.5b",
+    "keep_alive": -1,
+    "options": {
+      "num_thread": 2,
+      "temperature": 0,
+      "seed": 42,
+      "num_predict": 64,
+      "num_ctx": 1024
+    }
+  },
+  "baseline_started_at_utc": "2026-10-16T18:36:39.1946041Z",
+  "load_started_at_utc": "2026-10-16T18:38:41.1219069Z",
+  "rate": 2,
+  "load_exit_code": 0,
+  "resource_source": "kubelet /metrics/resource via Kubernetes node proxy",
+  "finished_at_utc": "2026-10-16T18:40:11.3168630Z",
+  "metrics_server_role": "Scaling-signal observation only",
+  "observer_pid": 26580,
+  "duration": "1m",
+  "observer_duration_seconds": 150,
+  "observer_interval_seconds": 5,
+  "time_unit": "10s",
+  "run_id": "observation-check-2026-10-16-verified",
+  "kubectl_version": {
+    "clientVersion": {
+      "major": "1",
+      "minor": "36",
+      "gitVersion": "v1.36.1",
+      "gitCommit": "756939600b9a7180fc2df6550a4585b638875e67",
+      "gitTreeState": "clean",
+      "buildDate": "2026-05-12T09:54:35Z",
+      "goVersion": "go1.26.2",
+      "compiler": "gc",
+      "platform": "windows/amd64"
+    },
+    "kustomizeVersion": "v5.8.1"
+  },
+  "created_at_utc": "2026-10-16T18:36:36.9691969Z",
+  "observer_exit_code": 0,
+  "baseline_exit_code": 0,
+  "python_version": "Python 3.12.0",
+  "observer_sha256": "8ABA98AEC118950AC02D7C06E262F6A1732AAACD378787F9D8C03ABE41FC5965",
+  "baseline_finished_at_utc": "2026-10-16T18:37:41.0571089Z",
+  "warmup_included": false,
+  "k6_version": "k6.exe v2.2.0 (commit/00a9a1b7f5, go1.26.5, windows/amd64)",
+  "load_script_sha256": "1FD136B08B4B97BF3519C23063D17AA1539735D16CAC1B5700F301C9DFC27DF8",
+  "base_url": "http://127.0.0.1:64145",
+  "purpose": "Observer and resource-source verification, not capacity measurement",
+  "idle_observation_seconds": 60,
+  "load_finished_at_utc": "2026-10-16T18:39:41.3537039Z",
+  "observer_started_at_utc": "2026-10-16T18:37:41.1039753Z"
+}

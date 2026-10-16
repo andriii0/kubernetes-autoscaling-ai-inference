@@ -1,0 +1,32 @@
+{
+  "replicas": 1,
+  "time_unit": "10s",
+  "finished_at_utc": "2026-10-04T18:18:20.9005074Z",
+  "model": "qwen2.5:0.5b",
+  "request": {
+    "keep_alive": -1,
+    "model": "qwen2.5:0.5b",
+    "stream": false,
+    "prompt": "Explain what a container is in three short sentences.",
+    "options": {
+      "num_predict": 64,
+      "num_ctx": 1024,
+      "seed": 42,
+      "num_thread": 2,
+      "temperature": 0
+    }
+  },
+  "rate": 2,
+  "limitations": "One physical host, one CPU replica, one repeated short prompt, warm model and possible prompt caching; no general performance conclusion",
+  "script_sha256": "1FD136B08B4B97BF3519C23063D17AA1539735D16CAC1B5700F301C9DFC27DF8",
+  "purpose": "Short load-generator verification, not a capacity estimate or final experiment",
+  "latency_slo_ms": null,
+  "started_at_utc": "2026-10-04T18:17:19.6638880Z",
+  "k6_exit_code": 0,
+  "warmup_requests": 1,
+  "profile": "steady",
+  "warmup_included_in_k6_metrics": false,
+  "duration": "1m",
+  "k6_version": "k6.exe v2.2.0 (commit/00a9a1b7f5, go1.26.5, windows/amd64)",
+  "service_url": "http://127.0.0.1:62416"
+}

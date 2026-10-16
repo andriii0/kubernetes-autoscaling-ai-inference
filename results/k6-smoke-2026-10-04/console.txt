@@ -1,0 +1,39 @@
+
+
+  █ THRESHOLDS 
+
+    dropped_iterations
+    ✓ 'count==0' count=0
+
+    inference_errors
+    ✓ 'rate<=0.01' rate=0.00%
+
+
+  █ TOTAL RESULTS 
+
+    CUSTOM
+    inference_errors...............: 0.00%  0 out of 13
+    model_load_ms..................: avg=916.4µs min=731.04µs med=880.88µs max=1.44ms p(90)=1.12ms p(95)=1.27ms
+    output_tokens..................: avg=56      min=56       med=56       max=56     p(90)=56     p(95)=56    
+    request_latency_ms.............: avg=1.04s   min=983ms    med=1.01s    max=1.28s  p(90)=1.06s  p(95)=1.15s 
+    successful_latency_ms..........: avg=1.04s   min=983ms    med=1.01s    max=1.28s  p(90)=1.06s  p(95)=1.15s 
+
+    HTTP
+    http_req_duration..............: avg=1.04s   min=983.05ms med=1.01s    max=1.28s  p(90)=1.06s  p(95)=1.15s 
+      { expected_response:true }...: avg=1.04s   min=983.05ms med=1.01s    max=1.28s  p(90)=1.06s  p(95)=1.15s 
+    http_req_failed................: 0.00%  0 out of 13
+    http_reqs......................: 13     0.212908/s
+
+    EXECUTION
+    dropped_iterations.............: 0      0/s
+    iteration_duration.............: avg=1.04s   min=983.79ms med=1.01s    max=1.28s  p(90)=1.06s  p(95)=1.15s 
+    iterations.....................: 13     0.212908/s
+    vus............................: 1      min=0       max=1 
+    vus_max........................: 50     min=50      max=50
+
+    NETWORK
+    data_received..................: 16 kB  265 B/s
+    data_sent......................: 4.7 kB 77 B/s
+
+
+

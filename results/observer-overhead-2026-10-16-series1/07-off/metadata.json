@@ -1,0 +1,11 @@
+{
+  "index": 7,
+  "cluster_unchanged": true,
+  "load_started_at_utc": "2026-10-16T19:02:58.4829398Z",
+  "load_exit_code": 0,
+  "observer_interval_seconds": 5,
+  "pair": 4.0,
+  "load_finished_at_utc": "2026-10-16T19:04:58.7302553Z",
+  "directory": "07-off",
+  "mode": "off"
+}

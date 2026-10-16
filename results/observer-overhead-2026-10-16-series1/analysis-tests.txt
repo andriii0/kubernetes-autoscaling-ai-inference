@@ -1,0 +1,10 @@
+test_cluster_restart_is_rejected (test_overhead.AnalysisTests.test_cluster_restart_is_rejected) ... ok
+test_false_summary_is_rejected (test_overhead.AnalysisTests.test_false_summary_is_rejected) ... ok
+test_incomplete_series_is_rejected (test_overhead.AnalysisTests.test_incomplete_series_is_rejected) ... ok
+test_observer_gap_is_rejected (test_overhead.AnalysisTests.test_observer_gap_is_rejected) ... ok
+test_valid_series_uses_pairs_and_raw_samples (test_overhead.AnalysisTests.test_valid_series_uses_pairs_and_raw_samples) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.341s
+
+OK

@@ -1,0 +1,6 @@
+pods: error: context "ai-lab-does-not-exist" does not exist
+deployments: error: context "ai-lab-does-not-exist" does not exist
+hpa: error: context "ai-lab-does-not-exist" does not exist
+nodes: Error in configuration: context was not found for specified context: ai-lab-does-not-exist
+metrics_server: error: context "ai-lab-does-not-exist" does not exist
+Saved 1 samples, 5 collection errors: results\observation-check-2026-10-16\expected-context-error.jsonl

@@ -1,0 +1,56 @@
+{
+  "load_script_sha256": "1FD136B08B4B97BF3519C23063D17AA1539735D16CAC1B5700F301C9DFC27DF8",
+  "kubectl_version": {
+    "clientVersion": {
+      "major": "1",
+      "minor": "36",
+      "gitVersion": "v1.36.1",
+      "gitCommit": "756939600b9a7180fc2df6550a4585b638875e67",
+      "gitTreeState": "clean",
+      "buildDate": "2026-05-12T09:54:35Z",
+      "goVersion": "go1.26.2",
+      "compiler": "gc",
+      "platform": "windows/amd64"
+    },
+    "kustomizeVersion": "v5.8.1"
+  },
+  "idle_observation_seconds": 60,
+  "created_at_utc": "2026-10-16T18:31:24.2251663Z",
+  "finished_at_utc": "2026-10-16T18:35:05.3469421Z",
+  "request": {
+    "stream": false,
+    "model": "qwen2.5:0.5b",
+    "options": {
+      "num_thread": 2,
+      "num_ctx": 1024,
+      "seed": 42,
+      "temperature": 0,
+      "num_predict": 64
+    },
+    "prompt": "Explain what a container is in three short sentences.",
+    "keep_alive": -1
+  },
+  "observer_interval_seconds": 5,
+  "base_url": "http://127.0.0.1:64145",
+  "python_version": "Python 3.12.0",
+  "time_unit": "10s",
+  "load_started_at_utc": "2026-10-16T18:33:35.1300301Z",
+  "purpose": "Observer and resource-source verification, not capacity measurement",
+  "baseline_exit_code": 0,
+  "resource_source": "kubelet /metrics/resource via Kubernetes node proxy",
+  "observer_duration_seconds": 150,
+  "load_finished_at_utc": "2026-10-16T18:34:36.8466561Z",
+  "baseline_finished_at_utc": "2026-10-16T18:32:35.0666280Z",
+  "k6_version": "k6.exe v2.2.0 (commit/00a9a1b7f5, go1.26.5, windows/amd64)",
+  "observer_sha256": "6C1BCD5154CEDE8C6EEC549F32C1AA68B79D5B3FA9EFA6F4860F60C3E9284013",
+  "load_exit_code": 0,
+  "observer_started_at_utc": "2026-10-16T18:32:35.1192732Z",
+  "run_id": "observation-check-2026-10-16",
+  "baseline_started_at_utc": "2026-10-16T18:31:33.1347109Z",
+  "observer_pid": 44904,
+  "duration": "1m",
+  "warmup_included": false,
+  "metrics_server_role": "Scaling-signal observation only",
+  "observer_exit_code": 0,
+  "rate": 2
+}

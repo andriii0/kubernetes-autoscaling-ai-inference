@@ -1,0 +1,14 @@
+{
+  "index": 5,
+  "cluster_unchanged": true,
+  "load_started_at_utc": "2026-10-16T18:57:26.5836533Z",
+  "load_exit_code": 0,
+  "observer_started_at_utc": "2026-10-16T18:57:16.5790925Z",
+  "observer_interval_seconds": 5,
+  "pair": 3.0,
+  "observer_exit_code": 0,
+  "load_finished_at_utc": "2026-10-16T18:59:28.4047696Z",
+  "directory": "05-on",
+  "mode": "on",
+  "observer_pid": 44844
+}

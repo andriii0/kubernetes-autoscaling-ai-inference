@@ -1,0 +1,28 @@
+{
+  "baseline": {
+    "completed": 13,
+    "errors": 0,
+    "dropped": 0,
+    "mean_ms": 1609.076923076923,
+    "p95_ms": 1643.2
+  },
+  "observed": {
+    "completed": 12,
+    "errors": 0,
+    "dropped": 0,
+    "mean_ms": 1747.8333333333333,
+    "p95_ms": 1870.75
+  },
+  "samples": 30,
+  "collection_errors": 0,
+  "observation_span_seconds": 145.025154,
+  "poll_interval_mean_seconds": 5.000867379310345,
+  "poll_interval_max_seconds": 5.015921,
+  "collection_duration_max_seconds": 1.7339999999967404,
+  "valid_container_cpu_rates": 14,
+  "unique_container_source_timestamps": 17,
+  "container_peak_memory_mib": 573.51953125,
+  "idle_mean_cpu_cores": 0.15566547122016705,
+  "load_mean_cpu_cores": 0.5438522191210163,
+  "load_peak_cpu_cores": 0.8752543440165473
+}

@@ -1,0 +1,169 @@
+{
+  "source_hashes_match": true,
+  "cluster_unchanged": true,
+  "total_requests": 195,
+  "pairs": [
+    {
+      "pair": 1,
+      "order": "off/on",
+      "off_mean_ms": 1808.24,
+      "on_mean_ms": 1703.56,
+      "mean_change_percent": -5.7890545502809365,
+      "off_p95_ms": 1958.3999999999999,
+      "on_p95_ms": 1716.8,
+      "p95_change_percent": -12.336601307189543
+    },
+    {
+      "pair": 2,
+      "order": "on/off",
+      "off_mean_ms": 1614.3333333333333,
+      "on_mean_ms": 1716,
+      "mean_change_percent": 6.297749328928348,
+      "off_p95_ms": 1744.2999999999997,
+      "on_p95_ms": 1769.8,
+      "p95_change_percent": 1.461904488906729
+    },
+    {
+      "pair": 3,
+      "order": "on/off",
+      "off_mean_ms": 1660.1666666666667,
+      "on_mean_ms": 1729.08,
+      "mean_change_percent": 4.150988856540505,
+      "off_p95_ms": 1744.8999999999999,
+      "on_p95_ms": 1921.9999999999998,
+      "p95_change_percent": 10.149578772422485
+    },
+    {
+      "pair": 4,
+      "order": "off/on",
+      "off_mean_ms": 1691.2083333333333,
+      "on_mean_ms": 1804.9583333333333,
+      "mean_change_percent": 6.725960235531803,
+      "off_p95_ms": 1747.6,
+      "on_p95_ms": 1860.25,
+      "p95_change_percent": 6.445983062485694
+    }
+  ],
+  "runs": [
+    {
+      "index": 1,
+      "pair": 1.0,
+      "mode": "off",
+      "requests": 25,
+      "mean_ms": 1808.24,
+      "p95_ms": 1958.3999999999999,
+      "max_ms": 2071,
+      "errors": 0,
+      "dropped": 0,
+      "observer_samples": 0,
+      "collection_errors": 0
+    },
+    {
+      "index": 2,
+      "pair": 1.0,
+      "mode": "on",
+      "requests": 25,
+      "mean_ms": 1703.56,
+      "p95_ms": 1716.8,
+      "max_ms": 1845,
+      "errors": 0,
+      "dropped": 0,
+      "observer_samples": 30,
+      "collection_errors": 0
+    },
+    {
+      "index": 3,
+      "pair": 2.0,
+      "mode": "on",
+      "requests": 24,
+      "mean_ms": 1716,
+      "p95_ms": 1769.8,
+      "max_ms": 1815,
+      "errors": 0,
+      "dropped": 0,
+      "observer_samples": 30,
+      "collection_errors": 0
+    },
+    {
+      "index": 4,
+      "pair": 2.0,
+      "mode": "off",
+      "requests": 24,
+      "mean_ms": 1614.3333333333333,
+      "p95_ms": 1744.2999999999997,
+      "max_ms": 1838,
+      "errors": 0,
+      "dropped": 0,
+      "observer_samples": 0,
+      "collection_errors": 0
+    },
+    {
+      "index": 5,
+      "pair": 3.0,
+      "mode": "on",
+      "requests": 25,
+      "mean_ms": 1729.08,
+      "p95_ms": 1921.9999999999998,
+      "max_ms": 2001,
+      "errors": 0,
+      "dropped": 0,
+      "observer_samples": 30,
+      "collection_errors": 0
+    },
+    {
+      "index": 6,
+      "pair": 3.0,
+      "mode": "off",
+      "requests": 24,
+      "mean_ms": 1660.1666666666667,
+      "p95_ms": 1744.8999999999999,
+      "max_ms": 1748,
+      "errors": 0,
+      "dropped": 0,
+      "observer_samples": 0,
+      "collection_errors": 0
+    },
+    {
+      "index": 7,
+      "pair": 4.0,
+      "mode": "off",
+      "requests": 24,
+      "mean_ms": 1691.2083333333333,
+      "p95_ms": 1747.6,
+      "max_ms": 1768,
+      "errors": 0,
+      "dropped": 0,
+      "observer_samples": 0,
+      "collection_errors": 0
+    },
+    {
+      "index": 8,
+      "pair": 4.0,
+      "mode": "on",
+      "requests": 24,
+      "mean_ms": 1804.9583333333333,
+      "p95_ms": 1860.25,
+      "max_ms": 1994,
+      "errors": 0,
+      "dropped": 0,
+      "observer_samples": 30,
+      "collection_errors": 0
+    }
+  ],
+  "output_tokens": [
+    56
+  ],
+  "median_paired_mean_change_percent": 5.224369092734427,
+  "median_paired_p95_change_percent": 3.9539437756962115,
+  "pair_mean_change_range_percent": [
+    -5.7890545502809365,
+    6.725960235531803
+  ],
+  "pair_p95_change_range_percent": [
+    -12.336601307189543,
+    10.149578772422485
+  ],
+  "positive_mean_pairs": 3,
+  "provisional_budget_met": true,
+  "interpretation": "Engineering screening only; four pairs do not establish general equivalence."
+}

@@ -1,0 +1,21 @@
+test_cli_writes_failure_record_and_returns_nonzero (test_observe.ObserverTests.test_cli_writes_failure_record_and_returns_nonzero) ... ok
+test_deployment_without_metadata_labels_is_collected (test_observe.ObserverTests.test_deployment_without_metadata_labels_is_collected) ... ok
+test_empty_hpa_is_valid (test_observe.ObserverTests.test_empty_hpa_is_valid) ... ok
+test_existing_output_is_not_changed (test_observe.ObserverTests.test_existing_output_is_not_changed) ... ok
+test_failed_scrape_retains_raw_and_clears_counters (test_observe.ObserverTests.test_failed_scrape_retains_raw_and_clears_counters) ... ok
+test_malformed_resource_payload_is_preserved (test_observe.ObserverTests.test_malformed_resource_payload_is_preserved) ... ok
+test_missing_container_metrics_are_reported (test_observe.ObserverTests.test_missing_container_metrics_are_reported) ... ok
+test_source_failure_is_saved_and_does_not_hide_other_sources (test_observe.ObserverTests.test_source_failure_is_saved_and_does_not_hide_other_sources) ... ok
+test_counter_reset_is_not_negative_cpu (test_observe.ResourceTests.test_counter_reset_is_not_negative_cpu) ... ok
+test_missing_memory_stays_missing (test_observe.ResourceTests.test_missing_memory_stays_missing) ... ok
+test_parser_rejects_missing_and_nonfinite_metrics (test_observe.ResourceTests.test_parser_rejects_missing_and_nonfinite_metrics) ... ok
+test_prometheus_labels_and_optional_timestamps (test_observe.ResourceTests.test_prometheus_labels_and_optional_timestamps) ... ok
+test_repeated_source_timestamp_is_not_zero_usage (test_observe.ResourceTests.test_repeated_source_timestamp_is_not_zero_usage) ... ok
+test_restart_and_replacement_do_not_bridge_counters (test_observe.ResourceTests.test_restart_and_replacement_do_not_bridge_counters) ... ok
+test_source_time_and_units (test_observe.ResourceTests.test_source_time_and_units) ... ok
+test_unrelated_pods_are_excluded (test_observe.ResourceTests.test_unrelated_pods_are_excluded) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.034s
+
+OK
