@@ -32,4 +32,4 @@ Canonical documentation now lives under `md/`, with root `AGENTS.md` and `README
 
 The code directory is now a Git repository on branch `main`, with private GitHub repository [andriii0/kubernetes-autoscaling-ai-inference](https://github.com/andriii0/kubernetes-autoscaling-ai-inference). The first snapshot includes source, Markdown and saved experiment evidence; downloaded model weights, caches and credential/environment files are excluded.
 
-Documentation migration checks passed: 55 local links/anchors and 21 focused tests. A flaky test was corrected to read all JSONL records rather than assume a timing-dependent single record. Runtime scripts and original evidence were unchanged. Source text uses LF; `results/` is stored without line-ending conversions.
+Documentation migration checks passed: 55 local links/anchors and 21 focused tests. A flaky test was corrected to read all JSONL records rather than assume a timing-dependent single record. Runtime scripts and original evidence were unchanged. Source/document text defaults to LF; the measured load script and `results/` retain their original bytes so historical source hashes remain valid.

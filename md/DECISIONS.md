@@ -52,4 +52,4 @@ Status: accepted, 2026-10-16. Root `AGENTS.md` contains agent instructions and r
 
 Fontys Portflow remains the required portfolio destination. The student requested a GitHub copy of the code and Markdown documentation on 2026-10-16; that does not replace Portflow submission.
 
-The repository is private. Model weights, caches and local credentials are ignored. `.gitattributes` keeps source text in LF for consistent recorded script hashes, while preserving files in `results/` without text normalization so saved evidence remains unchanged.
+The repository is private. Model weights, caches and local credentials are ignored. `.gitattributes` defaults source/document text to LF, but preserves the original bytes of the measured `bench/inference.js` and files in `results/`. The measured load script originally uses Windows line endings; converting them would invalidate historical source hashes even though the JavaScript behavior is unchanged.

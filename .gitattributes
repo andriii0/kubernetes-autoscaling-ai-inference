@@ -6,4 +6,5 @@
 *.ps1 text eol=lf
 .gitignore text eol=lf
 .gitattributes text eol=lf
+bench/inference.js -text whitespace=cr-at-eol
 results/** -text -whitespace
