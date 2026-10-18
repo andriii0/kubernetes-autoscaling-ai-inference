@@ -31,5 +31,5 @@ Review the pending documentation reorganization, measurement-integrity maintenan
 - [x] G5: All pre-review raw pilot/result data and Word/PDF bytes are preserved, and committed changes are split into reviewed logical groups.
   EVIDENCE: Pre-review SHA-256 comparison preserves all 358 result/source/Word/PDF files covered by the snapshot. The reviewed path set is partitioned into eight named commits, followed by a focused historical-revalidation clarification. 50 bench tests, 10 overhead tests and three disabled-check assertions pass; no weights or credential paths enter the commit scope.
 
-- [ ] G6: Reviewed commits are published to the existing private origin/main and the published commit equals local HEAD.
-  EVIDENCE: pending
+- [x] G6: Reviewed commits are published to the existing private origin/main and the published commit equals local HEAD.
+  EVIDENCE: Existing origin is private and the caller has ADMIN permission. Nine reviewed commits were pushed to origin/main; local HEAD and git ls-remote matched 795491117264d69e5f0e6b388f786494eecd5654. The committed-tree export preserves 358 protected files, resolves 198 Markdown links/anchors and reproduces all eight selected pilot summaries; the original failed A verdict remains archived. A final ledger-only verification commit is published and its exact remote HEAD is checked separately.
