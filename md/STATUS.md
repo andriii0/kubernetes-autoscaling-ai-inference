@@ -1,8 +1,12 @@
 # Project status
 
-Updated: 2026-10-16.
+Updated: 2026-10-18. The integrated collector has a saved low-load check; this is not a capacity pilot.
 
 ## Verified
+
+- Integrated collection now validates one-replica state, observes idle state, warms the model, runs k6 and reconciles request/resource records. Archive/version diagnostics warn; duplicate snapshots are not revalidated.
+- [Live collection check](../results/pilot/20261018T202951240Z-collection-check/README.md): 12 successful paired requests, 29 observations, no failed/dropped/unfinished work or collection errors.
+- The current bench suite has 43 passing tests. [Targeted negative-test verification](plans/data-collection/verify-tests.py) confirms disabled unfinished-request, time-order and gap checks are caught. The revised lifecycle case passed ten repeats; the original isolated failure was not reproduced.
 
 - One ready Ollama CPU replica in the existing `ai-lab` cluster; no HPA. Restart count stayed unchanged during the final check.
 - `bench/observe.py` saves read-only cluster state, metrics-server scaling input, raw kubelet resource series and normalized CPU/memory values. It preserves source timestamps and errors, detects invalid counter differences, and refuses to overwrite existing files.
@@ -14,13 +18,12 @@ Updated: 2026-10-16.
 ## Remaining
 
 - Remaining technology research in `md/DECISIONS.md` is still open; the final experiment protocol has not been frozen.
-- Correlated per-request events and reusable pilot-run metadata orchestration are not implemented. k6 raw metric exports remain available.
 - `bench/analyze.py` is still a starter; pilot summaries and plots are not implemented.
 - Increasing-load pilot, selected low/peak rates, latency target, three-replica comparison and autoscaling experiments remain unfinished.
 
 ## Next step
 
-Finish the request/run recording and minimal pilot analysis. The repeated observer-overhead check meets the provisional low-load budget; retain the 5-second interval while recording it in pilot metadata. Then execute independent one-replica probes at 2, 5 and 10 requests per 10 seconds, inspecting each result before increasing load. Follow `md/plans/measurements-and-pilot.md` and finish decision records before the main comparison.
+Finish minimal pilot analysis. The repeated observer-overhead check meets the provisional low-load budget; retain the 5-second interval while recording it in pilot metadata. Then execute independent one-replica probes at 2, 5 and 10 requests per 10 seconds, inspecting each result before increasing load. Follow `md/plans/measurements-and-pilot.md` and finish decision records before the main comparison.
 
 ## Limits
 

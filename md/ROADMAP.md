@@ -1,12 +1,12 @@
 # Project Roadmap
 
-Updated: 2026-10-16. Latest saved runtime checks: 2026-10-16.
+Updated: 2026-10-18. Latest saved runtime check: 2026-10-18.
 
 ## Goal and current position
 
 Evaluate how automatic scaling of AI inference handles changing request load while keeping response time acceptable. Compare one fixed replica, three fixed replicas, and automatic scaling between one and three replicas. A replica is one running copy of the model server.
 
-The local prototype, short load check, and continuous cluster/resource observer are complete. Direct kubelet resource measurements were verified with saved data on 2026-10-16. The next work is to finish the remaining decision records and request-level run records, then run a pilot to select the main experiment settings. Autoscaling is not implemented yet.
+The local prototype, short load check, and continuous cluster/resource observer are complete. Direct kubelet resource measurements were verified with saved data on 2026-10-16. Request-level records and integrated collection have offline tests and a saved live low-load check on 2026-10-18. The next work is minimal pilot analysis and the remaining decision records, then a pilot to select the main experiment settings. Autoscaling is not implemented yet.
 
 Completed steps refer to saved evidence, not a claim that the cluster is running today. All replicas use the CPU of one physical computer. Detailed commands are available in [GETTING_STARTED_RU.md](GETTING_STARTED_RU.md).
 

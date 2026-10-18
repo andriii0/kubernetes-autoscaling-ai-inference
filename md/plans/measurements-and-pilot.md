@@ -1,6 +1,6 @@
 # Measurements and pilot load tests
 
-Date: 2026-10-16. Status: observation and resource-source verification complete; pilot rates have not been tested.
+Updated: 2026-10-18. Request/run collection is implemented and has a saved live low-load check. Pilot analysis and rate selection remain unfinished.
 
 Implementation paths are relative to the repository root.
 
@@ -19,7 +19,7 @@ Prepare repeatable measurements and find useful low and peak request rates for o
 
 | Area | Data | Source and proposed collection |
 |---|---|---|
-| Requests | Start/end time, duration, HTTP status, outcome and error category, output-token count, model-load duration | Extend k6 with a correlated record for every completed request; retain its raw metric export and summary |
+| Requests | Start/end time, duration, HTTP status, outcome and error category, output-token count, model-load duration | k6 records correlated starts and completions; retain its raw metric export and summary |
 | Load | Requested rate, started/completed requests, response failures and dropped iterations | k6; report each count separately |
 | Application state | Pod UID/name, phase, Ready condition, restarts, desired and available replicas | `observe.py` reading Kubernetes through `kubectl`; target one poll every 5 seconds |
 | Scaling state | HPA presence, desired/current replicas, conditions and reported CPU signal | Same observer; absent HPA is expected during this pilot |
@@ -49,9 +49,42 @@ cluster.jsonl          # Timestamped state, scaling input, raw/parsed resources 
 console.txt            # k6 diagnostics
 cluster-before.json
 cluster-after.json
+warmup.json            # Separate generation result/timing, without response text
+collection-check.json  # Reconciliation, coverage, counts and integrity errors
+inputs/                # Exact scripts/workload and an empty explicit k6 config
 ```
 
 JSONL means one JSON record per line. Metadata must distinguish the measured request interval from warmup, drain and idle observation. Keep started/completed/failed/dropped counts and unfinished work explicit. A response failure counts among completed requests; it is not added to them again.
+
+### Run one load probe
+
+The existing [launcher](../../bench/run_pilot.py) creates an exclusive output directory before starting k6. Run this once for each candidate from section 4, with a new directory:
+
+```powershell
+$rate = 2
+$runDir = Join-Path 'results/pilot' ("{0}-rate-{1}-{2}" -f [DateTime]::UtcNow.ToString('yyyyMMddTHHmmssfffZ'), $rate, [Guid]::NewGuid().ToString('N').Substring(0, 8))
+python .\bench\run_pilot.py --base-url "$env:BASE_URL" --rate $rate --duration 2m --run-dir "$runDir"
+```
+
+It refuses existing paths before any process or request starts. The fixed-one-replica launcher then performs this sequence:
+
+1. Copy the five executable input files into `inputs/`, record SHA-256 hashes and tool versions, and save metadata. Version-command failures are retained as warnings; absence of k6 or failed cluster collection still stops the run. Record unrelated computer activity with `--activity-note`.
+2. Save a complete initial observer sample. Require one running/Ready pod and a stable one-replica Deployment, the intended container/node resource counters and no HPA targeting the Deployment. Record pod/container/image identity and resource configuration.
+3. Observe idle state for 60 seconds, then send one separate warmup generation using the same `bench/workload.json` payload as k6. A failed warmup prevents measured load. The default warmup timeout is 120 seconds; the load-request timeout remains 30 seconds.
+4. Run k6 against the preserved script copy. Observe throughout the run and its graceful completion period, then for another 10 seconds. A collection failure, loss of readiness, restart or changed container identity stops load and retains partial evidence. Polling cannot detect a transient change that begins and ends between samples.
+5. Stop observation cooperatively, collect a final sample and save the final snapshot. Reconcile records and write `collection-check.json` and final metadata even when an ordinary run error or Ctrl+C interrupts the sequence.
+
+The observer interval defaults to 5 seconds. `--idle-seconds`, `--post-seconds`, `--observer-interval` and `--warmup-timeout` are recorded overrides; very short test-only intervals are not the accepted pilot protocol. Inherited `K6_*`/scenario variables are removed and an explicit empty k6 config prevents local overrides from silently changing the experiment. Do not start a second standalone observer for this launcher.
+
+`request-events.jsonl` contains `started` and `completed` events linked by run/scenario/iteration ID. Completion fields include UTC times, wall elapsed duration, HTTP duration, status, success/failure, error category, optional token count and model-load milliseconds. Missing optional data stays `null`; valid zero stays zero. Response text is excluded. Timeout, transport, HTTP status, invalid JSON, incomplete response and empty response are distinct failures. Dropped iterations never began a request and have no fabricated request event.
+
+`metadata.json` distinguishes the load-process interval from `load_window`: the k6 scenario start, scheduled load end and final client completion. `phases` records orchestration transitions. `pilot_records.py` checks request-event identities/times, event/raw/summary counts, successful warmup, container stability throughout `cluster.jsonl`, ordered observations, gaps above twice the recorded interval and observation coverage of load/client drain. Boundary snapshot copies are retained for inspection but are not revalidated separately. Missing/mismatched archive hashes and failed version diagnostics appear in `warnings`; only measurement `errors` invalidate the collection. A warning about changed scripts still limits provenance and should be reviewed before drawing conclusions. Repeat this read-only check with:
+
+```powershell
+python .\bench\pilot_records.py "$runDir"
+```
+
+Exit 0 means collection passed and k6 thresholds passed; 99 with status `thresholds_failed` means thresholds failed but complete measurement evidence was retained. Exit 1 means failed/incomplete collection, 2 rejects an existing path, and 130 records an interruption. Inspect both `k6_exit_code` and `collection_valid`: load overload and measurement failure are different outcomes. A timeout is a completed failed client request; it does not prove Ollama stopped processing it. `server_drain_verified` remains false: wait for outstanding work and CPU recovery before another probe. The 10-second post-load observation alone does not certify recovery. The numeric discovery sequence and stop rules are defined only in section 4.
 
 ## 3. Verify the measurements first
 
@@ -108,10 +141,17 @@ The immediate result is a tested measurement path, saved pilot runs and document
 - [x] Verify one ready Ollama replica and absent HPA with saved live data: `results/observation-check-2026-10-16-verified/`.
 - [x] Independently check raw resource units/counter differences, collection coverage, and k6 request totals.
 - [x] Assess observer overhead with repeated paired low-load checks: `results/observer-overhead-2026-10-16-series1/`. Median paired mean change +5.22%, p95 change +3.95%; the frozen provisional budget was met. Retain the 5-second interval provisionally for the pilot.
-- [ ] Extend k6 with correlated per-request records and assemble pilot-run metadata automatically.
+- [x] Record correlated requests, shared workload settings and automatic pilot-run metadata; integrate observation and warmup.
+- [x] Verify collection with the [live low-load check](../../results/pilot/20261018T202951240Z-collection-check/README.md).
 - [ ] Implement the pilot summary/plots in `bench/analyze.py`.
 - [ ] Run the increasing-rate pilot and select/freeze low/peak rates and response-time targets.
 
 Implementation detail: the observer keeps raw kubelet values and normalized resource records inside `cluster.jsonl`, rather than requiring a second output file to stay synchronized. CPU rates are in CPU units and memory is in bytes; presentation-unit conversions belong in analysis. Deployment collection uses the entire namespace because Deployment metadata labels may differ from its pod labels.
 
 The original failed verification retained CPU/memory data but omitted Deployment state due to that label difference. It is preserved separately and is not completion evidence. The corrected run supersedes it.
+
+## Collection verification
+
+Run `python -m unittest discover -s bench -p "test_*.py" -v` and `python md/plans/data-collection/verify-tests.py` from the repository root. The suite covers real k6 requests to an HTTP stub, launcher failures, specific invalid records and existing observation checks. The negative-check script disables selected checks only in temporary copies and requires the corresponding assertions to fail.
+
+Archive/version problems are warnings, while request reconciliation, warmup and observation completeness remain required. The lifecycle test now uses the production 5-second interval; an injected 450-ms scheduling pause demonstrates why its former 200-ms interval was fragile. The original isolated failure did not recur in 35 diagnostic attempts; ten revised attempts passed. Unexpected launcher exits preserve diagnostic files in the printed temporary directory.
