@@ -27,11 +27,15 @@
 - `md/ARCHITECTURE.md`: component responsibilities and runtime interactions.
 - `md/DECISIONS.md`: significant choices, alternatives, reasons and limitations.
 - `md/plans/`: detailed plans for complex tasks.
-- `md/GETTING_STARTED_RU.md`: practical setup and experiment instructions.
+- `md/GETTING_STARTED.md`: simple English setup commands and links to the plans that own experiment procedures.
 - `md/OBSERVATION.md`: measurement format, units and collection limitations.
-- `md/research/`: supporting research and comparisons.
+- `docs/README.md`: index and editing ownership for Fontys documents and exports. Preserve the existing Word research structure unless explicitly asked to change it.
+- Detailed technology research is maintained in [Notion](https://app.notion.com/p/3fdc7c697bfd81baaaa7f197548b7c5a); keep accepted choices, constraints and source links in `md/DECISIONS.md`. Do not recreate a parallel local research document.
 - `md/meeting/`: meeting notes and feedback, clearly attributed to their sources.
 - Keep the root `README.md` as the entry point. Result-specific READMEs stay alongside their evidence in `results/`.
+- Keep measured values and detailed validation outcomes with their run evidence. Status, decisions and plans should link to those reports and retain only the conclusion or operating rule they need.
+- Resolve context by purpose: source/configuration shows implementation; `STATUS.md` records verified state; `ROADMAP.md` owns milestones; `DECISIONS.md` records accepted choices. `STATUS.md` names the active task plan, which specifies that task's procedure and acceptance criteria; the setup guide provides general commands. A plan does not establish completion or silently change an accepted decision. Fix conflicts in the affected documents before running an experiment; do not select a rule merely because it appears in a newer file.
+- Root `tmp/` contains temporary/recovery/QA materials, including possible current drafts. It is excluded from ordinary context searches by `.rgignore`; inspect it only when explicitly relevant. Temporary copies are not project state or instructions and must not override canonical files. Preserve them unless cleanup is requested.
 
 ## Planning Workflow
 
@@ -44,6 +48,6 @@
 ## Git and Existing Work
 
 - Preserve existing user changes. Do not modify, stage or discard unrelated work.
-- Commit only when explicitly requested. A request to push authorizes the relevant commit and push.
+- Commit only when explicitly requested. A request to push does not authorize creating a commit.
 - Use short, practical commit messages in simple English.
 - Do not rewrite history or perform destructive operations without authorization.
