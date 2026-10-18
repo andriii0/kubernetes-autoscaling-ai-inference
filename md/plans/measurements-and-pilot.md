@@ -1,6 +1,6 @@
 # Measurements and pilot load tests
 
-Updated: 2026-10-18. Request/run collection is implemented and has a saved live low-load check. Pilot analysis and rate selection remain unfinished.
+Updated: 2026-10-19. Observation/resource-source verification, request records and pilot-run orchestration are implemented. Collection has offline tests and a [saved live low-load check](../../results/pilot/20261018T202951240Z-collection-check/README.md). Minimal pilot analysis and discovery are complete; low/peak selection has two five-minute confirmations each. [Saved results](../../results/pilot/discovery-2026-10-18-series1/README.md) support low=2 and peak=8 requests/10 s. Numeric protocol freezing remains next. Historical checks are linked below.
 
 Implementation paths are relative to the repository root.
 
@@ -8,18 +8,43 @@ Implementation paths are relative to the repository root.
 
 Prepare repeatable measurements and find useful low and peak request rates for one warm CPU replica. Use the pilot to choose the settings for the later fixed-one, fixed-three and HPA comparison. Demo and portfolio uploads will be handled later.
 
+### Completed implementation: data collection
+
+The collection path now keeps k6 and the existing observer without third-party dependencies. Implementation order: share workload settings between warmup and k6; record correlated request starts/completions; orchestrate preflight, idle observation, warmup, measured load and final observation; reconcile events with raw k6 metrics and the saved summary. Partial failures are preserved and existing run directories are rejected.
+
+Acceptance and verification are tracked in [data-collection/GATES.md](data-collection/GATES.md): real k6 against a local HTTP stub, lifecycle/failure tests, deliberately damaged evidence, existing observer regression tests and the saved live collection check. This completed collection stage did not execute capacity discovery or implement its charts; those were completed in the later pilot stage below.
+
+### Completed revision: simplify checks and strengthen tests
+
+1. Keep measurement failures blocking; make archive hashes and tool-version diagnostics warnings. Remove revalidation of duplicate boundary snapshots; retain validation of the full observation stream.
+2. Make negative fixtures fail for one specific reason, with a matching valid control. Prove the unfinished-request and observation-order tests detect deliberately disabled checks.
+3. Preserve diagnostics from a failed real-k6 lifecycle test, reproduce its intermittent failure and correct the identified cause without weakening the production coverage rule. Consolidate repeated cases.
+4. Run focused tests and historical-evidence checks, then attempt a one-minute low-load check on the existing model/cluster. Save actual results and update status; a capacity pilot is outside this revision.
+
+Acceptance: warnings alone do not invalidate measured data; each targeted disabled check fails its test; lifecycle failures retain actionable evidence; live verification is reported only from saved results. Existing unrelated changes and historical runs must remain intact.
+
 ## Existing implementation
+
+### Completed execution: analysis and pilot discovery
+
+The completed `bench/analyze.py` prerequisite provides one CSV row per run, successful-response percentiles, separate request outcomes, optional-token availability, measured-window container CPU/memory observations and collection coverage. Use the already installed Matplotlib as an optional analysis dependency for aligned request/resource/replica figures; keep the collector dependency-free. Preserve raw inputs and use a new output directory for each analysis.
+
+Calculated values and missing/window handling were verified against controlled fixtures and the saved live check; rendered figures were inspected. A/B/C and the intermediate probe ran sequentially with stop-rule inspection and idle recovery; both selected rates then received two five-minute confirmations. Evidence is saved beside the runs. This completed stage did not authorize publication; the later explicit publication request is recorded in [publication-review/GATES.md](publication-review/GATES.md).
+
+Acceptance and evidence: [pilot-analysis/GATES.md](pilot-analysis/GATES.md). The selected rates have repeated discovery evidence; the acceptable latency target and complete main protocol still require step 17.
+
+The first A probe exposed a timestamp-boundary rejection despite complete measurements: its last request started 1 ms after the nominal end. Preserve that original failed report. Before repeating discovery, allow exactly one millisecond at either start boundary, matching the integer-millisecond k6 clocks; report such cases as warnings and retain actual timestamps/counts. Two milliseconds outside still invalidates the run. Verify both sides and repeat A with the corrected collector rather than overwriting the original evidence.
 
 - `bench/inference.js` sends controlled traffic through the Ollama Service and exports k6 metrics. `RATE` means requests per 10 seconds.
 - Requests use `qwen2.5:0.5b`, one repeated prompt, non-streaming responses, at most 64 output tokens, a 1024-token context, two inference threads, temperature 0, seed 42 and a 30-second timeout.
-- `bench/observe.py` is implemented and verified. `bench/analyze.py` remains a starter; progress is recorded below.
+- `bench/observe.py` is implemented and verified. `bench/analyze.py` produces pilot summaries and aligned plots; progress is recorded below.
 - One replica requests and is limited to 2 CPU units; memory request is 1 GiB and limit is 2 GiB. These remain pilot settings.
 
 ## 1. Measurement design
 
 | Area | Data | Source and proposed collection |
 |---|---|---|
-| Requests | Start/end time, duration, HTTP status, outcome and error category, output-token count, model-load duration | k6 records correlated starts and completions; retain its raw metric export and summary |
+| Requests | Start/end time, duration, HTTP status, outcome and error category, output-token count, model-load duration | k6 emits paired start/completion events; retain its raw metric export and summary |
 | Load | Requested rate, started/completed requests, response failures and dropped iterations | k6; report each count separately |
 | Application state | Pod UID/name, phase, Ready condition, restarts, desired and available replicas | `observe.py` reading Kubernetes through `kubectl`; target one poll every 5 seconds |
 | Scaling state | HPA presence, desired/current replicas, conditions and reported CPU signal | Same observer; absent HPA is expected during this pilot |
@@ -128,30 +153,29 @@ The immediate result is a tested measurement path, saved pilot runs and document
 
 ## Sources
 
-- Existing `md/ROADMAP.md`, `md/GETTING_STARTED_RU.md` sections 8, 11 and 14.13-14.16, and `bench/inference.js` in the target code directory.
+- [Roadmap](../ROADMAP.md) for milestones, [getting started](../GETTING_STARTED.md) for setup, [observation documentation](../OBSERVATION.md) for the schema, and [the load script](../../bench/inference.js) for request/scenario settings.
 - [Metrics Server purpose and limitations](https://github.com/kubernetes-sigs/metrics-server).
 - [Kubernetes container CPU and memory metrics](https://kubernetes.io/docs/reference/instrumentation/metrics/).
 - [k6 dropped iterations](https://grafana.com/docs/k6/latest/using-k6/scenarios/concepts/dropped-iterations/).
 
 
-## Implementation progress: 2026-10-16
+## Implementation progress
 
 - [x] Implement cluster observation and direct kubelet resource collection in `bench/observe.py`, without new dependencies.
 - [x] Verify failure handling, no-overwrite behavior, source timestamps and CPU counter resets with 16 focused tests.
 - [x] Verify one ready Ollama replica and absent HPA with saved live data: `results/observation-check-2026-10-16-verified/`.
 - [x] Independently check raw resource units/counter differences, collection coverage, and k6 request totals.
-- [x] Assess observer overhead with repeated paired low-load checks: `results/observer-overhead-2026-10-16-series1/`. Median paired mean change +5.22%, p95 change +3.95%; the frozen provisional budget was met. Retain the 5-second interval provisionally for the pilot.
-- [x] Record correlated requests, shared workload settings and automatic pilot-run metadata; integrate observation and warmup.
-- [x] Verify collection with the [live low-load check](../../results/pilot/20261018T202951240Z-collection-check/README.md).
-- [ ] Implement the pilot summary/plots in `bench/analyze.py`.
-- [ ] Run the increasing-rate pilot and select/freeze low/peak rates and response-time targets.
+- [x] Assess observer overhead: [saved report](../../results/observer-overhead-2026-10-16-series1/README.md). Apply the [accepted provisional setting](../DECISIONS.md#7-retain-a-5-second-observer-interval-provisionally) for the pilot.
+- [x] Extend k6 with correlated per-request records and assemble pilot-run metadata automatically; integrate idle, warmup, load, post-load observation and record reconciliation. Offline verification and its limits: [data collection gates](data-collection/GATES.md).
+- [x] Verify the integrated collector against the live Kubernetes/model environment: [2026-10-18 low-load check](../../results/pilot/20261018T202951240Z-collection-check/README.md). This does not complete increasing-rate pilot discovery.
+- [x] Implement pilot summary/plots in `bench/analyze.py`; verify calculations/window filtering/missing values and inspect the saved-check plot. Optional Matplotlib is declared in `pyproject.toml`.
+- [x] Run increasing-rate discovery and two five-minute confirmations per selected rate: [saved pilot](../../results/pilot/discovery-2026-10-18-series1/README.md).
+- [ ] Freeze the main protocol and justified response-time target (roadmap step 17); the selected rates alone do not complete this step.
 
 Implementation detail: the observer keeps raw kubelet values and normalized resource records inside `cluster.jsonl`, rather than requiring a second output file to stay synchronized. CPU rates are in CPU units and memory is in bytes; presentation-unit conversions belong in analysis. Deployment collection uses the entire namespace because Deployment metadata labels may differ from its pod labels.
 
 The original failed verification retained CPU/memory data but omitted Deployment state due to that label difference. It is preserved separately and is not completion evidence. The corrected run supersedes it.
 
-## Collection verification
+## Integrity requirements
 
-Run `python -m unittest discover -s bench -p "test_*.py" -v` and `python md/plans/data-collection/verify-tests.py` from the repository root. The suite covers real k6 requests to an HTTP stub, launcher failures, specific invalid records and existing observation checks. The negative-check script disables selected checks only in temporary copies and requires the corresponding assertions to fail.
-
-Archive/version problems are warnings, while request reconciliation, warmup and observation completeness remain required. The lifecycle test now uses the production 5-second interval; an injected 450-ms scheduling pause demonstrates why its former 200-ms interval was fragile. The original isolated failure did not recur in 35 diagnostic attempts; ten revised attempts passed. Unexpected launcher exits preserve diagnostic files in the printed temporary directory.
+Use `bench/run_pilot.py` with a new run directory for each standalone load probe; it refuses existing paths before starting k6. Optional token/load measurements must retain missingness and report availability. Server Ready is not model warm: warm initial replicas separately, and include model loading of new replicas in the scaling reaction. Observation collection times must increase strictly; for the overhead series, a collection gap above twice its recorded interval invalidates coverage. Repeated underlying kubelet timestamps remain possible and are not duplicate collection times.

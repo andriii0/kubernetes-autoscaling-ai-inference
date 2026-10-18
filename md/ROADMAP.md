@@ -1,14 +1,14 @@
 # Project Roadmap
 
-Updated: 2026-10-18. Latest saved runtime check: 2026-10-18.
+Updated: 2026-10-19. Latest saved pilot: 2026-10-18 UTC.
 
 ## Goal and current position
 
 Evaluate how automatic scaling of AI inference handles changing request load while keeping response time acceptable. Compare one fixed replica, three fixed replicas, and automatic scaling between one and three replicas. A replica is one running copy of the model server.
 
-The local prototype, short load check, and continuous cluster/resource observer are complete. Direct kubelet resource measurements were verified with saved data on 2026-10-16. Request-level records and integrated collection have offline tests and a saved live low-load check on 2026-10-18. The next work is minimal pilot analysis and the remaining decision records, then a pilot to select the main experiment settings. Autoscaling is not implemented yet.
+The local prototype, short load check, and continuous cluster/resource observer are complete. Direct kubelet resource measurements were verified with saved data on 2026-10-16. Technology decisions are documented. Request-level records and integrated collection now have offline tests and a saved live low-load check on 2026-10-18. Minimal pilot analysis and the increasing-load pilot are complete, including two five-minute repetitions per selected rate. The next work is freezing the numeric experiment protocol. Autoscaling is not implemented yet.
 
-Completed steps refer to saved evidence, not a claim that the cluster is running today. All replicas use the CPU of one physical computer. Detailed commands are available in [GETTING_STARTED_RU.md](GETTING_STARTED_RU.md).
+Completed steps refer to saved evidence, not a claim that the cluster is running today. All replicas use the CPU of one physical computer. Setup commands are in [GETTING_STARTED.md](GETTING_STARTED.md). Detailed pilot and scaling procedures live in the linked task plans; guide section numbers are topic references, not the order of project work.
 
 ## All steps
 
@@ -26,10 +26,10 @@ Completed steps refer to saved evidence, not a claim that the cluster is running
 - [x] 10. Verify a response through the application Service.
 - [x] 11. Implement the k6 load scenario.
 - [x] 12. Run and save a short load check.
-- [ ] 13. Complete the remaining technology decision records.
+- [x] 13. Complete the remaining technology decision records.
 - [x] 14. Implement continuous cluster observation.
 - [x] 15. Select and verify resource measurements for the final report.
-- [ ] 16. Run a pilot with increasing load on one replica.
+- [x] 16. Run a pilot with increasing load on one replica.
 - [ ] 17. Record and freeze the experiment settings.
 - [ ] 18. Test three manually configured replicas.
 - [ ] 19. Configure and verify automatic scaling from one to three replicas.
@@ -47,7 +47,7 @@ Completed steps refer to saved evidence, not a claim that the cluster is running
 
 Use a small local text-generation workload. Require an application address, configurable replica count, automatic scaling, and observable state. Plan to compare fixed capacity with automatic scaling under steady and burst traffic.
 
-**Completion evidence:** the requirements and scope in [research/platform-choice.md](research/platform-choice.md) and the research question in [README.md](../README.md). The acceptable response-time target still needs pilot results in step 17.
+**Completion evidence:** the scope and research question in [README.md](../README.md) and the [platform decision](DECISIONS.md#1-use-one-kubernetes-prototype-after-comparing-alternatives). The acceptable response-time target still needs pilot results in step 17.
 
 ### 02. Compare orchestration platforms and select one
 
@@ -55,7 +55,7 @@ Use a small local text-generation workload. Require an application address, conf
 
 Compare Kubernetes, Nomad with Nomad Autoscaler, Docker Swarm, and Docker Compose. Select Kubernetes for the first prototype and document its tradeoffs. A second full platform implementation is outside the initial scope.
 
-**Completion evidence:** [research/platform-choice.md](research/platform-choice.md). This is a documented capability-based choice, not a measured performance ranking.
+**Completion evidence:** section 6 (SQ3), pages 6-8 of the [research document](<../docs/PDP Research document.pdf>) and the [short decision record](DECISIONS.md#1-use-one-kubernetes-prototype-after-comparing-alternatives). This is a documented capability-based choice, not a measured performance ranking.
 
 ### 03. Compare local Kubernetes tools and select one
 
@@ -63,7 +63,7 @@ Compare Kubernetes, Nomad with Nomad Autoscaler, Docker Swarm, and Docker Compos
 
 Consider Minikube, kind, and k3d. Use Minikube for the prototype because it supports the existing Docker setup and required workflow.
 
-**Completion evidence:** the local environment decision in [research/platform-choice.md](research/platform-choice.md) and the saved cluster checks. No comparative speed or memory advantage has been measured.
+**Completion evidence:** [Technology Decisions in Notion, section 6](https://app.notion.com/p/3fdc7c697bfd81baaaa7f197548b7c5a), the [local summary](DECISIONS.md#2-use-minikube-with-docker-on-the-existing-windows-computer) and the saved cluster checks. No comparative speed or memory advantage has been measured.
 
 ### 04. Prepare Docker and the required command-line tools
 
@@ -71,7 +71,7 @@ Consider Minikube, kind, and k3d. Use Minikube for the prototype because it supp
 
 Prepare Docker Desktop with Linux containers, Minikube, kubectl for Kubernetes commands, and k6 for load generation. Record versions with experiment results.
 
-**Completion evidence:** the deployment and load-check records under `results/smoke-2026-10-04/` and `results/k6-smoke-2026-10-04/`. Setup and restart commands are in guide steps 1–2.
+**Completion evidence:** the deployment and load-check records under `results/smoke-2026-10-04/` and `results/k6-smoke-2026-10-04/`. Setup and restart commands are in guide steps 1-2.
 
 ### 05. Create the local cluster and project namespace
 
@@ -87,7 +87,7 @@ Create the Minikube cluster `ai-lab` and namespace `inference`. A namespace grou
 
 Enable metrics-server and verify that resource readings become available. Treat these readings as an operational scaling signal; choose the source for final resource-consumption claims separately in step 15.
 
-**Completion evidence:** the metrics-server setup recorded in [GETTING_STARTED_RU.md](GETTING_STARTED_RU.md) and the saved cluster checks from 2026-10-04.
+**Completion evidence:** the metrics-server setup recorded in [GETTING_STARTED.md](GETTING_STARTED.md) and the saved cluster checks from 2026-10-04.
 
 ### 07. Download the model and obtain a first response
 
@@ -141,15 +141,15 @@ Run one minute at two requests per ten seconds against one warm replica. Exclude
 
 **Purpose:** make the remaining choices explicit before the main experiment.
 
-Use guide section 14 to compare alternatives for the model, model server, CPU versus GPU execution, load generator, resource measurements, and scaling policy. Record selected options and reasons in `md/DECISIONS.md`; finalize numerical settings in `md/plans/experiment-protocol.md` after the pilot in step 17.
+Compare alternatives for the model, model server, CPU versus GPU execution, load generator, resource measurements, and scaling policy. Keep concise accepted decisions in `md/DECISIONS.md` and detailed technology research in Notion; finalize numerical settings in `md/plans/experiment-protocol.md` after the pilot in step 17.
 
-**Done when:** the remaining decisions have requirements, considered alternatives, a selected option, and an explanation. Missing comparative measurements must remain labelled as missing.
+**Completion evidence:** [Technology Decisions in Notion](https://app.notion.com/p/3fdc7c697bfd81baaaa7f197548b7c5a), completed on 2026-10-18, explains Qwen, Ollama, CPU, k6 and planned CPU-based HPA with requirements, alternatives, reasons, official sources and reconsideration criteria. The measurement decision and its verification remain in [DECISIONS.md](DECISIONS.md#6-separate-the-scaling-signal-from-resource-measurements). The pilot rates are now measured in step 16; comparative scaling performance and HPA behavior remain unmeasured.
 
 ### 14. Implement continuous cluster observation
 
 **Purpose:** preserve what happened during each run instead of relying on terminal screenshots.
 
-Implement `bench/observe.py` using guide step 11. Save timestamped replica state, scaling state, and resource observations throughout a run. Use UTC timestamps so request and cluster records can be aligned.
+Maintain `bench/observe.py` using the schema and collection rules in [OBSERVATION.md](OBSERVATION.md). Save timestamped replica state, scaling state, and resource observations throughout a run. Use UTC timestamps so request and cluster records can be aligned.
 
 **Completion evidence:** `bench/observe.py`, `bench/test_observe.py`, and [the live check](../results/observation-check-2026-10-16-verified/README.md). The check saved 30 observations across a 150-second session with no collection errors. Error handling and output protection were also verified. JSONL records retain raw state, source timestamps, gaps and errors.
 
@@ -157,17 +157,19 @@ Implement `bench/observe.py` using guide step 11. Save timestamped replica state
 
 **Purpose:** support resource-consumption conclusions with an appropriate measurement source.
 
-Compare the options in guide section 14.13. Select the source, document its units and sampling interval, and verify that it measures the intended containers or processes. Keep metrics-server observations for interpreting the scaling signal, but do not use them as precise resource accounting.
+Compare resource-measurement options, then document the selected source, units, sampling interval and intended containers or processes in `md/OBSERVATION.md`; use [DECISIONS.md](DECISIONS.md) for accepted operating choices and constraints. Keep metrics-server observations for interpreting the scaling signal, but do not use them as precise resource accounting.
 
-**Completion evidence:** direct kubelet `/metrics/resource` collection, described in [bench/OBSERVATION.md](OBSERVATION.md), and [saved verification](../results/observation-check-2026-10-16-verified/README.md). Raw CPU core-seconds, memory working set in bytes, container identity and source timestamps were checked independently. metrics-server remains a separate scaling signal. These sources do not measure Windows-wide power or monetary savings; cadence and observer overhead still limit the experiment.
+**Completion evidence:** direct kubelet `/metrics/resource` collection, described in [OBSERVATION.md](OBSERVATION.md), and [saved verification](../results/observation-check-2026-10-16-verified/README.md). Raw CPU core-seconds, memory working set in bytes, container identity and source timestamps were checked independently. metrics-server remains a separate scaling signal. These sources do not measure Windows-wide power or monetary savings; cadence and observer overhead still limit the experiment.
 
 ### 16. Run a pilot with increasing load on one replica
 
 **Purpose:** find useful low and peak request rates for this computer.
 
-First verify Docker, the cluster, the application address, exactly one ready replica, and no active autoscaler. Run short probes one at a time, following guide step 8. Wait for outstanding requests to finish and CPU usage to fall between probes. Stop increasing the rate when substantial delays or errors appear and inspect the result.
+First verify Docker, the cluster, the application address, exactly one ready replica, and no active autoscaler. Run short probes one at a time, following the [pilot plan](plans/measurements-and-pilot.md#4-pilot-sequence). Wait for outstanding requests to finish and CPU usage to fall between probes. Stop increasing the rate when substantial delays or errors appear and inspect the result.
 
 **Done when:** saved probes identify a low rate handled comfortably by one replica and a peak rate that makes its response times noticeably worse. Save the actual rate, duration, request settings, and raw data for every probe.
+
+**Completion evidence:** [the saved pilot series](../results/pilot/discovery-2026-10-18-series1/README.md), with eight valid discovery/confirmation runs and an excluded pre-fix diagnostic. Low=2 and peak=8 requests/10 s each have two five-minute repetitions. Response degradation repeats at the peak; timeout counts vary. Step 17 remains incomplete.
 
 ### 17. Record and freeze the experiment settings
 
@@ -181,7 +183,7 @@ Complete `md/plans/experiment-protocol.md` with the model, prompt, generation se
 
 **Purpose:** check whether additional replicas help at the chosen peak rate before introducing automatic scaling.
 
-Follow guide step 9 to start three replicas, warm each model, verify traffic reaches all three, and repeat the peak probe. If performance does not improve, inspect traffic distribution and available resources.
+Follow the [manual replica comparison procedure](plans/scaling-experiment.md#1-manual-replica-comparison) to start three replicas, warm each model, verify traffic reaches all three, and repeat the peak probe. If performance does not improve, inspect traffic distribution and available resources.
 
 **Done when:** all replicas are verified and both the one-replica and three-replica probe results are saved. A performance improvement is an outcome to measure, not a completion requirement.
 
@@ -189,7 +191,7 @@ Follow guide step 9 to start three replicas, warm each model, verify traffic rea
 
 **Purpose:** let Kubernetes change replica count in response to observed CPU load.
 
-Create `deploy/hpa.yaml` following guide step 10. HPA, the Horizontal Pod Autoscaler, changes application replica count using observed metrics. Verify that it receives CPU readings, then run a burst probe and record replica changes and response times during load growth and decline. Account for the configured wait before scaling down.
+Create `deploy/hpa.yaml` following the [HPA proposal and verification procedure](plans/scaling-experiment.md#2-hpa-setup-and-checks). HPA, the Horizontal Pod Autoscaler, changes application replica count using observed metrics. Verify that it receives CPU readings, then run a burst probe and record replica changes and response times during load growth and decline. Account for the configured wait before scaling down.
 
 **Done when:** the scaling reaction is recorded and explained, including any failure to add or remove replicas. Missing input metrics must be fixed before treating a run as autoscaling evidence.
 
@@ -197,7 +199,7 @@ Create `deploy/hpa.yaml` following guide step 10. HPA, the Horizontal Pod Autosc
 
 **Purpose:** define a repeatable comparison before collecting the main results.
 
-Use three modes: fixed one replica, fixed three replicas, and automatic scaling from one to three. Test steady and burst traffic with at least three repetitions of each combination: an initial plan of 18 runs. Follow guide step 12 for clean starts, warmup, and switching modes between runs.
+Use three modes: fixed one replica, fixed three replicas, and automatic scaling from one to three. Test steady and burst traffic with at least three repetitions of each combination: an initial plan of 18 runs. Follow the [main run procedure](plans/scaling-experiment.md#3-main-run-procedure) for clean starts, warmup, and switching modes between runs.
 
 Exclude initial warmup from measurements. In automatic mode, loading models in newly created replicas during a run is part of the measured scaling reaction.
 
@@ -215,7 +217,7 @@ Execute the matrix using the frozen settings. Save each run in its own folder wi
 
 **Purpose:** connect request behaviour, scaling changes, and resource use over time.
 
-Implement `bench/analyze.py` following guide step 13. Produce summaries and aligned time-series charts for response latency, errors, completed and dropped requests, ready replica count, and resources. Keep missing values as gaps.
+Extend the implemented [pilot analysis](plans/measurements-and-pilot.md#5-pilot-output-and-decisions) in `bench/analyze.py` using the [main result analysis plan](plans/scaling-experiment.md#4-main-result-analysis). Produce summaries and aligned time-series charts for response latency, errors, completed and dropped requests, ready replica count, and resources. Keep missing values as gaps.
 
 **Done when:** saved tables and charts can be regenerated from raw files, and their units, time windows, and data sources are documented.
 
