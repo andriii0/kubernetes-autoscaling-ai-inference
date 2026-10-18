@@ -130,6 +130,23 @@ class RecordTests(unittest.TestCase):
         self.assertEqual(report["counts"]["completed"], 1)
         self.assertEqual(report["counts"]["failed"], 1)
 
+    def test_millisecond_boundaries_accept_one_tick_but_reject_two(self):
+        beginning = pilot_records.timestamp(self.start["scenario_started_at_utc"])
+        for offset_ms, valid in ((0, True), (-1, True), (-2, False), (1000, True), (1001, True), (1002, False)):
+            with self.subTest(offset_ms=offset_ms):
+                self.start["started_at_utc"] = pilot_records.iso_time(beginning + offset_ms / 1000)
+                self.completed = {**self.completed, "started_at_utc": self.start["started_at_utc"],
+                                  "finished_at_utc": pilot_records.iso_time(beginning + offset_ms / 1000 + .5)}
+                self.events = [self.start, self.completed]
+                report = self.check()
+                self.assertEqual(report["valid"], valid, report)
+                if not valid:
+                    self.assertEqual(report["errors"], ["request start outside scheduled load interval"])
+                elif offset_ms in (-1, 1001):
+                    self.assertIn("request start within 1 ms timestamp boundary tolerance", report["warnings"])
+                else:
+                    self.assertEqual(report["warnings"], [])
+
     def test_observation_order_gaps_and_coverage_have_distinct_failures(self):
         cases = (((0, 3, 3, 5), "observation times are not strictly increasing"),
                  ((0, 4, 3, 5), "observation times are not strictly increasing"),

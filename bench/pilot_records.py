@@ -178,12 +178,19 @@ def reconcile(folder, metadata):
             scheduled_end = beginning + metadata["duration_seconds"]
             finished = max([scheduled_end] + [timestamp(e["finished_at_utc"]) for e in completions.values()])
             for event in starts.values():
-                if not beginning <= timestamp(event["started_at_utc"]) <= scheduled_end:
+                # k6 scenario.startTime and Date.now() are integer millisecond clocks.
+                # Permit one clock tick at either boundary, without changing the actual times.
+                offset_ms = round((timestamp(event["started_at_utc"]) - beginning) * 1000)
+                duration_ms = round(metadata["duration_seconds"] * 1000)
+                if not -1 <= offset_ms <= duration_ms + 1:
                     errors.append("request start outside scheduled load interval")
                     break
+                if offset_ms < 0 or offset_ms > duration_ms:
+                    report["warnings"].append("request start within 1 ms timestamp boundary tolerance")
             report["load_window"] = {"started_at_utc": iso_time(beginning),
                                      "scheduled_end_at_utc": iso_time(scheduled_end),
-                                     "client_drain_end_at_utc": iso_time(finished)}
+                                     "client_drain_end_at_utc": iso_time(finished),
+                                     "request_start_tolerance_ms": 1}
     except (OSError, ValueError, KeyError, TypeError, AttributeError) as error:
         errors.append(f"request evidence: {error}")
     report["events_read"] = {"started": len(starts), "completed": len(completions)}
