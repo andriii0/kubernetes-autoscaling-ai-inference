@@ -23,11 +23,12 @@ Start with [current status](md/STATUS.md) for progress, the [setup guide](md/GET
 
 - `docs/`: collected Fontys documents, PDF exports and course references; see its index for ownership.
 - `md/`: technical context, concise decisions, meeting notes and task plans. Detailed technology research is maintained in Notion.
-- `app/`: code for the representative inference workload.
+- `app/`: Ollama image definition and local ignored model weights.
 - `deploy/`: reproducible local environment and deployment configuration.
 - `bench/`: load generation, observation, and result analysis.
 - `results/`: run settings, raw measurements, and generated figures.
-- `report/`: conclusions, limitations, and technical advice.
+
+The final findings will be written to `report/results.md` in roadmap step 23; the directory will be created when the report is written.
 
 ## Planned workflow
 
@@ -35,6 +36,6 @@ Define one inference workload and two load profiles. Compare suitable orchestrat
 
 ## Current state
 
-The implemented path uses Ollama for inference, k6 for load generation and `bench/observe.py` for cluster/resource observations. Pilot rate selection and pilot CSV/JSON summaries and plots are implemented; HPA, the three-replica comparison and main-series analysis remain unfinished. The Python server/load-generator starter files are not the active runtime. See [STATUS.md](md/STATUS.md) for verification dates, limitations and the active plan, and [ARCHITECTURE.md](md/ARCHITECTURE.md) for implementation details.
+The implemented path uses Ollama for inference, k6 for load generation and `bench/observe.py` for cluster/resource observations. Pilot rate selection and pilot CSV/JSON summaries and plots are implemented; HPA, the three-replica comparison and main-series analysis remain unfinished. See [STATUS.md](md/STATUS.md) for verification dates, limitations and the active plan, and [ARCHITECTURE.md](md/ARCHITECTURE.md) for implementation details.
 
 Saved checks are available for [deployment](results/smoke-2026-10-04/smoke.json), [load generation](results/k6-smoke-2026-10-04/README.md), [observation](results/observation-check-2026-10-16-verified/README.md) and [the completed pilot](results/pilot/discovery-2026-10-18-series1/README.md). They do not establish current cluster availability or maximum capacity. Use the [setup guide](md/GETTING_STARTED.md) for restart and run commands.

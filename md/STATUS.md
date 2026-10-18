@@ -14,7 +14,7 @@ Updated: 2026-10-19. The one-replica pilot completed on 2026-10-18 UTC, includin
 
 ## Remaining work and limits
 
-- The numeric protocol, HPA configuration, three-replica comparison and main autoscaling experiment are unfinished. `bench/load_test.py` and `app/inference.py` remain starters; main scaling analysis is future work.
+- The numeric protocol, HPA configuration, three-replica comparison and main autoscaling experiment are unfinished. Main scaling analysis is future work.
 - The numeric experiment protocol and latency target must be frozen after the pilot. Server Ready and first successful generation are distinct; the extra per-replica timeline instrumentation is still planned.
 - All replicas share one computer. The pilot selects useful comparison rates, not a precise stable capacity limit, general equivalence or an autoscaling advantage. Resource measurements cover the Minikube node and selected containers, not Windows-wide energy or cost.
 - Research v0.7 and C4 describe the accepted protocol and target architecture. `docs/PDP.pdf` is historical; the current practical scope is inference-only in Notion. Export/submission ownership is in [docs/README.md](../docs/README.md); required Portflow submission is not confirmed by local storage.

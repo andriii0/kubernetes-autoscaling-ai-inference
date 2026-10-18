@@ -20,7 +20,7 @@ Implemented. `app/Dockerfile` pins the Ollama base image by digest and includes 
 
 ## 5. Use k6 for controlled request arrivals
 
-Implemented. k6 arrival-rate scenarios schedule requests independently of response completion; `RATE` means requests per 10 seconds. Keep successful latency, response errors and dropped starts separate. The repeated prompt may benefit from caching. Alternatives and rationale: [Notion section 4](https://app.notion.com/p/3fdc7c697bfd81baaaa7f197548b7c5a). The Python load-test file remains a starter.
+Implemented. k6 arrival-rate scenarios schedule requests independently of response completion; `RATE` means requests per 10 seconds. Keep successful latency, response errors and dropped starts separate. The repeated prompt may benefit from caching. Alternatives and rationale: [Notion section 4](https://app.notion.com/p/3fdc7c697bfd81baaaa7f197548b7c5a).
 
 ## 6. Separate the scaling signal from resource measurements
 

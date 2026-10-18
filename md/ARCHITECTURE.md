@@ -28,7 +28,7 @@ The cluster is the existing Docker-backed Minikube profile `ai-lab`, configured 
 | Offline verification | Scripts saved in result directories | Recalculate and validate the completed observation/overhead checks |
 | Evidence | `results/<run>/` | Keep configurations, raw measurements, summaries, snapshots and console output together |
 
-`app/inference.py` and `bench/load_test.py` remain starter functions; Ollama and k6 are the active runtime. `bench/analyze.py` implements pilot analysis, not the future multi-replica scaling analysis.
+Ollama and k6 are the active inference and load-generation runtime; unused Python scaffolding has been removed. `bench/analyze.py` implements pilot analysis, not the future multi-replica scaling analysis.
 
 ## Measurement flow
 
