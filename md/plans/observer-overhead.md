@@ -1,6 +1,6 @@
 # Observer overhead check
 
-Date: 2026-10-16. Protocol recorded before the repeated series.
+Date: 2026-10-16. Completed task plan; protocol recorded before the repeated series. This is historical procedure, not the active pilot plan.
 
 ## Objective and fixed settings
 
@@ -24,8 +24,4 @@ Limits: four pairs of short runs and one repeated prompt on a shared Windows hos
 
 ## Verified outcome
 
-Completed four pairs (eight runs, 195 successful requests) in `results/observer-overhead-2026-10-16-series1/`. No inference errors, dropped iterations or collection errors were observed. Cluster identities/configuration and both source hashes matched.
-
-Median paired mean-latency change was +5.22%; median paired p95 change was +3.95%. Pair mean changes ranged from -5.79% to +6.73%; three of four were positive. The frozen practical budget was met. Retain the existing 5-second interval provisionally for pilot measurements, while recognizing the observed small penalty and the limits of four pairs. This does not establish negligible overhead near saturation.
-
-Raw-sample calculations and validity checks passed; five analyzer tests passed, including rejection of known bad artifacts. See the saved README, `analysis.json`, `runs.csv`, `pairs.csv` and runner/analyzer sources for reproducible evidence. No instrumentation code or model settings were changed during this series.
+The completed series, measured values, calculations and validity checks are maintained in the [saved report](../../results/observer-overhead-2026-10-16-series1/README.md). The accepted provisional pilot setting is recorded in [DECISIONS.md](../DECISIONS.md#7-retain-a-5-second-observer-interval-provisionally). Later validation maintenance is documented with the series; this plan preserves the pre-run protocol.

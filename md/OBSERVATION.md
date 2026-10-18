@@ -45,4 +45,4 @@ Sources: [kubelet resource metrics](https://kubernetes.io/docs/reference/instrum
 
 ## Repeated overhead check
 
-Four counterbalanced low-load pairs are saved in [the overhead report](../results/observer-overhead-2026-10-16-series1/README.md). Median paired mean latency changed by +5.22% and p95 by +3.95%. The existing 5-second observer meets the frozen provisional budget in this low-load series. Retain it provisionally for pilot measurements. This screening result does not prove negligible overhead at higher load or general equivalence.
+Measurements, validity checks and limitations are maintained in [the overhead report](../results/observer-overhead-2026-10-16-series1/README.md). The accepted pilot polling setting and reconsideration rule are in [DECISIONS.md](DECISIONS.md#7-retain-a-5-second-observer-interval-provisionally). The low-load screening does not establish behavior near saturation or general equivalence.
