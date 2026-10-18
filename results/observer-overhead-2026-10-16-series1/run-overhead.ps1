@@ -14,6 +14,10 @@ $taskRequest=@{
 }
 $taskFrozenObserver=(Get-FileHash -LiteralPath bench\observe.py -Algorithm SHA256).Hash
 $taskFrozenLoad=(Get-FileHash -LiteralPath bench\inference.js -Algorithm SHA256).Hash
+$taskSourceDirectory=Join-Path $RunDirectory 'sources'
+New-Item -ItemType Directory -Path $taskSourceDirectory -ErrorAction Stop | Out-Null
+Copy-Item -LiteralPath bench\observe.py -Destination (Join-Path $taskSourceDirectory 'observe.py') -ErrorAction Stop
+Copy-Item -LiteralPath bench\inference.js -Destination (Join-Path $taskSourceDirectory 'inference.js') -ErrorAction Stop
 $taskManifest=@{
     schema_version=1; started_at_utc=[DateTime]::UtcNow.ToString('o'); order=$taskOrder
     rate=2; time_unit='10s'; duration='2m'; observer_interval_seconds=$Interval

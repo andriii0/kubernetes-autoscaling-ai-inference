@@ -103,6 +103,54 @@ class AnalysisTests(unittest.TestCase):
         with self.assertRaises(AssertionError):
             overhead.analyze(self.root)
 
+    def observations(self):
+        path = self.root / "02-on/cluster.jsonl"
+        return path, [json.loads(line) for line in path.read_text().splitlines()]
+
+    def write_observations(self, path, rows):
+        path.write_text("\n".join(json.dumps(row) for row in rows), encoding="utf-8")
+
+    def test_repeated_internal_collection_times_are_rejected(self):
+        path, rows = self.observations()
+        for row in rows[1:-1]:
+            row["time"] = rows[1]["time"]
+        self.write_observations(path, rows)
+        with self.assertRaisesRegex(AssertionError, "strictly increasing"):
+            overhead.analyze(self.root)
+
+    def test_reordered_collection_times_are_rejected(self):
+        path, rows = self.observations()
+        rows[3], rows[4] = rows[4], rows[3]
+        self.write_observations(path, rows)
+        with self.assertRaisesRegex(AssertionError, "strictly increasing"):
+            overhead.analyze(self.root)
+
+    def test_internal_gap_is_rejected_even_when_count_and_endpoints_pass(self):
+        path, rows = self.observations()
+        del rows[5:7]
+        self.assertEqual(len(rows), 28)
+        self.write_observations(path, rows)
+        with self.assertRaisesRegex(AssertionError, "collection gap"):
+            overhead.analyze(self.root)
+
+    def test_small_collection_jitter_is_valid(self):
+        path, rows = self.observations()
+        rows[5]["time"] = (datetime.fromisoformat(rows[5]["time"]) + timedelta(seconds=.25)).isoformat()
+        self.write_observations(path, rows)
+        self.assertTrue(overhead.analyze(self.root)["provisional_budget_met"])
+
+    def test_verified_frozen_sources_allow_later_code_changes(self):
+        project = self.root.parents[1]
+        frozen = self.root / "sources"
+        frozen.mkdir()
+        for name in ("inference.js", "observe.py"):
+            (frozen / name).write_bytes((project / "bench" / name).read_bytes())
+            (project / "bench" / name).write_text("later revision", encoding="utf-8")
+        self.assertTrue(overhead.analyze(self.root)["source_hashes_match"])
+        (frozen / "inference.js").write_text("corrupted snapshot", encoding="utf-8")
+        with self.assertRaisesRegex(AssertionError, "Source changed"):
+            overhead.analyze(self.root)
+
 
 if __name__ == "__main__":
     unittest.main()

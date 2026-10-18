@@ -43,7 +43,9 @@ def analyze(root):
     assert len(manifest["runs"]) == 8
     project = root.parents[1]
     for relative, key in (("bench/observe.py", "observer_sha256"), ("bench/inference.js", "load_script_sha256")):
-        actual = hashlib.sha256((project / relative).read_bytes()).hexdigest().upper()
+        frozen = root / "sources" / Path(relative).name
+        source = frozen if frozen.is_file() else project / relative
+        actual = hashlib.sha256(source.read_bytes()).hexdigest().upper()
         assert actual == manifest[key], f"Source changed: {relative}"
 
     runs = []
@@ -90,6 +92,11 @@ def analyze(root):
             errors_count = sum(len(o["errors"]) for o in observations)
             assert errors_count == 0
             starts = [datetime.fromisoformat(o["time"]) for o in observations]
+            assert all(t.utcoffset() is not None for t in starts), "Observer times must include a timezone"
+            intervals = [(later - earlier).total_seconds() for earlier, later in zip(starts, starts[1:])]
+            assert all(gap > 0 for gap in intervals), "Observer times must be strictly increasing without duplicates"
+            maximum_gap = 2 * manifest["observer_interval_seconds"]
+            assert all(gap <= maximum_gap for gap in intervals), "Observer collection gap exceeds two polling intervals"
             assert starts[0] <= begin and starts[-1] >= end, "Observer does not cover the whole run"
             assert all(len(o["pods"]["items"]) == 1 for o in observations)
             assert all(o["pods"]["items"][0]["metadata"]["uid"] == identity["uid"] for o in observations)

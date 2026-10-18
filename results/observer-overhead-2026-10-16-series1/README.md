@@ -38,3 +38,9 @@ To reproduce analysis, run `python analyze-overhead.py .` from this directory. T
 Four pairs of short runs on one shared computer cannot establish general equivalence or attribute every latency difference to the collector. Counterbalancing reduces simple order bias but does not control all external activity or thermal effects. Requests within a run are not independent experiment repetitions. This repeated-prompt result does not predict overhead near saturation or under different model settings.
 
 The earlier single off/on check showed higher observed latency; these repeats replace that one-pair observation as the basis for the provisional decision. They do not establish capacity, a final p95 target or an autoscaling advantage.
+
+## Validation maintenance on 2026-10-18
+
+The analyzer now rejects repeated or unordered observation collection times and gaps above twice `observer_interval_seconds` (10 seconds for this series). This tolerance is a validation rule, not a measured maximum or a guarantee of fresh kubelet samples. Small collection jitter is permitted. The original measurements and saved aggregates are unchanged.
+
+`sources/inference.js` and `sources/observe.py` preserve the exact measured source bytes, checked against the original manifest hashes before copying. The analyzer prefers these snapshots so later runtime-code fixes do not invalidate historical source identity; an altered snapshot still fails the original hash check. Real-series reanalysis for this maintenance was performed on a temporary copy. Future overhead runs save source snapshots through the run script.
