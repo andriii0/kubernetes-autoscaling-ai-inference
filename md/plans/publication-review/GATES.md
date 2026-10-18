@@ -11,7 +11,7 @@ Review the pending documentation reorganization, measurement-integrity maintenan
 ## Acceptance
 
 - [x] G1: Documentation agrees with actual pilot results and code, distinguishes historical records from current state, and leaves protocol/scaling milestones unfinished.
-  EVIDENCE: Reviewed all pending Markdown groups against implementation and saved pilot evidence. Corrected stale analyzer/rate-selection claims and damaged ranges; retained the English guide, source ownership, historical records and unfinished protocol/scaling milestones. Parsed 36 PowerShell blocks without execution.
+  EVIDENCE: Reviewed all pending Markdown groups against implementation and saved pilot evidence. Corrected stale analyzer/rate-selection claims and damaged ranges; retained the English guide, source ownership, historical records and unfinished protocol/scaling milestones. Parsed 36 PowerShell blocks without execution. Clarified that current-policy revalidation can differ from the first probe's preserved original verdict; the original A remains excluded.
 
 - [x] G2: Historical raw evidence and saved overhead aggregates remain unchanged, and project Markdown links/anchors resolve.
   CHECK: python md/plans/measurement-integrity/verify.py
@@ -29,7 +29,7 @@ Review the pending documentation reorganization, measurement-integrity maintenan
   EVIDENCE: automatic-evidence=v1; definition-sha256=efd64a2ef41eb23e8327b06a566e472c9b0a8522db8f34b6973b1ac19fa341ba; exit=0; EXPECT=matched; output-sha256=9db07ae800ff851e8f5a63529f1bd991f369b65b2967d19f8f80ac5f3fe13e0c; output-bytes=1342; shell=C:\WINDOWS\system32\cmd.exe; cwd=C:\Users\matvi\PycharmProjects\kubernetes-autoscaling-ai-inference; path=1f511c6f4970/67 entries
 
 - [x] G5: All pre-review raw pilot/result data and Word/PDF bytes are preserved, and committed changes are split into reviewed logical groups.
-  EVIDENCE: Pre-review SHA-256 comparison preserves all 358 result/source/Word/PDF files covered by the snapshot. The reviewed path set is partitioned exactly into eight named commits. 50 bench tests, 10 overhead tests and three disabled-check assertions pass; no weights or credential paths enter the commit scope.
+  EVIDENCE: Pre-review SHA-256 comparison preserves all 358 result/source/Word/PDF files covered by the snapshot. The reviewed path set is partitioned into eight named commits, followed by a focused historical-revalidation clarification. 50 bench tests, 10 overhead tests and three disabled-check assertions pass; no weights or credential paths enter the commit scope.
 
 - [ ] G6: Reviewed commits are published to the existing private origin/main and the published commit equals local HEAD.
   EVIDENCE: pending
