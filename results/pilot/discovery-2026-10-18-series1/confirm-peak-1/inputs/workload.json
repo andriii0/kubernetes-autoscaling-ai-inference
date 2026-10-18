@@ -1,0 +1,14 @@
+{
+  "request": {
+    "model": "qwen2.5:0.5b",
+    "prompt": "Explain what a container is in three short sentences.",
+    "stream": false,
+    "keep_alive": -1,
+    "options": { "num_predict": 64, "num_ctx": 1024, "num_thread": 2, "temperature": 0, "seed": 42 }
+  },
+  "timeout_seconds": 30,
+  "graceful_stop_seconds": 35,
+  "time_unit_seconds": 10,
+  "preallocated_vus": 50,
+  "max_vus": 100
+}
