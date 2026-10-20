@@ -32,6 +32,71 @@ class AnalysisTests(unittest.TestCase):
         (fixture.folder / "metadata.json").write_text(json.dumps(fixture.metadata))
         return analyze.load_results(fixture.folder)
 
+    def autoscaling_fixture(self):
+        from test_autoscaling import ReconciliationTests
+        host = ReconciliationTests()
+        fixture = host.fixture()
+        self.addCleanup(host.doCleanups)
+        fixture.metadata.update(rate=2, low_rate=2, phases=[],
+                                burst_stages=[{'name': 'low', 'seconds': 1, 'target': 'low'}])
+        (fixture.folder / 'metadata.json').write_text(json.dumps(fixture.metadata))
+        self.assertTrue(fixture.check()['valid'])
+        return fixture
+
+    def test_missing_autoscaling_sources_keep_invalid_rows_and_explicit_gaps(self):
+        valid = self.autoscaling_fixture()
+        for missing in (('pods',), ('hpa',), ('pods', 'hpa')):
+            with self.subTest(missing=missing):
+                broken = self.autoscaling_fixture()
+                point = fixtures.sample('2026-10-18T12:00:01.500Z')
+                for key in missing:
+                    point[key] = None
+                    point['errors'].append({'source': key, 'message': 'simulated API timeout'})
+                broken.samples.insert(1, point)
+                self.assertFalse(broken.check()['valid'])
+                data = analyze.load_results(broken.folder)
+                detail = analyze.scaling_details(data)
+                gap = detail['timeline'][1]
+                if 'pods' in missing:
+                    for field in ('ready', 'running', 'terminating'):
+                        self.assertIsNone(gap[field])
+                    self.assertIsNone(analyze.resource_points(data)[1]['ready'])
+                    self.assertIsNone(detail['pods']['pod-1']['first_absent_at_utc'])
+                    self.assertFalse(data['check']['logs']['complete'])
+                if 'hpa' in missing:
+                    self.assertIsNone(gap['desired'])
+                output = broken.folder / 'analysis'
+                self.assertEqual(analyze.main([str(valid.folder), str(broken.folder),
+                                               '--output-dir', str(output), '--no-plots']), 0)
+                rows = json.loads((output / 'analysis.json').read_text())
+                self.assertEqual([r['collection_valid'] for r in rows], [True, False])
+                self.assertTrue(rows[1]['collection_error_details'])
+                saved = json.loads((output / 'scaling.json').read_text())[broken.folder.name]
+                self.assertEqual(saved['timeline'][1], gap)
+
+    def test_all_pod_snapshots_missing_are_not_zero_replicas(self):
+        broken = self.autoscaling_fixture()
+        for sample in broken.samples:
+            sample['pods'] = None
+            sample['errors'] = [{'source': 'pods', 'message': 'simulated API timeout'}]
+        self.assertFalse(broken.check()['valid'])
+        output = broken.folder / 'analysis'
+        self.assertEqual(analyze.main([str(broken.folder), '--output-dir', str(output), '--no-plots']), 0)
+        timeline = json.loads((output / 'scaling.json').read_text())[broken.folder.name]['timeline']
+        self.assertTrue(all(p['ready'] is None and p['running'] is None for p in timeline))
+        self.assertFalse(json.loads((output / 'analysis.json').read_text())[0]['collection_valid'])
+
+    @unittest.skipUnless(importlib.util.find_spec('matplotlib'), 'Install the optional analysis dependency for plot checks')
+    def test_missing_autoscaling_pods_still_produce_plots(self):
+        broken = self.autoscaling_fixture()
+        broken.samples[0]['pods'] = None
+        broken.samples[0]['errors'] = [{'source': 'pods', 'message': 'simulated API timeout'}]
+        self.assertFalse(broken.check()['valid'])
+        output = broken.folder / 'plots'
+        self.assertEqual(analyze.main([str(broken.folder), '--output-dir', str(output)]), 0)
+        self.assertTrue(next(output.glob('*.png')).read_bytes().startswith(b'\x89PNG\r\n\x1a\n'))
+        self.assertFalse(json.loads((output / 'analysis.json').read_text())[0]['collection_valid'])
+
     def test_known_counts_latency_and_measured_window_resources(self):
         row = analyze.calculate_metrics(self.data())
         self.assertTrue(row["collection_valid"])

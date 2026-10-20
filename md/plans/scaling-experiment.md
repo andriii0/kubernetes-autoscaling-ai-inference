@@ -11,7 +11,7 @@ The [fixed replica preparation](fixed-replicas.md) may run a separately labelled
 Before using this procedure for the main comparison:
 
 1. Use the completed one-replica pilot recording/analysis and selected low/peak rates from [the saved report](../../results/pilot/discovery-2026-10-18-series1/README.md). The response-time target and frozen main protocol remain prerequisites.
-2. Write and agree a separate experiment protocol in Notion with the final settings, matrix, repeat order and invalid-run rules. It is not complete yet. Add its link here when agreed, and keep these execution instructions consistent with it.
+2. Review and agree the separate [draft experiment protocol](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd) in Notion. Draft 0.1 is a private discussion draft, not a frozen protocol. Final settings, latency/error targets and their measurement windows, matrix, repeat order and invalid-run rules remain open. Keep these execution instructions consistent with the agreed version before the main series.
 3. Verify the current cluster, application image, model identity, Service URL and available resources. [Getting started](../GETTING_STARTED.md) owns setup and troubleshooting commands.
 4. Follow the accepted choices in [DECISIONS.md](../DECISIONS.md). Source configuration stays in [deploy/ollama.yaml](../../deploy/ollama.yaml) and [bench/inference.js](../../bench/inference.js). Schema, units and collection limits stay in [OBSERVATION.md](../OBSERVATION.md).
 
@@ -94,6 +94,21 @@ Verification: the clean Git export passed all 86 tests without skips, preserved 
 Publication procedure: create the commit, verify a clean clone, push it and compare the remote branch SHA. Report those final outcomes in the chat after they are verified.
 
 The main protocol must agree the error, dropped-work and latency targets before the main series. Move the provisional error/dropped-work thresholds into shared configuration and verify that k6 uses those agreed values at that stage. This publication does not select targets or execute the main matrix.
+
+## Fix audit findings F1-F3
+
+Objective: reject contradictory log/latency evidence and analyze retained API failures without inventing state. Preserve saved results, archived inputs and the existing draft-protocol edits.
+
+- [x] F1: detect a log stream that fails after its last update, distinguish requested termination from failure, and recheck exit evidence during replay. Test late failure, normal deletion, requested stop and contradictory saved coverage.
+- [x] F2: reconcile request and successful-response latency sample counts/values against raw k6 points and trend summaries. Reuse the same percentile convention and document a numeric tolerance. Test contradictory events, raw points, summaries, empty success series and preserved historical runs.
+- [x] F3: keep missing pod/HPA state as gaps in summaries, timelines and plots. Do not infer zero replicas or pod disappearance from a failed read. Test a mixed batch of valid and invalid runs, including plot generation.
+- [x] Run focused tests, the full bench suite and historical integrity checks. Recompute saved summaries/timelines and compare all result hashes with the pre-fix snapshot. Record verified outcomes in Status.
+
+Verification (2026-10-20): all 98 tests passed without skips in the project environment. Fresh environments passed with three plot checks skipped without Matplotlib and 13 dependency-specific checks skipped without k6 and Matplotlib. The new negative tests reject the old shutdown/replay, latency and missing-state implementations. All 13 saved event-based run verdicts/counts and successful-latency summaries are unchanged; saved fixed-three/HPA summaries, per-pod resources and scaling timelines match exactly. All 467 local result paths retain their pre-fix hashes. The excluded original pilot diagnostic remains excluded from the published series.
+
+Documentation follow-up: roadmap step 18 now explicitly requires the agreed repeat/settings rules, so preliminary probes alone cannot close it. The two authoring-root integrity drafts are labelled as superseded recovery records. The maintained Notion result page was fetched again: its fixed-three/HPA sections already link the published c81c55c evidence and explain historical test counts, so no page rewrite was needed.
+
+The fixed-three timeout/distribution rule remains a preliminary limitation. Agree how client failures, distribution coverage and server drain are represented across all modes in the main protocol before changing that rule. No live load, target selection, archive rewrite, commit or push is part of this repair.
 
 ## 3. Main run procedure
 

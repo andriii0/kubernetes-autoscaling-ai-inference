@@ -8,17 +8,7 @@ import sys
 from collections import Counter
 from pathlib import Path
 
-from pilot_records import read_jsonl, reconcile, timestamp
-
-
-def percentile(values, fraction):
-    """Linear interpolation at (n - 1) * fraction, matching the k6 trend summary."""
-    if not values:
-        return None
-    ordered = sorted(values)
-    position = (len(ordered) - 1) * fraction
-    lower, upper = math.floor(position), math.ceil(position)
-    return ordered[lower] + (ordered[upper] - ordered[lower]) * (position - lower)
+from pilot_records import percentile, read_jsonl, reconcile, timestamp
 
 
 def load_results(folder):
@@ -33,7 +23,9 @@ def load_results(folder):
 
 def identities(data):
     if data["metadata"].get("mode") == "autoscaling":
-        return [{"pod_uid": uid} for uid in sorted({p["metadata"]["uid"] for s in data["cluster"] for p in s["pods"]["items"]})]
+        uids = {p["metadata"]["uid"] for sample in data["cluster"] if sample.get("pods") is not None
+                for p in sample["pods"]["items"]}
+        return [{"pod_uid": uid} for uid in sorted(uids)]
     original = data["metadata"]["initial_identity"]
     return original if isinstance(original, list) else [original]
 
@@ -63,16 +55,19 @@ def scaling_details(data):
         offset = end
     pods, timeline = {}, []
     for sample in data["cluster"]:
-        hpa = target_hpa(sample, data["metadata"]["deployment"])
+        hpa = target_hpa(sample, data["metadata"]["deployment"]) if sample.get("hpa") is not None else None
         status = hpa.get("status", {}) if hpa else {}
-        selected = sample["pods"]["items"]
+        selected = sample["pods"]["items"] if sample.get("pods") is not None else None
         timeline.append({"time": sample["time"], "seconds": timestamp(sample["time"]) - start,
-                         "ready": sum(ready(p) for p in selected),
-                         "running": sum(p.get("status", {}).get("phase") == "Running" and not p["metadata"].get("deletionTimestamp") for p in selected),
+                         "ready": sum(ready(p) for p in selected) if selected is not None else None,
+                         "running": sum(p.get("status", {}).get("phase") == "Running" and not p["metadata"].get("deletionTimestamp") for p in selected) if selected is not None else None,
                          "desired": status.get("desiredReplicas"), "current": status.get("currentReplicas"),
                          "cpu_metrics": status.get("currentMetrics"), "conditions": status.get("conditions"),
                          "last_scale_time": status.get("lastScaleTime"),
-                         "terminating": sum(bool(p["metadata"].get("deletionTimestamp")) for p in selected)})
+                         "terminating": sum(bool(p["metadata"].get("deletionTimestamp")) for p in selected) if selected is not None else None})
+        if selected is None:
+            # An unavailable snapshot cannot establish pod presence or disappearance.
+            continue
         present = set()
         for pod in selected:
             uid = pod["metadata"]["uid"]
@@ -101,7 +96,7 @@ def scaling_details(data):
         desired = point['desired']
         if desired != previous_desired:
             direction = 'growth' if desired > previous_desired else 'reduction'
-            matching = next((p for p in active if p['seconds'] >= point['seconds'] and
+            matching = next((p for p in active if p['seconds'] >= point['seconds'] and p['running'] is not None and
                              (p['running'] >= desired if direction == 'growth' else p['running'] <= desired)), None)
             changes.append({'direction': direction, 'from': previous_desired, 'to': desired,
                             'requested_seconds': point['seconds'],

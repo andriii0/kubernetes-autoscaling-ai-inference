@@ -4,8 +4,57 @@ import argparse
 import hashlib
 import json
 import math
+import statistics
 from datetime import datetime, timezone
 from pathlib import Path
+
+
+# Both exports record the same elapsed milliseconds; allow only floating-point serialization noise.
+LATENCY_TOLERANCE_MS = 1e-6
+
+
+def percentile(values, fraction):
+    """Linear interpolation at (n - 1) * fraction, matching the k6 trend summary."""
+    if not values:
+        return None
+    ordered = sorted(values)
+    position = (len(ordered) - 1) * fraction
+    lower, upper = math.floor(position), math.ceil(position)
+    return ordered[lower] + (ordered[upper] - ordered[lower]) * (position - lower)
+
+
+def latency_errors(completions, observations, summary):
+    errors = []
+    for metric, events in (
+        ('request_latency_ms', list(completions)),
+        ('successful_latency_ms', [e for e in completions if e['outcome'] == 'success']),
+    ):
+        expected = sorted(e['duration_ms'] for e in events)
+        recorded = sorted(observations[metric])
+        if len(recorded) != len(expected):
+            errors.append(f'{metric} observation count does not reconcile with request events')
+        elif any(not math.isclose(a, b, rel_tol=0, abs_tol=LATENCY_TOLERANCE_MS)
+                 for a, b in zip(recorded, expected)):
+            errors.append(f'{metric} values do not reconcile with request events')
+        entry = summary.get(metric)
+        if entry is None:
+            if expected:
+                errors.append(f'{metric} summary is missing')
+            continue
+        values = entry.get('values', entry)
+        stats = {'avg': statistics.mean(expected) if expected else 0,
+                 'min': min(expected, default=0), 'max': max(expected, default=0),
+                 'med': percentile(expected, .5) if expected else 0,
+                 'p(90)': percentile(expected, .9) if expected else 0,
+                 'p(95)': percentile(expected, .95) if expected else 0}
+        for name, expected_value in stats.items():
+            if name not in values and (not expected or name not in ('avg', 'p(95)')):
+                continue
+            actual = values.get(name)
+            if (type(actual) not in (int, float) or not math.isfinite(actual) or
+                    not math.isclose(actual, expected_value, rel_tol=0, abs_tol=LATENCY_TOLERANCE_MS)):
+                errors.append(f'{metric} summary {name} does not reconcile with request events')
+    return errors
 
 
 def timestamp(value):
@@ -167,6 +216,7 @@ def reconcile(folder, metadata):
         if unfinished:
             errors.append(f"{unfinished} requests have no completion (server-side drain is unproven)")
         raw = {}
+        latency = {"request_latency_ms": [], "successful_latency_ms": []}
         for record in read_jsonl(folder / "requests.json"):
             if record.get("type") == "Point":
                 name = record["metric"]
@@ -174,6 +224,10 @@ def reconcile(folder, metadata):
                 if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value):
                     raise ValueError(f"invalid raw metric value: {name}")
                 raw[name] = raw.get(name, 0) + value
+                if name in latency:
+                    if value < 0:
+                        raise ValueError(f"negative latency: {name}")
+                    latency[name].append(value)
         summary = json.loads((folder / "summary.json").read_text(encoding="utf-8"))["metrics"]
         expected = {"requests_started": len(starts), "requests_completed": len(completions),
                     "http_reqs": len(completions), "iterations": len(completions)}
@@ -189,6 +243,7 @@ def reconcile(folder, metadata):
         report["counts"]["dropped"] = dropped.get("values", dropped)["count"]
         if raw.get("dropped_iterations", 0) != report["counts"]["dropped"]:
             errors.append("dropped_iterations does not reconcile")
+        errors.extend(latency_errors(list(completions.values()), latency, summary))
         if starts:
             scenario_starts = {timestamp(e["scenario_started_at_utc"]) for e in starts.values()}
             if len(scenario_starts) != 1:

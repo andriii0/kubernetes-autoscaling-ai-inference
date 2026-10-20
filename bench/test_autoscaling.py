@@ -150,8 +150,50 @@ class LogTests(unittest.TestCase):
             self.logs.update(sample())
         self.assertFalse(json.loads((self.folder / 'log-coverage.json').read_text())['pod-1']['complete'])
 
+    def test_stream_failure_after_last_update_is_rejected_at_stop(self):
+        for code in (0, 1):
+            with self.subTest(code=code):
+                folder = self.folder / f'late-{code}'
+                folder.mkdir()
+                logs = autoscaling.Logs(self.observer, folder, 'ollama')
+                self.addCleanup(logs.stop)
+                process = Mock(returncode=code)
+                process.poll.return_value = None
+                with patch.object(autoscaling.subprocess, 'Popen', return_value=process):
+                    logs.update(sample())
+                process.poll.return_value = code
+                with self.assertRaisesRegex(RuntimeError, 'ended unexpectedly'):
+                    logs.stop()
+                saved = json.loads((folder / 'log-coverage.json').read_text())['pod-1']
+                self.assertFalse(saved['complete'])
+                self.assertEqual(saved['exit_code'], code)
+                self.assertNotIn('stopped_by_collector', saved)
+                process.terminate.assert_not_called()
+
+    def test_requested_nonzero_stop_and_observed_termination_are_complete(self):
+        for kind in ('requested', 'terminated'):
+            with self.subTest(kind=kind):
+                folder = self.folder / kind
+                folder.mkdir()
+                logs = autoscaling.Logs(self.observer, folder, 'ollama')
+                self.addCleanup(logs.stop)
+                process = Mock(returncode=1 if kind == 'requested' else 0)
+                process.poll.return_value = None
+                with patch.object(autoscaling.subprocess, 'Popen', return_value=process):
+                    logs.update(sample())
+                if kind == 'terminated':
+                    current = sample()
+                    current['pods']['items'][0]['status']['containerStatuses'][0]['state'] = {'terminated': {}}
+                    process.poll.return_value = 0
+                    logs.update(current)
+                logs.stop()
+                record = logs.records['pod-1']
+                self.assertTrue(record['complete'])
+                self.assertTrue(autoscaling.complete_log_exit(record))
+
     def test_missing_file_is_not_zero_traffic_and_empty_new_pod_is_allowed(self):
-        records = {f'pod-{i}': {'complete': True, 'pod_name': f'ollama-{i}'} for i in (1, 2, 3)}
+        records = {f'pod-{i}': {'complete': True, 'pod_name': f'ollama-{i}',
+                               'exit_code': 1, 'stopped_by_collector': True} for i in (1, 2, 3)}
         (self.folder / 'log-coverage.json').write_text(json.dumps(records))
         for uid in records:
             (self.folder / 'pod-logs' / f'{uid}.log').write_text('')
@@ -176,12 +218,14 @@ class ReconciliationTests(unittest.TestCase):
                 {'conditions': {'ready': True}, 'targetRef': {'kind': 'Pod', 'uid': 'pod-1'}}]}]}}))
         (fixture.folder / 'pod-logs').mkdir()
         (fixture.folder / 'pod-logs/pod-1.log').write_text('')
-        (fixture.folder / 'log-coverage.json').write_text(json.dumps({'pod-1': {'pod_name': 'ollama-one', 'complete': True}}))
+        (fixture.folder / 'log-coverage.json').write_text(json.dumps({'pod-1': {'pod_name': 'ollama-one', 'complete': True,
+            'exit_code': 1, 'stopped_by_collector': True}}))
         return fixture
 
     def test_valid_requests_do_not_require_matching_server_statuses_after_timeout(self):
         f = self.fixture()
         f.completed.update(outcome='failure', error_category='timeout', http_status=0)
+        f.remove_latency('successful_latency_ms')
         f.points[-1]['data']['value'] = 1
         f.summary['metrics']['inference_errors'] = {'passes': 1, 'fails': 0}
         (f.folder / 'pod-logs/pod-1.log').write_text('2026-10-18T12:00:04Z [GIN] | 200 | 3s | ip | POST "/api/generate"\n')
@@ -201,6 +245,25 @@ class ReconciliationTests(unittest.TestCase):
         (f.folder / 'log-coverage.json').write_text('{}')
         self.assertFalse(f.check()['valid'])
 
+    def test_replay_rejects_contradictory_stream_exit_evidence(self):
+        f = self.fixture()
+        for record, valid in (
+            ({'exit_code': 1, 'stopped_by_collector': True}, True),
+            ({'exit_code': 0, 'deleted': True}, True),
+            ({'exit_code': 0, 'container_terminated': True}, True),
+            ({'exit_code': 1, 'deleted': True}, False),
+            ({'exit_code': 1, 'deleted': False}, False),
+            ({'exit_code': 0, 'deleted': False}, False),
+            ({'exit_code': None, 'stopped_by_collector': True}, False),
+        ):
+            with self.subTest(record=record):
+                coverage = {'pod-1': {'pod_name': 'ollama-one', 'complete': True, **record}}
+                (f.folder / 'log-coverage.json').write_text(json.dumps(coverage))
+                report = f.check()
+                self.assertEqual(report['valid'], valid, report)
+                if not valid:
+                    self.assertIn('incomplete pod log: pod-1', report['errors'])
+
     def test_no_scaling_is_reported_without_inventing_success(self):
         f = self.fixture()
         report = f.check()
@@ -212,6 +275,24 @@ class ReconciliationTests(unittest.TestCase):
         self.assertIsNone(detail['first_growth_seconds'])
         self.assertEqual(detail['stages'][0]['successful'], 1)
         self.assertEqual(detail['stages'][0]['p95_ms'], 500)
+
+    def test_missing_pod_count_cannot_confirm_scale_down(self):
+        f = self.fixture()
+        report = f.check()
+        f.metadata.update(phases=[], burst_stages=[{'name': 'low', 'seconds': 1, 'target': 'low'}])
+        known = three_sample('2026-10-18T12:00:01Z')
+        known['pods']['items'] = known['pods']['items'][:2]
+        known['hpa']['items'] = [hpa()]
+        known['hpa']['items'][0]['status'].update(currentReplicas=2, desiredReplicas=2)
+        missing = sample('2026-10-18T12:00:02Z')
+        missing['pods'] = None
+        missing['hpa']['items'] = [hpa()]
+        data = {'metadata': f.metadata, 'events': f.events, 'check': report, 'cluster': [known, missing]}
+        detail = analyze.scaling_details(data)
+        self.assertTrue(detail['growth_observed'])
+        self.assertFalse(detail['reduction_observed'])
+        self.assertIsNone(detail['changes'][-1]['running_matches_seconds'])
+        self.assertIsNone(detail['pods']['pod-2']['first_absent_at_utc'])
 
     def test_phase_assignment_keeps_one_millisecond_boundary_requests(self):
         f = self.fixture()
@@ -369,7 +450,8 @@ class AutoscalingLifecycleTests(unittest.TestCase):
             def update(self, sample):
                 for p in sample['pods']['items']:
                     uid = p['metadata']['uid']
-                    self.records[uid] = {'pod_name': p['metadata']['name'], 'complete': True}
+                    self.records[uid] = {'pod_name': p['metadata']['name'], 'complete': True,
+                                         'exit_code': 1, 'stopped_by_collector': True}
                     (self.folder / 'pod-logs' / (uid + '.log')).touch()
             def stop(self):
                 self.stopped = True

@@ -84,6 +84,13 @@ class State:
         return sample
 
 
+def complete_log_exit(record):
+    """A requested stop may be nonzero; an independent exit needs lifecycle evidence."""
+    code = record.get('exit_code')
+    return type(code) is int and (record.get('stopped_by_collector') is True or
+        code == 0 and (record.get('deleted') is True or record.get('container_terminated') is True))
+
+
 class Logs:
     """One continuous, file-backed kubectl stream per observed running container UID."""
 
@@ -112,8 +119,11 @@ class Logs:
                 self.handles[uid] = (process, output, error)
                 self.records[uid] = {'pod_name': pod['metadata']['name'], 'attached_at_utc': sample['time'],
                                      'command': command, 'deleted': False, 'exit_code': None, 'complete': True}
-            if uid in self.records and pod['metadata'].get('deletionTimestamp'):
-                self.records[uid]['deleted'] = True
+            if uid in self.records:
+                if pod['metadata'].get('deletionTimestamp'):
+                    self.records[uid]['deleted'] = True
+                if 'terminated' in status.get('state', {}):
+                    self.records[uid]['container_terminated'] = True
         for uid, (process, _, _) in self.handles.items():
             record = self.records[uid]
             if uid not in pods:
@@ -122,9 +132,7 @@ class Logs:
             if code is not None:
                 record['exit_code'] = code
                 # A terminated container stream can end just before deletion is observed.
-                terminated = bool(next((c for c in pods.get(uid, {}).get('status', {}).get('containerStatuses', [])
-                                        if c['name'] == self.container), {}).get('state', {}).get('terminated'))
-                if code != 0 or not (record['deleted'] or terminated):
+                if not complete_log_exit(record):
                     record['complete'] = False
                     self.save()
                     raise RuntimeError(f'pod log stream ended unexpectedly: {uid}, exit {code}')
@@ -145,7 +153,11 @@ class Logs:
                         process.kill()
                         process.wait(timeout=5)
                     self.records[uid]['stopped_by_collector'] = True
-                self.records[uid]['exit_code'] = process.returncode
+                record = self.records[uid]
+                record['exit_code'] = process.returncode
+                if record['complete'] and not complete_log_exit(record):
+                    record['complete'] = False
+                    errors.append(f'{uid}: log stream ended unexpectedly, exit {process.returncode}')
             except (OSError, subprocess.SubprocessError) as failure:
                 self.records[uid]['complete'] = False
                 self.records[uid]['shutdown_error'] = str(failure)
@@ -301,10 +313,12 @@ def check_samples(samples, metadata):
 
 def log_summary(folder, metadata, samples):
     coverage = json.loads((folder / 'log-coverage.json').read_text(encoding='utf-8'))
-    expected = {p['metadata']['uid'] for s in samples for p in s['pods']['items']
+    expected = {p['metadata']['uid'] for s in samples if s.get('pods') is not None for p in s['pods']['items']
                 if any('running' in c.get('state', {}) for c in p.get('status', {}).get('containerStatuses', [])
                        if c['name'] == metadata['container'])}
     errors = []
+    if any(s.get('pods') is None for s in samples):
+        errors.append('pod state is missing while checking log coverage')
     if expected != set(coverage):
         errors.append('log coverage does not match observed running pods')
     result = {}
@@ -312,7 +326,7 @@ def log_summary(folder, metadata, samples):
     for uid in expected:
         if uid not in coverage:
             continue
-        if not coverage[uid]['complete']:
+        if not coverage[uid]['complete'] or not complete_log_exit(coverage[uid]):
             errors.append(f'incomplete pod log: {uid}')
         path = folder / 'pod-logs' / f'{uid}.log'
         responses = []

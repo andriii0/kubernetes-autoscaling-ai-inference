@@ -187,7 +187,7 @@ Follow the [manual replica comparison procedure](plans/scaling-experiment.md#1-m
 
 **Progress:** [preliminary three-copy preparation and peak check](../results/fixed-replicas/check-2026-10-20-series1/README.md) are saved. The agreed main protocol and repeated comparison remain unfinished.
 
-**Done when:** all replicas are verified and both the one-replica and three-replica probe results are saved. A performance improvement is an outcome to measure, not a completion requirement.
+**Done when:** initial replicas and traffic distribution are verified, and the one-/three-copy peak comparison has the repetitions and matching settings required by the agreed step-17 protocol. The saved preliminary probes establish preparation only. A performance improvement is an outcome to measure, not a completion requirement.
 
 ### 19. Configure and verify automatic scaling from one to three replicas
 

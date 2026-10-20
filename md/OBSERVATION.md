@@ -49,11 +49,21 @@ Sources: [kubelet resource metrics](https://kubernetes.io/docs/reference/instrum
 
 For example, 100 starts over 10 seconds with the last completion at 15 seconds gives 10 starts/s and 6.67 completions/s. Equal request counts can therefore have different rates. Compare the counts to check completion; do not interpret the ratio of these rates as a failure rate.
 
+## Request latency reconciliation
+
+The validator compares the count and sorted values of `request_latency_ms` and `successful_latency_ms` with completed request events. It also checks the k6 trend summaries, including mean and p95. Percentiles use linear interpolation at `(n-1)*p`, shared with analysis. These checks compare distributions; they do not provide request-to-pod attribution.
+
+Both exports record the same elapsed milliseconds from k6. The absolute comparison tolerance is `0.000001` ms, only for floating-point serialization noise. This is not a service latency target and does not change the separate one-millisecond timestamp-boundary allowance. A series without successful responses stays missing in analysis; a zero-valued phantom observation is not an empty series.
+
 ## Dynamic collection
 
 `errors` may include `category: missing_resource` when an expected CPU/memory counter is absent. These remain errors for fixed-mode validation. Autoscaling preserves them as resource-coverage gaps; API, parse and scrape failures remain fatal. First/repeated-source CPU rates still remain null.
 
 Autoscaling follows native container logs by pod UID while the pod exists. `log-coverage.json` records stream attachment, normal deletion, unexpected exit and collector shutdown. Empty traffic counts are valid for a new pod; missing files/streams are not zero traffic. The dynamic timeline distinguishes Ready, the first observed HTTP response, first observed deletion marker and first absence. Kubernetes deletion timestamps can describe the future grace deadline, so they are not treated as the first observed removal time.
+
+Final log coverage also validates exit evidence. An independent exit must have code zero and observed container termination or pod deletion. A stop requested by the collector may have a nonzero exit code, including on Windows. A late failed stream cannot remain complete just because the last polling update succeeded; replay applies the same rule.
+
+Unavailable pod/HPA snapshots stay missing in offline summaries, timelines and plots. They do not establish zero replicas or pod disappearance. Other runs in the same batch can still be summarized, while the failed run keeps its invalid collection flag and diagnostics.
 
 ## Repeated overhead check
 

@@ -61,9 +61,18 @@ class RecordTests(unittest.TestCase):
         counts = {"requests_started": 1, "requests_completed": 1, "http_reqs": 1, "iterations": 1, "dropped_iterations": 0}
         self.summary = {"metrics": {k: {"count": v} for k, v in counts.items()}}
         self.summary["metrics"]["inference_errors"] = {"passes": 0, "fails": 1}
+        for name in ('request_latency_ms', 'successful_latency_ms'):
+            self.summary['metrics'][name] = {'avg': 500, 'min': 500, 'max': 500, 'p(95)': 500}
         self.points = [{"type": "Point", "metric": k, "data": {"value": v}} for k, v in counts.items()]
+        self.points.extend({'type': 'Point', 'metric': name, 'data': {'value': 500}}
+                           for name in ('request_latency_ms', 'successful_latency_ms'))
         self.points.append({"type": "Point", "metric": "inference_errors", "data": {"value": 0}})
         self.samples = [sample(), sample("2026-10-18T12:00:05Z")]
+
+    def remove_latency(self, *metrics):
+        self.points = [p for p in self.points if p['metric'] not in metrics]
+        for metric in metrics:
+            self.summary['metrics'].pop(metric, None)
 
     def check(self):
         write_lines(self.folder / "request-events.jsonl", self.events)
@@ -86,6 +95,7 @@ class RecordTests(unittest.TestCase):
             self.summary["metrics"][name]["count"] = 0
             next(p for p in self.points if p["metric"] == name)["data"]["value"] = 0
         self.summary["metrics"]["inference_errors"] = {"passes": 0, "fails": 0}
+        self.remove_latency('request_latency_ms', 'successful_latency_ms')
         report = self.check()
         self.assertFalse(report["valid"])
         self.assertEqual(report["counts"]["unfinished"], 1)
@@ -110,6 +120,59 @@ class RecordTests(unittest.TestCase):
         self.points[0]["data"]["value"] = 2
         self.assertEqual(self.check()["errors"], ["requests_started does not reconcile with request events"])
 
+    def test_consistent_event_rewrite_cannot_override_independent_k6_latency(self):
+        self.assertTrue(self.check()['valid'])
+        self.completed.update(duration_ms=1, finished_at_utc='2026-10-18T12:00:01.001Z')
+        report = self.check()
+        self.assertFalse(report['valid'])
+        self.assertIn('successful_latency_ms values do not reconcile with request events', report['errors'])
+        self.assertIn('successful_latency_ms summary p(95) does not reconcile with request events', report['errors'])
+
+    def test_missing_duplicate_and_changed_raw_latency_points_are_rejected(self):
+        original = copy.deepcopy(self.points)
+        for case in ('missing', 'duplicate', 'value'):
+            with self.subTest(case=case):
+                self.points = copy.deepcopy(original)
+                self.assertTrue(self.check()['valid'])
+                point = next(p for p in self.points if p['metric'] == 'successful_latency_ms')
+                if case == 'missing': self.points.remove(point)
+                if case == 'duplicate': self.points.append(copy.deepcopy(point))
+                if case == 'value': point['data']['value'] = 1
+                self.assertFalse(self.check()['valid'])
+
+    def test_latency_summary_and_explicit_export_tolerance_are_checked(self):
+        self.assertTrue(self.check()['valid'])
+        for name in ('avg', 'p(95)'):
+            self.summary['metrics']['successful_latency_ms'][name] = 1
+            report = self.check()
+            self.assertFalse(report['valid'])
+            self.assertIn(f'successful_latency_ms summary {name} does not reconcile with request events', report['errors'])
+            self.summary['metrics']['successful_latency_ms'][name] = 500
+        self.completed['duration_ms'] = 500 + pilot_records.LATENCY_TOLERANCE_MS / 2
+        self.assertTrue(self.check()['valid'])
+        self.completed['duration_ms'] = 500.001
+        self.assertFalse(self.check()['valid'])
+
+    def test_empty_success_series_rejects_phantom_points_and_nonzero_summary(self):
+        events = [{'duration_ms': 500, 'outcome': 'failure'}]
+        points = {'request_latency_ms': [500], 'successful_latency_ms': []}
+        summary = {'request_latency_ms': {'avg': 500, 'p(95)': 500},
+                   'successful_latency_ms': {'avg': 0, 'p(95)': 0}}
+        self.assertEqual(pilot_records.latency_errors(events, points, summary), [])
+        points['successful_latency_ms'] = [0]
+        self.assertTrue(pilot_records.latency_errors(events, points, summary))
+        points['successful_latency_ms'] = []
+        summary['successful_latency_ms']['p(95)'] = 1
+        self.assertTrue(pilot_records.latency_errors(events, points, summary))
+
+    def test_latency_distributions_ignore_export_order_and_use_linear_percentiles(self):
+        events = [{'duration_ms': value, 'outcome': 'success'} for value in (100, 900)]
+        points = {name: [900, 100] for name in ('request_latency_ms', 'successful_latency_ms')}
+        summary = {name: {'values': {'avg': 500, 'p(95)': 860}} for name in points}
+        self.assertEqual(pilot_records.latency_errors(events, points, summary), [])
+        summary['successful_latency_ms']['values']['p(95)'] = 900
+        self.assertTrue(pilot_records.latency_errors(events, points, summary))
+
     def test_request_times_and_identity_are_checked(self):
         self.assertTrue(self.check()["valid"])
         for field, value, reason in (("run_id", "another", "request event has an unexpected schema, run or phase"),
@@ -123,6 +186,7 @@ class RecordTests(unittest.TestCase):
 
     def test_response_failure_is_valid_evidence_and_not_added_to_total_twice(self):
         self.completed.update(outcome="failure", http_status=503, error_category="http_status")
+        self.remove_latency('successful_latency_ms')
         self.summary["metrics"]["inference_errors"] = {"passes": 1, "fails": 0}
         self.points[-1]["data"]["value"] = 1
         report = self.check()
