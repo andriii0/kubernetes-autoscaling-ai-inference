@@ -11,6 +11,7 @@ from pathlib import Path
 
 
 class InferenceMetricTests(unittest.TestCase):
+    @unittest.skipUnless(shutil.which('k6'), 'k6 is required for this integration check')
     def test_concurrent_vus_keep_distinct_complete_request_pairs(self):
         class Handler(BaseHTTPRequestHandler):
             def do_POST(self):
@@ -57,6 +58,7 @@ class InferenceMetricTests(unittest.TestCase):
             server.server_close()
             worker.join(timeout=5)
 
+    @unittest.skipUnless(shutil.which('k6'), 'k6 is required for this integration check')
     def test_actual_k6_classifies_failed_responses_and_timeouts(self):
         class Handler(BaseHTTPRequestHandler):
             index = 0
@@ -117,6 +119,7 @@ class InferenceMetricTests(unittest.TestCase):
             server.server_close()
             worker.join(timeout=5)
 
+    @unittest.skipUnless(shutil.which('k6'), 'k6 is required for this integration check')
     def test_actual_k6_preserves_zeros_and_reports_missing_optional_fields(self):
         executable = shutil.which("k6")
         self.assertIsNotNone(executable, "k6 must be installed for this integration check")

@@ -1,0 +1,19 @@
+{
+  "burst-1": {
+    "7b9728ed-777d-4122-bde5-587149502438": {
+      "cpu_valid_samples": 52,
+      "cpu_mean_cores": 0.7718804959608626,
+      "peak_memory_mib": 493.21484375
+    },
+    "c643e131-be68-4d24-8bc8-f057c2215a9e": {
+      "cpu_valid_samples": 45,
+      "cpu_mean_cores": 0.7066826368867134,
+      "peak_memory_mib": 886.99609375
+    },
+    "d31b5463-b5bf-4597-9e5a-90bc9e85ab32": {
+      "cpu_valid_samples": 38,
+      "cpu_mean_cores": 0.593693918102072,
+      "peak_memory_mib": 485.96484375
+    }
+  }
+}

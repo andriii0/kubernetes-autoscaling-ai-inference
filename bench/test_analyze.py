@@ -1,8 +1,13 @@
 import csv
+import importlib.util
+import io
 import json
+import sys
 import tempfile
 import unittest
+from contextlib import redirect_stderr
 from pathlib import Path
+from unittest.mock import patch
 
 import analyze
 import test_pilot_records as fixtures
@@ -68,20 +73,54 @@ class AnalysisTests(unittest.TestCase):
             self.assertEqual(result.exception.code, 2)
             self.assertEqual(sentinel.read_bytes(), b"saved analysis")
 
-    def test_csv_and_plots_are_generated_without_changing_raw_events(self):
+    def test_csv_is_generated_without_changing_raw_events(self):
         data = self.data()
         source = data["folder"] / "request-events.jsonl"
         before = source.read_bytes()
         output = data["folder"] / "analysis"
-        self.assertEqual(analyze.main([str(data["folder"]), "--output-dir", str(output)]), 0)
+        self.assertEqual(analyze.main([str(data["folder"]), "--output-dir", str(output), "--no-plots"]), 0)
         self.assertEqual(source.read_bytes(), before)
         with (output / "summary.csv").open(newline="") as file:
             row = list(csv.DictReader(file))[0]
         self.assertEqual(row["p95_ms"], "500.0")
         self.assertEqual(row["tokens_min"], "")
+        self.assertFalse(list(output.glob("*.png")))
+
+    @unittest.skipUnless(importlib.util.find_spec('matplotlib'), 'Install the optional analysis dependency for plot checks')
+    def test_plots_are_generated_without_changing_raw_events(self):
+        data = self.data()
+        source = data['folder'] / 'request-events.jsonl'
+        before = source.read_bytes()
+        output = data['folder'] / 'plots'
+        self.assertEqual(analyze.main([str(data['folder']), '--output-dir', str(output)]), 0)
+        self.assertEqual(source.read_bytes(), before)
         png = next(output.glob("*.png"))
         self.assertTrue(png.read_bytes().startswith(b"\x89PNG\r\n\x1a\n"))
         self.assertIn("Container CPU", next(output.glob("*.svg")).read_text())
+
+    def test_missing_plot_dependency_has_actionable_error_and_no_partial_output(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary) / 'analysis'
+            message = io.StringIO()
+            with patch.dict(sys.modules, {'matplotlib': None}), redirect_stderr(message):
+                self.assertEqual(analyze.main(['unused-source', '--output-dir', str(output)]), 1)
+            self.assertIn('--no-plots', message.getvalue())
+            self.assertIn('Matplotlib', message.getvalue())
+            self.assertFalse(output.exists())
+
+    @unittest.skipUnless(importlib.util.find_spec('matplotlib'), 'Install the optional analysis dependency for plot checks')
+    def test_saved_fixed_and_autoscaling_plots_keep_replica_and_hpa_series(self):
+        root = Path(__file__).resolve().parents[1]
+        runs = [('results/fixed-replicas/check-2026-10-20-series1/peak-1', 'CPU per copy'),
+                ('results/autoscaling/check-2026-10-20-series1/burst-1', 'HPA desired')]
+        with tempfile.TemporaryDirectory() as temporary:
+            for index, (run, label) in enumerate(runs):
+                with self.subTest(run=run):
+                    data = analyze.load_results(root / run)
+                    destination = Path(temporary) / str(index)
+                    analyze.create_plots(data, analyze.calculate_metrics(data), destination)
+                    self.assertTrue(destination.with_suffix('.png').read_bytes().startswith(b'\x89PNG\r\n\x1a\n'))
+                    self.assertIn(label, destination.with_suffix('.svg').read_text())
 
     def test_invalid_collection_stays_explicit(self):
         data = self.data()

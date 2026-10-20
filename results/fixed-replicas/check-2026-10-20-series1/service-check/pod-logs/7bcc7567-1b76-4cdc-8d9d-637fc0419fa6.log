@@ -1,0 +1,235 @@
+2026-10-20T13:16:41.642340343Z slot print_timing: id  0 | task 0 | prompt eval time =     186.22 ms /    40 tokens (    4.66 ms per token,   214.81 tokens per second)
+2026-10-20T13:16:41.642358132Z slot print_timing: id  0 | task 0 |        eval time =    1126.50 ms /    64 tokens (   17.88 ms per token,    55.93 tokens per second)
+2026-10-20T13:16:41.642359426Z slot print_timing: id  0 | task 0 |       total time =    1312.72 ms /   104 tokens
+2026-10-20T13:16:41.642360536Z slot print_timing: id  0 | task 0 |    graphs reused =         63
+2026-10-20T13:16:41.642361286Z slot      release: id  0 | task 0 | stop processing: n_tokens = 103, truncated = 0
+2026-10-20T13:16:41.642362314Z srv  update_slots: all slots are idle
+2026-10-20T13:16:41.643291949Z [GIN] 2026/10/20 - 13:16:41 | 200 |   2.09655342s |    192.168.49.1 | POST     "/api/generate?timeout=2m0s"
+2026-10-20T13:16:43.504436251Z [GIN] 2026/10/20 - 13:16:43 | 200 |     395.569µs |      10.244.0.1 | GET      "/api/tags"
+2026-10-20T13:16:48.503810580Z [GIN] 2026/10/20 - 13:16:48 | 200 |     530.122µs |      10.244.0.1 | GET      "/api/tags"
+2026-10-20T13:16:50.537684448Z srv  server_strea: conv_id= (empty=1)
+2026-10-20T13:16:50.537866214Z slot get_availabl: id  0 | task -1 |  - checking sim = 1.000 (40/40) > 0.100
+2026-10-20T13:16:50.537874343Z slot get_availabl: id  0 | task -1 | selected slot by LCP similarity, f_sim_best = 1.000 (> 0.100 thold), f_keep = 0.388
+2026-10-20T13:16:50.537875711Z srv  get_availabl: updating prompt cache
+2026-10-20T13:16:50.537877136Z srv   prompt_save:  - saving prompt with length 103, total state size = 1.209 MiB (draft: 0.000 MiB)
+2026-10-20T13:16:50.538086982Z srv          load:  - looking for better prompt, base f_keep = 0.388, f_sim = 1.000
+2026-10-20T13:16:50.538092871Z srv          load:    - prompt with length     103, lcp =      40, f_keep = 0.388, f_sim = 1.000
+2026-10-20T13:16:50.538093999Z srv        update:  - cache state: 1 prompts, 1.209 MiB (limits: 8192.000 MiB, 1024 tokens, 698038 est)
+2026-10-20T13:16:50.538094815Z srv        update:    - prompt 0x15790320:     103 tokens, checkpoints:  0,     1.209 MiB
+2026-10-20T13:16:50.538097738Z srv  get_availabl: prompt cache update took 0.21 ms
+2026-10-20T13:16:50.538102304Z slot launch_slot_: id  0 | task -1 | sampler chain: logits -> ?penalties -> ?dry -> ?top-n-sigma -> top-k -> ?typical -> top-p -> ?min-p -> ?xtc -> temp-ext -> dist 
+2026-10-20T13:16:50.538103201Z slot launch_slot_: id  0 | task -1 | sampler params: 
+2026-10-20T13:16:50.538104012Z 	repeat_last_n = 64, repeat_penalty = 1.000, frequency_penalty = 0.000, presence_penalty = 0.000
+2026-10-20T13:16:50.538121530Z 	dry_multiplier = 0.000, dry_base = 1.750, dry_allowed_length = 2, dry_penalty_last_n = 64
+2026-10-20T13:16:50.538122844Z 	top_k = 40, top_p = 0.900, min_p = 0.000, xtc_probability = 0.000, xtc_threshold = 0.100, typical_p = 1.000, top_n_sigma = -1.000, temp = 0.000
+2026-10-20T13:16:50.538124006Z 	mirostat = 0, mirostat_lr = 0.100, mirostat_ent = 5.000, adaptive_target = -1.000, adaptive_decay = 0.900
+2026-10-20T13:16:50.538125825Z slot launch_slot_: id  0 | task 65 | processing task, is_child = 0
+2026-10-20T13:16:50.538128326Z slot   operator(): id  0 | task 65 | new prompt, n_ctx_slot = 1024, n_keep = 4, task.n_tokens = 40
+2026-10-20T13:16:50.538130001Z slot   operator(): id  0 | task 65 | need to evaluate at least 1 token for each active slot (n_past = 40, task.n_tokens() = 40)
+2026-10-20T13:16:50.538130806Z slot   operator(): id  0 | task 65 | n_past was set to 39
+2026-10-20T13:16:50.538131584Z slot   operator(): id  0 | task 65 | cached n_tokens = 39, memory_seq_rm [39, end)
+2026-10-20T13:16:50.538132359Z slot init_sampler: id  0 | task 65 | init sampler, took 0.00 ms, tokens: text = 40, total = 40
+2026-10-20T13:16:51.526122699Z slot print_timing: id  0 | task 65 | prompt eval time =      19.09 ms /     1 tokens (   19.09 ms per token,    52.37 tokens per second)
+2026-10-20T13:16:51.526142878Z slot print_timing: id  0 | task 65 |        eval time =     968.73 ms /    56 tokens (   17.61 ms per token,    56.78 tokens per second)
+2026-10-20T13:16:51.526144269Z slot print_timing: id  0 | task 65 |       total time =     987.82 ms /    57 tokens
+2026-10-20T13:16:51.526145360Z slot print_timing: id  0 | task 65 |    graphs reused =        119
+2026-10-20T13:16:51.526146144Z slot      release: id  0 | task 65 | stop processing: n_tokens = 95, truncated = 0
+2026-10-20T13:16:51.526147622Z srv  update_slots: all slots are idle
+2026-10-20T13:16:51.526960113Z [GIN] 2026/10/20 - 13:16:51 | 200 |  991.096548ms |      10.244.0.1 | POST     "/api/generate"
+2026-10-20T13:16:53.503834509Z [GIN] 2026/10/20 - 13:16:53 | 200 |     576.598µs |      10.244.0.1 | GET      "/api/tags"
+2026-10-20T13:16:55.537841497Z srv  server_strea: conv_id= (empty=1)
+2026-10-20T13:16:55.538064856Z slot get_availabl: id  0 | task -1 |  - checking sim = 1.000 (40/40) > 0.100
+2026-10-20T13:16:55.538069496Z slot get_availabl: id  0 | task -1 | selected slot by LCP similarity, f_sim_best = 1.000 (> 0.100 thold), f_keep = 0.421
+2026-10-20T13:16:55.538070730Z srv  get_availabl: updating prompt cache
+2026-10-20T13:16:55.538072227Z srv   prompt_save:  - saving prompt with length 95, total state size = 1.115 MiB (draft: 0.000 MiB)
+2026-10-20T13:16:55.538404631Z srv          load:  - looking for better prompt, base f_keep = 0.421, f_sim = 1.000
+2026-10-20T13:16:55.538414400Z srv          load:    - prompt with length     103, lcp =      40, f_keep = 0.388, f_sim = 1.000
+2026-10-20T13:16:55.538415313Z srv          load:    - prompt with length      95, lcp =      40, f_keep = 0.421, f_sim = 1.000
+2026-10-20T13:16:55.538416994Z srv        update:  - cache state: 2 prompts, 2.324 MiB (limits: 8192.000 MiB, 1024 tokens, 698024 est)
+2026-10-20T13:16:55.538417780Z srv        update:    - prompt 0x15790320:     103 tokens, checkpoints:  0,     1.209 MiB
+2026-10-20T13:16:55.538418691Z srv        update:    - prompt 0x7fec50006040:      95 tokens, checkpoints:  0,     1.115 MiB
+2026-10-20T13:16:55.538419732Z srv  get_availabl: prompt cache update took 0.20 ms
+2026-10-20T13:16:55.538421512Z slot launch_slot_: id  0 | task -1 | sampler chain: logits -> ?penalties -> ?dry -> ?top-n-sigma -> top-k -> ?typical -> top-p -> ?min-p -> ?xtc -> temp-ext -> dist 
+2026-10-20T13:16:55.538422314Z slot launch_slot_: id  0 | task -1 | sampler params: 
+2026-10-20T13:16:55.538423116Z 	repeat_last_n = 64, repeat_penalty = 1.000, frequency_penalty = 0.000, presence_penalty = 0.000
+2026-10-20T13:16:55.538435205Z 	dry_multiplier = 0.000, dry_base = 1.750, dry_allowed_length = 2, dry_penalty_last_n = 64
+2026-10-20T13:16:55.538437920Z 	top_k = 40, top_p = 0.900, min_p = 0.000, xtc_probability = 0.000, xtc_threshold = 0.100, typical_p = 1.000, top_n_sigma = -1.000, temp = 0.000
+2026-10-20T13:16:55.538438759Z 	mirostat = 0, mirostat_lr = 0.100, mirostat_ent = 5.000, adaptive_target = -1.000, adaptive_decay = 0.900
+2026-10-20T13:16:55.538440034Z slot launch_slot_: id  0 | task 122 | processing task, is_child = 0
+2026-10-20T13:16:55.538441020Z slot   operator(): id  0 | task 122 | new prompt, n_ctx_slot = 1024, n_keep = 4, task.n_tokens = 40
+2026-10-20T13:16:55.538442062Z slot   operator(): id  0 | task 122 | need to evaluate at least 1 token for each active slot (n_past = 40, task.n_tokens() = 40)
+2026-10-20T13:16:55.538443037Z slot   operator(): id  0 | task 122 | n_past was set to 39
+2026-10-20T13:16:55.538443815Z slot   operator(): id  0 | task 122 | cached n_tokens = 39, memory_seq_rm [39, end)
+2026-10-20T13:16:55.538444603Z slot init_sampler: id  0 | task 122 | init sampler, took 0.00 ms, tokens: text = 40, total = 40
+2026-10-20T13:16:56.525438220Z slot print_timing: id  0 | task 122 | prompt eval time =      17.60 ms /     1 tokens (   17.60 ms per token,    56.83 tokens per second)
+2026-10-20T13:16:56.525462378Z slot print_timing: id  0 | task 122 |        eval time =     969.40 ms /    56 tokens (   17.63 ms per token,    56.74 tokens per second)
+2026-10-20T13:16:56.525464320Z slot print_timing: id  0 | task 122 |       total time =     987.00 ms /    57 tokens
+2026-10-20T13:16:56.525465702Z slot print_timing: id  0 | task 122 |    graphs reused =        175
+2026-10-20T13:16:56.525466472Z slot      release: id  0 | task 122 | stop processing: n_tokens = 95, truncated = 0
+2026-10-20T13:16:56.525467494Z srv  update_slots: all slots are idle
+2026-10-20T13:16:56.526316149Z [GIN] 2026/10/20 - 13:16:56 | 200 |  990.235847ms |      10.244.0.1 | POST     "/api/generate"
+2026-10-20T13:16:56.788015574Z srv  server_strea: conv_id= (empty=1)
+2026-10-20T13:16:56.788290012Z slot get_availabl: id  0 | task -1 |  - checking sim = 1.000 (40/40) > 0.100
+2026-10-20T13:16:56.788297423Z slot get_availabl: id  0 | task -1 | selected slot by LCP similarity, f_sim_best = 1.000 (> 0.100 thold), f_keep = 0.421
+2026-10-20T13:16:56.788298470Z srv  get_availabl: updating prompt cache
+2026-10-20T13:16:56.788299333Z srv   prompt_save:  - saving prompt with length 95, total state size = 1.115 MiB (draft: 0.000 MiB)
+2026-10-20T13:16:56.788300193Z srv         alloc:  - prompt is already in the cache, skipping
+2026-10-20T13:16:56.788301101Z srv          load:  - looking for better prompt, base f_keep = 0.421, f_sim = 1.000
+2026-10-20T13:16:56.788301880Z srv          load:    - prompt with length     103, lcp =      40, f_keep = 0.388, f_sim = 1.000
+2026-10-20T13:16:56.788302665Z srv          load:    - prompt with length      95, lcp =      40, f_keep = 0.421, f_sim = 1.000
+2026-10-20T13:16:56.788303410Z srv        update:  - cache state: 2 prompts, 2.324 MiB (limits: 8192.000 MiB, 1024 tokens, 698024 est)
+2026-10-20T13:16:56.788304229Z srv        update:    - prompt 0x15790320:     103 tokens, checkpoints:  0,     1.209 MiB
+2026-10-20T13:16:56.788305006Z srv        update:    - prompt 0x7fec50006040:      95 tokens, checkpoints:  0,     1.115 MiB
+2026-10-20T13:16:56.788305799Z srv  get_availabl: prompt cache update took 0.02 ms
+2026-10-20T13:16:56.788443595Z slot launch_slot_: id  0 | task -1 | sampler chain: logits -> ?penalties -> ?dry -> ?top-n-sigma -> top-k -> ?typical -> top-p -> ?min-p -> ?xtc -> temp-ext -> dist 
+2026-10-20T13:16:56.788453332Z slot launch_slot_: id  0 | task -1 | sampler params: 
+2026-10-20T13:16:56.788472689Z 	repeat_last_n = 64, repeat_penalty = 1.000, frequency_penalty = 0.000, presence_penalty = 0.000
+2026-10-20T13:16:56.788474564Z 	dry_multiplier = 0.000, dry_base = 1.750, dry_allowed_length = 2, dry_penalty_last_n = 64
+2026-10-20T13:16:56.788476479Z 	top_k = 40, top_p = 0.900, min_p = 0.000, xtc_probability = 0.000, xtc_threshold = 0.100, typical_p = 1.000, top_n_sigma = -1.000, temp = 0.000
+2026-10-20T13:16:56.788478491Z 	mirostat = 0, mirostat_lr = 0.100, mirostat_ent = 5.000, adaptive_target = -1.000, adaptive_decay = 0.900
+2026-10-20T13:16:56.788480309Z slot launch_slot_: id  0 | task 179 | processing task, is_child = 0
+2026-10-20T13:16:56.788481890Z slot   operator(): id  0 | task 179 | new prompt, n_ctx_slot = 1024, n_keep = 4, task.n_tokens = 40
+2026-10-20T13:16:56.788483668Z slot   operator(): id  0 | task 179 | need to evaluate at least 1 token for each active slot (n_past = 40, task.n_tokens() = 40)
+2026-10-20T13:16:56.788485258Z slot   operator(): id  0 | task 179 | n_past was set to 39
+2026-10-20T13:16:56.788486857Z slot   operator(): id  0 | task 179 | cached n_tokens = 39, memory_seq_rm [39, end)
+2026-10-20T13:16:56.788488454Z slot init_sampler: id  0 | task 179 | init sampler, took 0.01 ms, tokens: text = 40, total = 40
+2026-10-20T13:16:57.805612851Z slot print_timing: id  0 | task 179 | prompt eval time =      18.54 ms /     1 tokens (   18.54 ms per token,    53.93 tokens per second)
+2026-10-20T13:16:57.805639190Z slot print_timing: id  0 | task 179 |        eval time =     998.50 ms /    56 tokens (   18.15 ms per token,    55.08 tokens per second)
+2026-10-20T13:16:57.805640861Z slot print_timing: id  0 | task 179 |       total time =    1017.04 ms /    57 tokens
+2026-10-20T13:16:57.805642234Z slot print_timing: id  0 | task 179 |    graphs reused =        231
+2026-10-20T13:16:57.805642998Z slot      release: id  0 | task 179 | stop processing: n_tokens = 95, truncated = 0
+2026-10-20T13:16:57.805645832Z srv  update_slots: all slots are idle
+2026-10-20T13:16:57.806580593Z [GIN] 2026/10/20 - 13:16:57 | 200 |  1.020294844s |      10.244.0.1 | POST     "/api/generate"
+2026-10-20T13:16:58.037525752Z srv  server_strea: conv_id= (empty=1)
+2026-10-20T13:16:58.037678009Z slot get_availabl: id  0 | task -1 |  - checking sim = 1.000 (40/40) > 0.100
+2026-10-20T13:16:58.037689419Z slot get_availabl: id  0 | task -1 | selected slot by LCP similarity, f_sim_best = 1.000 (> 0.100 thold), f_keep = 0.421
+2026-10-20T13:16:58.037690984Z srv  get_availabl: updating prompt cache
+2026-10-20T13:16:58.037743972Z srv   prompt_save:  - saving prompt with length 95, total state size = 1.115 MiB (draft: 0.000 MiB)
+2026-10-20T13:16:58.037751402Z srv         alloc:  - prompt is already in the cache, skipping
+2026-10-20T13:16:58.037753169Z srv          load:  - looking for better prompt, base f_keep = 0.421, f_sim = 1.000
+2026-10-20T13:16:58.037753981Z srv          load:    - prompt with length     103, lcp =      40, f_keep = 0.388, f_sim = 1.000
+2026-10-20T13:16:58.037754773Z srv          load:    - prompt with length      95, lcp =      40, f_keep = 0.421, f_sim = 1.000
+2026-10-20T13:16:58.037755534Z srv        update:  - cache state: 2 prompts, 2.324 MiB (limits: 8192.000 MiB, 1024 tokens, 698024 est)
+2026-10-20T13:16:58.037756346Z srv        update:    - prompt 0x15790320:     103 tokens, checkpoints:  0,     1.209 MiB
+2026-10-20T13:16:58.037757130Z srv        update:    - prompt 0x7fec50006040:      95 tokens, checkpoints:  0,     1.115 MiB
+2026-10-20T13:16:58.037757960Z srv  get_availabl: prompt cache update took 0.03 ms
+2026-10-20T13:16:58.037760494Z slot launch_slot_: id  0 | task -1 | sampler chain: logits -> ?penalties -> ?dry -> ?top-n-sigma -> top-k -> ?typical -> top-p -> ?min-p -> ?xtc -> temp-ext -> dist 
+2026-10-20T13:16:58.037772806Z slot launch_slot_: id  0 | task -1 | sampler params: 
+2026-10-20T13:16:58.037773675Z 	repeat_last_n = 64, repeat_penalty = 1.000, frequency_penalty = 0.000, presence_penalty = 0.000
+2026-10-20T13:16:58.037774727Z 	dry_multiplier = 0.000, dry_base = 1.750, dry_allowed_length = 2, dry_penalty_last_n = 64
+2026-10-20T13:16:58.037776345Z 	top_k = 40, top_p = 0.900, min_p = 0.000, xtc_probability = 0.000, xtc_threshold = 0.100, typical_p = 1.000, top_n_sigma = -1.000, temp = 0.000
+2026-10-20T13:16:58.037777200Z 	mirostat = 0, mirostat_lr = 0.100, mirostat_ent = 5.000, adaptive_target = -1.000, adaptive_decay = 0.900
+2026-10-20T13:16:58.037807173Z slot launch_slot_: id  0 | task 236 | processing task, is_child = 0
+2026-10-20T13:16:58.037813128Z slot   operator(): id  0 | task 236 | new prompt, n_ctx_slot = 1024, n_keep = 4, task.n_tokens = 40
+2026-10-20T13:16:58.037814236Z slot   operator(): id  0 | task 236 | need to evaluate at least 1 token for each active slot (n_past = 40, task.n_tokens() = 40)
+2026-10-20T13:16:58.037815178Z slot   operator(): id  0 | task 236 | n_past was set to 39
+2026-10-20T13:16:58.037816098Z slot   operator(): id  0 | task 236 | cached n_tokens = 39, memory_seq_rm [39, end)
+2026-10-20T13:16:58.037816896Z slot init_sampler: id  0 | task 236 | init sampler, took 0.01 ms, tokens: text = 40, total = 40
+2026-10-20T13:16:58.504478316Z [GIN] 2026/10/20 - 13:16:58 | 200 |     395.956µs |      10.244.0.1 | GET      "/api/tags"
+2026-10-20T13:16:59.080321148Z slot print_timing: id  0 | task 236 | prompt eval time =      18.00 ms /     1 tokens (   18.00 ms per token,    55.56 tokens per second)
+2026-10-20T13:16:59.080340392Z slot print_timing: id  0 | task 236 |        eval time =    1024.40 ms /    56 tokens (   18.63 ms per token,    53.69 tokens per second)
+2026-10-20T13:16:59.080341748Z slot print_timing: id  0 | task 236 |       total time =    1042.40 ms /    57 tokens
+2026-10-20T13:16:59.080343042Z slot print_timing: id  0 | task 236 |    graphs reused =        287
+2026-10-20T13:16:59.080343851Z slot      release: id  0 | task 236 | stop processing: n_tokens = 95, truncated = 0
+2026-10-20T13:16:59.080345348Z srv  update_slots: all slots are idle
+2026-10-20T13:16:59.081160891Z [GIN] 2026/10/20 - 13:16:59 | 200 |  1.045710021s |      10.244.0.1 | POST     "/api/generate"
+2026-10-20T13:16:59.288509040Z srv  server_strea: conv_id= (empty=1)
+2026-10-20T13:16:59.288806097Z slot get_availabl: id  0 | task -1 |  - checking sim = 1.000 (40/40) > 0.100
+2026-10-20T13:16:59.288825559Z slot get_availabl: id  0 | task -1 | selected slot by LCP similarity, f_sim_best = 1.000 (> 0.100 thold), f_keep = 0.421
+2026-10-20T13:16:59.288830890Z srv  get_availabl: updating prompt cache
+2026-10-20T13:16:59.288834625Z srv   prompt_save:  - saving prompt with length 95, total state size = 1.115 MiB (draft: 0.000 MiB)
+2026-10-20T13:16:59.288838128Z srv         alloc:  - prompt is already in the cache, skipping
+2026-10-20T13:16:59.288841541Z srv          load:  - looking for better prompt, base f_keep = 0.421, f_sim = 1.000
+2026-10-20T13:16:59.288844527Z srv          load:    - prompt with length     103, lcp =      40, f_keep = 0.388, f_sim = 1.000
+2026-10-20T13:16:59.288847463Z srv          load:    - prompt with length      95, lcp =      40, f_keep = 0.421, f_sim = 1.000
+2026-10-20T13:16:59.288850424Z srv        update:  - cache state: 2 prompts, 2.324 MiB (limits: 8192.000 MiB, 1024 tokens, 698024 est)
+2026-10-20T13:16:59.288853353Z srv        update:    - prompt 0x15790320:     103 tokens, checkpoints:  0,     1.209 MiB
+2026-10-20T13:16:59.288856217Z srv        update:    - prompt 0x7fec50006040:      95 tokens, checkpoints:  0,     1.115 MiB
+2026-10-20T13:16:59.288859226Z srv  get_availabl: prompt cache update took 0.04 ms
+2026-10-20T13:16:59.288889568Z slot launch_slot_: id  0 | task -1 | sampler chain: logits -> ?penalties -> ?dry -> ?top-n-sigma -> top-k -> ?typical -> top-p -> ?min-p -> ?xtc -> temp-ext -> dist 
+2026-10-20T13:16:59.288895165Z slot launch_slot_: id  0 | task -1 | sampler params: 
+2026-10-20T13:16:59.288896837Z 	repeat_last_n = 64, repeat_penalty = 1.000, frequency_penalty = 0.000, presence_penalty = 0.000
+2026-10-20T13:16:59.288897655Z 	dry_multiplier = 0.000, dry_base = 1.750, dry_allowed_length = 2, dry_penalty_last_n = 64
+2026-10-20T13:16:59.288899060Z 	top_k = 40, top_p = 0.900, min_p = 0.000, xtc_probability = 0.000, xtc_threshold = 0.100, typical_p = 1.000, top_n_sigma = -1.000, temp = 0.000
+2026-10-20T13:16:59.288900584Z 	mirostat = 0, mirostat_lr = 0.100, mirostat_ent = 5.000, adaptive_target = -1.000, adaptive_decay = 0.900
+2026-10-20T13:16:59.288901492Z slot launch_slot_: id  0 | task 293 | processing task, is_child = 0
+2026-10-20T13:16:59.288902251Z slot   operator(): id  0 | task 293 | new prompt, n_ctx_slot = 1024, n_keep = 4, task.n_tokens = 40
+2026-10-20T13:16:59.288903361Z slot   operator(): id  0 | task 293 | need to evaluate at least 1 token for each active slot (n_past = 40, task.n_tokens() = 40)
+2026-10-20T13:16:59.288904139Z slot   operator(): id  0 | task 293 | n_past was set to 39
+2026-10-20T13:16:59.288904948Z slot   operator(): id  0 | task 293 | cached n_tokens = 39, memory_seq_rm [39, end)
+2026-10-20T13:16:59.288905729Z slot init_sampler: id  0 | task 293 | init sampler, took 0.01 ms, tokens: text = 40, total = 40
+2026-10-20T13:17:00.305376568Z slot print_timing: id  0 | task 293 | prompt eval time =      18.01 ms /     1 tokens (   18.01 ms per token,    55.53 tokens per second)
+2026-10-20T13:17:00.305398340Z slot print_timing: id  0 | task 293 |        eval time =     998.42 ms /    56 tokens (   18.15 ms per token,    55.09 tokens per second)
+2026-10-20T13:17:00.305399929Z slot print_timing: id  0 | task 293 |       total time =    1016.43 ms /    57 tokens
+2026-10-20T13:17:00.305401405Z slot print_timing: id  0 | task 293 |    graphs reused =        343
+2026-10-20T13:17:00.305402169Z slot      release: id  0 | task 293 | stop processing: n_tokens = 95, truncated = 0
+2026-10-20T13:17:00.305403358Z srv  update_slots: all slots are idle
+2026-10-20T13:17:00.306271754Z [GIN] 2026/10/20 - 13:17:00 | 200 |  1.020230429s |      10.244.0.1 | POST     "/api/generate"
+2026-10-20T13:17:00.538101220Z srv  server_strea: conv_id= (empty=1)
+2026-10-20T13:17:00.538401942Z slot get_availabl: id  0 | task -1 |  - checking sim = 1.000 (40/40) > 0.100
+2026-10-20T13:17:00.538410371Z slot get_availabl: id  0 | task -1 | selected slot by LCP similarity, f_sim_best = 1.000 (> 0.100 thold), f_keep = 0.421
+2026-10-20T13:17:00.538411847Z srv  get_availabl: updating prompt cache
+2026-10-20T13:17:00.538413293Z srv   prompt_save:  - saving prompt with length 95, total state size = 1.115 MiB (draft: 0.000 MiB)
+2026-10-20T13:17:00.538426885Z srv         alloc:  - prompt is already in the cache, skipping
+2026-10-20T13:17:00.538428883Z srv          load:  - looking for better prompt, base f_keep = 0.421, f_sim = 1.000
+2026-10-20T13:17:00.538429938Z srv          load:    - prompt with length     103, lcp =      40, f_keep = 0.388, f_sim = 1.000
+2026-10-20T13:17:00.538430950Z srv          load:    - prompt with length      95, lcp =      40, f_keep = 0.421, f_sim = 1.000
+2026-10-20T13:17:00.538432183Z srv        update:  - cache state: 2 prompts, 2.324 MiB (limits: 8192.000 MiB, 1024 tokens, 698024 est)
+2026-10-20T13:17:00.538432982Z srv        update:    - prompt 0x15790320:     103 tokens, checkpoints:  0,     1.209 MiB
+2026-10-20T13:17:00.538433813Z srv        update:    - prompt 0x7fec50006040:      95 tokens, checkpoints:  0,     1.115 MiB
+2026-10-20T13:17:00.538452624Z srv  get_availabl: prompt cache update took 0.01 ms
+2026-10-20T13:17:00.538465087Z slot launch_slot_: id  0 | task -1 | sampler chain: logits -> ?penalties -> ?dry -> ?top-n-sigma -> top-k -> ?typical -> top-p -> ?min-p -> ?xtc -> temp-ext -> dist 
+2026-10-20T13:17:00.538466448Z slot launch_slot_: id  0 | task -1 | sampler params: 
+2026-10-20T13:17:00.538467389Z 	repeat_last_n = 64, repeat_penalty = 1.000, frequency_penalty = 0.000, presence_penalty = 0.000
+2026-10-20T13:17:00.538468311Z 	dry_multiplier = 0.000, dry_base = 1.750, dry_allowed_length = 2, dry_penalty_last_n = 64
+2026-10-20T13:17:00.538469646Z 	top_k = 40, top_p = 0.900, min_p = 0.000, xtc_probability = 0.000, xtc_threshold = 0.100, typical_p = 1.000, top_n_sigma = -1.000, temp = 0.000
+2026-10-20T13:17:00.538470449Z 	mirostat = 0, mirostat_lr = 0.100, mirostat_ent = 5.000, adaptive_target = -1.000, adaptive_decay = 0.900
+2026-10-20T13:17:00.538471244Z slot launch_slot_: id  0 | task 350 | processing task, is_child = 0
+2026-10-20T13:17:00.538472013Z slot   operator(): id  0 | task 350 | new prompt, n_ctx_slot = 1024, n_keep = 4, task.n_tokens = 40
+2026-10-20T13:17:00.538472795Z slot   operator(): id  0 | task 350 | need to evaluate at least 1 token for each active slot (n_past = 40, task.n_tokens() = 40)
+2026-10-20T13:17:00.538473552Z slot   operator(): id  0 | task 350 | n_past was set to 39
+2026-10-20T13:17:00.538474322Z slot   operator(): id  0 | task 350 | cached n_tokens = 39, memory_seq_rm [39, end)
+2026-10-20T13:17:00.538475109Z slot init_sampler: id  0 | task 350 | init sampler, took 0.00 ms, tokens: text = 40, total = 40
+2026-10-20T13:17:01.555695264Z slot print_timing: id  0 | task 350 | prompt eval time =      17.19 ms /     1 tokens (   17.19 ms per token,    58.16 tokens per second)
+2026-10-20T13:17:01.555718599Z slot print_timing: id  0 | task 350 |        eval time =     999.90 ms /    56 tokens (   18.18 ms per token,    55.01 tokens per second)
+2026-10-20T13:17:01.555724406Z slot print_timing: id  0 | task 350 |       total time =    1017.10 ms /    57 tokens
+2026-10-20T13:17:01.555725803Z slot print_timing: id  0 | task 350 |    graphs reused =        399
+2026-10-20T13:17:01.555726551Z slot      release: id  0 | task 350 | stop processing: n_tokens = 95, truncated = 0
+2026-10-20T13:17:01.555727680Z srv  update_slots: all slots are idle
+2026-10-20T13:17:01.556605487Z [GIN] 2026/10/20 - 13:17:01 | 200 |  1.020348921s |      10.244.0.1 | POST     "/api/generate"
+2026-10-20T13:17:03.504285510Z [GIN] 2026/10/20 - 13:17:03 | 200 |      417.19µs |      10.244.0.1 | GET      "/api/tags"
+2026-10-20T13:17:08.504394963Z [GIN] 2026/10/20 - 13:17:08 | 200 |     408.583µs |      10.244.0.1 | GET      "/api/tags"
+2026-10-20T13:17:09.288381905Z srv  server_strea: conv_id= (empty=1)
+2026-10-20T13:17:09.288625379Z slot get_availabl: id  0 | task -1 |  - checking sim = 1.000 (40/40) > 0.100
+2026-10-20T13:17:09.288636223Z slot get_availabl: id  0 | task -1 | selected slot by LCP similarity, f_sim_best = 1.000 (> 0.100 thold), f_keep = 0.421
+2026-10-20T13:17:09.288638244Z srv  get_availabl: updating prompt cache
+2026-10-20T13:17:09.288639680Z srv   prompt_save:  - saving prompt with length 95, total state size = 1.115 MiB (draft: 0.000 MiB)
+2026-10-20T13:17:09.288641680Z srv         alloc:  - prompt is already in the cache, skipping
+2026-10-20T13:17:09.288642719Z srv          load:  - looking for better prompt, base f_keep = 0.421, f_sim = 1.000
+2026-10-20T13:17:09.288643512Z srv          load:    - prompt with length     103, lcp =      40, f_keep = 0.388, f_sim = 1.000
+2026-10-20T13:17:09.288644295Z srv          load:    - prompt with length      95, lcp =      40, f_keep = 0.421, f_sim = 1.000
+2026-10-20T13:17:09.288645157Z srv        update:  - cache state: 2 prompts, 2.324 MiB (limits: 8192.000 MiB, 1024 tokens, 698024 est)
+2026-10-20T13:17:09.288653742Z srv        update:    - prompt 0x15790320:     103 tokens, checkpoints:  0,     1.209 MiB
+2026-10-20T13:17:09.288654544Z srv        update:    - prompt 0x7fec50006040:      95 tokens, checkpoints:  0,     1.115 MiB
+2026-10-20T13:17:09.288655431Z srv  get_availabl: prompt cache update took 0.02 ms
+2026-10-20T13:17:09.288699407Z slot launch_slot_: id  0 | task -1 | sampler chain: logits -> ?penalties -> ?dry -> ?top-n-sigma -> top-k -> ?typical -> top-p -> ?min-p -> ?xtc -> temp-ext -> dist 
+2026-10-20T13:17:09.288702400Z slot launch_slot_: id  0 | task -1 | sampler params: 
+2026-10-20T13:17:09.288703350Z 	repeat_last_n = 64, repeat_penalty = 1.000, frequency_penalty = 0.000, presence_penalty = 0.000
+2026-10-20T13:17:09.288704223Z 	dry_multiplier = 0.000, dry_base = 1.750, dry_allowed_length = 2, dry_penalty_last_n = 64
+2026-10-20T13:17:09.288706446Z 	top_k = 40, top_p = 0.900, min_p = 0.000, xtc_probability = 0.000, xtc_threshold = 0.100, typical_p = 1.000, top_n_sigma = -1.000, temp = 0.000
+2026-10-20T13:17:09.288707256Z 	mirostat = 0, mirostat_lr = 0.100, mirostat_ent = 5.000, adaptive_target = -1.000, adaptive_decay = 0.900
+2026-10-20T13:17:09.288708055Z slot launch_slot_: id  0 | task 407 | processing task, is_child = 0
+2026-10-20T13:17:09.288708808Z slot   operator(): id  0 | task 407 | new prompt, n_ctx_slot = 1024, n_keep = 4, task.n_tokens = 40
+2026-10-20T13:17:09.288709613Z slot   operator(): id  0 | task 407 | need to evaluate at least 1 token for each active slot (n_past = 40, task.n_tokens() = 40)
+2026-10-20T13:17:09.288710388Z slot   operator(): id  0 | task 407 | n_past was set to 39
+2026-10-20T13:17:09.288711275Z slot   operator(): id  0 | task 407 | cached n_tokens = 39, memory_seq_rm [39, end)
+2026-10-20T13:17:09.288712087Z slot init_sampler: id  0 | task 407 | init sampler, took 0.01 ms, tokens: text = 40, total = 40
+2026-10-20T13:17:10.309576629Z slot print_timing: id  0 | task 407 | prompt eval time =      19.15 ms /     1 tokens (   19.15 ms per token,    52.22 tokens per second)
+2026-10-20T13:17:10.309596630Z slot print_timing: id  0 | task 407 |        eval time =    1001.66 ms /    56 tokens (   18.21 ms per token,    54.91 tokens per second)
+2026-10-20T13:17:10.309597934Z slot print_timing: id  0 | task 407 |       total time =    1020.81 ms /    57 tokens
+2026-10-20T13:17:10.309599078Z slot print_timing: id  0 | task 407 |    graphs reused =        455
+2026-10-20T13:17:10.309599875Z slot      release: id  0 | task 407 | stop processing: n_tokens = 95, truncated = 0
+2026-10-20T13:17:10.309601139Z srv  update_slots: all slots are idle
+2026-10-20T13:17:10.310435563Z [GIN] 2026/10/20 - 13:17:10 | 200 |   1.02388483s |      10.244.0.1 | POST     "/api/generate"
+2026-10-20T13:17:13.502733121Z [GIN] 2026/10/20 - 13:17:13 | 200 |     400.034µs |      10.244.0.1 | GET      "/api/tags"
+2026-10-20T13:17:18.502393595Z [GIN] 2026/10/20 - 13:17:18 | 200 |      370.67µs |      10.244.0.1 | GET      "/api/tags"

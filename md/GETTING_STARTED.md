@@ -4,7 +4,7 @@ This guide explains how to prepare and use the local CPU prototype on Windows. R
 
 The section numbers group topics. They are not the project schedule. Check [STATUS.md](STATUS.md) for the current state and active plan, and [ROADMAP.md](ROADMAP.md) for the order of work. Set up observation before collecting pilot results, even though its reference section appears later in this guide.
 
-Saved checks do not prove that Docker or the cluster is running today. Planned sections below do not mean that HPA or the main comparison has been implemented. Pilot analysis is implemented; current completion evidence is in STATUS.md.
+Saved checks do not prove that Docker or the cluster is running today. The preliminary HPA check is implemented; the repeated main comparison remains planned. Pilot analysis is implemented; current completion evidence is in STATUS.md.
 
 ## What the project will do
 
@@ -243,11 +243,19 @@ Use the active [Measurements and pilot load tests plan](plans/measurements-and-p
 
 ## 9. Test three replicas manually
 
-This step is planned. Follow [Manual replica comparison](plans/scaling-experiment.md#1-manual-replica-comparison) after the pilot settings are fixed. That section owns the scale commands, warmup checks and traffic-distribution checks. Completion criteria are in [roadmap step 18](ROADMAP.md#18-test-three-manually-configured-replicas).
+A preliminary three-copy check is implemented and has [saved results](../results/fixed-replicas/check-2026-10-20-series1/README.md). Follow [Manual replica comparison](plans/scaling-experiment.md#1-manual-replica-comparison) for commands, individual warmups and Service distribution checks. The repeated main comparison still needs the agreed protocol. That section owns the scale commands, warmup checks and traffic-distribution checks. Completion criteria are in [roadmap step 18](ROADMAP.md#18-test-three-manually-configured-replicas).
 
 ## 10. Configure automatic scaling
 
-This step is planned. Follow [HPA setup and checks](plans/scaling-experiment.md#2-hpa-setup-and-checks) for the proposed configuration and verification procedure. No implemented `deploy/hpa.yaml` is implied by this link. See [roadmap step 19](ROADMAP.md#19-configure-and-verify-automatic-scaling-from-one-to-three-replicas) for completion criteria.
+The preliminary HPA mode uses [deploy/hpa.yaml](../deploy/hpa.yaml): 1-3 copies, CPU target 60%, and a 300-second downscale stabilization window. Use a current Service tunnel URL and a new run directory:
+
+```powershell
+python .\bench\run_pilot.py --base-url "$env:BASE_URL" --mode autoscaling --profile burst --low-rate 2 --rate 8 --run-dir results/autoscaling/NEW/burst-1
+```
+
+The launcher resets to one copy, observes idle for 60 seconds, warms that initial model, applies HPA and waits for two numeric CPU/ScalingActive samples at one ready copy. It then runs the shared 782-second burst and records another 300 seconds without new requests. New copies are not separately warmed. Per-pod logs stream to disk before a pod can disappear. At completion or failure, it stops collection, removes this HPA and restores one copy; `recovery.json` records that restoration separately.
+
+Omit `--duration` and `--replicas` in this mode. A failed response threshold can still have valid measurements. Missing log coverage, an API failure, a restart or changed configuration stops the run and retains partial data. Follow the [active plan](plans/scaling-experiment.md#2-preliminary-hpa-implementation-and-check) for acceptance criteria. The [saved preliminary check](../results/autoscaling/check-2026-10-20-series1/README.md) verifies growth and reduction; the repeated main comparison remains separate.
 
 ## 11. Save cluster observations
 
@@ -261,7 +269,7 @@ This step is planned. [Main run procedure](plans/scaling-experiment.md#3-main-ru
 
 ## 13. Turn measurements into findings
 
-[bench/analyze.py](../bench/analyze.py) generates pilot CSV/JSON summaries and aligned PNG/SVG plots from saved raw evidence. It refuses an existing output directory. The [pilot report](../results/pilot/discovery-2026-10-18-series1/README.md#reproduce-and-inspect) includes a reproduction command; [Main result analysis](plans/scaling-experiment.md#4-main-result-analysis) describes the remaining extension for multiple replica modes. The observation schema remains in [OBSERVATION.md](OBSERVATION.md).
+[bench/analyze.py](../bench/analyze.py) generates per-run CSV/JSON summaries and aligned PNG/SVG plots for saved pilot, preliminary fixed-three and autoscaling data. It refuses an existing output directory. The [pilot report](../results/pilot/discovery-2026-10-18-series1/README.md#reproduce-and-inspect) includes a reproduction command; [Main result analysis](plans/scaling-experiment.md#4-main-result-analysis) describes the remaining repeated comparison and reporting against agreed targets. The observation schema remains in [OBSERVATION.md](OBSERVATION.md).
 
 CSV/JSON-only analysis uses Python's standard library. Plots additionally require the optional Matplotlib version declared in [pyproject.toml](../pyproject.toml):
 
@@ -277,7 +285,11 @@ $analysisDir = Read-Host 'New analysis output directory'
 python .\bench\analyze.py "$runDir" --output-dir "$analysisDir"
 ```
 
-Add `--no-plots` when only CSV/JSON is required. These commands analyze saved data; they do not generate a new load test.
+Add `--no-plots` when only CSV/JSON is required. The analysis commands read saved data; they do not generate a new load test.
+
+Run `python -m unittest discover -s bench` from the project root. Numeric and lifecycle analysis tests do not require Matplotlib. Dedicated plot tests report a skip when this optional dependency is absent; install the version above to include it. Tests that execute real k6 report a skip when k6 is missing from PATH; collection and error-handling unit tests still run. The verified project-environment command is `.\.venv\Scripts\python.exe -m unittest discover -s bench`. If that environment has no pip, install the plot dependency from a Python with pip using `python -m pip --python .venv install "matplotlib>=3.10,<4"`. These tests use temporary files and local HTTP fixtures, not the live cluster.
+
+The launcher accepts an optional `--slo-ms VALUE` to check p95 successful-response latency in milliseconds and saves `slo_ms` in metadata. It deliberately ignores ambient `SLO_MS` and `K6_*` overrides. Omit the flag to leave the latency threshold unset. Existing k6 thresholds are at most 1% inference errors and zero dropped iterations; these are preliminary operating settings, not an agreed main protocol. Threshold failure is separate from collection validity.
 
 ## Troubleshooting
 

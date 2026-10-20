@@ -1,0 +1,42 @@
+{
+  "service-check": {
+    "valid_with_current_validator": true,
+    "valid_at_collection": true,
+    "counts": {
+      "started": 25,
+      "completed": 25,
+      "successful": 25,
+      "failed": 0,
+      "unfinished": 0,
+      "dropped": 0
+    },
+    "independent_p95_ms": 1088.6,
+    "independent_mean_ms": 1050.2,
+    "matches_k6_and_saved_analysis": true,
+    "archived_inputs_match_recorded_hashes": true,
+    "current_code_different_from_archived_inputs": [
+      "pilot_records.py",
+      "fixed_replicas.py"
+    ]
+  },
+  "peak-1": {
+    "valid_with_current_validator": true,
+    "valid_at_collection": true,
+    "counts": {
+      "started": 241,
+      "completed": 241,
+      "successful": 241,
+      "failed": 0,
+      "unfinished": 0,
+      "dropped": 0
+    },
+    "independent_p95_ms": 1109.0,
+    "independent_mean_ms": 1055.9004149377593,
+    "matches_k6_and_saved_analysis": true,
+    "archived_inputs_match_recorded_hashes": true,
+    "current_code_different_from_archived_inputs": [
+      "pilot_records.py",
+      "fixed_replicas.py"
+    ]
+  }
+}

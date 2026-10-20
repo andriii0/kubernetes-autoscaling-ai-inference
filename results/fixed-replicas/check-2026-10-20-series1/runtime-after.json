@@ -1,0 +1,8 @@
+{
+  "models": {
+    "ollama-7db4f544df-fwc9h": "NAME            ID              SIZE      PROCESSOR    CONTEXT    UNTIL   \nqwen2.5:0.5b    a8b0c5157701    443 MB    100% CPU     1024       Forever    \n",
+    "ollama-7db4f544df-rkglm": "NAME            ID              SIZE      PROCESSOR    CONTEXT    UNTIL   \nqwen2.5:0.5b    a8b0c5157701    443 MB    100% CPU     1024       Forever    \n",
+    "ollama-7db4f544df-zw88n": "NAME            ID              SIZE      PROCESSOR    CONTEXT    UNTIL   \nqwen2.5:0.5b    a8b0c5157701    443 MB    100% CPU     1024       Forever    \n"
+  },
+  "docker_quota_nanocpus_bytes": "8000000000 12884901888"
+}

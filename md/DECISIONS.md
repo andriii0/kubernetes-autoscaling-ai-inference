@@ -32,7 +32,9 @@ Accepted provisionally for the pilot, which has now completed, based on the chec
 
 ## 8. Keep the three-mode scaling comparison as planned work
 
-Selected, not implemented: fixed one replica, fixed three replicas and CPU-based HPA bounded to 1-3, all on one physical computer. Detailed policy alternatives: [Notion section 5](https://app.notion.com/p/3fdc7c697bfd81baaaa7f197548b7c5a). The [scaling experiment plan](plans/scaling-experiment.md#2-hpa-setup-and-checks) owns the proposed HPA configuration; these are starting settings, not frozen optima. HPA behavior and an autoscaling advantage remain unmeasured; freeze the experiment protocol after the pilot.
+Selected: fixed one replica, fixed three replicas and CPU-based HPA bounded to 1-3, all on one physical computer. The [fixed-three check](../results/fixed-replicas/check-2026-10-20-series1/README.md) and [HPA mechanism check](../results/autoscaling/check-2026-10-20-series1/README.md) have saved preliminary evidence. The repeated main comparison remains unfinished.
+
+Use [deploy/hpa.yaml](../deploy/hpa.yaml) for the preliminary policy: CPU utilization target 60% of requests and a 300-second downscale stabilization window. Default scale-up behavior is retained. These are starting settings, not measured optima. The [scaling plan](plans/scaling-experiment.md#2-hpa-setup-and-checks) owns execution; detailed alternatives remain in [Notion section 5](https://app.notion.com/p/3fdc7c697bfd81baaaa7f197548b7c5a). The first run verifies reactions but does not establish an autoscaling advantage. Freeze the main protocol before repeated comparisons.
 
 ## 9. Keep one project documentation tree
 
@@ -42,4 +44,4 @@ The repository is private. Keep weights, caches and credentials out of Git. Pres
 
 ## 10. Distinguish server readiness from a warm model
 
-Status: accepted for the first scaling experiment. The existing `/api/tags` probe confirms that the Ollama API can accept traffic; it does not certify that the model is resident or has generated an answer. Warm every initial replica with a successful generation before the measured interval. New replicas created during autoscaling receive requests while cold, and their model loading is part of the measured scaling reaction. Record Kubernetes Ready transitions and the first successful generation separately; never call the Ready transition the model-ready time. A future model-warming startup/readiness gate would be a different protocol and must be evaluated separately. The deployment probe is unchanged.
+Status: accepted for the first scaling experiment. The existing `/api/tags` probe confirms that the Ollama API can accept traffic; it does not certify that the model is resident or has generated an answer. Warm every initial replica with a successful generation before the measured interval. New replicas created during autoscaling receive requests while cold, and their model loading is part of the measured scaling reaction. Record Kubernetes Ready transitions separately from response observations. For autoscaled pods, native logs show the first observed HTTP response, not a verified first successful generation; never call the Ready transition the model-ready time. A future model-warming startup/readiness gate would be a different protocol and must be evaluated separately. The deployment probe is unchanged.

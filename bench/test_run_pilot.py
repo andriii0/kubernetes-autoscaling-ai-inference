@@ -72,8 +72,39 @@ class PilotLauncherTests(unittest.TestCase):
         self.args[1] = f"http://127.0.0.1:{server.server_port}"
         return captured
 
+    def test_explicit_slo_is_passed_and_ambient_overrides_stay_blocked(self):
+        args = argparse.Namespace(base_url='http://localhost:1', rate=2, duration='1s', slo_ms=None)
+        with patch.dict(os.environ, {'SLO_MS': '1', 'K6_DURATION': '9h'}):
+            environment = run_pilot.load_environment(args, 'test-run')
+            self.assertNotIn('SLO_MS', environment)
+            self.assertNotIn('K6_DURATION', environment)
+            args.slo_ms = 3000
+            self.assertEqual(run_pilot.load_environment(args, 'test-run')['SLO_MS'], '3000')
+
+    def test_invalid_slo_is_rejected_before_creating_run_or_observer(self):
+        with patch.object(run_pilot, 'Observer') as observer:
+            for value in ('0', '-1', 'nan', 'inf', 'text'):
+                with self.subTest(value=value), self.assertRaises(SystemExit):
+                    run_pilot.main(self.args + ['--slo-ms', value])
+                self.assertFalse(self.folder.exists())
+            observer.assert_not_called()
+
+    @unittest.skipUnless(shutil.which('k6'), 'k6 is required for this integration check')
+    def test_explicit_latency_threshold_fails_without_invalidating_collection(self):
+        captured = self.server()
+        self.args += ['--slo-ms', '0.000001']
+        self.assert_run_exit(99)
+        metadata = self.metadata()
+        self.assertEqual(metadata['slo_ms'], 0.000001)
+        self.assertTrue(metadata['collection_valid'], metadata)
+        self.assertEqual(metadata['counts']['failed'], 0)
+        self.assertGreater(len(captured), 1)
+        summary = json.loads((self.folder / 'summary.json').read_text())
+        self.assertGreater(summary['metrics']['successful_latency_ms']['p(95)'], metadata['slo_ms'])
+
     def invoke(self):
-        with patch.object(run_pilot, "Observer", FakeObserver), patch.object(run_pilot, "versions", self.fake_versions):
+        with patch.object(run_pilot, "Observer", FakeObserver), patch.object(run_pilot, "versions", self.fake_versions), \
+             patch.object(run_pilot.shutil, "which", return_value=shutil.which('k6') or 'test-k6'):
             return run_pilot.main(self.args)
 
     def assert_run_exit(self, expected):
@@ -86,6 +117,7 @@ class PilotLauncherTests(unittest.TestCase):
             self.fail(f"exit {actual}, expected {expected}; evidence: {preserved}\n"
                       + json.dumps(diagnostics, indent=2))
 
+    @unittest.skipUnless(shutil.which('k6'), 'k6 is required for this integration check')
     def test_real_k6_full_lifecycle_and_complete_evidence(self):
         captured = self.server()
         with patch.dict(os.environ, {"K6_ITERATIONS": "1000", "K6_DURATION": "3m", "K6_OUT": "unexpected", "PROFILE": "burst", "SLO_MS": "1"}):
@@ -107,6 +139,7 @@ class PilotLauncherTests(unittest.TestCase):
         self.assertIsNotNone(metadata["load_window"])
         self.assertFalse(any(t.name == "pilot-observer" for t in threading.enumerate()))
 
+    @unittest.skipUnless(shutil.which('k6'), 'k6 is required for this integration check')
     def test_threshold_failure_keeps_valid_measured_evidence(self):
         self.server(fail_after_warmup=True)
         self.assert_run_exit(99)
@@ -214,6 +247,7 @@ class PilotLauncherTests(unittest.TestCase):
         self.assertEqual(metadata["k6_exit_code"], -15)
         self.assertIn("load_process_finished_at_utc", metadata)
 
+    @unittest.skipUnless(shutil.which('k6'), 'k6 is required for this integration check')
     def test_failed_version_diagnostics_do_not_stop_real_load(self):
         self.server()
         with patch.object(self, "fake_versions", return_value={"k6": {"exit_code": 2, "stderr": "version command failed"}}):
@@ -223,6 +257,7 @@ class PilotLauncherTests(unittest.TestCase):
         self.assertTrue(self.metadata()["collection_valid"])
         self.assertTrue(self.metadata()["warnings"])
 
+    @unittest.skipUnless(shutil.which('k6'), 'k6 is required for this integration check')
     def test_scheduler_pause_exposes_test_only_interval_without_weakening_real_rule(self):
         self.server()
         original_run = run_pilot.Collection._run

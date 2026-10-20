@@ -203,11 +203,11 @@ class Observer:
                          and r["memory_working_set_bytes"] is not None}
                 if expected - found:
                     sample["errors"].append({"source": source,
-                        "message": f"Missing CPU/memory for running containers: {sorted(expected - found)}"})
+                        "category": "missing_resource", "message": f"Missing CPU/memory for running containers: {sorted(expected - found)}"})
                 node_records = [r for r in records if r["scope"] == "node"]
                 if not node_records or any(r["cpu_usage_seconds_total"] is None or
                                           r["memory_working_set_bytes"] is None for r in node_records):
-                    sample["errors"].append({"source": source, "message": "Missing node CPU/memory"})
+                    sample["errors"].append({"source": source, "category": "missing_resource", "message": "Missing node CPU/memory"})
         # A failed sample clears its counters: do not bridge observation gaps.
         self.previous = current
         sample["collection_finished_at"] = utc_now()

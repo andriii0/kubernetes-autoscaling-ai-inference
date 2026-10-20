@@ -31,6 +31,7 @@
 - `md/OBSERVATION.md`: measurement format, units and collection limitations.
 - `docs/README.md`: index and editing ownership for Fontys documents and exports. Preserve the existing Word research structure unless explicitly asked to change it.
 - Detailed technology research is maintained in [Notion](https://app.notion.com/p/3fdc7c697bfd81baaaa7f197548b7c5a); keep accepted choices, constraints and source links in `md/DECISIONS.md`. Do not recreate a parallel local research document.
+- Important evidence documents belong in Notion. Give each document one topic and link to related documents instead of embedding them. Use short sentences and simple English, like the Technology Decisions page. Keep code, raw measurements and saved run settings in Git. The [pilot results](https://app.notion.com/p/3fec7c697bfd81738d08d5527424af20) explain the completed pilot.
 - `md/meeting/`: meeting notes and feedback, clearly attributed to their sources.
 - Keep the root `README.md` as the entry point. Result-specific READMEs stay alongside their evidence in `results/`.
 - Keep measured values and detailed validation outcomes with their run evidence. Status, decisions and plans should link to those reports and retain only the conclusion or operating rule they need.

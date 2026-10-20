@@ -1,12 +1,12 @@
 # Project Roadmap
 
-Updated: 2026-10-19. Latest saved pilot: 2026-10-18 UTC.
+Updated: 2026-10-20. Latest saved preliminary HPA check: 2026-10-20 UTC.
 
 ## Goal and current position
 
 Evaluate how automatic scaling of AI inference handles changing request load while keeping response time acceptable. Compare one fixed replica, three fixed replicas, and automatic scaling between one and three replicas. A replica is one running copy of the model server.
 
-The local prototype, short load check, and continuous cluster/resource observer are complete. Direct kubelet resource measurements were verified with saved data on 2026-10-16. Technology decisions are documented. Request-level records and integrated collection now have offline tests and a saved live low-load check on 2026-10-18. Minimal pilot analysis and the increasing-load pilot are complete, including two five-minute repetitions per selected rate. The next work is freezing the numeric experiment protocol. Autoscaling is not implemented yet.
+The local prototype, short load check, and continuous cluster/resource observer are complete. Direct kubelet resource measurements were verified with saved data on 2026-10-16. Technology decisions are documented. Request-level records and integrated collection now have offline tests and a saved live low-load check on 2026-10-18. Minimal pilot analysis and the increasing-load pilot are complete, including two five-minute repetitions per selected rate. The next work is freezing the numeric experiment protocol. A [preliminary HPA check](../results/autoscaling/check-2026-10-20-series1/README.md) now verifies growth and reduction. The main repeated comparison remains unfinished.
 
 Completed steps refer to saved evidence, not a claim that the cluster is running today. All replicas use the CPU of one physical computer. Setup commands are in [GETTING_STARTED.md](GETTING_STARTED.md). Detailed pilot and scaling procedures live in the linked task plans; guide section numbers are topic references, not the order of project work.
 
@@ -32,7 +32,7 @@ Completed steps refer to saved evidence, not a claim that the cluster is running
 - [x] 16. Run a pilot with increasing load on one replica.
 - [ ] 17. Record and freeze the experiment settings.
 - [ ] 18. Test three manually configured replicas.
-- [ ] 19. Configure and verify automatic scaling from one to three replicas.
+- [x] 19. Configure and verify automatic scaling from one to three replicas.
 - [ ] 20. Prepare the main experiment matrix and run procedure.
 - [ ] 21. Execute and save the main experiment series.
 - [ ] 22. Process the measurements and build tables and charts.
@@ -141,9 +141,9 @@ Run one minute at two requests per ten seconds against one warm replica. Exclude
 
 **Purpose:** make the remaining choices explicit before the main experiment.
 
-Compare alternatives for the model, model server, CPU versus GPU execution, load generator, resource measurements, and scaling policy. Keep concise accepted decisions in `md/DECISIONS.md` and detailed technology research in Notion; finalize numerical settings in `md/plans/experiment-protocol.md` after the pilot in step 17.
+Compare alternatives for the model, model server, CPU versus GPU execution, load generator, resource measurements, and scaling policy. Keep concise accepted decisions in `md/DECISIONS.md` and detailed technology research in Notion; finalize numerical settings in a separate Notion experiment protocol after the pilot in step 17.
 
-**Completion evidence:** [Technology Decisions in Notion](https://app.notion.com/p/3fdc7c697bfd81baaaa7f197548b7c5a), completed on 2026-10-18, explains Qwen, Ollama, CPU, k6 and planned CPU-based HPA with requirements, alternatives, reasons, official sources and reconsideration criteria. The measurement decision and its verification remain in [DECISIONS.md](DECISIONS.md#6-separate-the-scaling-signal-from-resource-measurements). The pilot rates are now measured in step 16; comparative scaling performance and HPA behavior remain unmeasured.
+**Completion evidence:** [Technology Decisions in Notion](https://app.notion.com/p/3fdc7c697bfd81baaaa7f197548b7c5a), completed on 2026-10-18, explains Qwen, Ollama, CPU, k6 and planned CPU-based HPA with requirements, alternatives, reasons, official sources and reconsideration criteria. The measurement decision and its verification remain in [DECISIONS.md](DECISIONS.md#6-separate-the-scaling-signal-from-resource-measurements). The pilot rates are now measured in step 16; the preliminary HPA check now records growth and reduction; repeated comparative scaling performance remains unmeasured.
 
 ### 14. Implement continuous cluster observation
 
@@ -175,7 +175,7 @@ First verify Docker, the cluster, the application address, exactly one ready rep
 
 **Purpose:** keep the main comparison consistent across modes.
 
-Complete `md/plans/experiment-protocol.md` with the model, prompt, generation settings, resource limits, low and peak rates, scenario durations, warmup procedure, acceptable error rate, and p95 response-time target. Explain why the target is appropriate for the task.
+Write a separate experiment protocol in Notion with the model, prompt, generation settings, resource limits, low and peak rates, scenario durations, warmup procedure, acceptable error rate, and p95 response-time target. Explain why the target is appropriate for the task.
 
 **Done when:** settings are documented before the main series. Do not silently change them between modes or after seeing an inconvenient result; document any revised protocol and the affected runs.
 
@@ -185,15 +185,19 @@ Complete `md/plans/experiment-protocol.md` with the model, prompt, generation se
 
 Follow the [manual replica comparison procedure](plans/scaling-experiment.md#1-manual-replica-comparison) to start three replicas, warm each model, verify traffic reaches all three, and repeat the peak probe. If performance does not improve, inspect traffic distribution and available resources.
 
+**Progress:** [preliminary three-copy preparation and peak check](../results/fixed-replicas/check-2026-10-20-series1/README.md) are saved. The agreed main protocol and repeated comparison remain unfinished.
+
 **Done when:** all replicas are verified and both the one-replica and three-replica probe results are saved. A performance improvement is an outcome to measure, not a completion requirement.
 
 ### 19. Configure and verify automatic scaling from one to three replicas
 
 **Purpose:** let Kubernetes change replica count in response to observed CPU load.
 
-Create `deploy/hpa.yaml` following the [HPA proposal and verification procedure](plans/scaling-experiment.md#2-hpa-setup-and-checks). HPA, the Horizontal Pod Autoscaler, changes application replica count using observed metrics. Verify that it receives CPU readings, then run a burst probe and record replica changes and response times during load growth and decline. Account for the configured wait before scaling down.
+Use `deploy/hpa.yaml` and the [HPA configuration and verification procedure](plans/scaling-experiment.md#2-hpa-setup-and-checks). HPA, the Horizontal Pod Autoscaler, changes application replica count using observed metrics. Verify that it receives CPU readings, then run a burst probe and record replica changes and response times during load growth and decline. Account for the configured wait before scaling down.
 
 **Done when:** the scaling reaction is recorded and explained, including any failure to add or remove replicas. Missing input metrics must be fixed before treating a run as autoscaling evidence.
+
+**Completion evidence:** the [preliminary HPA check](../results/autoscaling/check-2026-10-20-series1/README.md) saves the CPU input, 1 -> 2 -> 3 -> 1 transitions, per-pod activity and complete request reconciliation. This completes the mechanism check, not the repeated main experiment.
 
 ### 20. Prepare the main experiment matrix and run procedure
 
@@ -203,7 +207,7 @@ Use three modes: fixed one replica, fixed three replicas, and automatic scaling 
 
 Exclude initial warmup from measurements. In automatic mode, loading models in newly created replicas during a run is part of the measured scaling reaction.
 
-**Done when:** the matrix, preparation procedure, saved metadata, and handling of invalid runs are recorded in `md/plans/experiment-protocol.md`.
+**Done when:** the matrix, preparation procedure, saved metadata, and handling of invalid runs are recorded in the Notion experiment protocol. Link the execution instructions to it.
 
 ### 21. Execute and save the main experiment series
 
@@ -225,7 +229,7 @@ Extend the implemented [pilot analysis](plans/measurements-and-pilot.md#5-pilot-
 
 **Purpose:** answer the research question using measured results.
 
-Write `report/results.md`. Compare response times, errors, scaling reaction, resource use, and variation between repetitions. Explain the limits of one physical computer, the small model, the repeated short prompt, possible caching, and measurement sources.
+Write a separate findings document in Notion and link to the supporting runs. Compare response times, errors, scaling reaction, resource use, and variation between repetitions. Explain the limits of one physical computer, the small model, the repeated short prompt, possible caching, and measurement sources.
 
 **Done when:** conclusions link to the supporting runs and state when autoscaling helps, does not help, or cannot be judged from the evidence. The project does not require a positive result for autoscaling.
 

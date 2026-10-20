@@ -27,13 +27,9 @@ const load = __ENV.PROFILE === 'burst'
       ...common,
       executor: 'ramping-arrival-rate',
       startRate: low,
-      stages: [
-        { duration: '2m', target: low },
-        { duration: '1s', target: peak },
-        { duration: '5m', target: peak },
-        { duration: '1s', target: low },
-        { duration: '6m', target: low },
-      ],
+      stages: workload.burst_stages.map(stage => ({
+        duration: `${stage.seconds}s`, target: stage.target === 'low' ? low : peak,
+      })),
     }
   : { ...common, executor: 'constant-arrival-rate', rate: peak, duration: __ENV.DURATION || '13m2s' };
 

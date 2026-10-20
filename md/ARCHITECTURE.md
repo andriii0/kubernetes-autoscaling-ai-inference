@@ -1,12 +1,12 @@
 # Architecture
 
-Updated: 2026-10-19. This describes the implemented local prototype; autoscaling remains planned.
+Updated: 2026-10-20. This describes the implemented local prototype; preliminary autoscaling collection and one live mechanism check are verified.
 
 ## Runtime flow
 
 1. `bench/inference.js` runs in k6 on Windows. It schedules calls at a configured rate per 10 seconds and posts a non-streaming request to `/api/generate`.
 2. A Minikube Service tunnel exposes the Ollama Service at a Windows localhost address. The port can change when the tunnel restarts.
-3. The Service in namespace `inference` routes requests to pods labelled `app=ollama`. `deploy/ollama.yaml` currently requests one replica.
+3. The Service in namespace `inference` routes requests to pods labelled `app=ollama`. `deploy/ollama.yaml` defaults to one replica; a preliminary check manually scaled it to three.
 4. The pod runs Ollama from `ai-inference:0.1` with bundled `qwen2.5:0.5b` weights. Ollama loads the model into its own process memory and generates the response using CPU.
 5. k6 checks the completed response and records full-response duration and errors. Token counts and model-load durations are recorded only when valid, with separate availability rates. Scheduled work the generator cannot start is counted separately as dropped iterations.
 
@@ -18,9 +18,11 @@ The cluster is the existing Docker-backed Minikube profile `ai-lab`, configured 
 |---|---|---|
 | Model image | `app/Dockerfile` and local ignored `app/models/` | Pin the Ollama base image and bundle downloaded weights |
 | Application deployment | `deploy/ollama.yaml` | Declare the Deployment, resource settings, readiness probe and NodePort Service |
-| Load generator | `bench/inference.js` | Generate steady/burst traffic and collect request metrics; short probes and five-minute one-replica steady confirmations have run; burst/multimode verification is pending |
+| Load generator | `bench/inference.js` | Generate steady/burst traffic and collect request metrics; short probes and five-minute one-replica steady confirmations have run; one preliminary autoscaling burst is saved; the repeated main matrix is pending |
 | Workload settings | `bench/workload.json` | Share the exact request payload and k6 execution settings between warmup and measured load |
-| Pilot launcher | `bench/run_pilot.py` | Exclusively create a run folder; validate one-replica state; orchestrate idle observation, warmup, k6, post-load observation and reconciliation; retain partial failures |
+| Pilot launcher | `bench/run_pilot.py` | Exclusively create a run folder; validate fixed one/three-copy state or use the autoscaling lifecycle; orchestrate idle observation, warmup, k6, post-load observation and reconciliation; retain partial failures |
+| Autoscaling lifecycle | `bench/autoscaling.py` and `deploy/hpa.yaml` | Reset/warm the initial copy, attach HPA, validate dynamic state, stream logs by UID, and restore one copy |
+| Fixed replica preparation | `bench/fixed_replicas.py` | Warm each selected pod through the API proxy; verify Service endpoints and aggregate per-pod access-log counts |
 | Collection validator | `bench/pilot_records.py` | Check request counters and observation coverage/stability; report archive issues as warnings without modifying raw evidence |
 | Observer | `bench/observe.py` | Read Kubernetes and kubelet through `kubectl`; save raw state, source timings, CPU/memory and errors as JSONL |
 | Observer tests | `bench/test_observe.py` | Check parsing, counter resets, missing data, failures and output-file protection |
@@ -28,7 +30,7 @@ The cluster is the existing Docker-backed Minikube profile `ai-lab`, configured 
 | Offline verification | Scripts saved in result directories | Recalculate and validate the completed observation/overhead checks |
 | Evidence | `results/<run>/` | Keep configurations, raw measurements, summaries, snapshots and console output together |
 
-Ollama and k6 are the active inference and load-generation runtime; unused Python scaffolding has been removed. `bench/analyze.py` implements pilot analysis, not the future multi-replica scaling analysis.
+Ollama and k6 are the active inference and load-generation runtime; unused Python scaffolding has been removed. `bench/analyze.py` supports fixed-one and preliminary fixed-three runs, including per-pod resource plots. Preliminary autoscaling analysis includes phase results, HPA/Ready timelines and resources for all observed UIDs. The repeated main comparison remains future work.
 
 ## Measurement flow
 
@@ -38,14 +40,14 @@ Direct kubelet series provide accumulated CPU core-seconds, memory working set a
 
 Metrics-server data describes the scaling signal. Direct node metrics describe the Minikube Linux node, including Kubernetes services; they do not measure the whole Windows host, electrical energy or monetary cost. The observer targets a 5-second polling interval, but underlying samples refresh independently.
 
-For a pilot, the launcher reuses the observer in one background thread and saves the initial/final snapshots itself. The same observer instance retains CPU-counter continuity. A separate warmup generation precedes k6 and stays out of measured request totals. k6 emits paired request starts/completions into `request-events.jsonl`; its raw metric export and summary are retained independently for reconciliation. All use UTC timestamps. The configured load window, client-completion period and orchestration/process times are kept separate. A completed timeout does not prove that server-side work drained.
+For a pilot, the launcher reuses the observer in one background thread and saves the initial/final snapshots itself. The same observer instance retains CPU-counter continuity. Separate warmup generations precede k6 and stay out of measured request totals. For three copies, each pod receives a direct API-proxy warmup. Service endpoint snapshots and native per-pod Ollama completion logs verify measured traffic distribution. Pod counts do not identify individual client requests. Resource plots and summaries retain each pod's own source timestamps. k6 emits paired request starts/completions into `request-events.jsonl`; its raw metric export and summary are retained independently for reconciliation. All use UTC timestamps. The configured load window, client-completion period and orchestration/process times are kept separate. A completed timeout does not prove that server-side work drained.
 
 Collection integrity is separate from load thresholds: status `thresholds_failed` can retain valid evidence, while missing/mismatched request records or a failed observer invalidate collection. Tool-version and archive-hash problems are warnings; the duplicate before/after snapshots are inspection aids rather than additional validation inputs. Procedure and file schema: [pilot plan](plans/measurements-and-pilot.md#2-saved-run-format). Current verification is recorded in [STATUS.md](STATUS.md).
 
 ## Planned changes
 
-Pilot rate selection and its summaries/plots are complete; [saved evidence](../results/pilot/discovery-2026-10-18-series1/README.md) selects low=2 and peak=8 requests per 10 seconds. The numeric main protocol, HPA configuration, three-replica comparison and main-series analysis remain unfinished. The intended main matrix compares fixed one replica, fixed three replicas and automatic one-to-three replicas under steady and burst traffic. All replicas share the same physical computer.
+Pilot rate selection and its summaries/plots are complete; [saved evidence](../results/pilot/discovery-2026-10-18-series1/README.md) selects low=2 and peak=8 requests per 10 seconds. A [preliminary three-copy check](../results/fixed-replicas/check-2026-10-20-series1/README.md) is saved. The numeric main protocol, repeated comparison and main-series analysis remain unfinished. The HPA configuration and preliminary collector have [saved live verification](../results/autoscaling/check-2026-10-20-series1/README.md). The intended main matrix compares fixed one replica, fixed three replicas and automatic one-to-three replicas under steady and burst traffic. All replicas share the same physical computer.
 
 The work currently uses Kubernetes YAML and scripts; no Terraform provisioning or production cloud deployment exists. See [ROADMAP.md](ROADMAP.md), [STATUS.md](STATUS.md) and [DECISIONS.md](DECISIONS.md).
 
-Server/API readiness and model warmup are separate states. Initial replicas must finish a generation before measurement. A new replica created during scaling can accept a request before its model is warm; that request includes loading delay. Record the Ready transition and the first successful generation separately. The C4 views describe target architecture. Their saved status annotations predate pilot analysis; HPA and the main comparison remain planned, while current implementation state is recorded here and in STATUS.md.
+Server/API readiness and model warmup are separate states. Initial replicas must finish a generation before measurement. A new replica created during scaling can accept a request before its model is warm; that request includes loading delay. Record the Ready transition separately from response observations. Native server logs identify the first observed HTTP response per pod, but do not prove its semantic success or associate it with an individual client request. The C4 views describe target architecture. Their saved status annotations predate pilot analysis; HPA has a preliminary live check and the main comparison remains unfinished, while current implementation state is recorded here and in STATUS.md.

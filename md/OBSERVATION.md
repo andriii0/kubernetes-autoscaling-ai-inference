@@ -39,9 +39,21 @@ python -m unittest discover -s bench -p test_observe.py -v
 
 Tests cover unit interpretation, stale timestamps, counter resets, restarts/replacements, missing and malformed data, scrape errors, source timeouts, unrelated pods, empty HPA lists, nonzero failure exits, and protection against overwriting output.
 
-The first live check is saved in `results/observation-check-2026-10-16-verified/`. See that directory's README for measurements and limitations. Pilot rate selection, per-request event records and automated result analysis are separate remaining work.
+The first live check is saved in `results/observation-check-2026-10-16-verified/`. See that directory's README for measurements and limitations. Pilot rate selection, request records and preliminary fixed/autoscaling analysis have saved evidence in [STATUS.md](STATUS.md).
 
 Sources: [kubelet resource metrics](https://kubernetes.io/docs/reference/instrumentation/metrics/), [metrics-server limitations](https://github.com/kubernetes-sigs/metrics-server).
+
+## Request-rate summaries
+
+`bench/analyze.py` uses two windows. `started_per_second` is started requests divided by `scheduled_seconds`, the scheduled load duration. `completed_per_second` is completed requests divided by `client_window_seconds`, from scenario start through the later of the scheduled end or last client completion. The second window includes any client drain (waiting for responses after new requests stop), but excludes later idle observation.
+
+For example, 100 starts over 10 seconds with the last completion at 15 seconds gives 10 starts/s and 6.67 completions/s. Equal request counts can therefore have different rates. Compare the counts to check completion; do not interpret the ratio of these rates as a failure rate.
+
+## Dynamic collection
+
+`errors` may include `category: missing_resource` when an expected CPU/memory counter is absent. These remain errors for fixed-mode validation. Autoscaling preserves them as resource-coverage gaps; API, parse and scrape failures remain fatal. First/repeated-source CPU rates still remain null.
+
+Autoscaling follows native container logs by pod UID while the pod exists. `log-coverage.json` records stream attachment, normal deletion, unexpected exit and collector shutdown. Empty traffic counts are valid for a new pod; missing files/streams are not zero traffic. The dynamic timeline distinguishes Ready, the first observed HTTP response, first observed deletion marker and first absence. Kubernetes deletion timestamps can describe the future grace deadline, so they are not treated as the first observed removal time.
 
 ## Repeated overhead check
 

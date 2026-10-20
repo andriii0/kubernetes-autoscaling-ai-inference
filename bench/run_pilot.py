@@ -1,4 +1,4 @@
-"""Collect one fixed-one-replica pilot probe in a new results directory."""
+"""Collect fixed-replica or preliminary autoscaling evidence in a new results directory."""
 
 import argparse
 import hashlib
@@ -51,17 +51,22 @@ def load_environment(args, run_id):
     environment = {key: value for key, value in os.environ.items()
                    if not key.upper().startswith("K6_") and key not in
                    {"BASE_URL", "PROFILE", "RATE", "LOW_RATE", "DURATION", "SLO_MS", "RUN_ID", "REQUEST_EVENTS"}}
-    environment.update(BASE_URL=args.base_url, PROFILE="steady", RATE=str(args.rate),
+    environment.update(BASE_URL=args.base_url, PROFILE=getattr(args, "profile", "steady"), RATE=str(args.rate),
+                       LOW_RATE=str(getattr(args, "low_rate", 2)),
                        DURATION=args.duration, RUN_ID=run_id, REQUEST_EVENTS="1")
+    if args.slo_ms is not None:
+        environment['SLO_MS'] = str(args.slo_ms)
     return environment
 
 
 class Collection:
     """One observer thread, reused for initial/periodic/final samples and counter continuity."""
 
-    def __init__(self, observer, folder, interval, deployment, container):
+    def __init__(self, observer, folder, interval, deployment, container, replicas=1, session=None):
+        self.session = session
+        self.lock = threading.RLock()
         self.observer, self.folder, self.interval = observer, folder, interval
-        self.deployment, self.container = deployment, container
+        self.deployment, self.container, self.replicas = deployment, container, replicas
         self.stop_event = threading.Event()
         self.failed = threading.Event()
         self.errors = []
@@ -71,16 +76,22 @@ class Collection:
         self.output = None
 
     def collect(self):
-        sample = self.observer.collect(self.interval)
-        self.output.write(json.dumps(sample, ensure_ascii=False, allow_nan=False) + "\n")
-        self.output.flush()
-        self.last = sample
-        identity = pilot_identity(sample, self.deployment, self.container)
-        if self.identity is None:
-            self.identity = identity
-        elif identity != self.identity:
-            raise ValueError("pilot container identity or restart count changed")
-        return sample
+        with self.lock:
+            sample = self.observer.collect(self.interval)
+            self.output.write(json.dumps(sample, ensure_ascii=False, allow_nan=False) + "\n")
+            self.output.flush()
+            self.last = sample
+            if self.session:
+                self.session.accept(sample)
+                if self.identity is None:
+                    self.identity = pilot_identity(sample, self.deployment, self.container)
+            else:
+                identity = pilot_identity(sample, self.deployment, self.container, self.replicas)
+                if self.identity is None:
+                    self.identity = identity
+                elif identity != self.identity:
+                    raise ValueError("pilot container identity or restart count changed")
+            return sample
 
     def start(self):
         self.output = (self.folder / "cluster.jsonl").open("x", encoding="utf-8")
@@ -129,7 +140,7 @@ class Collection:
                 save_json(self.folder / "cluster-after.json", self.last)
 
 
-def warmup(base_url, workload, timeout):
+def warmup(base_url, workload, timeout, sender=None):
     record = {"phase": "warmup", "started_at_utc": utc_now(), "finished_at_utc": None,
               "timeout_seconds": timeout, "http_status": None, "successful": False,
               "output_tokens": None, "model_load_ms": None}
@@ -141,9 +152,12 @@ def warmup(base_url, workload, timeout):
             return None
 
     try:
-        with urllib.request.build_opener(NoRedirect).open(request, timeout=timeout) as response:
-            record["http_status"] = response.status
-            body = json.load(response)
+        if sender is None:
+            with urllib.request.build_opener(NoRedirect).open(request, timeout=timeout) as response:
+                record["http_status"] = response.status
+                body = json.load(response)
+        else:
+            record["http_status"], body = sender(request, timeout)
         record["successful"] = (record["http_status"] == 200 and isinstance(body, dict)
                                  and body.get("done") is True and isinstance(body.get("response"), str)
                                  and bool(body["response"].strip()))
@@ -153,7 +167,7 @@ def warmup(base_url, workload, timeout):
             value = body.get(source)
             if type(value) is int and 0 <= value <= 2**53 - 1:
                 record[target] = value / divisor
-    except (OSError, ValueError, urllib.error.URLError) as error:
+    except (OSError, ValueError, urllib.error.URLError, subprocess.SubprocessError) as error:
         if isinstance(error, urllib.error.HTTPError):
             record["http_status"] = error.code
         record["error"] = str(error)
@@ -206,8 +220,15 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--base-url", required=True)
     parser.add_argument("--rate", type=int, required=True, help="Requests per 10 seconds")
-    parser.add_argument("--duration", default="2m")
+    parser.add_argument("--duration")
+    parser.add_argument("--slo-ms", type=positive_number,
+                        help="Optional p95 successful-response latency threshold in milliseconds")
+    parser.add_argument("--mode", choices=("autoscaling", "fixed-1", "fixed-3"))
+    parser.add_argument("--profile", choices=("steady", "burst"), default="steady")
+    parser.add_argument("--low-rate", type=int, default=2)
     parser.add_argument("--run-dir", type=Path, required=True)
+    parser.add_argument("--replicas", type=int, choices=(1, 3))
+    parser.add_argument("--service", default="ollama")
     parser.add_argument("--context", default="ai-lab")
     parser.add_argument("--namespace", default="inference")
     parser.add_argument("--selector", default="app=ollama")
@@ -215,12 +236,26 @@ def main(argv=None):
     parser.add_argument("--container", default="ollama")
     parser.add_argument("--observer-interval", type=positive_number, default=5)
     parser.add_argument("--idle-seconds", type=nonnegative_seconds, default=60)
-    parser.add_argument("--post-seconds", type=nonnegative_seconds, default=10)
+    parser.add_argument("--post-seconds", type=nonnegative_seconds)
     parser.add_argument("--warmup-timeout", type=positive_number, default=120)
     parser.add_argument("--activity-note", default="Not recorded", help="Other heavy activity on this computer")
     args = parser.parse_args(argv)
-    if args.rate <= 0:
-        parser.error("--rate must be positive")
+    if args.rate <= 0 or args.low_rate <= 0:
+        parser.error("rates must be positive")
+    if args.mode == "autoscaling" and (args.replicas is not None or args.profile != "burst"):
+        parser.error("autoscaling requires --profile burst and no --replicas")
+    if args.mode and args.mode.startswith("fixed-") and args.replicas is not None and args.mode != f"fixed-{args.replicas}":
+        parser.error("--mode conflicts with --replicas")
+    if args.profile == "burst" and args.duration is not None:
+        parser.error("burst duration is defined by workload stages; omit --duration")
+    args.mode = args.mode or f"fixed-{args.replicas or 1}"
+    args.replicas = int(args.mode[-1]) if args.mode.startswith("fixed-") else 1
+    args.post_seconds = args.post_seconds if args.post_seconds is not None else (300 if args.mode == "autoscaling" else 10)
+    stages = json.loads((Path(__file__).parent / "workload.json").read_text(encoding="utf-8"))["burst_stages"]
+    if args.profile == "burst":
+        args.duration = f"{sum(s['seconds'] for s in stages)}s"
+    else:
+        args.duration = args.duration or "2m"
     try:
         seconds = duration_seconds(args.duration)
     except argparse.ArgumentTypeError as error:
@@ -239,18 +274,24 @@ def main(argv=None):
     source = Path(__file__).resolve().parent
     metadata = {"schema_version": 2, "run_id": uuid.uuid4().hex, "status": "starting", "phase": "preflight",
                 "started_at_utc": utc_now(), "finished_at_utc": None, "base_url": args.base_url,
-                "profile": "steady", "rate": args.rate, "time_unit": "10s", "duration": args.duration,
-                "duration_seconds": seconds, "context": args.context, "namespace": args.namespace,
+                "profile": args.profile, "low_rate": args.low_rate, "burst_stages": stages if args.profile == "burst" else None, "rate": args.rate, "time_unit": "10s", "duration": args.duration,
+                "duration_seconds": seconds, "slo_ms": args.slo_ms, "context": args.context, "namespace": args.namespace,
                 "selector": args.selector, "deployment": args.deployment, "container": args.container,
                 "observer_interval_seconds": args.observer_interval, "idle_seconds": args.idle_seconds,
                 "post_seconds": args.post_seconds, "warmup_timeout_seconds": args.warmup_timeout,
                 "activity_note": args.activity_note, "k6_exit_code": None, "collector_exit_code": None,
                 "collection_valid": False, "server_drain_verified": False, "phases": [], "errors": [], "warnings": []}
+    metadata.update(expected_replicas=None if args.mode == "autoscaling" else args.replicas, mode=args.mode,
+                    purpose="preliminary-hpa-check" if args.mode == "autoscaling" else
+                    "pilot" if args.replicas == 1 else "preliminary-fixed-replica-check")
     metadata_path = args.run_dir / "metadata.json"
     collection = None
+    session = None
     exit_code = 1
 
     def phase(name):
+        if metadata["phases"]:
+            metadata["phases"][-1]["finished_at_utc"] = utc_now()
         metadata["phase"] = name
         metadata["phases"].append({"phase": name, "started_at_utc": utc_now()})
         save_json(metadata_path, metadata)
@@ -261,7 +302,12 @@ def main(argv=None):
         inputs = args.run_dir / "inputs"
         inputs.mkdir()
         metadata["source_sha256"] = {}
-        for name in ("inference.js", "workload.json", "run_pilot.py", "observe.py", "pilot_records.py"):
+        names = ["inference.js", "workload.json", "run_pilot.py", "observe.py", "pilot_records.py"]
+        if args.replicas == 3 or args.mode == "autoscaling":
+            names.append("fixed_replicas.py")
+        if args.mode == "autoscaling":
+            names.append("autoscaling.py")
+        for name in names:
             shutil.copyfile(source / name, inputs / name)
             metadata["source_sha256"][name] = hashlib.sha256((inputs / name).read_bytes()).hexdigest()
         metadata["script_sha256"] = metadata["source_sha256"]["inference.js"].upper()
@@ -279,20 +325,45 @@ def main(argv=None):
         metadata["k6_version"] = metadata["versions"].get("k6", {}).get("stdout")
         # An explicit empty config prevents a user's k6 config file overriding the scenario.
         save_json(inputs / "k6-config.json", {})
-        collection = Collection(observer, args.run_dir, args.observer_interval, args.deployment, args.container)
+        if args.mode == "autoscaling":
+            from autoscaling import Session
+            manifest = inputs / "hpa.yaml"
+            shutil.copyfile(source.parent / "deploy/hpa.yaml", manifest)
+            session = Session(observer, args.run_dir, args.deployment, args.container, args.service, manifest)
+            phase("reset")
+            session.prepare()
+        collection = Collection(observer, args.run_dir, args.observer_interval, args.deployment, args.container,
+                                args.replicas, session=session)
         collection.start()
         metadata["initial_identity"] = collection.identity
         metadata["deployment_snapshot"] = next(d for d in collection.last["deployments"]["items"]
                                                 if d["metadata"]["name"] == args.deployment)
-        metadata["pod_snapshot"] = collection.last["pods"]["items"][0]
+        pods = collection.last["pods"]["items"]
+        metadata["pod_snapshot"] = pods[0]
+        if args.replicas == 3:
+            from fixed_replicas import capture_route, check_route
+            metadata["pod_snapshots"] = pods
+            route = capture_route(observer, args.service)
+            save_json(args.run_dir / "service-route.json", route)
+            check_route(route, collection.identity, metadata["deployment_snapshot"])
         phase("idle")
         collection.wait(args.idle_seconds)
         phase("warmup")
-        record = warmup(args.base_url, workload, args.warmup_timeout)
+        if args.replicas == 3:
+            from fixed_replicas import warmup_pods
+            record = warmup_pods(observer, pods, workload, args.warmup_timeout, warmup)
+        else:
+            record = warmup(args.base_url, workload, args.warmup_timeout)
         save_json(args.run_dir / "warmup.json", record)
         if not record["successful"]:
             raise RuntimeError("warmup failed; see warmup.json")
         collection.wait(0)
+        if session:
+            phase("hpa_readiness")
+            session.enable(collection)
+            metadata["hpa_spec"] = session.state.hpa_spec
+            metadata["hpa_applied_at_utc"] = session.applied_at_utc
+            save_json(metadata_path, metadata)
         phase("load")
         command = [k6, "run", "--config", str(inputs / "k6-config.json"), "--no-usage-report", "--no-color",
                    "--log-format", "raw", "--console-output", str(args.run_dir / "request-events.jsonl"),
@@ -304,8 +375,11 @@ def main(argv=None):
         result = run_load(command, environment, args.run_dir, collection, metadata)
         if result not in (0, 99):
             raise RuntimeError(f"k6 failed with exit code {result}")
-        phase("post_load")
+        phase("post_load_no_new_requests" if session else "post_load")
         collection.wait(args.post_seconds)
+        if args.replicas == 3:
+            from fixed_replicas import capture_logs
+            capture_logs(observer, pods, args.container, args.run_dir, metadata["load_process_started_at_utc"])
         exit_code = result
     except KeyboardInterrupt:
         metadata["errors"].append("interrupted by user; pending server work must be checked before another probe")
@@ -315,6 +389,9 @@ def main(argv=None):
         print(str(error), file=sys.stderr)
         exit_code = 1
     finally:
+        if session and session.state and session.state.hpa_spec:
+            metadata["hpa_spec"] = session.state.hpa_spec
+            metadata["hpa_applied_at_utc"] = session.applied_at_utc
         if collection is not None:
             try:
                 collection.stop()
@@ -323,6 +400,13 @@ def main(argv=None):
                 collection.failed.set()
             metadata["collector_exit_code"] = 1 if collection.failed.is_set() else 0
             metadata["errors"].extend(collection.errors)
+        if session:
+            try:
+                if session.logs:
+                    session.logs.stop()
+            except (OSError, RuntimeError, subprocess.SubprocessError) as error:
+                metadata["errors"].append(f"log shutdown: {error}")
+            metadata["recovery"] = session.restore()
         phase("validation")
         report = reconcile(args.run_dir, metadata)
         save_json(args.run_dir / "collection-check.json", report)
@@ -337,6 +421,7 @@ def main(argv=None):
                               "interrupted" if exit_code == 130 else "failed")
         metadata["exit_code"] = exit_code
         metadata["finished_at_utc"] = utc_now()
+        metadata["phases"][-1]["finished_at_utc"] = metadata["finished_at_utc"]
         save_json(metadata_path, metadata)
     return exit_code
 

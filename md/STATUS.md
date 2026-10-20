@@ -1,6 +1,6 @@
 # Project status
 
-Updated: 2026-10-19. The one-replica pilot completed on 2026-10-18 UTC, including two five-minute confirmations at each selected rate. Collection and analysis have saved evidence; this does not certify runtime availability at a later time.
+Updated: 2026-10-20. The one-replica pilot completed on 2026-10-18 UTC, including two five-minute confirmations at each selected rate. Collection and analysis have saved evidence; this does not certify runtime availability at a later time.
 
 ## Implemented and verified
 
@@ -12,13 +12,21 @@ Updated: 2026-10-19. The one-replica pilot completed on 2026-10-18 UTC, includin
 - `bench/analyze.py` produces pilot CSV/JSON summaries and aligned PNG/SVG plots. Six focused tests and raw/k6 comparisons verify the calculations; Matplotlib is an optional analysis dependency.
 - [The saved pilot](../results/pilot/discovery-2026-10-18-series1/README.md) selects low=2 and peak=8 requests/10 s, with two five-minute repetitions each. Low p95 is about 1.43 s; peak p95 is 16.45-28.25 s, with variable timeouts. All eight valid runs reconcile. An initial timestamp-boundary diagnostic remains excluded; the bounded 1-ms recording fix has a regression test. All 50 tests passed after the pilot.
 
+- The [pilot results in Notion](https://app.notion.com/p/3fec7c697bfd81738d08d5527424af20) explain the method, eight runs and selected rates, with two graphs. Other documents are linked separately.
+
+- The [preliminary three-copy check](../results/fixed-replicas/check-2026-10-20-series1/README.md) verifies per-pod warmup, Service distribution and one five-minute peak run. The collector supports fixed one or three copies; analysis shows each pod on its own source clock. Offline checks and historical evidence verification passed. This does not complete the main comparison.
+
+- The [preliminary HPA check](../results/autoscaling/check-2026-10-20-series1/README.md) completed on 2026-10-20 UTC. Dynamic collection preserves per-UID logs and separates load thresholds from measurement validity. The saved 2026-10-20 transcript records 79 passing bench tests. After the dependency/test fixes, all 86 tests pass in the project `.venv` with Python 3.12.0, k6 2.2.0 and Matplotlib 3.11.2. An independent review on 2026-10-20 confirmed the repair, dependency-specific skips, strict timestamp validation and unchanged saved results. Verification details are in the [scaling plan](plans/scaling-experiment.md#review-fixes-before-the-main-protocol). The run restored one ready copy and removed HPA; later runtime availability still needs verification.
+
+- The reviewed Git snapshot includes the fixed-three and HPA evidence required by plot tests. A clean index export passed all 86 bench tests without skips and the historical verifier. The 79-test HPA review result is explicitly historical. Request-rate notes now explain scheduled load versus the client-drain window; formulas and saved measurements are unchanged. Details are in the [publication procedure](plans/scaling-experiment.md#publish-the-reviewed-implementation-and-evidence).
+
 ## Remaining work and limits
 
-- The numeric protocol, HPA configuration, three-replica comparison and main autoscaling experiment are unfinished. Main scaling analysis is future work.
-- The numeric experiment protocol and latency target must be frozen after the pilot. Server Ready and first successful generation are distinct; the extra per-replica timeline instrumentation is still planned.
+- The numeric protocol, repeated fixed-mode comparison and main autoscaling experiment are unfinished. The [preliminary HPA check](../results/autoscaling/check-2026-10-20-series1/README.md) records growth and reduction with complete collection; this does not complete the main experiment. Main scaling analysis is future work.
+- The numeric experiment protocol and latency target must be frozen after the pilot. Server Ready and first successful generation are distinct; fixed-three warmups now record each pod's Ready transition and first successful generation; dynamic timelines now distinguish Ready from the first observed HTTP response; per-pod semantic success cannot be established from native logs.
 - All replicas share one computer. The pilot selects useful comparison rates, not a precise stable capacity limit, general equivalence or an autoscaling advantage. Resource measurements cover the Minikube node and selected containers, not Windows-wide energy or cost.
 - Research v0.7 and C4 describe the accepted protocol and target architecture. `docs/PDP.pdf` is historical; the current practical scope is inference-only in Notion. Export/submission ownership is in [docs/README.md](../docs/README.md); required Portflow submission is not confirmed by local storage.
 
 ## Next action
 
-Active plan: [Measurements and pilot load tests](plans/measurements-and-pilot.md). The [pilot discovery series](../results/pilot/discovery-2026-10-18-series1/README.md) is complete. Next, record and freeze `md/plans/experiment-protocol.md` (roadmap step 17), using the selected rates and an explicitly justified latency/error target. Then verify three replicas; recheck live state when resuming. The simple English [getting started guide](GETTING_STARTED.md) owns setup commands and points to the plans; the future [scaling experiment procedure](plans/scaling-experiment.md) preserves the detailed later steps and is not yet active. Milestones and completion criteria remain in [ROADMAP.md](ROADMAP.md).
+Write and agree the main experiment protocol in Notion (roadmap step 17): latency/error targets, exact settings, repeat order and invalid-run rules. The pilot, preliminary fixed-three preparation and [HPA mechanism check](plans/scaling-experiment.md#2-preliminary-hpa-implementation-and-check) have saved evidence. Repeated comparisons and the main experiment remain unfinished. The last verified runtime state is one ready copy with no HPA; verify it again before further runtime work.

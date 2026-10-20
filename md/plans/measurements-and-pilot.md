@@ -147,7 +147,7 @@ Implement the minimum pilot analysis in `bench/analyze.py`: one CSV row per run 
 
 Produce aligned time plots of individual response durations, request completions/failures, CPU, memory and ready replicas. At low rates, do not display a p95 every 5 seconds: too few responses fall in such a window. Use whole-run percentiles and individual response points for this pilot.
 
-Record the selected low/peak rates and an explicitly justified acceptable p95/error target in `md/plans/experiment-protocol.md` before comparing replica modes. Discovery stop rules are not the final target. Record repeated-prompt caching and the single-host CPU setup as limitations. Confirm later that three replicas fit the node's allocatable resources and whether they actually improve performance.
+Record the selected low/peak rates and an explicitly justified acceptable p95/error target in a separate Notion experiment protocol before comparing replica modes. Discovery stop rules are not the final target. Record repeated-prompt caching and the single-host CPU setup as limitations. Confirm later that three replicas fit the node's allocatable resources and whether they actually improve performance.
 
 The immediate result is a tested measurement path, saved pilot runs and documented experiment settings. No scaling-performance or resource-saving conclusion is expected at this stage.
 

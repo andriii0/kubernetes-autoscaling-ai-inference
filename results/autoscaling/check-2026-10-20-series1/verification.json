@@ -1,0 +1,35 @@
+{
+  "prior_result_files_unchanged": 422,
+  "archived_inputs_match": {
+    "inference.js": true,
+    "workload.json": true,
+    "run_pilot.py": true,
+    "observe.py": true,
+    "pilot_records.py": true,
+    "fixed_replicas.py": true,
+    "autoscaling.py": true
+  },
+  "independent_successful_p95_ms": 9006.75,
+  "independent_mean_ms": 2848.1636904761904,
+  "request_and_k6_analysis_agree": true,
+  "collection_valid": true,
+  "growth_observed": true,
+  "reduction_observed": true,
+  "recovery": {
+    "attempted": true,
+    "successful": true,
+    "errors": []
+  },
+  "bench_tests_after_review": 79,
+  "current_sources_differ_from_run_inputs": [
+    "inference.js",
+    "run_pilot.py",
+    "pilot_records.py",
+    "autoscaling.py"
+  ],
+  "post_run_review": "Apply completion timestamps avoid a readiness-sample race; route evidence and boundary phase checks are stricter; shutdown failures do not skip other log processes. Raw run inputs and original verdict are preserved.",
+  "notion_result_page": "https://app.notion.com/p/3fec7c697bfd81738d08d5527424af20",
+  "notion_readback_verified": true,
+  "local_document_links_checked": 183,
+  "notion_graph_saved_and_readback_verified": true
+}

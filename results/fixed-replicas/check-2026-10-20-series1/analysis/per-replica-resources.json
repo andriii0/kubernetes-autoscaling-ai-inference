@@ -1,0 +1,36 @@
+{
+  "service-check": {
+    "5b4aa6af-cdce-4fe7-93bb-bdfa1c2b7f5a": {
+      "cpu_valid_samples": 4,
+      "cpu_mean_cores": 0.6857861194027803,
+      "peak_memory_mib": 854.6953125
+    },
+    "7b9728ed-777d-4122-bde5-587149502438": {
+      "cpu_valid_samples": 5,
+      "cpu_mean_cores": 0.751093418706098,
+      "peak_memory_mib": 522.453125
+    },
+    "7bcc7567-1b76-4cdc-8d9d-637fc0419fa6": {
+      "cpu_valid_samples": 3,
+      "cpu_mean_cores": 0.60285295305053,
+      "peak_memory_mib": 518.83203125
+    }
+  },
+  "peak-1": {
+    "5b4aa6af-cdce-4fe7-93bb-bdfa1c2b7f5a": {
+      "cpu_valid_samples": 31,
+      "cpu_mean_cores": 0.7422009036274856,
+      "peak_memory_mib": 856.328125
+    },
+    "7b9728ed-777d-4122-bde5-587149502438": {
+      "cpu_valid_samples": 33,
+      "cpu_mean_cores": 0.6307571249882522,
+      "peak_memory_mib": 524.42578125
+    },
+    "7bcc7567-1b76-4cdc-8d9d-637fc0419fa6": {
+      "cpu_valid_samples": 32,
+      "cpu_mean_cores": 0.5431119762718835,
+      "peak_memory_mib": 520.3359375
+    }
+  }
+}

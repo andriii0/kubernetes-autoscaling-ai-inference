@@ -1,0 +1,158 @@
+test_csv_and_plots_are_generated_without_changing_raw_events (test_analyze.AnalysisTests.test_csv_and_plots_are_generated_without_changing_raw_events) ... ok
+test_existing_output_is_rejected_without_touching_it (test_analyze.AnalysisTests.test_existing_output_is_rejected_without_touching_it) ... usage: python.exe -m unittest [-h] --output-dir OUTPUT_DIR [--no-plots]
+                              run_dirs [run_dirs ...]
+python.exe -m unittest: error: output directory already exists; choose a new path
+ok
+test_invalid_collection_stays_explicit (test_analyze.AnalysisTests.test_invalid_collection_stays_explicit) ... ok
+test_known_counts_latency_and_measured_window_resources (test_analyze.AnalysisTests.test_known_counts_latency_and_measured_window_resources) ... ok
+test_saved_live_check_agrees_with_independent_k6_summary (test_analyze.AnalysisTests.test_saved_live_check_agrees_with_independent_k6_summary) ... ok
+test_zero_tokens_and_missing_resources_are_distinct (test_analyze.AnalysisTests.test_zero_tokens_and_missing_resources_are_distinct) ... ok
+test_bad_warmup_never_enables_hpa_or_starts_load_and_restores (test_autoscaling.AutoscalingLifecycleTests.test_bad_warmup_never_enables_hpa_or_starts_load_and_restores) ... warmup failed; see warmup.json
+ok
+test_interrupt_saves_partial_records_stops_observer_and_restores (test_autoscaling.AutoscalingLifecycleTests.test_interrupt_saves_partial_records_stops_observer_and_restores) ... ok
+test_real_k6_burst_dynamic_collection_analysis_and_recovery (test_autoscaling.AutoscalingLifecycleTests.test_real_k6_burst_dynamic_collection_analysis_and_recovery) ... ok
+test_dynamic_growth_pending_metrics_and_deletion_are_not_fixed_mode (test_autoscaling.DynamicStateTests.test_dynamic_growth_pending_metrics_and_deletion_are_not_fixed_mode) ... ok
+test_hpa_readiness_needs_numeric_active_and_one_nonterminating_pod (test_autoscaling.DynamicStateTests.test_hpa_readiness_needs_numeric_active_and_one_nonterminating_pod) ... ok
+test_restart_api_failure_and_configuration_change_fail (test_autoscaling.DynamicStateTests.test_restart_api_failure_and_configuration_change_fail) ... ok
+test_burst_shared_stages_and_k6_deadline_use_782_seconds (test_autoscaling.LauncherTests.test_burst_shared_stages_and_k6_deadline_use_782_seconds) ... ok
+test_conflicting_flags_do_not_create_directory_or_change_cluster (test_autoscaling.LauncherTests.test_conflicting_flags_do_not_create_directory_or_change_cluster) ... usage: python.exe -m unittest [-h] --base-url BASE_URL --rate RATE
+                              [--duration DURATION]
+                              [--mode {autoscaling,fixed-1,fixed-3}]
+                              [--profile {steady,burst}] [--low-rate LOW_RATE]
+                              --run-dir RUN_DIR [--replicas {1,3}]
+                              [--service SERVICE] [--context CONTEXT]
+                              [--namespace NAMESPACE] [--selector SELECTOR]
+                              [--deployment DEPLOYMENT]
+                              [--container CONTAINER]
+                              [--observer-interval OBSERVER_INTERVAL]
+                              [--idle-seconds IDLE_SECONDS]
+                              [--post-seconds POST_SECONDS]
+                              [--warmup-timeout WARMUP_TIMEOUT]
+                              [--activity-note ACTIVITY_NOTE]
+python.exe -m unittest: error: autoscaling requires --profile burst and no --replicas
+usage: python.exe -m unittest [-h] --base-url BASE_URL --rate RATE
+                              [--duration DURATION]
+                              [--mode {autoscaling,fixed-1,fixed-3}]
+                              [--profile {steady,burst}] [--low-rate LOW_RATE]
+                              --run-dir RUN_DIR [--replicas {1,3}]
+                              [--service SERVICE] [--context CONTEXT]
+                              [--namespace NAMESPACE] [--selector SELECTOR]
+                              [--deployment DEPLOYMENT]
+                              [--container CONTAINER]
+                              [--observer-interval OBSERVER_INTERVAL]
+                              [--idle-seconds IDLE_SECONDS]
+                              [--post-seconds POST_SECONDS]
+                              [--warmup-timeout WARMUP_TIMEOUT]
+                              [--activity-note ACTIVITY_NOTE]
+python.exe -m unittest: error: autoscaling requires --profile burst and no --replicas
+usage: python.exe -m unittest [-h] --base-url BASE_URL --rate RATE
+                              [--duration DURATION]
+                              [--mode {autoscaling,fixed-1,fixed-3}]
+                              [--profile {steady,burst}] [--low-rate LOW_RATE]
+                              --run-dir RUN_DIR [--replicas {1,3}]
+                              [--service SERVICE] [--context CONTEXT]
+                              [--namespace NAMESPACE] [--selector SELECTOR]
+                              [--deployment DEPLOYMENT]
+                              [--container CONTAINER]
+                              [--observer-interval OBSERVER_INTERVAL]
+                              [--idle-seconds IDLE_SECONDS]
+                              [--post-seconds POST_SECONDS]
+                              [--warmup-timeout WARMUP_TIMEOUT]
+                              [--activity-note ACTIVITY_NOTE]
+python.exe -m unittest: error: burst duration is defined by workload stages; omit --duration
+usage: python.exe -m unittest [-h] --base-url BASE_URL --rate RATE
+                              [--duration DURATION]
+                              [--mode {autoscaling,fixed-1,fixed-3}]
+                              [--profile {steady,burst}] [--low-rate LOW_RATE]
+                              --run-dir RUN_DIR [--replicas {1,3}]
+                              [--service SERVICE] [--context CONTEXT]
+                              [--namespace NAMESPACE] [--selector SELECTOR]
+                              [--deployment DEPLOYMENT]
+                              [--container CONTAINER]
+                              [--observer-interval OBSERVER_INTERVAL]
+                              [--idle-seconds IDLE_SECONDS]
+                              [--post-seconds POST_SECONDS]
+                              [--warmup-timeout WARMUP_TIMEOUT]
+                              [--activity-note ACTIVITY_NOTE]
+python.exe -m unittest: error: --mode conflicts with --replicas
+ok
+test_hpa_readiness_timeout_preserves_reason (test_autoscaling.LauncherTests.test_hpa_readiness_timeout_preserves_reason) ... ok
+test_restoration_failure_is_recorded_separately (test_autoscaling.LauncherTests.test_restoration_failure_is_recorded_separately) ... ok
+test_deleted_copy_keeps_file_and_running_copy_process_is_stopped (test_autoscaling.LogTests.test_deleted_copy_keeps_file_and_running_copy_process_is_stopped) ... ok
+test_missing_file_is_not_zero_traffic_and_empty_new_pod_is_allowed (test_autoscaling.LogTests.test_missing_file_is_not_zero_traffic_and_empty_new_pod_is_allowed) ... ok
+test_one_shutdown_failure_does_not_skip_other_log_processes (test_autoscaling.LogTests.test_one_shutdown_failure_does_not_skip_other_log_processes) ... ok
+test_unexpected_stream_exit_and_deleted_stream_error_are_failures (test_autoscaling.LogTests.test_unexpected_stream_exit_and_deleted_stream_error_are_failures) ... ok
+test_api_failure_and_log_coverage_failure_invalidate_saved_run (test_autoscaling.ReconciliationTests.test_api_failure_and_log_coverage_failure_invalidate_saved_run) ... ok
+test_autoscaling_requires_saved_service_route (test_autoscaling.ReconciliationTests.test_autoscaling_requires_saved_service_route) ... ok
+test_dynamic_resource_series_include_new_pods_without_summing (test_autoscaling.ReconciliationTests.test_dynamic_resource_series_include_new_pods_without_summing) ... ok
+test_no_scaling_is_reported_without_inventing_success (test_autoscaling.ReconciliationTests.test_no_scaling_is_reported_without_inventing_success) ... ok
+test_phase_assignment_keeps_one_millisecond_boundary_requests (test_autoscaling.ReconciliationTests.test_phase_assignment_keeps_one_millisecond_boundary_requests) ... ok
+test_valid_requests_do_not_require_matching_server_statuses_after_timeout (test_autoscaling.ReconciliationTests.test_valid_requests_do_not_require_matching_server_statuses_after_timeout) ... ok
+test_real_k6_lifecycle_with_three_pod_warmups_and_service_distribution (test_fixed_replicas.FixedLauncherTests.test_real_k6_lifecycle_with_three_pod_warmups_and_service_distribution) ... ok
+test_second_pod_warmup_failure_preserves_records_and_never_loads (test_fixed_replicas.FixedLauncherTests.test_second_pod_warmup_failure_preserves_records_and_never_loads) ... warmup failed; see warmup.json
+ok
+test_access_logs_exclude_warmup_and_readiness_and_reconcile_client_counts (test_fixed_replicas.FixedReplicaTests.test_access_logs_exclude_warmup_and_readiness_and_reconcile_client_counts) ... ok
+test_identity_is_order_independent_but_restart_or_replacement_is_visible (test_fixed_replicas.FixedReplicaTests.test_identity_is_order_independent_but_restart_or_replacement_is_visible) ... ok
+test_missing_unready_duplicate_and_incomplete_resource_pods_are_rejected (test_fixed_replicas.FixedReplicaTests.test_missing_unready_duplicate_and_incomplete_resource_pods_are_rejected) ... ok
+test_service_requires_all_and_only_ready_selected_pods (test_fixed_replicas.FixedReplicaTests.test_service_requires_all_and_only_ready_selected_pods) ... ok
+test_three_pod_resource_sum_requires_complete_aligned_samples (test_fixed_replicas.FixedReplicaTests.test_three_pod_resource_sum_requires_complete_aligned_samples) ... ok
+test_three_replica_observer_stops_after_a_restart (test_fixed_replicas.FixedReplicaTests.test_three_replica_observer_stops_after_a_restart) ... ok
+test_warmup_must_cover_each_pod_and_finish_before_load (test_fixed_replicas.FixedReplicaTests.test_warmup_must_cover_each_pod_and_finish_before_load) ... ok
+test_actual_k6_classifies_failed_responses_and_timeouts (test_inference.InferenceMetricTests.test_actual_k6_classifies_failed_responses_and_timeouts) ... ok
+test_actual_k6_preserves_zeros_and_reports_missing_optional_fields (test_inference.InferenceMetricTests.test_actual_k6_preserves_zeros_and_reports_missing_optional_fields) ... ok
+test_concurrent_vus_keep_distinct_complete_request_pairs (test_inference.InferenceMetricTests.test_concurrent_vus_keep_distinct_complete_request_pairs) ... ok
+test_cli_writes_failure_record_and_returns_nonzero (test_observe.ObserverTests.test_cli_writes_failure_record_and_returns_nonzero) ... ok
+test_deployment_without_metadata_labels_is_collected (test_observe.ObserverTests.test_deployment_without_metadata_labels_is_collected) ... ok
+test_empty_hpa_is_valid (test_observe.ObserverTests.test_empty_hpa_is_valid) ... ok
+test_existing_output_is_not_changed (test_observe.ObserverTests.test_existing_output_is_not_changed) ... ok
+test_failed_scrape_retains_raw_and_clears_counters (test_observe.ObserverTests.test_failed_scrape_retains_raw_and_clears_counters) ... ok
+test_malformed_resource_payload_is_preserved (test_observe.ObserverTests.test_malformed_resource_payload_is_preserved) ... ok
+test_missing_container_metrics_are_reported (test_observe.ObserverTests.test_missing_container_metrics_are_reported) ... ok
+test_source_failure_is_saved_and_does_not_hide_other_sources (test_observe.ObserverTests.test_source_failure_is_saved_and_does_not_hide_other_sources) ... ok
+test_counter_reset_is_not_negative_cpu (test_observe.ResourceTests.test_counter_reset_is_not_negative_cpu) ... ok
+test_missing_memory_stays_missing (test_observe.ResourceTests.test_missing_memory_stays_missing) ... ok
+test_parser_rejects_missing_and_nonfinite_metrics (test_observe.ResourceTests.test_parser_rejects_missing_and_nonfinite_metrics) ... ok
+test_prometheus_labels_and_optional_timestamps (test_observe.ResourceTests.test_prometheus_labels_and_optional_timestamps) ... ok
+test_repeated_source_timestamp_is_not_zero_usage (test_observe.ResourceTests.test_repeated_source_timestamp_is_not_zero_usage) ... ok
+test_restart_and_replacement_do_not_bridge_counters (test_observe.ResourceTests.test_restart_and_replacement_do_not_bridge_counters) ... ok
+test_source_time_and_units (test_observe.ResourceTests.test_source_time_and_units) ... ok
+test_unrelated_pods_are_excluded (test_observe.ResourceTests.test_unrelated_pods_are_excluded) ... ok
+test_bad_warmup_or_abnormal_exit_is_rejected (test_pilot_records.RecordTests.test_bad_warmup_or_abnormal_exit_is_rejected) ... ok
+test_cluster_errors_restart_and_hpa_are_rejected (test_pilot_records.RecordTests.test_cluster_errors_restart_and_hpa_are_rejected) ... ok
+test_duplicate_or_orphan_events_are_rejected (test_pilot_records.RecordTests.test_duplicate_or_orphan_events_are_rejected) ... ok
+test_launcher_errors_are_fatal_but_archive_problems_only_warn (test_pilot_records.RecordTests.test_launcher_errors_are_fatal_but_archive_problems_only_warn) ... ok
+test_millisecond_boundaries_accept_one_tick_but_reject_two (test_pilot_records.RecordTests.test_millisecond_boundaries_accept_one_tick_but_reject_two) ... ok
+test_missing_evidence_is_invalid (test_pilot_records.RecordTests.test_missing_evidence_is_invalid) ... ok
+test_observation_order_gaps_and_coverage_have_distinct_failures (test_pilot_records.RecordTests.test_observation_order_gaps_and_coverage_have_distinct_failures) ... ok
+test_raw_or_summary_mismatch_is_rejected (test_pilot_records.RecordTests.test_raw_or_summary_mismatch_is_rejected) ... ok
+test_request_times_and_identity_are_checked (test_pilot_records.RecordTests.test_request_times_and_identity_are_checked) ... ok
+test_response_failure_is_valid_evidence_and_not_added_to_total_twice (test_pilot_records.RecordTests.test_response_failure_is_valid_evidence_and_not_added_to_total_twice) ... ok
+test_truncated_or_nonobject_jsonl_is_invalid (test_pilot_records.RecordTests.test_truncated_or_nonobject_jsonl_is_invalid) ... ok
+test_unfinished_request_is_visible (test_pilot_records.RecordTests.test_unfinished_request_is_visible) ... ok
+test_valid_collection_and_missing_optional_values (test_pilot_records.RecordTests.test_valid_collection_and_missing_optional_values) ... ok
+test_background_collection_error_is_detected (test_run_pilot.PilotLauncherTests.test_background_collection_error_is_detected) ... ok
+test_duration_validation (test_run_pilot.PilotLauncherTests.test_duration_validation) ... ok
+test_existing_run_is_unchanged_and_nothing_is_started (test_run_pilot.PilotLauncherTests.test_existing_run_is_unchanged_and_nothing_is_started) ... Refusing to overwrite existing run path: C:\Users\matvi\AppData\Local\Temp\tmpy5namvur\run
+Refusing to overwrite existing run path: C:\Users\matvi\AppData\Local\Temp\tmpy5namvur\run
+Refusing to overwrite existing run path: C:\Users\matvi\AppData\Local\Temp\tmpy5namvur\run
+ok
+test_failed_version_diagnostics_do_not_stop_real_load (test_run_pilot.PilotLauncherTests.test_failed_version_diagnostics_do_not_stop_real_load) ... ok
+test_failed_warmup_never_starts_k6 (test_run_pilot.PilotLauncherTests.test_failed_warmup_never_starts_k6) ... warmup failed; see warmup.json
+ok
+test_interrupt_preserves_records_and_stops_observer (test_run_pilot.PilotLauncherTests.test_interrupt_preserves_records_and_stops_observer) ... ok
+test_invalid_preflight_retains_snapshot_and_never_loads (test_run_pilot.PilotLauncherTests.test_invalid_preflight_retains_snapshot_and_never_loads) ... cluster collection contains errors
+ok
+test_missing_k6_preserves_failure_metadata (test_run_pilot.PilotLauncherTests.test_missing_k6_preserves_failure_metadata) ... k6 is not available on PATH
+ok
+test_real_k6_full_lifecycle_and_complete_evidence (test_run_pilot.PilotLauncherTests.test_real_k6_full_lifecycle_and_complete_evidence) ... ok
+test_running_k6_is_stopped_after_observer_failure (test_run_pilot.PilotLauncherTests.test_running_k6_is_stopped_after_observer_failure) ... ok
+test_scheduler_pause_exposes_test_only_interval_without_weakening_real_rule (test_run_pilot.PilotLauncherTests.test_scheduler_pause_exposes_test_only_interval_without_weakening_real_rule) ... ok
+test_threshold_failure_keeps_valid_measured_evidence (test_run_pilot.PilotLauncherTests.test_threshold_failure_keeps_valid_measured_evidence) ... ok
+
+----------------------------------------------------------------------
+Ran 79 tests in 21.860s
+
+OK
+Saved 1 run summaries to C:\Users\matvi\AppData\Local\Temp\tmpwaet_xxn\analysis
+Saved 1 run summaries to C:\Users\matvi\AppData\Local\Temp\tmp1o4jq2ci\run\analysis
+Saved 1 run summaries to C:\Users\matvi\AppData\Local\Temp\tmpfg6nuf4j\run\analysis
