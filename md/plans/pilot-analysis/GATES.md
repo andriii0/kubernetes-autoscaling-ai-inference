@@ -4,6 +4,8 @@ OWNS: bench/analyze.py, bench/test_analyze.py, bench/pilot_records.py, bench/tes
 
 Scope: finish minimal reproducible analysis, inspect successive one-replica discovery probes and repeated selected candidates, record supported settings and limitations.
 
+Historical pilot-completion record from 2026-10-18. Its pending step-17 and unset-target statements describe that execution. The later [main experiment protocol v1.1](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd) was agreed on 2026-10-21; original pilot evidence below is unchanged.
+
 - [x] G1: Analysis calculates known latency/count/resource values, preserves missingness and rejects an existing output path.
   CHECK: python -m unittest discover -s bench -p test_analyze.py -v
   EXPECT: /Ran [1-9][0-9]* tests?[\s\S]*^OK$/m

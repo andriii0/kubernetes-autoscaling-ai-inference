@@ -1,6 +1,6 @@
 # Measurements and pilot load tests
 
-Updated: 2026-10-19. Observation/resource-source verification, request records and pilot-run orchestration are implemented. Collection has offline tests and a [saved live low-load check](../../results/pilot/20261018T202951240Z-collection-check/README.md). Minimal pilot analysis and discovery are complete; low/peak selection has two five-minute confirmations each. [Saved results](../../results/pilot/discovery-2026-10-18-series1/README.md) support low=2 and peak=8 requests/10 s. Numeric protocol freezing remains next. Historical checks are linked below.
+Updated: 2026-10-21. Observation/resource-source verification, request records and pilot-run orchestration are implemented. Collection has offline tests and a [saved live low-load check](../../results/pilot/20261018T202951240Z-collection-check/README.md). Minimal pilot analysis and discovery are complete; low/peak selection has two five-minute confirmations each. [Saved results](../../results/pilot/discovery-2026-10-18-series1/README.md) support low=2 and peak=8 requests/10 s. The student agreed [main experiment protocol v1.1](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd) on 2026-10-21; step-20 code and instructions now have local verification; main execution remains separate. Historical checks are linked below.
 
 Implementation paths are relative to the repository root.
 
@@ -31,7 +31,7 @@ The completed `bench/analyze.py` prerequisite provides one CSV row per run, succ
 
 Calculated values and missing/window handling were verified against controlled fixtures and the saved live check; rendered figures were inspected. A/B/C and the intermediate probe ran sequentially with stop-rule inspection and idle recovery; both selected rates then received two five-minute confirmations. Evidence is saved beside the runs. This completed stage did not authorize publication; the later explicit publication request is recorded in [publication-review/GATES.md](publication-review/GATES.md).
 
-Acceptance and evidence: [pilot-analysis/GATES.md](pilot-analysis/GATES.md). The selected rates have repeated discovery evidence; the acceptable latency target and complete main protocol still require step 17.
+Acceptance and evidence: [pilot-analysis/GATES.md](pilot-analysis/GATES.md). The selected rates have repeated discovery evidence. Protocol v1.1 now records the main target as a study assumption; it does not change the original pilot settings or verdicts.
 
 The first A probe exposed a timestamp-boundary rejection despite complete measurements: its last request started 1 ms after the nominal end. Preserve that original failed report. Before repeating discovery, allow exactly one millisecond at either start boundary, matching the integer-millisecond k6 clocks; report such cases as warnings and retain actual timestamps/counts. Two milliseconds outside still invalidates the run. Verify both sides and repeat A with the corrected collector rather than overwriting the original evidence.
 
@@ -147,7 +147,7 @@ Implement the minimum pilot analysis in `bench/analyze.py`: one CSV row per run 
 
 Produce aligned time plots of individual response durations, request completions/failures, CPU, memory and ready replicas. At low rates, do not display a p95 every 5 seconds: too few responses fall in such a window. Use whole-run percentiles and individual response points for this pilot.
 
-Record the selected low/peak rates and an explicitly justified acceptable p95/error target in a separate Notion experiment protocol before comparing replica modes. Discovery stop rules are not the final target. Record repeated-prompt caching and the single-host CPU setup as limitations. Confirm later that three replicas fit the node's allocatable resources and whether they actually improve performance.
+The [main experiment protocol v1.1](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd) now retains the selected low/peak rates and records the main p95/error criteria. Discovery stop rules remain historical pilot rules, not application targets. Repeated-prompt caching and the single-host CPU setup remain limitations. Preliminary fixed-three placement/warmup/distribution is verified; the repeated comparison remains open. Do not apply the later main target retroactively to the pilot.
 
 The immediate result is a tested measurement path, saved pilot runs and documented experiment settings. No scaling-performance or resource-saving conclusion is expected at this stage.
 
@@ -170,7 +170,7 @@ The immediate result is a tested measurement path, saved pilot runs and document
 - [x] Verify the integrated collector against the live Kubernetes/model environment: [2026-10-18 low-load check](../../results/pilot/20261018T202951240Z-collection-check/README.md). This does not complete increasing-rate pilot discovery.
 - [x] Implement pilot summary/plots in `bench/analyze.py`; verify calculations/window filtering/missing values and inspect the saved-check plot. Optional Matplotlib is declared in `pyproject.toml`.
 - [x] Run increasing-rate discovery and two five-minute confirmations per selected rate: [saved pilot](../../results/pilot/discovery-2026-10-18-series1/README.md).
-- [ ] Freeze the main protocol and justified response-time target (roadmap step 17); the selected rates alone do not complete this step.
+- [x] Freeze the main protocol and justified response-time target (roadmap step 17): the student agreed [main experiment protocol v1.1](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd) on 2026-10-21. Step-20 implementation has local verification; fresh runtime readiness and main execution remain separate.
 
 Implementation detail: the observer keeps raw kubelet values and normalized resource records inside `cluster.jsonl`, rather than requiring a second output file to stay synchronized. CPU rates are in CPU units and memory is in bytes; presentation-unit conversions belong in analysis. Deployment collection uses the entire namespace because Deployment metadata labels may differ from its pod labels.
 

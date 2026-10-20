@@ -105,6 +105,11 @@ def distribution(folder, metadata, counts, completed_events):
                 statuses.append(int(match[1]))
         server_statuses.update(statuses)
         result[identity["pod_uid"]] = {"completed": len(statuses), "http_200": statuses.count(200)}
+    if metadata.get("protocol_version"):
+        return {"pods": result, "all_pods_active": all(r["completed"] > 0 for r in result.values()),
+                "started_at_utc": metadata["load_process_started_at_utc"],
+                "finished_at_utc": metadata["load_process_finished_at_utc"],
+                "method": "Observed server completions; client outcomes and server drain are separate"}
     if not all(r["completed"] for r in result.values()):
         raise ValueError("not every replica handled a measured Service request")
     if sum(r["completed"] for r in result.values()) != counts["completed"]:

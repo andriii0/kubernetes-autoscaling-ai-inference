@@ -179,7 +179,7 @@ class FixedReplicaTests(unittest.TestCase):
 
 
 class FixedLauncherTests(unittest.TestCase):
-    def run_fixture(self, failed_warmup=False):
+    def run_fixture(self, failed_warmup=False, main=False, replicas=3, profile="steady"):
         temporary = tempfile.TemporaryDirectory()
         self.addCleanup(temporary.cleanup)
         folder = Path(temporary.name) / "run"
@@ -189,7 +189,7 @@ class FixedLauncherTests(unittest.TestCase):
             index = 0
             def do_POST(self):
                 body = json.loads(self.rfile.read(int(self.headers["Content-Length"])))
-                uid = self.path.split("/")[-1] if self.path.startswith("/warmup/") else f"pod-{Handler.index % 3 + 1}"
+                uid = self.path.split("/")[-1] if self.path.startswith("/warmup/") else f"pod-{Handler.index % replicas + 1}"
                 if self.path == "/api/generate": Handler.index += 1
                 answer = "" if failed_warmup and uid == "pod-2" else "answer"
                 data = json.dumps({"done": True, "response": answer, "eval_count": 56, "load_duration": 0}).encode()
@@ -214,9 +214,20 @@ class FixedLauncherTests(unittest.TestCase):
 
         class Observer:
             def __init__(self, context, namespace, selector): self.context, self.namespace = context, namespace
-            def collect(self, interval): return three_sample(run_pilot.utc_now())
+            def collect(self, interval):
+                current = three_sample(run_pilot.utc_now())
+                if replicas == 1:
+                    current['pods']['items'] = current['pods']['items'][:1]
+                    current['resource_usage'] = [r for r in current['resource_usage'] if r['scope'] == 'node' or r['pod_uid'] == 'pod-1']
+                    target = current['deployments']['items'][0]
+                    target['spec']['replicas'] = 1
+                    target['status'].update(replicas=1, updatedReplicas=1, readyReplicas=1, availableReplicas=1)
+                return current
             def read(self, *args):
-                if "endpointslices" in args: return json.dumps(route()["endpoint_slices"])
+                if "endpointslices" in args:
+                    slices = route()["endpoint_slices"]
+                    slices["items"][0]["endpoints"] = slices["items"][0]["endpoints"][:replicas]
+                    return json.dumps(slices)
                 if "service" in args: return json.dumps(route()["service"])
                 name = args[args.index("logs") + 1]
                 return "".join(logs[name.replace("ollama-", "pod-")])
@@ -229,11 +240,37 @@ class FixedLauncherTests(unittest.TestCase):
             with urllib.request.urlopen(request, timeout=5) as response:
                 return subprocess.CompletedProcess(command, 0, response.read().decode(), "")
 
-        args = ["--base-url", base, "--replicas", "3", "--rate", "30", "--duration", "1s", "--idle-seconds", "0",
+        args = ["--base-url", base, "--replicas", str(replicas), "--rate", "30", "--duration", "1s", "--idle-seconds", "0",
                 "--post-seconds", "0", "--run-dir", str(folder)]
+        workload_path = Path(run_pilot.__file__).with_name('workload.json')
+        workload = json.loads(workload_path.read_text())
+        if main:
+            workload['main_protocol'].update(peak_rate=30, steady_seconds=1, observer_interval_seconds=.05, idle_seconds=0, fixed_post_seconds=0)
+            for stage, seconds in zip(workload['burst_stages'], (.2, .05, 1.5, .05, .2)):
+                stage['seconds'] = seconds
+            planned = (1 if replicas == 1 else 2) + (3 if profile == 'burst' else 0)
+            args += ['--protocol-version', '1.1', '--profile', profile, '--observer-interval', '.05',
+                     '--repetition', '1', '--planned-order', str(planned), '--actual-order', '1']
+            if profile == 'burst':
+                index = args.index('--duration')
+                del args[index:index+2]
+        original_read, original_copy = Path.read_text, shutil.copyfile
+        def read(path, *a, **kw):
+            return json.dumps(workload) if main and path == workload_path else original_read(path, *a, **kw)
+        def copy(source, destination, *a, **kw):
+            if main and Path(source) == workload_path:
+                Path(destination).write_text(json.dumps(workload))
+                return destination
+            return original_copy(source, destination, *a, **kw)
         versions = {k: {"exit_code": 0} for k in ("k6", "kubectl", "minikube", "docker")}
         with patch.object(run_pilot, "Observer", Observer), patch.object(run_pilot, "versions", return_value=versions), \
-                patch.object(fixed_replicas.subprocess, "run", side_effect=pod_proxy):
+                patch.object(fixed_replicas.subprocess, "run", side_effect=pod_proxy), \
+                patch('main_protocol.source_revision', return_value={'commit': 'local-test-fixture', 'dirty': False}), \
+                patch('main_protocol.recover', return_value={'test_stub': True}), \
+                patch('main_protocol.prepare_fixed'), patch('main_protocol.check_configuration'), \
+                patch('main_protocol.runtime_context', return_value={'test_stub': True}), \
+                patch('main_protocol.settle', return_value={'test_stub': True}), \
+                patch.object(Path, 'read_text', read), patch.object(shutil, 'copyfile', copy):
             if failed_warmup:
                 with patch.object(run_pilot, "run_load") as load, patch.object(run_pilot.shutil, "which", return_value="test-k6"):
                     code = run_pilot.main(args)

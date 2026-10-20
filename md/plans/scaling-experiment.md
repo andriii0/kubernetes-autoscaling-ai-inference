@@ -1,6 +1,6 @@
 # Scaling experiment procedure
 
-Updated: 2026-10-20. Status: preliminary HPA check completed; main series not executed. This document keeps the future scaling and main-analysis procedure previously described in the getting started guide. It does not make this the active task or mark any milestone complete.
+Updated: 2026-10-21. Status: protocol v1.1 agreed; step-20 code/instructions locally verified; main series not executed. This document keeps the future scaling and main-analysis procedure previously described in the getting started guide. It does not make this the active task or mark any milestone complete.
 
 ## Objective and prerequisites
 
@@ -10,8 +10,8 @@ The [fixed replica preparation](fixed-replicas.md) may run a separately labelled
 
 Before using this procedure for the main comparison:
 
-1. Use the completed one-replica pilot recording/analysis and selected low/peak rates from [the saved report](../../results/pilot/discovery-2026-10-18-series1/README.md). The response-time target and frozen main protocol remain prerequisites.
-2. Review and agree the separate [draft experiment protocol](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd) in Notion. Draft 0.1 is a private discussion draft, not a frozen protocol. Final settings, latency/error targets and their measurement windows, matrix, repeat order and invalid-run rules remain open. Keep these execution instructions consistent with the agreed version before the main series.
+1. Use the completed one-replica pilot recording/analysis and selected low/peak rates from [the saved report](../../results/pilot/discovery-2026-10-18-series1/README.md). Protocol v1.1 supplies the agreed targets and conditions; its implementation has local verification below.
+2. Use the [main experiment protocol v1.1](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd), agreed by the student on 2026-10-21. It owns targets, windows, matrix, order and outcome/data rules. Roadmap steps 17 and 20 are complete as agreement and local implementation preparation; runtime readiness and approved execution remain separate.
 3. Verify the current cluster, application image, model identity, Service URL and available resources. [Getting started](../GETTING_STARTED.md) owns setup and troubleshooting commands.
 4. Follow the accepted choices in [DECISIONS.md](../DECISIONS.md). Source configuration stays in [deploy/ollama.yaml](../../deploy/ollama.yaml) and [bench/inference.js](../../bench/inference.js). Schema, units and collection limits stay in [OBSERVATION.md](../OBSERVATION.md).
 
@@ -46,6 +46,8 @@ The [saved preliminary check](../../results/fixed-replicas/check-2026-10-20-seri
 Use `bench/analyze.py` on the saved runs. Three-pod plots show each pod separately because kubelet source times differ. `per-replica-resources.json` contains individual resource summaries; missing or asynchronous samples are not replaced by zero or silently summed.
 
 <a id="2-hpa-setup-and-checks"></a>
+
+The HPA/review/publication/audit sections below preserve the 2026-10-20 execution context. Their statements about an unfinished protocol describe that date. The current agreement and step-20 plan follow those historical records. Saved result reports and inputs remain unchanged.
 
 ## 2. Preliminary HPA implementation and check
 
@@ -110,131 +112,110 @@ Documentation follow-up: roadmap step 18 now explicitly requires the agreed repe
 
 The fixed-three timeout/distribution rule remains a preliminary limitation. Agree how client failures, distribution coverage and server drain are represented across all modes in the main protocol before changing that rule. No live load, target selection, archive rewrite, commit or push is part of this repair.
 
+## Protocol v1.0 agreement
+
+Historical version-1.0 completion record. The current protocol is v1.1; the original agreement and verification below are retained.
+
+Objective: record the student-approved step-17 agreement without changing executable code, historical measurements or archived inputs. The [main experiment protocol v1.0](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd) owns the full numeric rules and rationale.
+
+- [x] Save version 1.0 and the source baseline 389fb66 in Notion, retaining evidence/source links.
+- [x] Carry forward the pilot settings and selected rates; distinguish the 5000-ms study assumption from observed performance.
+- [x] Record profiles, primary phase/resource windows, quiet-state preparation, timeout/distribution rules, the 18-run order and retained system outcomes.
+- [x] Update related current Markdown and link the agreement from existing Notion evidence pages. Keep steps 18/20/21 open and historical result bytes unchanged.
+
+Verification (2026-10-21): all four edited Notion pages were fetched again; the v1.0 rules and current-versus-historical wording were checked. The 13 changed files are Markdown only. The historical verifier passed (120 protected files, matching saved aggregates and 183 local links), git diff --check passed, and all 467 result paths remain byte-identical to the pre-edit snapshot. Bench code/configuration and archived inputs are unchanged, so the bench suite was not rerun for this documentation-only change. No live load, commit or push.
+
+## Protocol v1.1 clarifications
+
+Objective: address the independently reviewed preparation/resource/assessment gaps before main load. Preserve the earlier agreement, all saved evidence and the selected workload, targets, matrix and order. The [main experiment protocol v1.1](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd) owns the exact rules. Affected main runs: 0. Step 17 remains complete; steps 18/20/21 remain open.
+
+- [x] Record post-warmup settling for all initial copies and a warmup-free metrics-server source window before HPA application.
+- [x] Select estimated CPU core-seconds and observed peak memory per instance, with explicit interval boundaries, continuity and coverage rules.
+- [x] Include the initial HPA reaction in both profiles and define the fixed run-assessment fields and combined verdict.
+- [x] Require zero unfinished requests for full assessment; reuse the existing rejection rather than adding a duplicate validator.
+- [x] Update related current Markdown and the existing Notion protocol/PDP references. Preserve historical version-1.0 records and the low-load overhead caveat.
+
+Verification (2026-10-21): the protocol v1.1 and PDP update were fetched again; the five clarification areas, assessment fields, original v1.0 approval and zero affected main runs were confirmed. The incremental diff changes the same 13 Markdown files only. The historical verifier passed (120 protected files, matching saved aggregates and 183 local links); git diff --check passed. All 498 protected code/config/result paths, including all 467 result files, retain their pre-v1.1 hashes. No code changed, so the bench suite was not rerun for this documentation revision. No runtime load, commit or push.
+
 ## 3. Main run procedure
 
-Use the frozen protocol for actual rates, targets, durations and repeat order. Do not use the command examples below as a substitute for that protocol or complete run orchestration. The observer, load script and one-replica pilot metadata/events are implemented. `bench/run_pilot.py` supports steady/burst profiles, fixed one or three copies, and one preliminary autoscaling run. It records mode/profile settings, fixed-replica warmups and pod timing records, but accepts autoscaling only with burst. It does not execute or validate the repeated main matrix. Before the main series, record repeat identity and the agreed protocol version, verify every agreed mode/profile combination, and agree the initial-state and startup-timing rules. The command blocks below remain manual reference examples.
+Step 20 preparation is complete with local verification. Reuse the existing launcher, reconciliation, analyzer, observer and workload. bench/main_protocol.py contains protocol-specific preparation and calculations; no separate collector, service or matrix orchestrator was added. Main runtime execution remains unapproved in this task.
 
-### Select and reset the mode
+### Implementation and verification
 
-Switch modes between runs, not during a measured interval. Use `fixed-1`, `fixed-3` or `autoscaling` as the result label, and `steady` or `burst` as the load profile.
+- [x] Support all fixed/autoscaling and steady/burst combinations.
+- [x] Record protocol version, repetition, planned/actual order, replacement links/reasons, source commit/dirty state and executable input hashes.
+- [x] Use shared error/drop/latency settings and assess the primary start-time phase. Reuse unfinished-request rejection; export the fixed assessment fields and sensitivity result.
+- [x] Check remaining copies before switching mode. Prepare the initial count without a routine restart, wait for fresh low CPU, observe idle, warm initial copies and settle again. Before HPA, check the entire metrics-server window too.
+- [x] Retain fixed-mode traffic separately from client counts/statuses after timeouts; preserve system failures and partial attempts.
+- [x] Estimate per-instance CPU core-seconds on the common scheduled window, with continuity/clipping/coverage and separate observed memory/node values. Keep historical client-drain summaries.
+- [x] Supply the manual order and single-run instructions below. Fixed steady cells also supply step 18.
+- [x] All 122 bench tests passed without skips on 2026-10-21. New tests cover six mode/profile paths using real k6/local HTTP, preparation gates, target failures, incomplete attempts and resource calculations. Kubernetes interactions are simulated; preparation gates have separate direct tests. All 467 saved result paths are byte-identical; 11 saved summaries and the HPA phase/timeline replay match. The historical verifier passed (120 protected files, matching saved aggregates and 183 local links); git diff --check passed. The Notion protocol/PDP updates were fetched again. No cluster load, commit or push.
 
-For fixed one replica:
+### Before runtime work
 
-```powershell
-kubectl --context ai-lab -n inference delete hpa ollama --ignore-not-found
-kubectl --context ai-lab -n inference scale deployment/ollama --replicas=1
-kubectl --context ai-lab -n inference rollout status deployment/ollama --timeout=180s
-```
+Confirm the current Docker/Minikube state and Service tunnel, inspect actual resources/image/model identity, and ensure no other project k6/observer process is running. Record unrelated heavy activity. Review Git changes: metadata records HEAD, dirty state and exact archived input hashes; HEAD alone does not identify uncommitted executable content. Keep the reviewed executable inputs fixed across the series.
 
-For fixed three replicas:
+Use a new parent series path and a new attempt path each time. Do not pre-create the attempt folder. Do not run the old preliminary mode-switch commands before main mode: the launcher first checks quiet remaining copies, then removes only this workload's HPA and selects one or three initial copies. It refuses a conflicting HPA. No rollout restart is required. Preparation failure stops before k6 and retains the attempt.
 
-```powershell
-kubectl --context ai-lab -n inference delete hpa ollama --ignore-not-found
-kubectl --context ai-lab -n inference scale deployment/ollama --replicas=3
-kubectl --context ai-lab -n inference rollout status deployment/ollama --timeout=180s
-```
+Initial models receive separate warmup. Both HPA profiles then apply HPA and verify two numeric, ScalingActive observations at one copy. New HPA copies load during measurement. The launcher keeps observation through scheduled end even if k6 exits after its last scheduled request slightly early. Client completion, the full scheduled window and later observation remain separate. Fixed modes keep 10 seconds after the scheduled/client window; HPA keeps 300 seconds, then restores one copy and removes HPA.
 
-For automatic scaling, use the fixed-one reset above first. Apply HPA only after initial warmup, immediately before recording the run. Removing and recreating this HPA resets its previous recommendation history.
+### Manual matrix checklist
 
-Check that only the intended initial replicas remain and no pods are still `Terminating`. For a clean start, restart the workload without HPA:
+No row below has been executed. Mark an attempt only after reviewing its assessment and evidence; record failures too. Actual order counts every attempt, including interruptions/replacements. Keep the planned order of the matrix cell when an attempt replaces it.
 
-```powershell
-kubectl --context ai-lab -n inference rollout restart deployment/ollama
-kubectl --context ai-lab -n inference rollout status deployment/ollama --timeout=180s
-```
+| Planned order | Repetition | Mode | Profile | Reviewed attempt path / outcome |
+|---|---|---|---|---|
+| 1 | 1 | fixed-1 | steady | [ ] |
+| 2 | 1 | fixed-3 | steady | [ ] |
+| 3 | 1 | autoscaling | steady | [ ] |
+| 4 | 1 | fixed-1 | burst | [ ] |
+| 5 | 1 | fixed-3 | burst | [ ] |
+| 6 | 1 | autoscaling | burst | [ ] |
+| 7 | 2 | fixed-3 | burst | [ ] |
+| 8 | 2 | autoscaling | burst | [ ] |
+| 9 | 2 | fixed-1 | burst | [ ] |
+| 10 | 2 | fixed-3 | steady | [ ] |
+| 11 | 2 | autoscaling | steady | [ ] |
+| 12 | 2 | fixed-1 | steady | [ ] |
+| 13 | 3 | autoscaling | steady | [ ] |
+| 14 | 3 | fixed-1 | steady | [ ] |
+| 15 | 3 | fixed-3 | steady | [ ] |
+| 16 | 3 | autoscaling | burst | [ ] |
+| 17 | 3 | fixed-1 | burst | [ ] |
+| 18 | 3 | fixed-3 | burst | [ ] |
 
-Warm and verify every initial replica as in section 1, then let outstanding work finish. Exclude initial warmup from measurement. In automatic mode, loading a model in a new replica during the run remains part of the scaling reaction, as defined by the [readiness decision](../DECISIONS.md#10-distinguish-server-readiness-from-a-warm-model). Record Ready transitions separately from first successful generation.
+### Run one approved attempt
 
-### Create a new run directory
-
-Run this block once for each run. If directory creation fails, stop; do not continue with an existing directory.
-
-```powershell
-$mode = 'fixed-1'
-$profile = 'burst'
-$runDir = Join-Path 'results' ("{0}-{1}-{2}-{3}" -f $mode, $profile, [DateTime]::UtcNow.ToString('yyyyMMddTHHmmssfffZ'), [Guid]::NewGuid().ToString('N').Substring(0, 8))
-New-Item -ItemType Directory -Path $runDir -ErrorAction Stop | Out-Null
-$env:LOW_RATE = Read-Host 'Low rate from the frozen protocol: requests per 10 seconds'
-$env:RATE = Read-Host 'Peak rate from the frozen protocol: requests per 10 seconds'
-$env:SLO_MS = Read-Host 'Frozen p95 limit in milliseconds'
-```
-
-`$mode` only labels results. The actual mode is set by the Kubernetes commands above. Changing the label does not change the cluster.
-
-### Record configuration and start observation
-
-Record the selected settings and actual deployed configuration. The previous guide's `settings.json` example was not complete metadata. The [pilot plan's saved-run format](measurements-and-pilot.md#2-saved-run-format) defines the required evidence; main runs also need their mode, profile and repeat identity.
-
-As a starting record, save tool versions, image/model identity and configuration:
+Read one row of the checklist and set its fields. This command runs only that attempt; it is not a loop. Keep the Service tunnel open. Omit --duration and --slo-ms: main settings come from the shared protocol configuration. Rates are requests per ten seconds.
 
 ```powershell
-@{
-    mode = $mode
-    profile = $profile
-    base_url = $env:BASE_URL
-    low_rate_per_10s = [int]$env:LOW_RATE
-    peak_rate_per_10s = [int]$env:RATE
-    p95_limit_ms = [int]$env:SLO_MS
-} | ConvertTo-Json | Set-Content -Encoding utf8 "$runDir\settings.json"
-Copy-Item -LiteralPath .\bench\inference.js -Destination "$runDir\inference.js"
-Copy-Item -LiteralPath .\bench\observe.py -Destination "$runDir\observe.py"
-minikube version | Set-Content -Encoding utf8 "$runDir\minikube-version.txt"
-kubectl --context ai-lab version -o json | Set-Content -Encoding utf8 "$runDir\kubernetes-version.json"
-k6 version | Set-Content -Encoding utf8 "$runDir\k6-version.txt"
-docker image inspect ai-inference:0.1 | Set-Content -Encoding utf8 "$runDir\image.json"
-kubectl --context ai-lab -n inference exec deployment/ollama -- ollama list | Set-Content -Encoding utf8 "$runDir\model-version.txt"
+$mode = Read-Host 'Mode from the checklist'
+$profile = Read-Host 'Profile from the checklist'
+$repetition = [int](Read-Host 'Repetition from the checklist')
+$plannedOrder = [int](Read-Host 'Planned order from the checklist')
+$actualOrder = [int](Read-Host 'Actual attempt number, including failed attempts')
+$runDir = Read-Host 'New attempt path under results/main/NEW-SERIES'
+$activity = Read-Host 'Other heavy activity, or none observed'
+.\.venv\Scripts\python.exe -B bench/run_pilot.py --protocol-version 1.1 --mode "$mode" --profile "$profile" --rate 8 --repetition $repetition --planned-order $plannedOrder --actual-order $actualOrder --activity-note "$activity" --base-url "$env:BASE_URL" --run-dir "$runDir"
 ```
 
-The copied load script retains the actual payload, scenario and threshold definitions instead of repeating them in this plan. Complete run metadata must also preserve hashes, resource/node settings, warmup records, process exit codes and before/after snapshots. A failed configuration read must be recorded and inspected; do not continue as if all evidence was captured.
+For a justified replacement, use a new path and actual attempt number, retain the same planned cell and add --replaces-run OLD-PATH-OR-ID --replacement-reason "Reason". Never overwrite or erase the original. Do not replace a run merely because latency, errors or scaling behavior are unfavorable.
 
-For `autoscaling`, apply the reviewed HPA configuration now and verify numeric metrics and one initial replica. Skip this block for fixed modes:
+Inspect metadata.json, collection-check.json and assessment.json after every attempt. Exit 99 means a k6 threshold failed; it can still be valid measurement evidence. overall not_assessable requires reviewing missing data, duration, drops or traffic evidence; it is not a successful repetition. Server-drain verification stays separate. Stop for a preparation/collection problem and inspect before another attempt.
+
+For analysis, choose a new output directory:
 
 ```powershell
-kubectl --context ai-lab apply -f .\deploy\hpa.yaml
-kubectl --context ai-lab -n inference get hpa
+$analysisDir = Read-Host 'New analysis output path'
+.\.venv\Scripts\python.exe -B bench/analyze.py "$runDir" --output-dir "$analysisDir" --no-plots
 ```
 
-Save the resulting configuration and print the run path:
-
-```powershell
-kubectl --context ai-lab -n inference get deployment,service,hpa -o yaml | Set-Content -Encoding utf8 "$runDir\cluster-config.yaml"
-$runDir
-```
-
-In an observation window, enter the printed run path and start the observer:
-
-```powershell
-Set-Location 'C:\Users\matvi\PycharmProjects\kubernetes-autoscaling-ai-inference'
-$observationDir = Read-Host 'Current run directory'
-python .\bench\observe.py "$observationDir\cluster.jsonl"
-```
-
-The observer refuses an existing output file. Start collection before the measured interval and keep it running through the last response. Record its actual start/end times and exit code through the planned run orchestration.
-
-### Collect the measured interval
-
-In the first window, record the interval and run k6 once in the new directory:
-
-```powershell
-(Get-Date).ToUniversalTime().ToString('o') | Set-Content -Encoding utf8 "$runDir\started-at.txt"
-k6 run --no-usage-report -e "PROFILE=$profile" --out "json=$runDir/requests.json" --summary-export "$runDir/summary.json" .\bench\inference.js 2>&1 | Tee-Object -FilePath "$runDir\console.txt"
-$LASTEXITCODE | Set-Content -Encoding ascii "$runDir\exit-code.txt"
-(Get-Date).ToUniversalTime().ToString('o') | Set-Content -Encoding utf8 "$runDir\ended-at.txt"
-```
-
-Do not repeat the k6 command in the same directory: k6 itself can overwrite its output files. The complete runner must enforce exclusive run creation and preserve failures. This is a remaining implementation requirement, not a feature supplied by these individual command blocks.
-
-Let observation capture the final state, then stop it with `Ctrl+C`. Mark any extra idle observation after the measured interval separately. Use the actual schedule in the saved load script; allow extra time for outstanding requests to finish.
-
-Execute the reviewed matrix from the [roadmap](../ROADMAP.md#20-prepare-the-main-experiment-matrix-and-run-procedure) and frozen protocol. Keep model/request settings, resource limits and load profiles comparable, and vary run order as planned. Avoid other heavy work on the computer.
-
-Keep failed and partial runs with an explanation. If k6 drops scheduled work, do not report that run as if the full requested load was created. Fix generator capacity during the pilot or revise the protocol for the entire affected comparison. Response threshold failures and invalid measurement processes are different outcomes.
-
-Source: [k6 raw JSON output](https://grafana.com/docs/k6/latest/results-output/real-time/json/).
+assessments.json contains the fixed verdict fields and phase counts; primary-resources.json contains scheduled-window interval estimates and coverage. Existing summary.csv, per-replica-resources.json and plots retain their documented historical/client-drain meanings. Full application CPU stays unavailable without full expected-instance coverage; per-instance memory peaks are never summed as an application peak. Main-series cross-repetition findings remain step 22/23 work.
 
 ## 4. Main result analysis
 
-This section is the implementation plan for later main-series analysis. `bench/analyze.py` implements preliminary fixed-one/fixed-three analysis and one autoscaling timeline. The repeated main-series comparison remains future work. The [pilot plan](measurements-and-pilot.md#5-pilot-output-and-decisions) owns the first whole-run summaries and rate selection; extend that work for the main matrix rather than building a separate analyzer.
+This section covers the remaining main-series comparison and presentation. Existing per-run analysis now also exports protocol assessment and scheduled-window resource estimates for main attempts. Combining actual repetitions and writing comparative findings remain future work. The [pilot plan](measurements-and-pilot.md#5-pilot-output-and-decisions) owns the first whole-run summaries and rate selection; extend that work for the main matrix rather than building a separate analyzer.
 
 ### Read request and cluster records
 
@@ -242,13 +223,17 @@ Read JSONL one record at a time. Keep k6 records with `type == "Point"`; use `su
 
 Read `cluster.jsonl` for state and resource observations. A counted Ready pod must have `Ready=True` in `status.conditions` and no `deletionTimestamp`. Ready does not prove that a model has completed generation; keep those timelines distinct.
 
-Use UTC for alignment. A 30-second display window was the initial main-series suggestion, not a frozen protocol setting. Confirm adequate sample counts during the pilot. Use whole-run percentiles and individual response points when there are too few requests for stable windowed percentiles.
+Use UTC for alignment. Protocol v1.1 assigns requests by start time: steady uses the full run, burst uses the full peak including initial HPA reaction. Later completions remain in their start phase. Report the primary 5000-ms criterion, predefined 10000-ms sensitivity check and whole-run context with sample counts. Do not invent short-window p95 values from sparse samples.
 
 ### Use the selected resource source
 
+The primary resource window is scenario start through scheduled end (300 seconds steady or 782 seconds burst), common across modes. Show client-drain and post-load periods separately; primary-resources.json now exports this window separately from historical summaries.
+
 Use `resource_usage` for normalized direct kubelet observations. Preserve the raw `kubelet` series for checking calculations. Keep `resources` (metrics-server) separate to explain the HPA input; do not substitute it when direct resource data is missing. The schema and units are defined in [OBSERVATION.md](../OBSERVATION.md).
 
-For application totals, select `scope == "container"`, `namespace == "inference"` and `container == "ollama"`. Only sum a complete set of container values from the same source instant. Otherwise show each pod separately and leave the application total missing. Convert bytes to MiB only for display. Show `scope == "node"` separately so the application is not counted twice.
+For the primary quantities, select `scope == "container"`, `namespace == "inference"` and `container == "ollama"`. Estimate CPU core-seconds from valid per-instance source-counter intervals, clipping only at the primary boundaries as specified in Notion v1.1. Report covered seconds and active-window coverage; never bridge resets, identity changes or missing samples. A full application CPU total may sum these independently accumulated quantities only with complete coverage of every expected instance. Otherwise retain per-instance covered quantities and leave the full total unavailable.
+
+Use maximum observed working-set MiB per instance with coverage for memory. Do not sum per-instance peaks as an application peak. Instantaneous totals still require complete samples from the same source instant. Show node CPU/memory separately so the application is not counted twice. CPU-seconds per successful request is outside the required scope.
 
 Preserve nulls, counter resets, errors and gaps. If an expected container lacks a metric, label the total incomplete instead of presenting the other containers as the whole application. Check CPU and memory coverage independently.
 
@@ -256,11 +241,11 @@ Respect `cpu_timestamp_ms`, `memory_timestamp_ms` and `cpu_clock`; repeated coll
 
 ### Produce tables, charts and findings
 
-Write one summary row per run to CSV and use it in the main findings document in Notion. Include mode, profile, repeat, successful-response p95, response errors, completed and dropped requests, Ready replica counts, resource use and coverage. Raw files remain the source for checking summary values; console output alone is not enough.
+Write one summary row per run to CSV and use it in the main findings document in Notion. Include mode, profile, repeat, successful-response p95, response errors, completed/unfinished/dropped requests, Ready replica counts, selected resource quantities/coverage and the v1.1 assessment fields. Use not_assessable for incomplete data/duration/offered load; otherwise any failed service target means fail, all three passing means pass, and a remaining unknown means not_assessable. Scaling transitions and resource coverage remain separate observations. Raw files remain the source for checking summary values; console output alone is not enough.
 
-Produce aligned plots for response latency and its agreed target, Ready replicas, and application CPU/memory. Mark load growth, decline, model startup and the measured interval. The first version can use CSV and externally created charts before plot generation is automated.
+Produce aligned plots for response latency and its agreed target, Ready replicas, and application CPU/memory. Mark load growth, decline, model startup and the measured interval. Reuse the existing CSV/JSON and plot generation; add only the agreed windows and fields needed for the main comparison.
 
-Show each repetition and its variation. Do not average run p95 values and call that an overall p95. If needed, recalculate a pooled percentile from the raw response samples and explain its meaning. Check the latency target together with the error target: timed-out slow requests disappearing from successful latency are not evidence of improvement.
+Show each repetition and its variation. Mixed assessable pass/fail repetitions mean inconsistent target attainment; not_assessable repetitions mean incomplete evidence and must also be shown; preserve system failures and do not add repeats just to obtain a favorable result. Do not average run p95 values and call that an overall p95. If needed, recalculate a pooled percentile from the raw response samples and explain its meaning. Check the latency target together with the error target: timed-out slow requests disappearing from successful latency are not evidence of improvement.
 
 The findings should answer when one replica exceeded the target, what changed with fixed extra capacity, how long scaling took, when targets were missed, how scale-down behaved, and what resource use accompanied each outcome. Report insufficient evidence when needed. Use the [research document's existing evaluation sections](../../docs/README.md) for the research update.
 

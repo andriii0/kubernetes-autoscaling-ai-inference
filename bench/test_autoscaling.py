@@ -327,7 +327,7 @@ class LauncherTests(unittest.TestCase):
             folder = Path(temporary) / 'run'
             base = ['--base-url', 'http://localhost:1', '--rate', '8', '--run-dir', str(folder)]
             with patch.object(run_pilot, 'Observer') as observer:
-                for flags in (['--mode', 'autoscaling'], ['--mode', 'autoscaling', '--profile', 'burst', '--replicas', '1'],
+                for flags in (['--mode', 'autoscaling', '--replicas', '3'], ['--mode', 'autoscaling', '--profile', 'burst', '--replicas', '1'],
                               ['--profile', 'burst', '--duration', '2m'], ['--mode', 'fixed-1', '--replicas', '3']):
                     with self.assertRaises(SystemExit):
                         run_pilot.main(base + flags)
@@ -377,7 +377,7 @@ class LauncherTests(unittest.TestCase):
 
 
 class AutoscalingLifecycleTests(unittest.TestCase):
-    def exercise(self, interrupt=False, fail_warmup=False):
+    def exercise(self, interrupt=False, fail_warmup=False, profile="burst", main=False, latency_target=None):
         import time
         import shutil
         import test_run_pilot
@@ -389,6 +389,10 @@ class AutoscalingLifecycleTests(unittest.TestCase):
         workload = json.loads(workload_path.read_text())
         for stage, seconds in zip(workload['burst_stages'], (.2, .05, .5, .05, .2)):
             stage['seconds'] = seconds
+        if main:
+            workload["main_protocol"].update(peak_rate=30, steady_seconds=1, observer_interval_seconds=.05, idle_seconds=0, hpa_post_seconds=1)
+        if latency_target is not None:
+            workload["main_protocol"]["primary_p95_ms"] = latency_target
         original_read, original_copy = Path.read_text, shutil.copyfile
 
         def read(path, *args, **kwargs):
@@ -461,16 +465,28 @@ class AutoscalingLifecycleTests(unittest.TestCase):
         args[args.index('--post-seconds') + 1] = '1'
         index = args.index('--duration')
         del args[index:index+2]
-        args += ['--mode', 'autoscaling', '--profile', 'burst', '--rate', '30', '--observer-interval', '.05']
+        args += ['--mode', 'autoscaling', '--profile', profile, '--rate', '30', '--observer-interval', '.05']
+        if profile == 'steady':
+            args += ['--duration', '1s']
+        if main:
+            args += ['--protocol-version', '1.1', '--repetition', '1', '--planned-order', '3' if profile == 'steady' else '6', '--actual-order', '1']
         with patch.object(run_pilot, 'Observer', Observer), patch.object(run_pilot, 'versions', fixture.fake_versions), \
              patch.object(autoscaling, 'Logs', Logs), patch.object(Path, 'read_text', read), \
              patch.object(run_pilot.shutil, 'copyfile', copy), \
-             patch.object(run_pilot.shutil, 'which', return_value=shutil.which('k6') or 'test-k6'):
+             patch.object(run_pilot.shutil, 'which', return_value=shutil.which('k6') or 'test-k6'), \
+             patch('main_protocol.recover', return_value={'test_stub': True}), \
+             patch('main_protocol.runtime_context', return_value={'test_stub': True}), \
+             patch('main_protocol.check_configuration') as configuration, \
+             patch('main_protocol.settle', return_value={'test_stub': True}) as settle:
             if interrupt:
                 with patch.object(run_pilot, 'run_load', side_effect=KeyboardInterrupt):
                     code = run_pilot.main(args)
             else:
                 code = run_pilot.main(args)
+        if main and not interrupt and not fail_warmup:
+            self.assertEqual(settle.call_count, 2)
+            self.assertFalse(settle.call_args_list[0].args[2:] or ())
+            self.assertEqual(settle.call_args_list[1].args[2:], (True,))
         return fixture.folder, code
 
     @unittest.skipUnless(shutil.which('k6'), 'k6 is required for this integration check')

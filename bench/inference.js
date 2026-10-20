@@ -9,6 +9,9 @@ const requestsCompleted = new Counter('requests_completed');
 const requestLatency = new Trend('request_latency_ms', true);
 const successfulLatency = new Trend('successful_latency_ms', true);
 const inferenceErrors = new Rate('inference_errors');
+const primaryLatency = new Trend('primary_successful_latency_ms', true);
+const primaryErrors = new Rate('primary_inference_errors');
+const main = __ENV.MAIN_PROTOCOL === workload.main_protocol.version;
 const outputTokens = new Trend('output_tokens');
 const modelLoad = new Trend('model_load_ms', true);
 const outputTokensAvailable = new Rate('output_tokens_available');
@@ -37,9 +40,13 @@ export const options = {
   scenarios: { load },
   noConnectionReuse: true,
   thresholds: {
-    dropped_iterations: ['count==0'],
-    inference_errors: ['rate<=0.01'],
-    ...(__ENV.SLO_MS ? { successful_latency_ms: [`p(95)<=${Number(__ENV.SLO_MS)}`] } : {}),
+    dropped_iterations: [`count==${workload.thresholds.dropped_starts}`],
+    inference_errors: [`rate<=${workload.thresholds.error_rate}`],
+    ...(main ? {
+      primary_successful_latency_ms: [`p(95)<=${workload.main_protocol.primary_p95_ms}`],
+      primary_inference_errors: [`rate<=${workload.thresholds.error_rate}`],
+    } : {}),
+    ...(!main && __ENV.SLO_MS ? { successful_latency_ms: [`p(95)<=${Number(__ENV.SLO_MS)}`] } : {}),
   },
 };
 
@@ -93,6 +100,20 @@ export default function () {
   });
   requestsCompleted.add(1);
   inferenceErrors.add(!ok);
+  // Classify by start, keeping a late completion in the phase where it began.
+  let primary = __ENV.PROFILE !== 'burst';
+  if (!primary) {
+    const offset = started - exec.scenario.startTime;
+    let boundary = 0;
+    for (const stage of workload.burst_stages) {
+      if (stage.name === 'peak') primary = offset >= boundary && offset < boundary + stage.seconds * 1000;
+      boundary += stage.seconds * 1000;
+    }
+  }
+  if (main && primary) {
+    primaryErrors.add(!ok);
+    if (ok) primaryLatency.add(elapsed);
+  }
   if (ok) {
     successfulLatency.add(elapsed);
     outputTokensAvailable.add(hasTokens);

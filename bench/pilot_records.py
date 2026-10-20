@@ -68,11 +68,11 @@ def iso_time(value):
     return datetime.fromtimestamp(value, timezone.utc).isoformat()
 
 
-def pilot_identity(sample, deployment="ollama", container="ollama", replicas=1):
+def pilot_identity(sample, deployment="ollama", container="ollama", replicas=1, allow_resource_gaps=False):
     """Require stable fixed replicas and complete counters; retain the historical one-pod shape."""
     if replicas not in (1, 3):
         raise ValueError("only one or three fixed replicas are supported")
-    if sample["errors"]:
+    if any(not allow_resource_gaps or e.get("category") != "missing_resource" for e in sample["errors"]):
         raise ValueError("cluster collection contains errors")
     pods = sample["pods"]["items"]
     if len(pods) != replicas:
@@ -105,7 +105,7 @@ def pilot_identity(sample, deployment="ollama", container="ollama", replicas=1):
         if selector.get("matchExpressions") or not selector.get("matchLabels") or any(
                 labels.get(k) != v for k, v in selector["matchLabels"].items()):
             raise ValueError("selected pod does not match the pilot Deployment")
-        for scope in ("container", "node"):
+        for scope in (() if allow_resource_gaps else ("container", "node")):
             matching = [r for r in sample["resource_usage"] if r["scope"] == scope and r["node"] == pod["spec"]["nodeName"]
                         and (scope == "node" or (r["pod_uid"] == pod["metadata"]["uid"] and r["container"] == container))]
             if len(matching) != 1 or any(matching[0].get(key) is None for key in
@@ -147,7 +147,7 @@ def reconcile(folder, metadata):
             check_warmup(warm, metadata["initial_identity"], metadata["load_process_started_at_utc"])
             check_route(json.loads((folder / "service-route.json").read_text(encoding="utf-8")),
                         metadata["initial_identity"], metadata["deployment_snapshot"])
-        if metadata.get("mode") == "autoscaling":
+        if metadata.get("mode") == "autoscaling" or metadata.get("protocol_version") and metadata.get("expected_replicas") == 1:
             from fixed_replicas import check_route
             check_route(json.loads((folder / "service-route.json").read_text(encoding="utf-8")),
                         [metadata["initial_identity"]], metadata["deployment_snapshot"])
@@ -268,6 +268,13 @@ def reconcile(folder, metadata):
     except (OSError, ValueError, KeyError, TypeError, AttributeError) as error:
         errors.append(f"request evidence: {error}")
     report["events_read"] = {"started": len(starts), "completed": len(completions)}
+    if metadata.get("protocol_version") and metadata.get("mode") != "autoscaling" and report["load_window"]:
+        try:
+            identity = metadata["initial_identity"]
+            for i in identity if isinstance(identity, list) else [identity]:
+                (folder / "pod-logs" / (i["pod_uid"] + ".log")).read_text(encoding="utf-8")
+        except (OSError, KeyError) as error:
+            errors.append(f"fixed-mode log evidence: {error}")
 
     try:
         times = []
@@ -282,7 +289,11 @@ def reconcile(folder, metadata):
             times.append(observed)
             error_count += len(sample["errors"])
             try:
-                if metadata.get("mode") != "autoscaling" and pilot_identity(sample, metadata["deployment"], metadata["container"], metadata.get("expected_replicas", 1)) != identity:
+                if metadata.get("protocol_version") and metadata.get("mode") != "autoscaling":
+                    spec = next(d['spec'] for d in sample['deployments']['items'] if d['metadata']['name'] == metadata['deployment'])
+                    if spec != metadata['deployment_snapshot']['spec']:
+                        errors.append('Deployment configuration changed during collection')
+                if metadata.get("mode") != "autoscaling" and pilot_identity(sample, metadata["deployment"], metadata["container"], metadata.get("expected_replicas", 1), allow_resource_gaps=bool(metadata.get("protocol_version"))) != identity:
                     errors.append("pilot container identity or restart count changed")
             except (ValueError, KeyError, StopIteration, TypeError, AttributeError) as error:
                 errors.append(f"invalid cluster sample: {error}")

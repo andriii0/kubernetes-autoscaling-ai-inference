@@ -6,7 +6,7 @@ This is an independent research project about scaling AI inference when request 
 
 How effectively can the selected container orchestration platform autoscale AI inference under changing load while keeping latency acceptable?
 
-The acceptable p95 latency limit will be set after a small pilot run and before the main experiments. The project will compare a fixed number of inference instances with automatic scaling under steady and bursty traffic. It will record request latency, throughput, errors, resource use, replica count, and scaling reaction time.
+The [main experiment protocol v1.1](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd), agreed on 2026-10-21, defines the main acceptance targets and comparison rules. The 5-second successful-response p95 target is an explicit study assumption for a short complete answer, not a validated user requirement. The project will compare a fixed number of inference instances with automatic scaling under steady and bursty traffic. It will record request latency, throughput, errors, resource use, replica count, and scaling reaction time.
 
 ## Documentation
 
@@ -36,6 +36,6 @@ Define one inference workload and two load profiles. Compare suitable orchestrat
 
 ## Current state
 
-The implemented path uses Ollama for inference, k6 for load generation and `bench/observe.py` for cluster/resource observations. Pilot rate selection and pilot CSV/JSON summaries and plots are implemented; a preliminary three-copy check is saved. A [preliminary HPA check](results/autoscaling/check-2026-10-20-series1/README.md) verifies growth and reduction. The repeated main comparison and main-series analysis remain unfinished. See [STATUS.md](md/STATUS.md) for verification dates, limitations and the active plan, and [ARCHITECTURE.md](md/ARCHITECTURE.md) for implementation details.
+The implemented path uses Ollama for inference, k6 for load generation and `bench/observe.py` for cluster/resource observations. Pilot rate selection and pilot CSV/JSON summaries and plots are implemented; a preliminary three-copy check is saved. A [preliminary HPA check](results/autoscaling/check-2026-10-20-series1/README.md) verifies growth and reduction. Protocol agreement is complete. The existing launcher/analyzer now support protocol v1.1 and the manual matrix (step 20), with local verification. The repeated main comparison and main-series findings remain unfinished; runtime readiness still needs a fresh check before approved load. See [STATUS.md](md/STATUS.md) for verification dates, limitations and the active plan, and [ARCHITECTURE.md](md/ARCHITECTURE.md) for implementation details.
 
 Saved checks are available for [deployment](results/smoke-2026-10-04/smoke.json), [load generation](results/k6-smoke-2026-10-04/README.md), [observation](results/observation-check-2026-10-16-verified/README.md), [the completed pilot](results/pilot/discovery-2026-10-18-series1/README.md) and [the preliminary three-copy check](results/fixed-replicas/check-2026-10-20-series1/README.md). They do not establish current cluster availability or maximum capacity. Use the [setup guide](md/GETTING_STARTED.md) for restart and run commands.

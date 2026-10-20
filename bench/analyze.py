@@ -34,25 +34,8 @@ def scaling_details(data):
     """Preserve observations and phase assignments rather than infer unavailable controller decisions."""
     from autoscaling import ready, target_hpa
     start = timestamp(data["check"]["load_window"]["started_at_utc"])
-    stages, offset = [], 0
-    completions = [e for e in data["events"] if e["event"] == "completed"]
-    for stage in data["metadata"]["burst_stages"]:
-        end = offset + stage["seconds"]
-        # Match the validator's one-millisecond boundary allowance without changing raw times.
-        events = []
-        for event in completions:
-            elapsed_ms = round((timestamp(event["started_at_utc"]) - start) * 1000)
-            within = round(offset * 1000) <= elapsed_ms < round(end * 1000)
-            first_tick = offset == 0 and elapsed_ms == -1
-            last_tick = stage is data["metadata"]["burst_stages"][-1] and round(end * 1000) <= elapsed_ms <= round(end * 1000) + 1
-            if within or first_tick or last_tick:
-                events.append(event)
-        good = [e["duration_ms"] for e in events if e["outcome"] == "success"]
-        stages.append({**stage, "start_seconds": offset, "end_seconds": end, "assignment": "request start time",
-                       "completed": len(events), "successful": len(good), "failed": len(events) - len(good),
-                       "p95_ms": percentile(good, .95), "mean_ms": statistics.mean(good) if good else None,
-                       "failure_categories": dict(Counter(e["error_category"] for e in events if e["outcome"] == "failure"))})
-        offset = end
+    from main_protocol import phase_results
+    stages = phase_results(data)
     pods, timeline = {}, []
     for sample in data["cluster"]:
         hpa = target_hpa(sample, data["metadata"]["deployment"]) if sample.get("hpa") is not None else None
@@ -332,6 +315,12 @@ def main(argv=None):
         scaling = {d["folder"].name: scaling_details(d) for d in datasets if d["metadata"].get("mode") == "autoscaling"}
         if scaling:
             (args.output_dir / "scaling.json").write_text(json.dumps(scaling, indent=2, allow_nan=False) + "\n", encoding="utf-8")
+        main_runs = [d for d in datasets if d['metadata'].get('protocol_version')]
+        if main_runs:
+            from main_protocol import assessment, primary_resources
+            for filename, function in (('assessments.json', assessment), ('primary-resources.json', primary_resources)):
+                (args.output_dir / filename).write_text(json.dumps(
+                    {d['folder'].name: function(d) for d in main_runs}, indent=2, allow_nan=False) + '\n', encoding='utf-8')
         for index, (data, row) in enumerate(zip(datasets, rows), 1):
             if not args.no_plots:
                 create_plots(data, row, args.output_dir / f"{index:02d}-{row['run']}")
@@ -348,7 +337,10 @@ def main(argv=None):
             "Counts are ten-second buckets; the last bucket can be partial. Whole-run p95 is shown with its sample count. "
             "Collection failures remain explicit in the summary; those runs do not establish capacity. "
             "For three copies, plots and per-replica-resources.json use each pod's own source timestamps. "
-            "Total resource values stay missing when source timestamps differ; asynchronous rates are not added.\n",
+            "Total instantaneous resource values stay missing when source timestamps differ; asynchronous rates are not added. "
+            "For main runs, assessments.json applies protocol targets to the primary start-time phase; "
+            "primary-resources.json integrates source counter intervals over scheduled load only, with coverage. "
+            "Node consumption and observed per-instance memory peaks are reported separately.\n",
             encoding="utf-8")
         print(f"Saved {len(rows)} run summaries to {args.output_dir}")
         return 0

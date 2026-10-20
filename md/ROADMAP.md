@@ -1,12 +1,12 @@
 # Project Roadmap
 
-Updated: 2026-10-20. Latest saved preliminary HPA check: 2026-10-20 UTC.
+Updated: 2026-10-21. Latest saved preliminary HPA check: 2026-10-20 UTC.
 
 ## Goal and current position
 
 Evaluate how automatic scaling of AI inference handles changing request load while keeping response time acceptable. Compare one fixed replica, three fixed replicas, and automatic scaling between one and three replicas. A replica is one running copy of the model server.
 
-The local prototype, short load check, and continuous cluster/resource observer are complete. Direct kubelet resource measurements were verified with saved data on 2026-10-16. Technology decisions are documented. Request-level records and integrated collection now have offline tests and a saved live low-load check on 2026-10-18. Minimal pilot analysis and the increasing-load pilot are complete, including two five-minute repetitions per selected rate. The next work is freezing the numeric experiment protocol. A [preliminary HPA check](../results/autoscaling/check-2026-10-20-series1/README.md) now verifies growth and reduction. The main repeated comparison remains unfinished.
+The local prototype, short load check, and continuous cluster/resource observer are complete. Direct kubelet resource measurements were verified with saved data on 2026-10-16. Technology decisions are documented. Request-level records and integrated collection now have offline tests and a saved live low-load check on 2026-10-18. Minimal pilot analysis and the increasing-load pilot are complete, including two five-minute repetitions per selected rate. The student agreed [main experiment protocol v1.1](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd) on 2026-10-21. Step-20 code and run instructions have local verification; fresh runtime readiness and the main series remain next. A [preliminary HPA check](../results/autoscaling/check-2026-10-20-series1/README.md) now verifies growth and reduction. The main repeated comparison remains unfinished.
 
 Completed steps refer to saved evidence, not a claim that the cluster is running today. All replicas use the CPU of one physical computer. Setup commands are in [GETTING_STARTED.md](GETTING_STARTED.md). Detailed pilot and scaling procedures live in the linked task plans; guide section numbers are topic references, not the order of project work.
 
@@ -30,10 +30,10 @@ Completed steps refer to saved evidence, not a claim that the cluster is running
 - [x] 14. Implement continuous cluster observation.
 - [x] 15. Select and verify resource measurements for the final report.
 - [x] 16. Run a pilot with increasing load on one replica.
-- [ ] 17. Record and freeze the experiment settings.
+- [x] 17. Record and freeze the experiment settings.
 - [ ] 18. Test three manually configured replicas.
 - [x] 19. Configure and verify automatic scaling from one to three replicas.
-- [ ] 20. Prepare the main experiment matrix and run procedure.
+- [x] 20. Prepare the main experiment matrix and run procedure.
 - [ ] 21. Execute and save the main experiment series.
 - [ ] 22. Process the measurements and build tables and charts.
 - [ ] 23. Write the findings, limitations, and recommendations.
@@ -47,7 +47,7 @@ Completed steps refer to saved evidence, not a claim that the cluster is running
 
 Use a small local text-generation workload. Require an application address, configurable replica count, automatic scaling, and observable state. Plan to compare fixed capacity with automatic scaling under steady and burst traffic.
 
-**Completion evidence:** the scope and research question in [README.md](../README.md) and the [platform decision](DECISIONS.md#1-use-one-kubernetes-prototype-after-comparing-alternatives). The acceptable response-time target still needs pilot results in step 17.
+**Completion evidence:** the scope and research question in [README.md](../README.md) and the [platform decision](DECISIONS.md#1-use-one-kubernetes-prototype-after-comparing-alternatives). The response-time target and its study-assumption rationale are recorded in the agreed step-17 protocol.
 
 ### 02. Compare orchestration platforms and select one
 
@@ -141,7 +141,7 @@ Run one minute at two requests per ten seconds against one warm replica. Exclude
 
 **Purpose:** make the remaining choices explicit before the main experiment.
 
-Compare alternatives for the model, model server, CPU versus GPU execution, load generator, resource measurements, and scaling policy. Keep concise accepted decisions in `md/DECISIONS.md` and detailed technology research in Notion; finalize numerical settings in a separate Notion experiment protocol after the pilot in step 17.
+Compare alternatives for the model, model server, CPU versus GPU execution, load generator, resource measurements, and scaling policy. Keep concise accepted decisions in `md/DECISIONS.md` and detailed technology research in Notion; use the numerical agreement recorded in the separate Notion experiment protocol in step 17.
 
 **Completion evidence:** [Technology Decisions in Notion](https://app.notion.com/p/3fdc7c697bfd81baaaa7f197548b7c5a), completed on 2026-10-18, explains Qwen, Ollama, CPU, k6 and planned CPU-based HPA with requirements, alternatives, reasons, official sources and reconsideration criteria. The measurement decision and its verification remain in [DECISIONS.md](DECISIONS.md#6-separate-the-scaling-signal-from-resource-measurements). The pilot rates are now measured in step 16; the preliminary HPA check now records growth and reduction; repeated comparative scaling performance remains unmeasured.
 
@@ -169,7 +169,7 @@ First verify Docker, the cluster, the application address, exactly one ready rep
 
 **Done when:** saved probes identify a low rate handled comfortably by one replica and a peak rate that makes its response times noticeably worse. Save the actual rate, duration, request settings, and raw data for every probe.
 
-**Completion evidence:** [the saved pilot series](../results/pilot/discovery-2026-10-18-series1/README.md), with eight valid discovery/confirmation runs and an excluded pre-fix diagnostic. Low=2 and peak=8 requests/10 s each have two five-minute repetitions. Response degradation repeats at the peak; timeout counts vary. Step 17 remains incomplete.
+**Completion evidence:** [the saved pilot series](../results/pilot/discovery-2026-10-18-series1/README.md), with eight valid discovery/confirmation runs and an excluded pre-fix diagnostic. Low=2 and peak=8 requests/10 s each have two five-minute repetitions. Response degradation repeats at the peak; timeout counts vary. Step 17 is complete and step-20 preparation has local verification; main execution is still open.
 
 ### 17. Record and freeze the experiment settings
 
@@ -179,15 +179,17 @@ Write a separate experiment protocol in Notion with the model, prompt, generatio
 
 **Done when:** settings are documented before the main series. Do not silently change them between modes or after seeing an inconvenient result; document any revised protocol and the affected runs.
 
+**Completion evidence:** the student approved [main experiment protocol v1.1](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd) on 2026-10-21. It records the settings, acceptance windows, 18-run order, preparation, selected resource quantities and outcome/data rules. Version 1.1 clarifies the original 1.0 agreement before any main run; step 17 remains complete. Executable alignment now has step-20 local verification; this agreement does not authorize or complete the main series.
+
 ### 18. Test three manually configured replicas
 
-**Purpose:** check whether additional replicas help at the chosen peak rate before introducing automatic scaling.
+**Purpose:** compare one and three fixed copies at the chosen peak rate under the agreed main conditions.
 
 Follow the [manual replica comparison procedure](plans/scaling-experiment.md#1-manual-replica-comparison) to start three replicas, warm each model, verify traffic reaches all three, and repeat the peak probe. If performance does not improve, inspect traffic distribution and available resources.
 
-**Progress:** [preliminary three-copy preparation and peak check](../results/fixed-replicas/check-2026-10-20-series1/README.md) are saved. The agreed main protocol and repeated comparison remain unfinished.
+**Progress:** [preliminary three-copy preparation and peak check](../results/fixed-replicas/check-2026-10-20-series1/README.md) are saved. Protocol v1.1 is agreed; the repeated comparison remains unfinished.
 
-**Done when:** initial replicas and traffic distribution are verified, and the one-/three-copy peak comparison has the repetitions and matching settings required by the agreed step-17 protocol. The saved preliminary probes establish preparation only. A performance improvement is an outcome to measure, not a completion requirement.
+**Done when:** initial replicas and traffic distribution are verified, and the one-/three-copy peak comparison has the repetitions and matching settings required by the agreed step-17 protocol. The saved preliminary probes establish preparation only. A performance improvement is an outcome to measure, not a completion requirement. Reuse the fixed-1/steady and fixed-3/steady main-matrix cells rather than running a duplicate series; this milestone closes after those cells are collected and assessed.
 
 ### 19. Configure and verify automatic scaling from one to three replicas
 
@@ -207,7 +209,9 @@ Use three modes: fixed one replica, fixed three replicas, and automatic scaling 
 
 Exclude initial warmup from measurements. In automatic mode, loading models in newly created replicas during a run is part of the measured scaling reaction.
 
-**Done when:** the matrix, preparation procedure, saved metadata, and handling of invalid runs are recorded in the Notion experiment protocol. Link the execution instructions to it.
+**Done when:** the existing scripts and linked execution instructions support the matrix, preparation, metadata and outcome/data rules recorded in Notion protocol v1.1. Verify every mode/profile, initial/post-warmup gate, primary phase/window, resource quantity/coverage and run-assessment requirement before main load. Protocol v1.1 supplies the agreement; current runtime readiness remains a separate check before approved load. A manual checklist is sufficient; a separate matrix orchestrator is not required.
+
+**Completion evidence:** the [main procedure and checklist](plans/scaling-experiment.md#3-main-run-procedure), shared configuration and existing launcher/analyzer support the agreed rules. All 122 bench tests passed, including all six mode/profile paths with local HTTP fixtures, explicit preparation gates and calculation checks. Historical hashes and saved summaries match. This is code/procedure verification, not a live main experiment.
 
 ### 21. Execute and save the main experiment series
 

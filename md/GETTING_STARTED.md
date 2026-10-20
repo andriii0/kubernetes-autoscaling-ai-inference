@@ -233,17 +233,17 @@ python .\bench\run_pilot.py --base-url "$env:BASE_URL" --rate 2 --duration 1m --
 
 Check `console.txt`, `summary.json` and the recorded exit code. Successful responses, response errors and `dropped_iterations` are different counts. A dropped iteration is a scheduled request that k6 could not start. Missing optional token/load measurements remain missing; the script records their availability separately.
 
-**Check:** requests reach the service, replies are valid, and no scheduled requests are dropped. A threshold failure is a result to inspect, not automatically a broken script. The final experiment targets must be agreed before the main comparison.
+**Check:** requests reach the service, replies are valid, and no scheduled requests are dropped. A threshold failure is a result to inspect, not automatically a broken script. The agreed protocol v1.1 defines main targets; this short command remains a preliminary path check, not a main run.
 
 Sources: [k6 arrival models](https://grafana.com/docs/k6/latest/using-k6/scenarios/concepts/open-vs-closed/), [JSON output](https://grafana.com/docs/k6/latest/results-output/real-time/json/).
 
 ## 8. Find the useful load range for one replica
 
-Use the active [Measurements and pilot load tests plan](plans/measurements-and-pilot.md). It owns the probe sequence, stop rules, saved run format and choice of low/peak rates. The completed pilot selected low=2 and peak=8 requests per 10 seconds, with two five-minute confirmations each; see [the saved report](../results/pilot/discovery-2026-10-18-series1/README.md). Freeze the main protocol before comparing replica modes. This guide does not define another pilot protocol.
+Use the completed [Measurements and pilot load tests plan](plans/measurements-and-pilot.md). It owns the probe sequence, stop rules, saved run format and choice of low/peak rates. The completed pilot selected low=2 and peak=8 requests per 10 seconds, with two five-minute confirmations each; see [the saved report](../results/pilot/discovery-2026-10-18-series1/README.md). The [main experiment protocol v1.1](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd) now carries these rates into the main comparison; the locally verified main-run procedure is linked below. This guide does not define another pilot protocol.
 
 ## 9. Test three replicas manually
 
-A preliminary three-copy check is implemented and has [saved results](../results/fixed-replicas/check-2026-10-20-series1/README.md). Follow [Manual replica comparison](plans/scaling-experiment.md#1-manual-replica-comparison) for commands, individual warmups and Service distribution checks. The repeated main comparison still needs the agreed protocol. That section owns the scale commands, warmup checks and traffic-distribution checks. Completion criteria are in [roadmap step 18](ROADMAP.md#18-test-three-manually-configured-replicas).
+A preliminary three-copy check is implemented and has [saved results](../results/fixed-replicas/check-2026-10-20-series1/README.md). Follow [Manual replica comparison](plans/scaling-experiment.md#1-manual-replica-comparison) for commands, individual warmups and Service distribution checks. The repeated main comparison uses the locally verified protocol-v1.1 procedure below; its fixed steady runs also supply step-18 evidence. That section owns the scale commands, warmup checks and traffic-distribution checks. Completion criteria are in [roadmap step 18](ROADMAP.md#18-test-three-manually-configured-replicas).
 
 ## 10. Configure automatic scaling
 
@@ -265,7 +265,7 @@ The [pilot plan](plans/measurements-and-pilot.md#1-measurement-design) defines h
 
 ## 12. Run the same tests in each mode
 
-This step is planned. [Main run procedure](plans/scaling-experiment.md#3-main-run-procedure) owns preparation, mode switching, warmup and saved-run commands. Freeze the actual settings after the pilot before executing the matrix in [roadmap steps 20 and 21](ROADMAP.md#20-prepare-the-main-experiment-matrix-and-run-procedure). Startup and restart commands alone do not prepare a measured run.
+Execution remains planned. [Main run procedure](plans/scaling-experiment.md#3-main-run-procedure) owns the manual 18-row checklist and the single-run command. Step-20 preparation has local verification for all six mode/profile combinations, preparation gates, phase assessment and resource calculations. Main mode requires --protocol-version 1.1 and explicit repetition/order fields. It handles recovery before selecting the initial count, separate warmup/settling and HPA application. Recheck actual runtime state before approved load. Both autoscaling profiles include the initial reaction from one copy; no initial segment is removed.
 
 ## 13. Turn measurements into findings
 
@@ -289,7 +289,7 @@ Add `--no-plots` when only CSV/JSON is required. The analysis commands read save
 
 Run `python -m unittest discover -s bench` from the project root. Numeric and lifecycle analysis tests do not require Matplotlib. Dedicated plot tests report a skip when this optional dependency is absent; install the version above to include it. Tests that execute real k6 report a skip when k6 is missing from PATH; collection and error-handling unit tests still run. The verified project-environment command is `.\.venv\Scripts\python.exe -m unittest discover -s bench`. If that environment has no pip, install the plot dependency from a Python with pip using `python -m pip --python .venv install "matplotlib>=3.10,<4"`. These tests use temporary files and local HTTP fixtures, not the live cluster.
 
-The launcher accepts an optional `--slo-ms VALUE` to check p95 successful-response latency in milliseconds and saves `slo_ms` in metadata. It deliberately ignores ambient `SLO_MS` and `K6_*` overrides. Omit the flag to leave the latency threshold unset. Existing k6 thresholds are at most 1% inference errors and zero dropped iterations; these are preliminary operating settings, not an agreed main protocol. Threshold failure is separate from collection validity.
+Outside main mode, optional `--slo-ms VALUE` checks whole-run successful p95 and is saved as slo_ms; omission leaves this optional latency threshold unset. The launcher removes ambient SLO_MS, MAIN_PROTOCOL and K6_* overrides. Shared bench/workload.json owns error/drop thresholds and main targets. Main mode applies the agreed p95 and error targets to steady or the burst peak, plus the whole-run error target. Zero drops is a complete offered-load condition. assessment.json records the combined result independently of collection validity; a service-target failure remains usable evidence. Do not use a preliminary command or whole-run --slo-ms alone to certify the main burst peak.
 
 ## Troubleshooting
 

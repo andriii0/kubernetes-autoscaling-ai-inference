@@ -2,6 +2,8 @@
 
 Date: 2026-10-20. Scope: prepare and verify three fixed copies after the completed one-copy pilot. This is a preliminary check, not the main comparison or an agreed response-time target.
 
+Historical completion record for the preliminary check on 2026-10-20. Its pending-protocol and runtime statements describe that date. The [main experiment protocol v1.1](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd) was agreed on 2026-10-21; step-20 preparation now has local verification, while the repeated matrix remains unexecuted. Reuse its fixed-1/steady and fixed-3/steady cells for step 18.
+
 ## Work
 
 1. Reuse the pilot launcher, observer, reconciliation and analysis for fixed one or three replicas. Keep the default one-replica path and old evidence compatible.
@@ -14,8 +16,8 @@ Date: 2026-10-20. Scope: prepare and verify three fixed copies after the complet
 
 - [x] Old one-replica checks and historical evidence integrity pass.
 - [x] Tests reject missing/restarted pods, incomplete warmup, wrong Service endpoints and absent/inconsistent access logs.
-- [x] Analysis sums all selected containers without turning missing values into zero.
+- [x] Analysis preserves per-pod source clocks and missing values; totals require complete samples from the same source instant.
 - [x] Live evidence records three ready, individually warmed pods and requests handled by all three, or records the exact blocker without claiming success.
-- [x] Update status and execution instructions with verified outcomes. Keep protocol step 17 and main experiment unfinished; do not commit or push.
+- [x] Update status and execution instructions with verified outcomes. Keep protocol step 17 and main experiment unfinished at that time; do not commit or push.
 
-Verified outcome: [saved technical check](../../results/fixed-replicas/check-2026-10-20-series1/README.md). The final checks include the new negative cases, historical evidence verification and live Service/log reconciliation. Three copies remain deployed; the temporary tunnel is closed after measurement.
+Verified outcome: [saved technical check](../../results/fixed-replicas/check-2026-10-20-series1/README.md). The final checks include the new negative cases, historical evidence verification and live Service/log reconciliation. At the end of this check, three copies remained deployed and the temporary tunnel was closed. The later preliminary HPA check restored one copy; neither record proves current runtime availability. The strict preliminary server/client equality rule remains in code and must be aligned with v1.1 before main load.
