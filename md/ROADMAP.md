@@ -31,7 +31,7 @@ Completed steps refer to saved evidence, not a claim that the cluster is running
 - [x] 15. Select and verify resource measurements for the final report.
 - [x] 16. Run a pilot with increasing load on one replica.
 - [x] 17. Record and freeze the experiment settings.
-- [ ] 18. Test three manually configured replicas.
+- [x] 18. Test three manually configured replicas.
 - [x] 19. Configure and verify automatic scaling from one to three replicas.
 - [x] 20. Prepare the main experiment matrix and run procedure.
 - [ ] 21. Execute and save the main experiment series.
@@ -183,13 +183,15 @@ Write a separate experiment protocol in Notion with the model, prompt, generatio
 
 ### 18. Test three manually configured replicas
 
-**Purpose:** compare one and three fixed copies at the chosen peak rate under the agreed main conditions.
+**Purpose:** check three manually configured copies at the pilot peak rate before the main experiment.
 
-Follow the [manual replica comparison procedure](plans/scaling-experiment.md#1-manual-replica-comparison) to start three replicas, warm each model, verify traffic reaches all three, and repeat the peak probe. If performance does not improve, inspect traffic distribution and available resources.
+Follow the [manual replica comparison procedure](plans/scaling-experiment.md#1-manual-replica-comparison) to start three replicas, warm each model, verify traffic reaches all three, and repeat the peak probe. Inspect traffic distribution and resources if the result is unexpected.
 
-**Progress:** [preliminary three-copy preparation and peak check](../results/fixed-replicas/check-2026-10-20-series1/README.md) are saved. Protocol v1.1 is agreed; the repeated comparison remains unfinished.
+**Done when:** all three replicas and their warmups/Service traffic are verified, and both one-copy and three-copy peak probe results are saved. A performance improvement is an outcome to measure, not a completion requirement. This preliminary check does not require the repeated main series.
 
-**Done when:** initial replicas and traffic distribution are verified, and the one-/three-copy peak comparison has the repetitions and matching settings required by the agreed step-17 protocol. The saved preliminary probes establish preparation only. A performance improvement is an outcome to measure, not a completion requirement. Reuse the fixed-1/steady and fixed-3/steady main-matrix cells rather than running a duplicate series; this milestone closes after those cells are collected and assessed.
+**Completion evidence:** the [one-copy pilot](../results/pilot/discovery-2026-10-18-series1/README.md) and [three-copy check saved on 2026-10-20](../results/fixed-replicas/check-2026-10-20-series1/README.md). The three-copy records verify individual warmup, selected Service endpoints and traffic on every copy. The saved probes were reconciled again on 2026-10-21. Their different dates and repetition counts do not establish a controlled repeated comparison or an HPA advantage.
+
+**Scope correction (2026-10-21):** restore the original preliminary-check criterion. Repetitions under frozen main conditions belong to step 21, using the matrix prepared in step 20. Do not run another series to close step 18; the existing evidence completes it. Historical result reports retain their original milestone wording and verdicts.
 
 ### 19. Configure and verify automatic scaling from one to three replicas
 

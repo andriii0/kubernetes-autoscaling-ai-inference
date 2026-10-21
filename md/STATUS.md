@@ -14,7 +14,7 @@ Updated: 2026-10-21. The one-replica pilot completed on 2026-10-18 UTC, includin
 
 - The [pilot results in Notion](https://app.notion.com/p/3fec7c697bfd81738d08d5527424af20) explain the method, eight runs and selected rates, with two graphs. Other documents are linked separately.
 
-- The [preliminary three-copy check](../results/fixed-replicas/check-2026-10-20-series1/README.md) verifies per-pod warmup, Service distribution and one five-minute peak run. The collector supports fixed one or three copies; analysis shows each pod on its own source clock. Offline checks and historical evidence verification passed. This does not complete the main comparison.
+- The [preliminary three-copy check](../results/fixed-replicas/check-2026-10-20-series1/README.md) verifies per-pod warmup, Service distribution and one five-minute peak run. The collector supports fixed one or three copies; analysis shows each pod on its own source clock. Offline checks and historical evidence verification passed. This completes roadmap step 18 under its restored original preliminary-check scope; it does not complete the main comparison in step 21.
 
 - The [preliminary HPA check](../results/autoscaling/check-2026-10-20-series1/README.md) completed on 2026-10-20 UTC. Dynamic collection preserves per-UID logs and separates load thresholds from measurement validity. The saved 2026-10-20 transcript records 79 passing bench tests. After the dependency/test fixes, all 86 tests pass in the project `.venv` with Python 3.12.0, k6 2.2.0 and Matplotlib 3.11.2. An independent review on 2026-10-20 confirmed the repair, dependency-specific skips, strict timestamp validation and unchanged saved results. Verification details are in the [scaling plan](plans/scaling-experiment.md#review-fixes-before-the-main-protocol). The run restored one ready copy and removed HPA; later runtime availability still needs verification.
 
@@ -28,13 +28,15 @@ Updated: 2026-10-21. The one-replica pilot completed on 2026-10-18 UTC, includin
 
 ## Remaining work and limits
 
-- Steps 18 and 21 remain open: the repeated fixed-mode comparison and main autoscaling series have not been run. Step 20 supplies locally verified code and instructions, not proof of current cluster readiness or acceptable HPA latency. Main comparative findings remain future work.
+- Step 18 is complete as a preliminary three-copy check. Step 21 remains open: the repeated fixed-mode and autoscaling main series have not been run. Step 20 supplies locally verified code and instructions, not proof of current cluster readiness or acceptable HPA latency. Main comparative findings remain future work.
 - Main mode separates fixed-three traffic evidence from client outcomes after timeouts. An idle pod leaves the demonstrated three-copy comparison not_assessable; its observations remain saved. Workload OOM/restarts remain system outcomes even when collection stops. Missing state/log evidence and resource gaps are reported separately.
 - CPU totals remain unavailable without full coverage of every expected instance; newly created/deleted instances may have unknown boundaries. Native logs cannot establish per-pod semantic success or normal server drain. All replicas share one computer; measurements do not establish Windows-wide energy or cost savings.
 - Research v0.7, C4 and saved course exports predate protocol v1.1. Current document/export ownership is in [docs/README.md](../docs/README.md); Portflow submission is not confirmed by local storage.
 
 ## Next action
 
-Before approved runtime work, verify Docker/Minikube, the Service tunnel, reviewed source settings and absence of another project load generator. Then follow [the ordered main-run procedure](plans/scaling-experiment.md#3-main-run-procedure), one attempt at a time. Its fixed-1/steady and fixed-3/steady cells supply step-18 evidence without a duplicate series. Do not mark step 18 complete until all six fixed steady repetitions are collected and assessed.
+Before approved runtime work, verify Docker/Minikube, the Service tunnel, reviewed source settings and absence of another project load generator. Then follow [the ordered main-run procedure](plans/scaling-experiment.md#3-main-run-procedure), one attempt at a time. The full repeated matrix belongs to step 21. Step 18 uses the saved preliminary evidence; no additional series is needed for that milestone.
 
 No main load has been run. The last saved restoration left one ready copy without HPA; present runtime state has not been checked in this task. Preserve historical reports, inputs and verdicts.
+
+Milestone scope correction (2026-10-21): restored the original step-18 criterion after checking Git history and saved probe records. Main protocol v1.1, its 18-run matrix and all experiment rules remain unchanged. Related Markdown and Notion wording were aligned; code, configuration and saved results were preserved.

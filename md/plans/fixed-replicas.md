@@ -2,7 +2,7 @@
 
 Date: 2026-10-20. Scope: prepare and verify three fixed copies after the completed one-copy pilot. This is a preliminary check, not the main comparison or an agreed response-time target.
 
-Historical completion record for the preliminary check on 2026-10-20. Its pending-protocol and runtime statements describe that date. The [main experiment protocol v1.1](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd) was agreed on 2026-10-21; step-20 preparation now has local verification, while the repeated matrix remains unexecuted. Reuse its fixed-1/steady and fixed-3/steady cells for step 18.
+Historical completion record for the preliminary check on 2026-10-20. Its pending-protocol and runtime statements describe that date. The [main experiment protocol v1.1](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd) was agreed on 2026-10-21; step-20 preparation now has local verification, while the repeated matrix remains unexecuted. The saved preliminary evidence completes step 18 under its restored original scope. The full repeated matrix belongs to step 21. Earlier open-step wording in saved reports describes the historical state and is preserved.
 
 ## Work
 

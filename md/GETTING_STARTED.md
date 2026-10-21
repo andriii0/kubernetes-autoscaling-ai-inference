@@ -243,7 +243,7 @@ Use the completed [Measurements and pilot load tests plan](plans/measurements-an
 
 ## 9. Test three replicas manually
 
-A preliminary three-copy check is implemented and has [saved results](../results/fixed-replicas/check-2026-10-20-series1/README.md). Follow [Manual replica comparison](plans/scaling-experiment.md#1-manual-replica-comparison) for commands, individual warmups and Service distribution checks. The repeated main comparison uses the locally verified protocol-v1.1 procedure below; its fixed steady runs also supply step-18 evidence. That section owns the scale commands, warmup checks and traffic-distribution checks. Completion criteria are in [roadmap step 18](ROADMAP.md#18-test-three-manually-configured-replicas).
+A preliminary three-copy check is implemented and has [saved results](../results/fixed-replicas/check-2026-10-20-series1/README.md). Follow [Manual replica comparison](plans/scaling-experiment.md#1-manual-replica-comparison) for commands, individual warmups and Service distribution checks. This saved preliminary evidence completes roadmap step 18. The repeated main comparison belongs to step 21 and uses the locally verified protocol-v1.1 procedure below. That section owns the scale commands, warmup checks and traffic-distribution checks. Completion criteria are in [roadmap step 18](ROADMAP.md#18-test-three-manually-configured-replicas).
 
 ## 10. Configure automatic scaling
 

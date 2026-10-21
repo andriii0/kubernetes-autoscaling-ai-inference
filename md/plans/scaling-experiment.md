@@ -1,6 +1,6 @@
 # Scaling experiment procedure
 
-Updated: 2026-10-21. Status: protocol v1.1 agreed; step-20 code/instructions locally verified; main series not executed. This document keeps the future scaling and main-analysis procedure previously described in the getting started guide. It does not make this the active task or mark any milestone complete.
+Updated: 2026-10-21. Status: original step-18 preliminary check complete; protocol v1.1 agreed; step-20 code/instructions locally verified; step-21 main series not executed. This document keeps the future scaling and main-analysis procedure previously described in the getting started guide. It does not make this the active task or mark any milestone complete.
 
 ## Objective and prerequisites
 
@@ -108,7 +108,7 @@ Objective: reject contradictory log/latency evidence and analyze retained API fa
 
 Verification (2026-10-20): all 98 tests passed without skips in the project environment. Fresh environments passed with three plot checks skipped without Matplotlib and 13 dependency-specific checks skipped without k6 and Matplotlib. The new negative tests reject the old shutdown/replay, latency and missing-state implementations. All 13 saved event-based run verdicts/counts and successful-latency summaries are unchanged; saved fixed-three/HPA summaries, per-pod resources and scaling timelines match exactly. All 467 local result paths retain their pre-fix hashes. The excluded original pilot diagnostic remains excluded from the published series.
 
-Documentation follow-up: roadmap step 18 now explicitly requires the agreed repeat/settings rules, so preliminary probes alone cannot close it. The two authoring-root integrity drafts are labelled as superseded recovery records. The maintained Notion result page was fetched again: its fixed-three/HPA sections already link the published c81c55c evidence and explain historical test counts, so no page rewrite was needed.
+Historical documentation follow-up (2026-10-20): step 18 was expanded to require the agreed repeat/settings rules. The 2026-10-21 scope correction below restores its original preliminary-check criterion and assigns the repeated comparison to step 21. The two authoring-root integrity drafts are labelled as superseded recovery records. The maintained Notion result page was fetched again: its fixed-three/HPA sections already link the published c81c55c evidence and explain historical test counts, so no page rewrite was needed.
 
 The fixed-three timeout/distribution rule remains a preliminary limitation. Agree how client failures, distribution coverage and server drain are represented across all modes in the main protocol before changing that rule. No live load, target selection, archive rewrite, commit or push is part of this repair.
 
@@ -121,13 +121,13 @@ Objective: record the student-approved step-17 agreement without changing execut
 - [x] Save version 1.0 and the source baseline 389fb66 in Notion, retaining evidence/source links.
 - [x] Carry forward the pilot settings and selected rates; distinguish the 5000-ms study assumption from observed performance.
 - [x] Record profiles, primary phase/resource windows, quiet-state preparation, timeout/distribution rules, the 18-run order and retained system outcomes.
-- [x] Update related current Markdown and link the agreement from existing Notion evidence pages. Keep steps 18/20/21 open and historical result bytes unchanged.
+- [x] Update related current Markdown and link the agreement from existing Notion evidence pages. Keep steps 18/20/21 open at that time and historical result bytes unchanged.
 
 Verification (2026-10-21): all four edited Notion pages were fetched again; the v1.0 rules and current-versus-historical wording were checked. The 13 changed files are Markdown only. The historical verifier passed (120 protected files, matching saved aggregates and 183 local links), git diff --check passed, and all 467 result paths remain byte-identical to the pre-edit snapshot. Bench code/configuration and archived inputs are unchanged, so the bench suite was not rerun for this documentation-only change. No live load, commit or push.
 
 ## Protocol v1.1 clarifications
 
-Objective: address the independently reviewed preparation/resource/assessment gaps before main load. Preserve the earlier agreement, all saved evidence and the selected workload, targets, matrix and order. The [main experiment protocol v1.1](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd) owns the exact rules. Affected main runs: 0. Step 17 remains complete; steps 18/20/21 remain open.
+Objective: address the independently reviewed preparation/resource/assessment gaps before main load. Preserve the earlier agreement, all saved evidence and the selected workload, targets, matrix and order. The [main experiment protocol v1.1](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd) owns the exact rules. Affected main runs: 0. At that revision, step 17 was complete and steps 18/20/21 remained open.
 
 - [x] Record post-warmup settling for all initial copies and a warmup-free metrics-server source window before HPA application.
 - [x] Select estimated CPU core-seconds and observed peak memory per instance, with explicit interval boundaries, continuity and coverage rules.
@@ -136,6 +136,14 @@ Objective: address the independently reviewed preparation/resource/assessment ga
 - [x] Update related current Markdown and the existing Notion protocol/PDP references. Preserve historical version-1.0 records and the low-load overhead caveat.
 
 Verification (2026-10-21): the protocol v1.1 and PDP update were fetched again; the five clarification areas, assessment fields, original v1.0 approval and zero affected main runs were confirmed. The incremental diff changes the same 13 Markdown files only. The historical verifier passed (120 protected files, matching saved aggregates and 183 local links); git diff --check passed. All 498 protected code/config/result paths, including all 467 result files, retain their pre-v1.1 hashes. No code changed, so the bench suite was not rerun for this documentation revision. No runtime load, commit or push.
+
+## Restore the original step-18 scope
+
+On 2026-10-21, restore step 18 to the preliminary three-copy check defined in the original roadmap (499b1a4). Commit 389fb66 had expanded its completion criterion to the repeated main comparison, creating overlap with step 21. The saved one-copy pilot and three-copy check already satisfy the original criterion: ready/warm initial copies, verified Service distribution and saved peak probes. The saved fixed-three service/peak runs and both one-copy peak confirmations were reconciled again and remain valid.
+
+Step 18 is complete; step 20 remains complete as local implementation preparation; step 21 owns execution of the full repeated matrix and remains open. No extra step-18 runs are needed. This is a milestone-scope correction, not a change to protocol v1.1 settings, targets, repetitions or order. Saved result reports and archived inputs keep their original bytes and historical wording. Related current Markdown and Notion references are aligned.
+
+Verification (2026-10-21): six current Markdown files changed. The saved fixed-three service/peak checks and both one-copy peak confirmations reconcile. All 500 protected code/config/result paths, including all 467 saved result files, retain their pre-edit hashes. The historical verifier passed (120 protected historical files, matching saved aggregates and 184 local links); git diff --check passed. The Notion protocol and PDP were fetched again and show the corrected milestone scope. No bench code changed, so the bench suite was not rerun for this documentation-only correction. No live load, commit or push.
 
 ## 3. Main run procedure
 
@@ -149,7 +157,7 @@ Step 20 preparation is complete with local verification. Reuse the existing laun
 - [x] Check remaining copies before switching mode. Prepare the initial count without a routine restart, wait for fresh low CPU, observe idle, warm initial copies and settle again. Before HPA, check the entire metrics-server window too.
 - [x] Retain fixed-mode traffic separately from client counts/statuses after timeouts; preserve system failures and partial attempts.
 - [x] Estimate per-instance CPU core-seconds on the common scheduled window, with continuity/clipping/coverage and separate observed memory/node values. Keep historical client-drain summaries.
-- [x] Supply the manual order and single-run instructions below. Fixed steady cells also supply step 18.
+- [x] Supply the manual order and single-run instructions below for the main series in step 21. Step 18 is the completed preliminary check.
 - [x] All 122 bench tests passed without skips on 2026-10-21. New tests cover six mode/profile paths using real k6/local HTTP, preparation gates, target failures, incomplete attempts and resource calculations. Kubernetes interactions are simulated; preparation gates have separate direct tests. All 467 saved result paths are byte-identical; 11 saved summaries and the HPA phase/timeline replay match. The historical verifier passed (120 protected files, matching saved aggregates and 183 local links); git diff --check passed. The Notion protocol/PDP updates were fetched again. No cluster load, commit or push.
 
 ### Before runtime work
