@@ -117,6 +117,44 @@ class PreparationTests(unittest.TestCase):
                 self.assertFalse(gate.accept(p))
                 self.assertEqual(gate.consecutive, 0)
 
+    def test_staggered_copies_each_need_two_fresh_intervals_after_warmup(self):
+        from test_fixed_replicas import three_sample
+        gate = protocol.QuietState([{'pod_uid': f'pod-{i}'} for i in (1, 2, 3)], 'ollama', START)
+        for second in range(0, 31, 5):
+            p = three_sample(pilot_records.iso_time(START + second))
+            for r in p['resource_usage']:
+                if r['scope'] != 'container': continue
+                shift = (0, 5, 3)[int(r['pod_uid'][-1]) - 1]
+                source = ((second + shift) // 10) * 10 - shift
+                r.update(cpu_timestamp_ms=(START + source) * 1000, cpu_usage_seconds_total=100 + .05 * source,
+                         restart_count=0, container_start_time_seconds=START - 60)
+            self.assertEqual(gate.accept(p), second == 30, second)
+        self.assertEqual(gate.consecutive, 2)
+
+    def test_cached_copy_cannot_borrow_other_copies_quiet_intervals(self):
+        from test_fixed_replicas import three_sample
+        gate = protocol.QuietState([{'pod_uid': f'pod-{i}'} for i in (1, 2, 3)], 'ollama', START)
+        for second in range(0, 51, 5):
+            p = three_sample(pilot_records.iso_time(START + second))
+            for r in p['resource_usage']:
+                if r['scope'] != 'container': continue
+                source = 0 if r['pod_uid'] == 'pod-3' else second
+                r.update(cpu_timestamp_ms=(START + source) * 1000, cpu_usage_seconds_total=100 + .05 * source,
+                         restart_count=0, container_start_time_seconds=START - 60)
+            self.assertFalse(gate.accept(p))
+        self.assertEqual(gate.consecutive, 0)
+
+    def test_conflicting_or_backward_source_point_cannot_seed_a_quiet_interval(self):
+        for bad_source in (10, 5):
+            with self.subTest(bad_source=bad_source):
+                gate = self.gate()
+                readings = ((0, 0, 10), (5, 5, 11), (10, 10, 12), (15, bad_source, 100),
+                            (20, 15, 100.25), (25, 20, 100.5), (30, 25, 100.75))
+                for collected, source, counter in readings:
+                    p = point(source, counter)
+                    p['time'] = pilot_records.iso_time(START + collected)
+                    self.assertEqual(gate.accept(p), collected == 30, collected)
+
     def test_hpa_metrics_window_must_exclude_warmup_and_be_low(self):
         gate = self.gate(START + 1)
         for second in (1, 2): gate.accept(point(second))
@@ -288,6 +326,32 @@ class ResourceTests(unittest.TestCase):
                 result = self.resources(points)
                 self.assertIsNone(result['application_cpu_core_seconds_estimate'])
 
+    def test_backward_source_clock_cannot_double_count_a_full_primary_window(self):
+        d = data()
+        for collected in range(0, 315, 5):
+            source = collected if collected < 10 else collected - 8
+            p = point(collected, 100 + source)
+            for r in p['resource_usage']:
+                r['cpu_timestamp_ms'] = (START + source) * 1000
+            d['cluster'].append(p)
+        result = protocol.primary_resources(d)
+        self.assertIsNone(result['application_cpu_core_seconds_estimate'])
+        for r in result['instances'] + result['nodes']:
+            self.assertEqual(r['cpu_core_seconds_estimate'], 298)
+            self.assertEqual(r['cpu_covered_seconds'], 298)
+            self.assertFalse(r['cpu_full_coverage'])
+
+    def test_backward_source_clock_after_missing_poll_does_not_reuse_coverage(self):
+        points = [point(t, 100 + t) for t in (0, 5, 6, 7, 8, 10, 12)]
+        points[2]['resource_usage'] = []
+        for p, source in zip(points[3:], (2, 7, 10, 12)):
+            for r in p['resource_usage']:
+                r.update(cpu_timestamp_ms=(START + source) * 1000, cpu_usage_seconds_total=100 + source)
+        result = self.resources(points)
+        self.assertIsNone(result['application_cpu_core_seconds_estimate'])
+        self.assertEqual(result['instances'][0]['cpu_core_seconds_estimate'], 8)
+        self.assertEqual(result['instances'][0]['cpu_covered_seconds'], 8)
+
     def test_fixed_missing_resource_counter_is_separate_from_state_validation(self):
         p = point(0)
         p['resource_usage'] = []
@@ -355,6 +419,17 @@ class MainLifecycleTests(unittest.TestCase):
                 folder, code = host.exercise(profile=profile, main=True)
                 check = json.loads((folder / 'collection-check.json').read_text())
                 self.assertEqual(code, 0, check)
+                self.assertFalse(any('input' in w for w in check['warnings']), check)
+                metadata = json.loads((folder / 'metadata.json').read_text())
+                self.assertTrue({'main_protocol.py', 'analyze.py', 'fixed_replicas.py', 'autoscaling.py', 'hpa.yaml'}
+                                <= set(metadata['source_sha256']))
+                manifest = folder / 'inputs' / 'hpa.yaml'
+                manifest.write_bytes(manifest.read_bytes() + b'\n# changed archive\n')
+                archive_check = pilot_records.reconcile(folder, metadata)
+                self.assertTrue(archive_check['valid'], archive_check)
+                self.assertIn('executable input changed: hpa.yaml', archive_check['warnings'])
+                del metadata['source_sha256']['hpa.yaml']
+                self.assertIn('incomplete executable input hashes', pilot_records.reconcile(folder, metadata)['warnings'])
                 result = json.loads((folder / 'assessment.json').read_text())
                 self.assertEqual(result['overall'], 'pass', result)
                 self.assertTrue(result['duration_complete'])

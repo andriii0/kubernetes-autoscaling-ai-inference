@@ -103,38 +103,42 @@ class QuietState:
         self.uids = {i['pod_uid'] for i in (identities if isinstance(identities, list) else [identities])}
         self.container, self.after, self.limit = container, after, limit
         self.previous, self.consecutive = {}, 0
+        self.low_intervals = dict.fromkeys(self.uids, 0)
         self.last_sample = None
 
     def accept(self, sample, require_metrics=False):
         collected = timestamp(sample['time'])
         if self.last_sample is not None and collected - self.last_sample > 10:
             self.previous.clear()
-            self.consecutive = 0
+            self.low_intervals = dict.fromkeys(self.uids, 0)
         self.last_sample = collected
         records = {r['pod_uid']: r for r in sample['resource_usage'] if r['scope'] == 'container'
                    and r.get('pod_uid') in self.uids and r['container'] == self.container}
-        fresh, low = True, not sample['errors'] and set(records) == self.uids
+        if sample['errors']:
+            self.previous.clear()
+            self.low_intervals = dict.fromkeys(self.uids, 0)
+            self.consecutive = 0
+            return False
         for uid in self.uids:
             r = records.get(uid, {})
             point = (r.get('cpu_timestamp_ms'), r.get('cpu_usage_seconds_total'), r.get('restart_count'),
                      r.get('container_start_time_seconds'))
             old = self.previous.get(uid)
-            if point[0] is None or point[1] is None:
+            if point[0] is None or point[1] is None or not all(math.isfinite(v) for v in point[:2]):
                 self.previous.pop(uid, None)
-                low = False
+                self.low_intervals[uid] = 0
                 continue
-            if old and point[0] == old[0]:
-                fresh = False
-                continue
+            if old and point[0] <= old[0]:
+                if point != old:
+                    self.previous.pop(uid, None)
+                    self.low_intervals[uid] = 0
+                continue  # Only an unchanged cached point preserves progress.
             self.previous[uid] = point
-            if not old or point[0] <= old[0] or point[2:] != old[2:] or point[1] < old[1]:
-                low = False
-            elif old[0] / 1000 < self.after or (point[1] - old[1]) / ((point[0] - old[0]) / 1000) > self.limit:
-                low = False
-        if fresh:
-            self.consecutive = self.consecutive + 1 if low else 0
-        elif not low:
-            self.consecutive = 0
+            low = bool(old and point[0] > old[0] and point[2:] == old[2:] and point[1] >= old[1]
+                       and old[0] / 1000 >= self.after
+                       and (point[1] - old[1]) / ((point[0] - old[0]) / 1000) <= self.limit)
+            self.low_intervals[uid] = self.low_intervals[uid] + 1 if low else 0
+        self.consecutive = min(self.low_intervals.values())
         if self.consecutive < 2:
             return False
         if require_metrics:
@@ -365,6 +369,12 @@ def primary_resources(data):
                 previous.pop(key, None)
                 continue
             at /= 1000
+            # Retain the source high-water mark across gaps. An older point must not
+            # become a new baseline and overlap an interval already accumulated.
+            if at < row.get('last_cpu_timestamp', -math.inf):
+                previous.pop(key, None)
+                continue
+            row['last_cpu_timestamp'] = at
             old = previous.get(key)
             if old and at == old[0]:
                 if counter != old[1]:

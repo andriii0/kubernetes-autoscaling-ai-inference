@@ -28,7 +28,11 @@ Updated: 2026-10-25. The one-replica pilot completed on 2026-10-18 UTC, includin
 
 - Local scaling-test fixtures were stabilized on 2026-10-25. Simulated HPA transitions now start after measured HTTP traffic is observed, and the fixed-three fixture records its synthetic log before sending the response body. All 123 bench tests passed without skips; production code, protocol settings and saved measurements are unchanged. See [the focused repair and verification](plans/scaling-experiment.md#stabilize-the-local-scaling-test-fixtures).
 
+- The last-five-commit review repairs were verified on 2026-10-25. Quiet-state progress is counted per copy, backward CPU source timestamps cannot cause overlapping interval totals, and main-run archive hashes include helpers, analysis and the HPA manifest. Seven regression tests were added; all 130 bench tests pass without skips. Self-review also caught a conflicting/backward quiet-state point being reused as a baseline; it is now discarded and the next fresh point only starts a new pair. The historical verifier passes (120 protected files, 186 local links), all 467 saved result paths are byte-identical, and 11 saved summaries plus the HPA phase/timeline replay match. See [the focused repairs](plans/scaling-experiment.md#repair-the-main-protocol-review-findings-2026-10-25). Numeric protocol settings and milestone scope are unchanged. No live cluster/load work was performed.
+
 ## Remaining work and limits
+
+- The short local HPA fixture remains sensitive to scheduling pauses: one self-review suite run exceeded its 100-ms maximum poll gap; a sequential full rerun passed all 130 tests. The fixture and validity threshold were unchanged.
 
 - Step 18 is complete as a preliminary three-copy check. Step 21 remains open: the repeated fixed-mode and autoscaling main series have not been run. Step 20 supplies locally verified code and instructions, not proof of current cluster readiness or acceptable HPA latency. Main comparative findings remain future work.
 - Main mode separates fixed-three traffic evidence from client outcomes after timeouts. An idle pod leaves the demonstrated three-copy comparison not_assessable; its observations remain saved. Workload OOM/restarts remain system outcomes even when collection stops. Missing state/log evidence and resource gaps are reported separately.

@@ -162,11 +162,23 @@ def reconcile(folder, metadata):
             required.add("fixed_replicas.py")
         if metadata.get("mode") == "autoscaling":
             required.add("autoscaling.py")
-        if set(metadata["source_sha256"]) != required:
+        if metadata.get("protocol_version"):
+            required.update({"main_protocol.py", "analyze.py", "fixed_replicas.py"})
+            if metadata.get("mode") == "autoscaling":
+                required.add("hpa.yaml")
+        hashes = metadata["source_sha256"]
+        if not required.issubset(hashes):
             report["warnings"].append("incomplete executable input hashes")
-        for name in required:
-            if hashlib.sha256((folder / "inputs" / name).read_bytes()).hexdigest() != metadata["source_sha256"][name]:
-                report["warnings"].append(f"executable input changed: {name}")
+        for name in sorted(hashes):
+            # The launcher archives flat filenames; never follow paths from metadata.
+            if Path(name).name != name or name in (".", ".."):
+                report["warnings"].append(f"invalid input archive name: {name}")
+                continue
+            try:
+                if hashlib.sha256((folder / "inputs" / name).read_bytes()).hexdigest() != hashes[name]:
+                    report["warnings"].append(f"executable input changed: {name}")
+            except OSError as error:
+                report["warnings"].append(f"input archive: {error}")
     except (OSError, ValueError, KeyError, TypeError, AttributeError) as error:
         report["warnings"].append(f"input archive: {error}")
     starts, completions = {}, {}

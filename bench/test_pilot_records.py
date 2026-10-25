@@ -257,6 +257,43 @@ class RecordTests(unittest.TestCase):
                 self.assertEqual(report["errors"], [])
                 self.assertTrue(report["warnings"])
 
+    def test_main_input_hashes_cover_helpers_analysis_and_missing_files(self):
+        self.metadata['protocol_version'] = '1.1'
+        self.metadata['deployment_snapshot'] = sample()['deployments']['items'][0]
+        (self.folder / 'pod-logs').mkdir()
+        (self.folder / 'pod-logs' / 'pod-1.log').write_text('')
+        names = ('main_protocol.py', 'analyze.py', 'fixed_replicas.py')
+        for name in names:
+            raw = name.encode()
+            (self.folder / 'inputs' / name).write_bytes(raw)
+            self.metadata['source_sha256'][name] = hashlib.sha256(raw).hexdigest()
+        report = self.check()
+        self.assertTrue(report['valid'], report)
+        self.assertEqual(report['warnings'], [])
+        for name in names:
+            with self.subTest(name=name):
+                path = self.folder / 'inputs' / name
+                path.write_bytes(b'changed')
+                report = self.check()
+                self.assertTrue(report['valid'], report)
+                self.assertEqual(report['warnings'], [f'executable input changed: {name}'])
+                path.write_bytes(name.encode())
+        del self.metadata['source_sha256']['analyze.py']
+        self.assertIn('incomplete executable input hashes', self.check()['warnings'])
+        (self.folder / 'inputs' / 'main_protocol.py').unlink()
+        self.assertTrue(any('main_protocol.py' in w for w in self.check()['warnings']))
+
+    def test_optional_declared_hpa_hash_is_checked_without_changing_legacy_requirements(self):
+        self.assertEqual(self.check()['warnings'], [])
+        path = self.folder / 'inputs' / 'hpa.yaml'
+        path.write_bytes(b'hpa manifest')
+        self.metadata['source_sha256']['hpa.yaml'] = hashlib.sha256(path.read_bytes()).hexdigest()
+        self.assertEqual(self.check()['warnings'], [])
+        path.write_bytes(b'changed')
+        report = self.check()
+        self.assertTrue(report['valid'], report)
+        self.assertEqual(report['warnings'], ['executable input changed: hpa.yaml'])
+
     def test_bad_warmup_or_abnormal_exit_is_rejected(self):
         self.assertTrue(self.check()["valid"])
         self.metadata["k6_exit_code"] = 1

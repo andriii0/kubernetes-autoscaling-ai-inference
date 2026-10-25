@@ -1,6 +1,25 @@
 # Scaling experiment procedure
 
-Updated: 2026-10-21. Status: original step-18 preliminary check complete; protocol v1.1 agreed; step-20 code/instructions locally verified; step-21 main series not executed. This document keeps the future scaling and main-analysis procedure previously described in the getting started guide. It does not make this the active task or mark any milestone complete.
+Updated: 2026-10-25. Status: original step-18 preliminary check complete; protocol v1.1 agreed; step-20 code/instructions locally verified; step-21 main series not executed. This document keeps the future scaling and main-analysis procedure previously described in the getting started guide. It does not make this the active task or mark any milestone complete.
+
+## Repair the main-protocol review findings (2026-10-25)
+
+Scope: fix per-copy quiet-state progress, reject backward CPU source timestamps without counting overlapping intervals, and validate the complete main-run input archive. Reuse the existing observer, analyzer and reconciliation code. Protocol v1.1 and its numeric settings do not change.
+
+- Add regressions for staggered source updates, cached readings, source-clock rollback and main/legacy archive hashes.
+- Apply focused implementation changes and run the relevant tests, then the bench suite.
+- Recheck historical evidence and saved-result hashes. Do not run live load or modify saved inputs/results.
+- Record verified outcomes here and in STATUS.md. Acceptance requires two valid low intervals for every copy, nonoverlapping CPU accounting and no false warning for a complete main archive; modified or missing declared inputs must warn.
+
+Verification completed on 2026-10-25:
+
+- QuietState now counts consecutive low intervals per copy; the reported count is the minimum across copies. Staggered refreshes pass after every copy qualifies. Cached readings add nothing, and existing high-CPU, missing-data, restart, gap and HPA-window checks remain in place.
+- CPU integration retains a per-instance source timestamp high-water mark across missing polls. A backward point is discarded and clears the current pair. Integration resumes from a new valid baseline, leaving uncovered time visible. The 300-second rollback regression previously reported 303 CPU core-seconds with full coverage; it now reports 298 covered seconds/core-seconds and no complete application total for this unit-rate fixture.
+- Archive checks require main helpers/analysis/fixed-mode support and the main HPA manifest where applicable. Every declared flat input filename is checked. Extra archived inputs no longer cause a false incomplete-set warning. Older runs keep their original required set; archive diagnostics still warn independently of measurement validity.
+- Six focused regressions were added. Against saved pre-fix modules, five expose the defects and the cached-copy guard passes. All 129 bench tests pass without skips after repair, including actual local k6 fixtures and detection of a changed/missing main HPA hash. No live cluster or load work was performed.
+- Self-review found that a conflicting same-time counter or backward source point could become a quiet-state baseline and qualify one interval too early. Such points now clear the affected pair and progress without becoming a baseline. A new regression fails on both cases before this correction; all 130 bench tests pass without skips after it. Additional read-only checks covered 500 unit-rate CPU traces with rollback/gaps/repeats and three asynchronous quiet-state schedules with high-CPU resets.
+- One self-review suite run failed the unchanged slow-k6-start HPA fixture: its observed poll gap was 0.128468 seconds, above twice the 0.05-second test interval. A sequential full rerun passed all 130 tests without skips. No timing or validity threshold was relaxed; the short fixture remains sensitive to scheduling pauses.
+- The historical verifier passes for 120 protected files and 186 local links. All 467 saved result paths are byte-identical. Eleven saved summaries and the HPA phase/timeline replay match. Protocol v1.1, milestone scope and main-run count (zero) are unchanged.
 
 ## Objective and prerequisites
 
