@@ -145,6 +145,16 @@ Step 18 is complete; step 20 remains complete as local implementation preparatio
 
 Verification (2026-10-21): six current Markdown files changed. The saved fixed-three service/peak checks and both one-copy peak confirmations reconcile. All 500 protected code/config/result paths, including all 467 saved result files, retain their pre-edit hashes. The historical verifier passed (120 protected historical files, matching saved aggregates and 184 local links); git diff --check passed. The Notion protocol and PDP were fetched again and show the corrected milestone scope. No bench code changed, so the bench suite was not rerun for this documentation-only correction. No live load, commit or push.
 
+## Stabilize the local scaling test fixtures
+
+Objective (2026-10-25): remove dependence on k6 process startup speed from the simulated HPA in bench/test_autoscaling.py. During review of the exact 389fb66 snapshot, the old 0.2-0.7-second transition after HPA application could finish before measured traffic began. This fixture timing came from c81c55c; it is not evidence of a real-cluster scaling failure.
+
+Keep one simulated copy until the local HTTP fixture observes traffic after the separate warmup. Then show two copies for three collected samples before returning to one. Keep the existing event/collection/recovery and growth/reduction assertions. Add a one-second startup-delay regression, including a check that pre-load HPA observations stay at one copy. Verify the focused HPA tests, run the full bench suite once after the change, and check historical evidence preservation. Production code, workload settings and archived measurements stay unchanged.
+
+The full-suite check also exposed a race in the fixed-three HTTP fixture: it appended its synthetic access log after sending the response body, so a fast client could finish before bookkeeping. Record the log and captured payload before writing the body. A controlled after-write pause reproduces missing log evidence with the old ordering and valid collection with the corrected ordering. Keep the production distribution rule and its assertions unchanged.
+
+Verification (2026-10-25): 26 focused HPA checks and 9 fixed-replica checks passed. The one-second startup-delay regression passes with the new fixture and fails with the original timer. Holding HTTP handlers after sending their bodies reproduces incomplete fixed-three logs with the old ordering and valid collection with the new ordering. After the additional fixture fix, all 123 bench tests passed without skips. All 479 protected production/config/result paths, including all 467 saved result files, retain their pre-edit hashes. The historical verifier and Markdown checks passed. No production behavior, protocol settings or historical evidence changed; no live cluster load was run.
+
 ## 3. Main run procedure
 
 Step 20 preparation is complete with local verification. Reuse the existing launcher, reconciliation, analyzer, observer and workload. bench/main_protocol.py contains protocol-specific preparation and calculations; no separate collector, service or matrix orchestrator was added. Main runtime execution remains unapproved in this task.

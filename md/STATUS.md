@@ -1,6 +1,6 @@
 # Project status
 
-Updated: 2026-10-21. The one-replica pilot completed on 2026-10-18 UTC, including two five-minute confirmations at each selected rate. Collection and analysis have saved evidence; this does not certify runtime availability at a later time.
+Updated: 2026-10-25. The one-replica pilot completed on 2026-10-18 UTC, including two five-minute confirmations at each selected rate. Collection and analysis have saved evidence; this does not certify runtime availability at a later time.
 
 ## Implemented and verified
 
@@ -25,6 +25,8 @@ Updated: 2026-10-21. The one-replica pilot completed on 2026-10-18 UTC, includin
 - The student agreed [main experiment protocol v1.1](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd) on 2026-10-21 (roadmap step 17). It carries forward the pilot workload, selects the primary 5-second p95 and 1% error targets, defines the 18-run order, preparation and data rules, and separates scheduled resource windows from client drain. Version 1.1 clarifies post-warmup settling, the metrics-server window, per-instance CPU core-seconds/observed peak memory and fixed run-assessment fields. It explicitly retains unfinished requests and the initial HPA reaction in both profiles. No main runs are affected. This is a documentation agreement, not verification of main-series implementation.
 
 - Main-series preparation (roadmap step 20) now has local verification. The existing launcher supports all six mode/profile combinations, protocol/repetition/order metadata, pre-mode recovery, post-warmup CPU/metrics-server settling and runtime identities. Shared settings drive primary-phase targets; the analyzer exports per-instance scheduled-window CPU estimates/memory coverage and fixed assessment fields. Existing unfinished-request validation is reused. Verification: all 122 bench tests passed without skips; this includes real k6 against local HTTP fixtures, simulated cluster state and explicit gate/calculation tests. All 467 saved result paths are byte-identical; 11 saved summaries and the HPA phase/timeline replay match. See [the procedure and verification record](plans/scaling-experiment.md#3-main-run-procedure). No live cluster/load work, commit or push was performed.
+
+- Local scaling-test fixtures were stabilized on 2026-10-25. Simulated HPA transitions now start after measured HTTP traffic is observed, and the fixed-three fixture records its synthetic log before sending the response body. All 123 bench tests passed without skips; production code, protocol settings and saved measurements are unchanged. See [the focused repair and verification](plans/scaling-experiment.md#stabilize-the-local-scaling-test-fixtures).
 
 ## Remaining work and limits
 

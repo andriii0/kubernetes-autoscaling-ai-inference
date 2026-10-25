@@ -377,14 +377,14 @@ class LauncherTests(unittest.TestCase):
 
 
 class AutoscalingLifecycleTests(unittest.TestCase):
-    def exercise(self, interrupt=False, fail_warmup=False, profile="burst", main=False, latency_target=None):
+    def exercise(self, interrupt=False, fail_warmup=False, profile="burst", main=False, latency_target=None, startup_delay=0):
         import time
         import shutil
         import test_run_pilot
         fixture = test_run_pilot.PilotLauncherTests('test_real_k6_full_lifecycle_and_complete_evidence')
         fixture.setUp()
         self.addCleanup(fixture.doCleanups)
-        fixture.server(fail_warmup=fail_warmup)
+        captured = fixture.server(fail_warmup=fail_warmup)
         workload_path = Path(run_pilot.__file__).parent / 'workload.json'
         workload = json.loads(workload_path.read_text())
         for stage, seconds in zip(workload['burst_stages'], (.2, .05, .5, .05, .2)):
@@ -415,13 +415,17 @@ class AutoscalingLifecycleTests(unittest.TestCase):
 
         class Observer:
             applied = None
+            load_samples = 0
             def __init__(self, context, namespace, selector):
                 self.context, self.namespace, self.selector = context, namespace, selector
             def collect(self, interval):
                 current = sample(observation_time())
                 if Observer.applied is not None:
-                    elapsed = time.monotonic() - Observer.applied
-                    count = 2 if .2 < elapsed < .7 else 1
+                    # The first request warms the model; later requests are measured traffic.
+                    # Advance on collected samples so k6 startup time cannot consume the transition.
+                    if len(captured) > 1:
+                        Observer.load_samples += 1
+                    count = 2 if 1 <= Observer.load_samples <= 3 else 1
                     if count == 2:
                         current = three_sample(current["time"])
                         current['pods']['items'] = current['pods']['items'][:2]
@@ -461,6 +465,12 @@ class AutoscalingLifecycleTests(unittest.TestCase):
                 self.stopped = True
                 (self.folder / 'log-coverage.json').write_text(json.dumps(self.records))
 
+        original_load = run_pilot.run_load
+
+        def delayed_load(command, environment, folder, collection, metadata):
+            collection.wait(startup_delay)
+            return original_load(command, environment, folder, collection, metadata)
+
         args = fixture.args[:]
         args[args.index('--post-seconds') + 1] = '1'
         index = args.index('--duration')
@@ -470,7 +480,8 @@ class AutoscalingLifecycleTests(unittest.TestCase):
             args += ['--duration', '1s']
         if main:
             args += ['--protocol-version', '1.1', '--repetition', '1', '--planned-order', '3' if profile == 'steady' else '6', '--actual-order', '1']
-        with patch.object(run_pilot, 'Observer', Observer), patch.object(run_pilot, 'versions', fixture.fake_versions), \
+        with patch.object(run_pilot, 'run_load', delayed_load), \
+             patch.object(run_pilot, 'Observer', Observer), patch.object(run_pilot, 'versions', fixture.fake_versions), \
              patch.object(autoscaling, 'Logs', Logs), patch.object(Path, 'read_text', read), \
              patch.object(run_pilot.shutil, 'copyfile', copy), \
              patch.object(run_pilot.shutil, 'which', return_value=shutil.which('k6') or 'test-k6'), \
@@ -507,6 +518,19 @@ class AutoscalingLifecycleTests(unittest.TestCase):
         self.assertTrue(scaling['reduction_observed'])
         self.assertEqual(sum(s['completed'] for s in scaling['stages']), check['counts']['completed'])
         self.assertFalse(any(t.name == 'pilot-observer' for t in run_pilot.threading.enumerate()))
+
+    @unittest.skipUnless(shutil.which('k6'), 'k6 is required for this integration check')
+    def test_slow_k6_start_keeps_scaling_inside_the_observed_load_window(self):
+        folder, code = self.exercise(startup_delay=1)
+        data = analyze.load_results(folder)
+        self.assertEqual(code, 0, data['check'])
+        self.assertTrue(data['check']['valid'], data['check'])
+        detail = analyze.scaling_details(data)
+        before = [p for p in detail['timeline'] if p['seconds'] < 0 and p['desired'] is not None]
+        self.assertTrue(before)
+        self.assertTrue(all(p['running'] == p['desired'] == 1 for p in before))
+        self.assertTrue(detail['growth_observed'])
+        self.assertTrue(detail['reduction_observed'])
 
     def test_interrupt_saves_partial_records_stops_observer_and_restores(self):
         folder, code = self.exercise(interrupt=True)

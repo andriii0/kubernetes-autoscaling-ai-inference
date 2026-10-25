@@ -196,9 +196,9 @@ class FixedLauncherTests(unittest.TestCase):
                 self.send_response(200)
                 self.send_header("Content-Length", str(len(data)))
                 self.end_headers()
-                self.wfile.write(data)
                 logs[uid].append(f'{run_pilot.utc_now()} [GIN] test | 200 | 1ms | ip | POST "/api/generate"\n')
                 self.server.payloads.append(body)
+                self.wfile.write(data)
             def log_message(self, *args): pass
 
         server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
