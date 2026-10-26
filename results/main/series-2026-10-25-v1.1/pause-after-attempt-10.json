@@ -1,0 +1,128 @@
+{
+  "paused_at_utc": "2026-10-26T00:20:30.831299+00:00",
+  "reason": "Student requested completion/review of the current run and no next run.",
+  "source_commit": "70811d87e849581378bc89544c2bbf10d4ebcf16",
+  "protocol_version": "1.1",
+  "reviewed_planned_cells": 10,
+  "planned_cells_total": 18,
+  "next_unexecuted_planned_order": 11,
+  "next_cell": {
+    "mode": "autoscaling",
+    "profile": "steady",
+    "repetition": 2
+  },
+  "resume_requires_new_student_instruction": true,
+  "attempt_11_started": false,
+  "counts_across_saved_attempts": {
+    "started": 2979,
+    "completed": 2979,
+    "successful": 2979,
+    "failed": 0,
+    "unfinished": 0,
+    "dropped": 0
+  },
+  "historical_result_paths_unchanged": 467,
+  "executable_settings_unchanged": true,
+  "runtime_at_pause": {
+    "ready_copies": 3,
+    "hpa_count": 0,
+    "workload_not_scaled_or_restarted_after_run": true
+  },
+  "latest_attempt": {
+    "attempt": "attempt-10-fixed-3-steady",
+    "actual_order": 10,
+    "planned_order": 10,
+    "mode": "fixed-3",
+    "profile": "steady",
+    "repetition": 2,
+    "data_valid": true,
+    "duration_complete": true,
+    "overall": "pass",
+    "primary_p95_ms": 2202.0,
+    "counts": {
+      "started": 241,
+      "completed": 241,
+      "successful": 241,
+      "failed": 0,
+      "unfinished": 0,
+      "dropped": 0
+    },
+    "warnings": [
+      "request start within 1 ms timestamp boundary tolerance"
+    ],
+    "errors": [],
+    "application_cpu_core_seconds_estimate": null,
+    "resources": [
+      {
+        "scope": "container",
+        "pod_uid": "41d258af-57c0-4fda-82ca-e12afe807bb5",
+        "restart_count": 0,
+        "container_id": "containerd://3f6e1436a03ce93f66319bb0d934eeb4a16f635a0eea8b905b1dfe1dc2426bbe",
+        "active_start_utc": "2026-10-25T19:29:17+00:00",
+        "active_end_utc": "2026-10-26T00:15:32.830000+00:00",
+        "expected_seconds": 300.0,
+        "cpu_covered_seconds": 300.0,
+        "cpu_coverage": 1.0,
+        "cpu_full_coverage": true,
+        "cpu_core_seconds_estimate": 238.59631904884037,
+        "observed_peak_memory_mib": 487.953125,
+        "memory_samples": 20,
+        "memory_missing_polls": 0,
+        "memory_first_source_utc": "2026-10-26T00:10:33.664000+00:00",
+        "memory_last_source_utc": "2026-10-26T00:15:24.024000+00:00"
+      },
+      {
+        "scope": "container",
+        "pod_uid": "2988adb3-245d-4053-afb1-459ab20a46bc",
+        "restart_count": 0,
+        "container_id": "containerd://0c63a506c4e5cbe70146af2a92b31d9fa3e7e27c355c1bd3172280e48a5477d7",
+        "active_start_utc": "2026-10-26T00:08:02+00:00",
+        "active_end_utc": "2026-10-26T00:15:32.830000+00:00",
+        "expected_seconds": 300.0,
+        "cpu_covered_seconds": 300.0,
+        "cpu_coverage": 1.0,
+        "cpu_full_coverage": true,
+        "cpu_core_seconds_estimate": 217.69364910656563,
+        "observed_peak_memory_mib": 483.390625,
+        "memory_samples": 20,
+        "memory_missing_polls": 1,
+        "memory_first_source_utc": "2026-10-26T00:10:38.056000+00:00",
+        "memory_last_source_utc": "2026-10-26T00:15:22.687000+00:00"
+      },
+      {
+        "scope": "container",
+        "pod_uid": "e6a7dca2-650b-4c56-b52b-8bd7dcb49f9f",
+        "restart_count": 0,
+        "container_id": "containerd://7aaea8a987a0240555bf652381b70c80e8b8f2a6c79fdfac4d08111ca3f5cede",
+        "active_start_utc": "2026-10-26T00:08:02+00:00",
+        "active_end_utc": "2026-10-26T00:15:32.830000+00:00",
+        "expected_seconds": 300.0,
+        "cpu_covered_seconds": 299.7980000972748,
+        "cpu_coverage": 0.9993266669909159,
+        "cpu_full_coverage": false,
+        "cpu_core_seconds_estimate": 194.44902701937195,
+        "observed_peak_memory_mib": 483.8046875,
+        "memory_samples": 21,
+        "memory_missing_polls": 2,
+        "memory_first_source_utc": "2026-10-26T00:10:43.125000+00:00",
+        "memory_last_source_utc": "2026-10-26T00:15:32.628000+00:00"
+      }
+    ],
+    "historical_paths_unchanged": 467,
+    "settings_unchanged": 11,
+    "source_dirty": true,
+    "reviewed_boundary": {
+      "minimum_offset_ms": 1.0,
+      "maximum_offset_ms": 300001.0,
+      "scheduled_duration_ms": 300000.0,
+      "rule": "Existing protocol 1-ms boundary policy; original requests retained."
+    }
+  },
+  "limitations": [
+    "The 18-cell matrix is incomplete.",
+    "Normal server drain is not independently verified.",
+    "Attempt 10 retains a +1-ms request-boundary warning under the existing policy.",
+    "Attempt 10 has 299.798/300 seconds CPU coverage for one copy; complete application CPU remains unavailable."
+  ],
+  "publication": "Main results remain local and uncommitted; the earlier implementation repair 70811d8 was pushed."
+}

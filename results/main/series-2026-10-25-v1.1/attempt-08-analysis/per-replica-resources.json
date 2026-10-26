@@ -1,0 +1,14 @@
+{
+  "attempt-08-autoscaling-burst": {
+    "41d258af-57c0-4fda-82ca-e12afe807bb5": {
+      "cpu_valid_samples": 54,
+      "cpu_mean_cores": 0.7999401164985951,
+      "peak_memory_mib": 488.0625
+    },
+    "502fdf56-10e0-4ce9-9908-c0a0b881df32": {
+      "cpu_valid_samples": 45,
+      "cpu_mean_cores": 0.6237197316869099,
+      "peak_memory_mib": 545.26171875
+    }
+  }
+}

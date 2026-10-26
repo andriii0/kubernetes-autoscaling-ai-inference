@@ -1,6 +1,6 @@
 # Scaling experiment procedure
 
-Updated: 2026-10-25. Status: original step-18 preliminary check complete; protocol v1.1 agreed; step-20 code/instructions locally verified; step-21 main series not executed. This document keeps the future scaling and main-analysis procedure previously described in the getting started guide. It does not make this the active task or mark any milestone complete.
+Updated: 2026-10-26. Status: original step-18 preliminary check complete; protocol v1.1 agreed; step-20 code/instructions locally verified; step-21 main series paused at the student's request after 10/18 reviewed cells. This document keeps the future scaling and main-analysis procedure previously described in the getting started guide. It does not make this the active task or mark any milestone complete.
 
 ## Repair the main-protocol review findings (2026-10-25)
 
@@ -176,7 +176,7 @@ Verification (2026-10-25): 26 focused HPA checks and 9 fixed-replica checks pass
 
 ## 3. Main run procedure
 
-Step 20 preparation is complete with local verification. Reuse the existing launcher, reconciliation, analyzer, observer and workload. bench/main_protocol.py contains protocol-specific preparation and calculations; no separate collector, service or matrix orchestrator was added. Main runtime execution remains unapproved in this task.
+Step 20 preparation is complete with local verification. Reuse the existing launcher, reconciliation, analyzer, observer and workload. bench/main_protocol.py contains protocol-specific preparation and calculations. The optional continuation command below only calls the existing launcher and analyzer; it adds no collector or service. The student authorized step-21 execution on 2026-10-25. The user confirmed that the game was closed on 2026-10-25. Main execution is paused at the student's request; see the saved checkpoint and manual attempt records below.
 
 ### Implementation and verification
 
@@ -189,6 +189,16 @@ Step 20 preparation is complete with local verification. Reuse the existing laun
 - [x] Supply the manual order and single-run instructions below for the main series in step 21. Step 18 is the completed preliminary check.
 - [x] All 122 bench tests passed without skips on 2026-10-21. New tests cover six mode/profile paths using real k6/local HTTP, preparation gates, target failures, incomplete attempts and resource calculations. Kubernetes interactions are simulated; preparation gates have separate direct tests. All 467 saved result paths are byte-identical; 11 saved summaries and the HPA phase/timeline replay match. The historical verifier passed (120 protected files, matching saved aggregates and 183 local links); git diff --check passed. The Notion protocol/PDP updates were fetched again. No cluster load, commit or push.
 
+### Step-21 preparation on 2026-10-25
+
+The reviewed fixes were committed and pushed as 70811d87e849581378bc89544c2bbf10d4ebcf16; remote main was checked against the same SHA. No executable inputs or numeric settings changed afterwards.
+
+Docker was initially stopped and then failed on a stale runtime socket (Windows error 1920). After the failed Desktop processes stopped, the socket-only directories were preserved as C:/Users/matvi/AppData/Local/Docker/run.pre-main-20261025-192551 and C:/Users/matvi/AppData/Local/docker-secrets-engine.pre-main-20261025-192551. Desktop recreated those directories and docker info succeeded. No images, volumes, WSL disks or cluster data were reset.
+
+The existing ai-lab profile resumed with 8 CPUs and 12288 MiB. One Ollama copy is Ready without HPA; its image ID matches the saved preliminary check. The configured resources/environment passed check_configuration, the Service tunnel responded to /api/tags with the expected model digest, and metrics-server returned numeric CPU. The retained pod has one container restart after cluster resume; no run was active during it. The current tunnel is http://127.0.0.1:53877 and must stay open; recheck it after any interruption.
+
+For Honor was active during preparation. The user subsequently confirmed it was closed; a process check found no game or other project generator/observer. The first main attempt is now authorized to start. No completed result is claimed yet. The first planned cell remains repetition 1 / fixed-1 / steady / planned order 1 / actual order 1. Fresh process/activity checks and the launcher's recovery/idle/warmup/settle gates are still required before its measured load.
+
 ### Before runtime work
 
 Confirm the current Docker/Minikube state and Service tunnel, inspect actual resources/image/model identity, and ensure no other project k6/observer process is running. Record unrelated heavy activity. Review Git changes: metadata records HEAD, dirty state and exact archived input hashes; HEAD alone does not identify uncommitted executable content. Keep the reviewed executable inputs fixed across the series.
@@ -197,22 +207,48 @@ Use a new parent series path and a new attempt path each time. Do not pre-create
 
 Initial models receive separate warmup. Both HPA profiles then apply HPA and verify two numeric, ScalingActive observations at one copy. New HPA copies load during measurement. The launcher keeps observation through scheduled end even if k6 exits after its last scheduled request slightly early. Client completion, the full scheduled window and later observation remain separate. Fixed modes keep 10 seconds after the scheduled/client window; HPA keeps 300 seconds, then restores one copy and removes HPA.
 
+### Student-requested pause on 2026-10-26
+
+The current attempt 10 (repetition 2, fixed-3/steady) completed and was independently reviewed before stopping. Raw events, k6 data, per-pod logs, metadata, assessment and CSV/JSON analysis are saved. All three copies had measured generation traffic. The original +1-ms start-boundary warning is retained under the existing policy. CPU coverage for one copy is 299.798/300 seconds, so the complete application CPU estimate remains unavailable; per-instance values and coverage are retained.
+
+The [series checkpoint](../../results/main/series-2026-10-25-v1.1/pause-after-attempt-10.json) records 10/18 reviewed cells and the next unexecuted cell (11, repetition 2, autoscaling/steady). Do not start it or later cells without a new student instruction. There is no active project load/observer. Three copies remain Ready without HPA; no after-run scale change or restart was made. Recheck runtime and activity before any approved resumption. All 467 historical result paths and the executable settings remain unchanged. At this checkpoint, main results/documentation were local and uncommitted; implementation repair 70811d8 was already pushed. The subsequent publication includes the first 10 attempts and the continuation command; saved checkpoint and measurement files retain their original bytes. Step 21 remains open.
+
+### One-command continuation
+
+Objective: continue the existing series with a small command wrapper, without changing the frozen measurement scripts or rules. It uses the same matrix, launcher, validator and analyzer. It does not select replacements or write comparative findings.
+
+Open Docker Desktop, close games and other load generators, and run this from the repository root:
+
+```powershell
+.\.venv\Scripts\python.exe -B bench/run_series.py
+```
+
+Enter the current background activity when prompted; enter `none` only if appropriate. Keep this PowerShell window open and avoid other heavy work until it finishes. Run only one series command at a time.
+
+The command replays existing assessments, checks archived input hashes against current files, and skips the consecutive completed prefix. It resumes the existing ai-lab profile, opens its own Service tunnel and runs each remaining cell sequentially. After each attempt it replays the assessment and calls the existing analyzer with --no-plots. Phase changes and output paths appear in the terminal. The tunnel it created closes when the command exits. An optional --base-url can reuse an existing tunnel, which stays open.
+
+Acceptance rules: valid full-duration data, zero unfinished/dropped requests and a pass/fail assessment. A target failure or k6 exit 99 is retained and does not trigger a replacement. The existing reconciler's 1-ms boundary warning is retained; any other warning, preparation/collection failure, incomplete analysis, unexpected attempt or changed measured input stops progression. Missing application CPU totals remain missing. Existing partial paths are preserved and require manual review; this command never overwrites them or automatically retries. Completed attempts are skipped when the command is run again.
+
+Ctrl+C stops progression and waits for the launcher's cleanup. An interrupted attempt stays partial; it needs a separately documented replacement, not an in-place resume. Run --dry-run to replay saved records and list pending cells without runtime changes or new result files. The wrapper does not mark step 21 complete or update Notion/Markdown after a run; reviewed series documentation and comparative work remain separate.
+
+Verification (2026-10-26): 13 focused tests pass, including resume, target failure, collection stop, partial-path protection and tunnel ownership. A dry run replays the 10 saved attempts and lists cells 11-18. The automatic tunnel path is tested with simulated processes; no live tunnel or load was started for this addition. All 29 existing main-protocol tests also pass. Their first sandboxed run could not access Git/local HTTP; the rerun outside that restriction passed. Historical verification passes (120 protected files, 210 local links). All 467 historical result paths and 11 frozen executable/settings paths retain their hashes; the dry run leaves all 349 main-series files unchanged.
+
 ### Manual matrix checklist
 
-No row below has been executed. Mark an attempt only after reviewing its assessment and evidence; record failures too. Actual order counts every attempt, including interruptions/replacements. Keep the planned order of the matrix cell when an attempt replaces it.
+The reviewed attempts below are part of the main series. Mark an attempt only after reviewing its assessment and evidence; record failures too. Actual order counts every attempt, including interruptions/replacements. Keep the planned order of the matrix cell when an attempt replaces it.
 
 | Planned order | Repetition | Mode | Profile | Reviewed attempt path / outcome |
 |---|---|---|---|---|
-| 1 | 1 | fixed-1 | steady | [ ] |
-| 2 | 1 | fixed-3 | steady | [ ] |
-| 3 | 1 | autoscaling | steady | [ ] |
-| 4 | 1 | fixed-1 | burst | [ ] |
-| 5 | 1 | fixed-3 | burst | [ ] |
-| 6 | 1 | autoscaling | burst | [ ] |
-| 7 | 2 | fixed-3 | burst | [ ] |
-| 8 | 2 | autoscaling | burst | [ ] |
-| 9 | 2 | fixed-1 | burst | [ ] |
-| 10 | 2 | fixed-3 | steady | [ ] |
+| 1 | 1 | fixed-1 | steady | [attempt-01-fixed-1-steady](../../results/main/series-2026-10-25-v1.1/attempt-01-fixed-1-steady/assessment.json): valid, pass (actual 1) |
+| 2 | 1 | fixed-3 | steady | [attempt-02-fixed-3-steady](../../results/main/series-2026-10-25-v1.1/attempt-02-fixed-3-steady/assessment.json): valid, pass (actual 2) |
+| 3 | 1 | autoscaling | steady | [attempt-03-autoscaling-steady](../../results/main/series-2026-10-25-v1.1/attempt-03-autoscaling-steady/assessment.json): valid, pass (actual 3) |
+| 4 | 1 | fixed-1 | burst | [attempt-04-fixed-1-burst](../../results/main/series-2026-10-25-v1.1/attempt-04-fixed-1-burst/assessment.json): valid, pass (actual 4) |
+| 5 | 1 | fixed-3 | burst | [attempt-05-fixed-3-burst](../../results/main/series-2026-10-25-v1.1/attempt-05-fixed-3-burst/assessment.json): valid, pass (actual 5) |
+| 6 | 1 | autoscaling | burst | [attempt-06-autoscaling-burst](../../results/main/series-2026-10-25-v1.1/attempt-06-autoscaling-burst/assessment.json): valid, pass (actual 6) |
+| 7 | 2 | fixed-3 | burst | [attempt-07-fixed-3-burst](../../results/main/series-2026-10-25-v1.1/attempt-07-fixed-3-burst/assessment.json): valid, pass (actual 7) |
+| 8 | 2 | autoscaling | burst | [attempt-08-autoscaling-burst](../../results/main/series-2026-10-25-v1.1/attempt-08-autoscaling-burst/assessment.json): valid, pass (actual 8) |
+| 9 | 2 | fixed-1 | burst | [attempt-09-fixed-1-burst](../../results/main/series-2026-10-25-v1.1/attempt-09-fixed-1-burst/assessment.json): valid, pass (actual 9) |
+| 10 | 2 | fixed-3 | steady | [attempt-10-fixed-3-steady](../../results/main/series-2026-10-25-v1.1/attempt-10-fixed-3-steady/assessment.json): valid, pass (actual 10) |
 | 11 | 2 | autoscaling | steady | [ ] |
 | 12 | 2 | fixed-1 | steady | [ ] |
 | 13 | 3 | autoscaling | steady | [ ] |

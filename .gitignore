@@ -18,3 +18,6 @@ venv/
 .vscode/
 .DS_Store
 Thumbs.db
+
+# Outer terminal captures; k6 and pod logs remain inside each attempt.
+/results/main/*/attempt-*-console.txt

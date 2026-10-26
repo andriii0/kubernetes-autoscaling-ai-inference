@@ -265,7 +265,9 @@ The [pilot plan](plans/measurements-and-pilot.md#1-measurement-design) defines h
 
 ## 12. Run the same tests in each mode
 
-Execution remains planned. [Main run procedure](plans/scaling-experiment.md#3-main-run-procedure) owns the manual 18-row checklist and the single-run command. Step-20 preparation has local verification for all six mode/profile combinations, preparation gates, phase assessment and resource calculations. Main mode requires --protocol-version 1.1 and explicit repetition/order fields. It handles recovery before selecting the initial count, separate warmup/settling and HPA application. Recheck actual runtime state before approved load. Both autoscaling profiles include the initial reaction from one copy; no initial segment is removed.
+Main execution has started and is paused at the student's request; see [STATUS.md](STATUS.md) before resuming. [Main run procedure](plans/scaling-experiment.md#3-main-run-procedure) owns the manual 18-row checklist and the single-run command. Step-20 preparation has local verification for all six mode/profile combinations, preparation gates, phase assessment and resource calculations. Main mode requires --protocol-version 1.1 and explicit repetition/order fields. It handles recovery before selecting the initial count, separate warmup/settling and HPA application. Recheck actual runtime state before approved load. Both autoscaling profiles include the initial reaction from one copy; no initial segment is removed.
+
+For the existing paused series, [the one-command continuation](plans/scaling-experiment.md#one-command-continuation) uses bench/run_series.py to skip completed attempts, manage the Service tunnel, and run the remaining cells with CSV/JSON analysis. Open Docker Desktop and close other load generators first. The command prompts for background activity and stops for a data/preparation problem; it does not automatically replace attempts. --dry-run only checks saved data and lists remaining cells.
 
 ## 13. Turn measurements into findings
 

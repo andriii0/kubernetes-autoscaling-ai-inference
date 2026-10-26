@@ -1,6 +1,6 @@
 # Project status
 
-Updated: 2026-10-25. The one-replica pilot completed on 2026-10-18 UTC, including two five-minute confirmations at each selected rate. Collection and analysis have saved evidence; this does not certify runtime availability at a later time.
+Updated: 2026-10-26. The one-replica pilot completed on 2026-10-18 UTC, including two five-minute confirmations at each selected rate. Collection and analysis have saved evidence; this does not certify runtime availability at a later time.
 
 ## Implemented and verified
 
@@ -30,19 +30,25 @@ Updated: 2026-10-25. The one-replica pilot completed on 2026-10-18 UTC, includin
 
 - The last-five-commit review repairs were verified on 2026-10-25. Quiet-state progress is counted per copy, backward CPU source timestamps cannot cause overlapping interval totals, and main-run archive hashes include helpers, analysis and the HPA manifest. Seven regression tests were added; all 130 bench tests pass without skips. Self-review also caught a conflicting/backward quiet-state point being reused as a baseline; it is now discarded and the next fresh point only starts a new pair. The historical verifier passes (120 protected files, 186 local links), all 467 saved result paths are byte-identical, and 11 saved summaries plus the HPA phase/timeline replay match. See [the focused repairs](plans/scaling-experiment.md#repair-the-main-protocol-review-findings-2026-10-25). Numeric protocol settings and milestone scope are unchanged. No live cluster/load work was performed.
 
+- Step-21 preparation started on 2026-10-25 with the student's authorization. The reviewed repair is pushed as 70811d8. Docker startup was restored while preserving the old socket directories, and the existing ai-lab cluster resumed. One Ollama copy and metrics-server are ready; Service/model/image/configuration checks passed without generation load. The user confirmed that For Honor was closed; current process checks found no game or other project generator/observer. See [the preparation record](plans/scaling-experiment.md#step-21-preparation-on-2026-10-25). The main series is paused at the student's request after 10/18 planned cells with reviewed full-duration/full-load data. Attempt 11 has not started. The latest run is saved with its accepted 1-ms boundary warning and incomplete CPU coverage; no complete application CPU total is claimed. See [the series record](../results/main/series-2026-10-25-v1.1/README.md).
+
+- A one-command continuation is available in bench/run_series.py. It reuses the existing matrix, launcher, reconciler and analyzer, skips completed attempts and manages its own Service tunnel. Thirteen focused tests and 29 existing main-protocol tests pass. A no-load dry run replayed all 10 saved assessments and listed cells 11-18; live tunnel startup was simulated, not exercised. Frozen measurement code/settings and saved results are unchanged. Main execution remains paused; this addition did not start attempt 11. See [the command and stop rules](plans/scaling-experiment.md#one-command-continuation).
+
+Publication (2026-10-26): this Git snapshot includes the continuation command and the first 10 main attempts with their raw data, archived inputs and analysis. Ten empty outer terminal captures are ignored; internal k6/pod logs are retained. The pause checkpoint and saved series README describe the earlier uncommitted state at the time they were written; their original bytes are preserved. The series remains paused at 10/18.
+
 ## Remaining work and limits
 
 - The short local HPA fixture remains sensitive to scheduling pauses: one self-review suite run exceeded its 100-ms maximum poll gap; a sequential full rerun passed all 130 tests. The fixture and validity threshold were unchanged.
 
-- Step 18 is complete as a preliminary three-copy check. Step 21 remains open: the repeated fixed-mode and autoscaling main series have not been run. Step 20 supplies locally verified code and instructions, not proof of current cluster readiness or acceptable HPA latency. Main comparative findings remain future work.
+- Step 18 is complete as a preliminary three-copy check. Step 21 remains open: the repeated fixed-mode and autoscaling main series is not complete. Step 20 supplies locally verified code and instructions, not proof of current cluster readiness or acceptable HPA latency. Main comparative findings remain future work.
 - Main mode separates fixed-three traffic evidence from client outcomes after timeouts. An idle pod leaves the demonstrated three-copy comparison not_assessable; its observations remain saved. Workload OOM/restarts remain system outcomes even when collection stops. Missing state/log evidence and resource gaps are reported separately.
 - CPU totals remain unavailable without full coverage of every expected instance; newly created/deleted instances may have unknown boundaries. Native logs cannot establish per-pod semantic success or normal server drain. All replicas share one computer; measurements do not establish Windows-wide energy or cost savings.
 - Research v0.7, C4 and saved course exports predate protocol v1.1. Current document/export ownership is in [docs/README.md](../docs/README.md); Portflow submission is not confirmed by local storage.
 
 ## Next action
 
-Before approved runtime work, verify Docker/Minikube, the Service tunnel, reviewed source settings and absence of another project load generator. Then follow [the ordered main-run procedure](plans/scaling-experiment.md#3-main-run-procedure), one attempt at a time. The full repeated matrix belongs to step 21. Step 18 uses the saved preliminary evidence; no additional series is needed for that milestone.
+The student requested a pause after attempt 10 and then requested a command for running the remaining cells independently. Do not start planned cell 11 or any later load through the agent without a new instruction. The student can start the [continuation command](plans/scaling-experiment.md#one-command-continuation) after checking current activity and Docker Desktop. Follow [the ordered main-run procedure](plans/scaling-experiment.md#3-main-run-procedure), one attempt at a time. Stop on a collection/preparation problem; retain target misses as outcomes. Step 21 remains open until the agreed matrix has reviewed evidence.
 
-No main load has been run. The last saved restoration left one ready copy without HPA; present runtime state has not been checked in this task. Preserve historical reports, inputs and verdicts.
+Main execution started on 2026-10-25. Runtime state must be rechecked after any interruption; the existing launcher handles recovery and mode preparation before each attempt. Preserve historical reports, inputs and verdicts.
 
 Milestone scope correction (2026-10-21): restored the original step-18 criterion after checking Git history and saved probe records. Main protocol v1.1, its 18-run matrix and all experiment rules remain unchanged. Related Markdown and Notion wording were aligned; code, configuration and saved results were preserved.

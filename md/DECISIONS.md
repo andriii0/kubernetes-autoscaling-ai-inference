@@ -1,6 +1,6 @@
 # Decisions
 
-Updated: 2026-10-21. Local implementation summary for contributors and agents. [Technology Decisions in Notion](https://app.notion.com/p/3fdc7c697bfd81baaaa7f197548b7c5a) owns the detailed technology research; the Word research and its PDF own the orchestration-platform comparison. Accepted choices do not imply measured superiority. Numeric main settings are agreed in [main experiment protocol v1.1](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd); implementation preparation has local verification; the main series remains unexecuted.
+Updated: 2026-10-26. Local implementation summary for contributors and agents. [Technology Decisions in Notion](https://app.notion.com/p/3fdc7c697bfd81baaaa7f197548b7c5a) owns the detailed technology research; the Word research and its PDF own the orchestration-platform comparison. Accepted choices do not imply measured superiority. Numeric main settings are agreed in [main experiment protocol v1.1](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd); implementation preparation has local verification; main execution has started and is paused at the student's request; [STATUS.md](STATUS.md) owns current progress.
 
 ## 1. Use one Kubernetes prototype after comparing alternatives
 
@@ -36,7 +36,7 @@ Accepted provisionally for the pilot, which has now completed, based on the chec
 
 Selected: fixed one replica, fixed three replicas and CPU-based HPA bounded to 1-3, all on one physical computer. The [fixed-three check](../results/fixed-replicas/check-2026-10-20-series1/README.md) and [HPA mechanism check](../results/autoscaling/check-2026-10-20-series1/README.md) have saved preliminary evidence. The repeated main comparison remains unfinished.
 
-Use [deploy/hpa.yaml](../deploy/hpa.yaml) for the policy retained in main protocol v1.1: CPU utilization target 60% of requests and a 300-second downscale stabilization window. Default scale-up behavior is retained. These are starting settings, not measured optima. The [scaling plan](plans/scaling-experiment.md#2-hpa-setup-and-checks) owns execution; detailed alternatives remain in [Notion section 5](https://app.notion.com/p/3fdc7c697bfd81baaaa7f197548b7c5a). The first run verifies reactions but does not establish an autoscaling advantage. Implement the agreed main protocol before repeated comparisons.
+Use [deploy/hpa.yaml](../deploy/hpa.yaml) for the policy retained in main protocol v1.1: CPU utilization target 60% of requests and a 300-second downscale stabilization window. Default scale-up behavior is retained. These are starting settings, not measured optima. The [scaling plan](plans/scaling-experiment.md#2-hpa-setup-and-checks) owns execution; detailed alternatives remain in [Notion section 5](https://app.notion.com/p/3fdc7c697bfd81baaaa7f197548b7c5a). The first run verifies reactions but does not establish an autoscaling advantage. The main protocol is implemented; [STATUS.md](STATUS.md) records current execution progress.
 
 ## 9. Keep one project documentation tree
 

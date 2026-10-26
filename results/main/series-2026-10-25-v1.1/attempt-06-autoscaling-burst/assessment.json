@@ -1,0 +1,54 @@
+{
+  "protocol_version": "1.1",
+  "data_valid": true,
+  "duration_complete": true,
+  "unfinished": 0,
+  "dropped": 0,
+  "primary": {
+    "name": "peak",
+    "seconds": 300,
+    "target": "peak",
+    "start_seconds": 121,
+    "end_seconds": 421,
+    "assignment": "request start time",
+    "completed": 240,
+    "successful": 240,
+    "failed": 0,
+    "p95_ms": 3216.899999999999,
+    "mean_ms": 1834.5208333333333,
+    "failure_categories": {}
+  },
+  "primary_p95_pass": true,
+  "primary_errors_pass": true,
+  "whole_run_errors_pass": true,
+  "scaling_observed": "growth+reduction",
+  "overall": "pass",
+  "sensitivity_p95_pass": true,
+  "system_outcomes": [
+    {
+      "pod_uid": "570c890e-c9ee-4c1e-8046-2684ee329920",
+      "identity_before": [
+        null,
+        0
+      ],
+      "identity_after": [
+        "containerd://0f07aad3bf7c9c000b7075d531066fb2adc1a7db241601d7d9c2133a7e2e754a",
+        0
+      ],
+      "observed_at_utc": "2026-10-25T22:50:36.262103+00:00"
+    },
+    {
+      "pod_uid": "570c890e-c9ee-4c1e-8046-2684ee329920",
+      "restart_count": 0,
+      "termination": {
+        "containerID": "containerd://0f07aad3bf7c9c000b7075d531066fb2adc1a7db241601d7d9c2133a7e2e754a",
+        "exitCode": 0,
+        "finishedAt": "2026-10-25T23:01:52Z",
+        "reason": "Completed",
+        "startedAt": "2026-10-25T22:50:33Z"
+      }
+    }
+  ],
+  "limitations": [],
+  "server_drain_verified": false
+}

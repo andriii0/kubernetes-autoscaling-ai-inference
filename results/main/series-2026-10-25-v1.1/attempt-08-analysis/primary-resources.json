@@ -1,0 +1,69 @@
+{
+  "attempt-08-autoscaling-burst": {
+    "window": {
+      "started_at_utc": "2026-10-25T23:30:39.561000+00:00",
+      "scheduled_end_at_utc": "2026-10-25T23:43:41.561000+00:00",
+      "client_drain_end_at_utc": "2026-10-25T23:43:41.561000+00:00",
+      "request_start_tolerance_ms": 1
+    },
+    "method": "Counter deltas clipped by interval overlap; constant average rate within each source interval.",
+    "instances": [
+      {
+        "scope": "container",
+        "pod_uid": "41d258af-57c0-4fda-82ca-e12afe807bb5",
+        "restart_count": 0,
+        "container_id": "containerd://3f6e1436a03ce93f66319bb0d934eeb4a16f635a0eea8b905b1dfe1dc2426bbe",
+        "active_start_utc": "2026-10-25T19:29:17+00:00",
+        "active_end_utc": "2026-10-25T23:43:41.561000+00:00",
+        "expected_seconds": 782.0,
+        "cpu_covered_seconds": 782.0,
+        "cpu_coverage": 1.0,
+        "cpu_full_coverage": true,
+        "cpu_core_seconds_estimate": 624.6658752485188,
+        "observed_peak_memory_mib": 488.0625,
+        "memory_samples": 54,
+        "memory_missing_polls": 2,
+        "memory_first_source_utc": "2026-10-25T23:30:52.866000+00:00",
+        "memory_last_source_utc": "2026-10-25T23:43:37.014000+00:00"
+      },
+      {
+        "scope": "container",
+        "pod_uid": "502fdf56-10e0-4ce9-9908-c0a0b881df32",
+        "restart_count": 0,
+        "container_id": "containerd://4c249de442d4282ad66f637c9cf2ff093b26d489372d48822d44a1fd055fba86",
+        "active_start_utc": "2026-10-25T23:34:30+00:00",
+        "active_end_utc": "2026-10-25T23:43:41.561000+00:00",
+        "expected_seconds": 551.5610001087189,
+        "cpu_covered_seconds": 547.180999994278,
+        "cpu_coverage": 0.9920589017106403,
+        "cpu_full_coverage": false,
+        "cpu_core_seconds_estimate": 304.4704268057892,
+        "observed_peak_memory_mib": 545.26171875,
+        "memory_samples": 46,
+        "memory_missing_polls": 0,
+        "memory_first_source_utc": "2026-10-25T23:34:34.380000+00:00",
+        "memory_last_source_utc": "2026-10-25T23:43:35.050000+00:00"
+      }
+    ],
+    "nodes": [
+      {
+        "scope": "node",
+        "node": "ai-lab",
+        "active_start_utc": "2026-10-25T23:30:39.561000+00:00",
+        "active_end_utc": "2026-10-25T23:43:41.561000+00:00",
+        "expected_seconds": 782.0,
+        "cpu_covered_seconds": 782.0,
+        "cpu_coverage": 1.0,
+        "cpu_full_coverage": true,
+        "cpu_core_seconds_estimate": 1055.723244235948,
+        "observed_peak_memory_mib": 2079.40625,
+        "memory_samples": 78,
+        "memory_missing_polls": 1,
+        "memory_first_source_utc": "2026-10-25T23:30:44.871000+00:00",
+        "memory_last_source_utc": "2026-10-25T23:43:36.101000+00:00"
+      }
+    ],
+    "application_cpu_core_seconds_estimate": null,
+    "application_state_complete": true
+  }
+}

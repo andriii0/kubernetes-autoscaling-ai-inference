@@ -1,0 +1,11 @@
+{
+  "phase": "warmup",
+  "started_at_utc": "2026-10-25T18:34:14.067238+00:00",
+  "finished_at_utc": "2026-10-25T18:34:17.640121+00:00",
+  "timeout_seconds": 120,
+  "http_status": 200,
+  "successful": true,
+  "output_tokens": 64.0,
+  "model_load_ms": 2292.409858,
+  "duration_ms": 3561.999999998079
+}

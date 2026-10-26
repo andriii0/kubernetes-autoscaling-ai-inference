@@ -1,0 +1,32 @@
+{
+  "attempt-09-fixed-1-burst": {
+    "protocol_version": "1.1",
+    "data_valid": true,
+    "duration_complete": true,
+    "unfinished": 0,
+    "dropped": 0,
+    "primary": {
+      "name": "peak",
+      "seconds": 300,
+      "target": "peak",
+      "start_seconds": 121,
+      "end_seconds": 421,
+      "assignment": "request start time",
+      "completed": 240,
+      "successful": 240,
+      "failed": 0,
+      "p95_ms": 1870.6,
+      "mean_ms": 1379.9791666666667,
+      "failure_categories": {}
+    },
+    "primary_p95_pass": true,
+    "primary_errors_pass": true,
+    "whole_run_errors_pass": true,
+    "scaling_observed": "not_applicable",
+    "overall": "pass",
+    "sensitivity_p95_pass": true,
+    "system_outcomes": [],
+    "limitations": [],
+    "server_drain_verified": false
+  }
+}

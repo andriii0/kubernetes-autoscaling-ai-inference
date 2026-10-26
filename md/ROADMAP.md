@@ -1,12 +1,12 @@
 # Project Roadmap
 
-Updated: 2026-10-21. Latest saved preliminary HPA check: 2026-10-20 UTC.
+Updated: 2026-10-26. Latest saved preliminary HPA check: 2026-10-20 UTC.
 
 ## Goal and current position
 
 Evaluate how automatic scaling of AI inference handles changing request load while keeping response time acceptable. Compare one fixed replica, three fixed replicas, and automatic scaling between one and three replicas. A replica is one running copy of the model server.
 
-The local prototype, short load check, and continuous cluster/resource observer are complete. Direct kubelet resource measurements were verified with saved data on 2026-10-16. Technology decisions are documented. Request-level records and integrated collection now have offline tests and a saved live low-load check on 2026-10-18. Minimal pilot analysis and the increasing-load pilot are complete, including two five-minute repetitions per selected rate. The student agreed [main experiment protocol v1.1](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd) on 2026-10-21. Step-20 code and run instructions have local verification; fresh runtime readiness and the main series remain next. A [preliminary HPA check](../results/autoscaling/check-2026-10-20-series1/README.md) now verifies growth and reduction. The main repeated comparison remains unfinished.
+The local prototype, short load check, and continuous cluster/resource observer are complete. Direct kubelet resource measurements were verified with saved data on 2026-10-16. Technology decisions are documented. Request-level records and integrated collection now have offline tests and a saved live low-load check on 2026-10-18. Minimal pilot analysis and the increasing-load pilot are complete, including two five-minute repetitions per selected rate. The student agreed [main experiment protocol v1.1](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd) on 2026-10-21. Step-20 code and run instructions have local verification. Main execution started and is now paused at the student's request; [STATUS.md](STATUS.md) records current progress and resumption conditions. A [preliminary HPA check](../results/autoscaling/check-2026-10-20-series1/README.md) now verifies growth and reduction. The main repeated comparison remains unfinished.
 
 Completed steps refer to saved evidence, not a claim that the cluster is running today. All replicas use the CPU of one physical computer. Setup commands are in [GETTING_STARTED.md](GETTING_STARTED.md). Detailed pilot and scaling procedures live in the linked task plans; guide section numbers are topic references, not the order of project work.
 

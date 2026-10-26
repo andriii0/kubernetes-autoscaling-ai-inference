@@ -1,0 +1,12 @@
+{
+  "recorded_at_utc": "2026-10-25T18:31:47.010277+00:00",
+  "source_commit": "70811d87e849581378bc89544c2bbf10d4ebcf16",
+  "protocol_version": "1.1",
+  "game_closed_confirmed_by_user": true,
+  "base_url": "http://127.0.0.1:53877",
+  "initial_container_restart_count": 1,
+  "initial_image_id": "sha256:7afaba776be2a7256ac0470ab06af3d437ab4920d87ce2998ccb24b1585707ce",
+  "model_digest": "a8b0c51577010a279d933d14c2a8ab4b268079d44c5c8830c0a93900f1827c67",
+  "historical_result_paths_guarded": 467,
+  "activity_note": "User confirmed game closed; no other project k6/observer found. Normal desktop applications remain open."
+}

@@ -1,0 +1,51 @@
+{
+  "attempt-09-fixed-1-burst": {
+    "window": {
+      "started_at_utc": "2026-10-25T23:52:43.231000+00:00",
+      "scheduled_end_at_utc": "2026-10-26T00:05:45.231000+00:00",
+      "client_drain_end_at_utc": "2026-10-26T00:05:46.409000+00:00",
+      "request_start_tolerance_ms": 1
+    },
+    "method": "Counter deltas clipped by interval overlap; constant average rate within each source interval.",
+    "instances": [
+      {
+        "scope": "container",
+        "pod_uid": "41d258af-57c0-4fda-82ca-e12afe807bb5",
+        "restart_count": 0,
+        "container_id": "containerd://3f6e1436a03ce93f66319bb0d934eeb4a16f635a0eea8b905b1dfe1dc2426bbe",
+        "active_start_utc": "2026-10-25T19:29:17+00:00",
+        "active_end_utc": "2026-10-26T00:05:45.231000+00:00",
+        "expected_seconds": 782.0,
+        "cpu_covered_seconds": 782.0,
+        "cpu_coverage": 1.0,
+        "cpu_full_coverage": true,
+        "cpu_core_seconds_estimate": 855.2920607344807,
+        "observed_peak_memory_mib": 488.03515625,
+        "memory_samples": 52,
+        "memory_missing_polls": 1,
+        "memory_first_source_utc": "2026-10-25T23:52:54.930000+00:00",
+        "memory_last_source_utc": "2026-10-26T00:05:42.288000+00:00"
+      }
+    ],
+    "nodes": [
+      {
+        "scope": "node",
+        "node": "ai-lab",
+        "active_start_utc": "2026-10-25T23:52:43.231000+00:00",
+        "active_end_utc": "2026-10-26T00:05:45.231000+00:00",
+        "expected_seconds": 782.0,
+        "cpu_covered_seconds": 782.0,
+        "cpu_coverage": 1.0,
+        "cpu_full_coverage": true,
+        "cpu_core_seconds_estimate": 969.553735062287,
+        "observed_peak_memory_mib": 1605.6875,
+        "memory_samples": 78,
+        "memory_missing_polls": 0,
+        "memory_first_source_utc": "2026-10-25T23:52:46.842000+00:00",
+        "memory_last_source_utc": "2026-10-26T00:05:37.507000+00:00"
+      }
+    ],
+    "application_cpu_core_seconds_estimate": 855.2920607344807,
+    "application_state_complete": true
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "protocol_version": "1.1",
+  "data_valid": true,
+  "duration_complete": true,
+  "unfinished": 0,
+  "dropped": 0,
+  "primary": {
+    "name": "steady",
+    "seconds": 300.0,
+    "target": "peak",
+    "start_seconds": 0,
+    "end_seconds": 300.0,
+    "assignment": "request start time",
+    "completed": 240,
+    "successful": 240,
+    "failed": 0,
+    "p95_ms": 1094.3,
+    "mean_ms": 954.1041666666666,
+    "failure_categories": {}
+  },
+  "primary_p95_pass": true,
+  "primary_errors_pass": true,
+  "whole_run_errors_pass": true,
+  "scaling_observed": "not_applicable",
+  "overall": "pass",
+  "sensitivity_p95_pass": true,
+  "system_outcomes": [
+    {
+      "pod_uid": "7b9728ed-777d-4122-bde5-587149502438",
+      "restart_count": 1,
+      "termination": {
+        "containerID": "containerd://ee2c7ac1024578bbe16aaff4c7f57da62bbe48c2ce37ab2cc6d4b5cdbbc1766b",
+        "exitCode": 255,
+        "finishedAt": "2026-10-25T18:27:06Z",
+        "reason": "Unknown",
+        "startedAt": "2026-10-20T13:13:48Z"
+      }
+    }
+  ],
+  "limitations": [],
+  "server_drain_verified": false
+}
