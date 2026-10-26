@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "valid": true,
+  "errors": [],
+  "warnings": [],
+  "counts": {
+    "started": 240,
+    "completed": 240,
+    "successful": 240,
+    "failed": 0,
+    "unfinished": 0,
+    "dropped": 0
+  },
+  "load_window": {
+    "started_at_utc": "2026-10-26T10:56:16.292000+00:00",
+    "scheduled_end_at_utc": "2026-10-26T11:01:16.292000+00:00",
+    "client_drain_end_at_utc": "2026-10-26T11:01:16.350000+00:00",
+    "request_start_tolerance_ms": 1
+  },
+  "events_read": {
+    "started": 240,
+    "completed": 240
+  },
+  "observation": {
+    "samples": 95,
+    "collection_errors": 0,
+    "max_gap_seconds": 5.028679847717285
+  },
+  "distribution": {
+    "pods": {
+      "e6a7dca2-650b-4c56-b52b-8bd7dcb49f9f": {
+        "completed": 80,
+        "http_200": 80
+      },
+      "ebc6e7db-c364-4a14-809c-42dfa4ec3eca": {
+        "completed": 88,
+        "http_200": 88
+      },
+      "ed95d4fd-cca5-4fb9-a67e-81439ceaedf8": {
+        "completed": 72,
+        "http_200": 72
+      }
+    },
+    "all_pods_active": true,
+    "started_at_utc": "2026-10-26T10:56:16.144725+00:00",
+    "finished_at_utc": "2026-10-26T11:01:16.400362+00:00",
+    "method": "Observed server completions; client outcomes and server drain are separate"
+  }
+}

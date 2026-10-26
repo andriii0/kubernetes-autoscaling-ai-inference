@@ -4,7 +4,7 @@ This guide explains how to prepare and use the local CPU prototype on Windows. R
 
 The section numbers group topics. They are not the project schedule. Check [STATUS.md](STATUS.md) for the current state and active plan, and [ROADMAP.md](ROADMAP.md) for the order of work. Set up observation before collecting pilot results, even though its reference section appears later in this guide.
 
-Saved checks do not prove that Docker or the cluster is running today. The preliminary HPA check is implemented; the repeated main comparison remains planned. Pilot analysis is implemented; current completion evidence is in STATUS.md.
+Saved checks do not prove that Docker or the cluster is running today. The preliminary HPA check, 18-run main comparison and comparative analysis have saved evidence. Final findings and reproduction review remain open; current completion evidence is in [STATUS.md](STATUS.md).
 
 ## What the project will do
 
@@ -265,9 +265,9 @@ The [pilot plan](plans/measurements-and-pilot.md#1-measurement-design) defines h
 
 ## 12. Run the same tests in each mode
 
-Main execution has started and is paused at the student's request; see [STATUS.md](STATUS.md) before resuming. [Main run procedure](plans/scaling-experiment.md#3-main-run-procedure) owns the manual 18-row checklist and the single-run command. Step-20 preparation has local verification for all six mode/profile combinations, preparation gates, phase assessment and resource calculations. Main mode requires --protocol-version 1.1 and explicit repetition/order fields. It handles recovery before selecting the initial count, separate warmup/settling and HPA application. Recheck actual runtime state before approved load. Both autoscaling profiles include the initial reaction from one copy; no initial segment is removed.
+The 18-run main matrix is complete; see [STATUS.md](STATUS.md) for verified results and remaining work. No additional load is currently needed. [Main run procedure](plans/scaling-experiment.md#3-main-run-procedure) owns the manual 18-row checklist and the single-run command. Step-20 preparation has local verification for all six mode/profile combinations, preparation gates, phase assessment and resource calculations. Main mode requires --protocol-version 1.1 and explicit repetition/order fields. It handles recovery before selecting the initial count, separate warmup/settling and HPA application. Recheck actual runtime state before approved load. Both autoscaling profiles include the initial reaction from one copy; no initial segment is removed.
 
-For the existing paused series, [the one-command continuation](plans/scaling-experiment.md#one-command-continuation) uses bench/run_series.py to skip completed attempts, manage the Service tunnel, and run the remaining cells with CSV/JSON analysis. Open Docker Desktop and close other load generators first. The command prompts for background activity and stops for a data/preparation problem; it does not automatically replace attempts. --dry-run only checks saved data and lists remaining cells.
+For an unfinished existing series, [the one-command continuation](plans/scaling-experiment.md#one-command-continuation) uses bench/run_series.py to skip completed attempts, manage the Service tunnel, and run the remaining cells with CSV/JSON analysis. Open Docker Desktop and close other load generators first. The command prompts for background activity and stops for a data/preparation problem; it does not automatically replace attempts. --dry-run only checks saved data and lists remaining cells.
 
 ## 13. Turn measurements into findings
 
@@ -292,6 +292,8 @@ Add `--no-plots` when only CSV/JSON is required. The analysis commands read save
 Run `python -m unittest discover -s bench` from the project root. Numeric and lifecycle analysis tests do not require Matplotlib. Dedicated plot tests report a skip when this optional dependency is absent; install the version above to include it. Tests that execute real k6 report a skip when k6 is missing from PATH; collection and error-handling unit tests still run. The verified project-environment command is `.\.venv\Scripts\python.exe -m unittest discover -s bench`. If that environment has no pip, install the plot dependency from a Python with pip using `python -m pip --python .venv install "matplotlib>=3.10,<4"`. These tests use temporary files and local HTTP fixtures, not the live cluster.
 
 Outside main mode, optional `--slo-ms VALUE` checks whole-run successful p95 and is saved as slo_ms; omission leaves this optional latency threshold unset. The launcher removes ambient SLO_MS, MAIN_PROTOCOL and K6_* overrides. Shared bench/workload.json owns error/drop thresholds and main targets. Main mode applies the agreed p95 and error targets to steady or the burst peak, plus the whole-run error target. Zero drops is a complete offered-load condition. assessment.json records the combined result independently of collection validity; a service-target failure remains usable evidence. Do not use a preliminary command or whole-run --slo-ms alone to certify the main burst peak.
+
+The completed main matrix can be reproduced offline with bench/summarize_main.py. See [the combined analysis](../results/main/series-2026-10-25-v1.1/analysis-main-2026-10-26/README.md) for a command that uses a new output directory. It replays all runs, checks input/model identities and exports primary-window comparisons without generating load. --no-plots requires only the Python standard library; plotting uses the existing optional analysis dependency.
 
 ## Troubleshooting
 

@@ -1,0 +1,478 @@
+{
+  "runs": [
+    {
+      "run": "attempt-01-fixed-1-steady",
+      "errors": [],
+      "warnings": [],
+      "observation": {
+        "samples": 95,
+        "collection_errors": 0,
+        "max_gap_seconds": 5.023854970932007
+      },
+      "independent_primary_p95_matches": true,
+      "raw_k6_primary_latencies_match": true,
+      "saved_assessment_and_resources_match": true,
+      "system_outcomes": [
+        {
+          "pod_uid": "7b9728ed-777d-4122-bde5-587149502438",
+          "restart_count": 1,
+          "termination": {
+            "containerID": "containerd://ee2c7ac1024578bbe16aaff4c7f57da62bbe48c2ce37ab2cc6d4b5cdbbc1766b",
+            "exitCode": 255,
+            "finishedAt": "2026-10-25T18:27:06Z",
+            "reason": "Unknown",
+            "startedAt": "2026-10-20T13:13:48Z"
+          }
+        }
+      ]
+    },
+    {
+      "run": "attempt-02-fixed-3-steady",
+      "errors": [],
+      "warnings": [],
+      "observation": {
+        "samples": 97,
+        "collection_errors": 0,
+        "max_gap_seconds": 5.026291131973267
+      },
+      "independent_primary_p95_matches": true,
+      "raw_k6_primary_latencies_match": true,
+      "saved_assessment_and_resources_match": true,
+      "system_outcomes": [
+        {
+          "pod_uid": "7b9728ed-777d-4122-bde5-587149502438",
+          "restart_count": 1,
+          "termination": {
+            "containerID": "containerd://ee2c7ac1024578bbe16aaff4c7f57da62bbe48c2ce37ab2cc6d4b5cdbbc1766b",
+            "exitCode": 255,
+            "finishedAt": "2026-10-25T18:27:06Z",
+            "reason": "Unknown",
+            "startedAt": "2026-10-20T13:13:48Z"
+          }
+        }
+      ]
+    },
+    {
+      "run": "attempt-03-autoscaling-steady",
+      "errors": [],
+      "warnings": [
+        "request start within 1 ms timestamp boundary tolerance"
+      ],
+      "observation": {
+        "samples": 161,
+        "collection_errors": 0,
+        "max_gap_seconds": 5.091023921966553,
+        "resource_gap_samples": 0
+      },
+      "independent_primary_p95_matches": true,
+      "raw_k6_primary_latencies_match": true,
+      "saved_assessment_and_resources_match": true,
+      "system_outcomes": [
+        {
+          "pod_uid": "7b9728ed-777d-4122-bde5-587149502438",
+          "restart_count": 1,
+          "termination": {
+            "containerID": "containerd://ee2c7ac1024578bbe16aaff4c7f57da62bbe48c2ce37ab2cc6d4b5cdbbc1766b",
+            "exitCode": 255,
+            "finishedAt": "2026-10-25T18:27:06Z",
+            "reason": "Unknown",
+            "startedAt": "2026-10-20T13:13:48Z"
+          }
+        }
+      ]
+    },
+    {
+      "run": "attempt-04-fixed-1-burst",
+      "errors": [],
+      "warnings": [],
+      "observation": {
+        "samples": 187,
+        "collection_errors": 0,
+        "max_gap_seconds": 5.025741100311279
+      },
+      "independent_primary_p95_matches": true,
+      "raw_k6_primary_latencies_match": true,
+      "saved_assessment_and_resources_match": true,
+      "system_outcomes": [
+        {
+          "pod_uid": "7b9728ed-777d-4122-bde5-587149502438",
+          "restart_count": 1,
+          "termination": {
+            "containerID": "containerd://ee2c7ac1024578bbe16aaff4c7f57da62bbe48c2ce37ab2cc6d4b5cdbbc1766b",
+            "exitCode": 255,
+            "finishedAt": "2026-10-25T18:27:06Z",
+            "reason": "Unknown",
+            "startedAt": "2026-10-20T13:13:48Z"
+          }
+        }
+      ]
+    },
+    {
+      "run": "attempt-05-fixed-3-burst",
+      "errors": [],
+      "warnings": [],
+      "observation": {
+        "samples": 192,
+        "collection_errors": 0,
+        "max_gap_seconds": 9.27265214920044
+      },
+      "independent_primary_p95_matches": true,
+      "raw_k6_primary_latencies_match": true,
+      "saved_assessment_and_resources_match": true,
+      "system_outcomes": [
+        {
+          "pod_uid": "7b9728ed-777d-4122-bde5-587149502438",
+          "restart_count": 1,
+          "termination": {
+            "containerID": "containerd://ee2c7ac1024578bbe16aaff4c7f57da62bbe48c2ce37ab2cc6d4b5cdbbc1766b",
+            "exitCode": 255,
+            "finishedAt": "2026-10-25T18:27:06Z",
+            "reason": "Unknown",
+            "startedAt": "2026-10-20T13:13:48Z"
+          }
+        }
+      ]
+    },
+    {
+      "run": "attempt-06-autoscaling-burst",
+      "errors": [],
+      "warnings": [],
+      "observation": {
+        "samples": 261,
+        "collection_errors": 0,
+        "max_gap_seconds": 5.087771892547607,
+        "resource_gap_samples": 0
+      },
+      "independent_primary_p95_matches": true,
+      "raw_k6_primary_latencies_match": true,
+      "saved_assessment_and_resources_match": true,
+      "system_outcomes": [
+        {
+          "pod_uid": "570c890e-c9ee-4c1e-8046-2684ee329920",
+          "identity_before": [
+            null,
+            0
+          ],
+          "identity_after": [
+            "containerd://0f07aad3bf7c9c000b7075d531066fb2adc1a7db241601d7d9c2133a7e2e754a",
+            0
+          ],
+          "observed_at_utc": "2026-10-25T22:50:36.262103+00:00"
+        },
+        {
+          "pod_uid": "570c890e-c9ee-4c1e-8046-2684ee329920",
+          "restart_count": 0,
+          "termination": {
+            "containerID": "containerd://0f07aad3bf7c9c000b7075d531066fb2adc1a7db241601d7d9c2133a7e2e754a",
+            "exitCode": 0,
+            "finishedAt": "2026-10-25T23:01:52Z",
+            "reason": "Completed",
+            "startedAt": "2026-10-25T22:50:33Z"
+          }
+        }
+      ]
+    },
+    {
+      "run": "attempt-07-fixed-3-burst",
+      "errors": [],
+      "warnings": [],
+      "observation": {
+        "samples": 191,
+        "collection_errors": 0,
+        "max_gap_seconds": 5.026404857635498
+      },
+      "independent_primary_p95_matches": true,
+      "raw_k6_primary_latencies_match": true,
+      "saved_assessment_and_resources_match": true,
+      "system_outcomes": []
+    },
+    {
+      "run": "attempt-08-autoscaling-burst",
+      "errors": [],
+      "warnings": [],
+      "observation": {
+        "samples": 256,
+        "collection_errors": 0,
+        "max_gap_seconds": 5.106297016143799,
+        "resource_gap_samples": 0
+      },
+      "independent_primary_p95_matches": true,
+      "raw_k6_primary_latencies_match": true,
+      "saved_assessment_and_resources_match": true,
+      "system_outcomes": []
+    },
+    {
+      "run": "attempt-09-fixed-1-burst",
+      "errors": [],
+      "warnings": [],
+      "observation": {
+        "samples": 190,
+        "collection_errors": 0,
+        "max_gap_seconds": 5.028653860092163
+      },
+      "independent_primary_p95_matches": true,
+      "raw_k6_primary_latencies_match": true,
+      "saved_assessment_and_resources_match": true,
+      "system_outcomes": []
+    },
+    {
+      "run": "attempt-10-fixed-3-steady",
+      "errors": [],
+      "warnings": [
+        "request start within 1 ms timestamp boundary tolerance"
+      ],
+      "observation": {
+        "samples": 93,
+        "collection_errors": 0,
+        "max_gap_seconds": 5.024388790130615
+      },
+      "independent_primary_p95_matches": true,
+      "raw_k6_primary_latencies_match": true,
+      "saved_assessment_and_resources_match": true,
+      "system_outcomes": []
+    },
+    {
+      "run": "attempt-11-autoscaling-steady",
+      "errors": [],
+      "warnings": [
+        "request start within 1 ms timestamp boundary tolerance"
+      ],
+      "observation": {
+        "samples": 163,
+        "collection_errors": 0,
+        "max_gap_seconds": 5.0824878215789795,
+        "resource_gap_samples": 0
+      },
+      "independent_primary_p95_matches": true,
+      "raw_k6_primary_latencies_match": true,
+      "saved_assessment_and_resources_match": true,
+      "system_outcomes": [
+        {
+          "pod_uid": "e6a7dca2-650b-4c56-b52b-8bd7dcb49f9f",
+          "restart_count": 1,
+          "termination": {
+            "containerID": "containerd://7aaea8a987a0240555bf652381b70c80e8b8f2a6c79fdfac4d08111ca3f5cede",
+            "exitCode": 255,
+            "finishedAt": "2026-10-26T10:03:21Z",
+            "reason": "Unknown",
+            "startedAt": "2026-10-26T00:08:02Z"
+          }
+        }
+      ]
+    },
+    {
+      "run": "attempt-12-fixed-1-steady",
+      "errors": [],
+      "warnings": [],
+      "observation": {
+        "samples": 92,
+        "collection_errors": 0,
+        "max_gap_seconds": 5.02791690826416
+      },
+      "independent_primary_p95_matches": true,
+      "raw_k6_primary_latencies_match": true,
+      "saved_assessment_and_resources_match": true,
+      "system_outcomes": [
+        {
+          "pod_uid": "e6a7dca2-650b-4c56-b52b-8bd7dcb49f9f",
+          "restart_count": 1,
+          "termination": {
+            "containerID": "containerd://7aaea8a987a0240555bf652381b70c80e8b8f2a6c79fdfac4d08111ca3f5cede",
+            "exitCode": 255,
+            "finishedAt": "2026-10-26T10:03:21Z",
+            "reason": "Unknown",
+            "startedAt": "2026-10-26T00:08:02Z"
+          }
+        }
+      ]
+    },
+    {
+      "run": "attempt-13-autoscaling-steady",
+      "errors": [],
+      "warnings": [],
+      "observation": {
+        "samples": 161,
+        "collection_errors": 0,
+        "max_gap_seconds": 5.09150505065918,
+        "resource_gap_samples": 0
+      },
+      "independent_primary_p95_matches": true,
+      "raw_k6_primary_latencies_match": true,
+      "saved_assessment_and_resources_match": true,
+      "system_outcomes": [
+        {
+          "pod_uid": "e6a7dca2-650b-4c56-b52b-8bd7dcb49f9f",
+          "restart_count": 1,
+          "termination": {
+            "containerID": "containerd://7aaea8a987a0240555bf652381b70c80e8b8f2a6c79fdfac4d08111ca3f5cede",
+            "exitCode": 255,
+            "finishedAt": "2026-10-26T10:03:21Z",
+            "reason": "Unknown",
+            "startedAt": "2026-10-26T00:08:02Z"
+          }
+        }
+      ]
+    },
+    {
+      "run": "attempt-14-fixed-1-steady",
+      "errors": [],
+      "warnings": [],
+      "observation": {
+        "samples": 95,
+        "collection_errors": 0,
+        "max_gap_seconds": 5.029619932174683
+      },
+      "independent_primary_p95_matches": true,
+      "raw_k6_primary_latencies_match": true,
+      "saved_assessment_and_resources_match": true,
+      "system_outcomes": [
+        {
+          "pod_uid": "e6a7dca2-650b-4c56-b52b-8bd7dcb49f9f",
+          "restart_count": 1,
+          "termination": {
+            "containerID": "containerd://7aaea8a987a0240555bf652381b70c80e8b8f2a6c79fdfac4d08111ca3f5cede",
+            "exitCode": 255,
+            "finishedAt": "2026-10-26T10:03:21Z",
+            "reason": "Unknown",
+            "startedAt": "2026-10-26T00:08:02Z"
+          }
+        }
+      ]
+    },
+    {
+      "run": "attempt-15-fixed-3-steady",
+      "errors": [],
+      "warnings": [],
+      "observation": {
+        "samples": 95,
+        "collection_errors": 0,
+        "max_gap_seconds": 5.028679847717285
+      },
+      "independent_primary_p95_matches": true,
+      "raw_k6_primary_latencies_match": true,
+      "saved_assessment_and_resources_match": true,
+      "system_outcomes": [
+        {
+          "pod_uid": "e6a7dca2-650b-4c56-b52b-8bd7dcb49f9f",
+          "restart_count": 1,
+          "termination": {
+            "containerID": "containerd://7aaea8a987a0240555bf652381b70c80e8b8f2a6c79fdfac4d08111ca3f5cede",
+            "exitCode": 255,
+            "finishedAt": "2026-10-26T10:03:21Z",
+            "reason": "Unknown",
+            "startedAt": "2026-10-26T00:08:02Z"
+          }
+        }
+      ]
+    },
+    {
+      "run": "attempt-16-autoscaling-burst",
+      "errors": [],
+      "warnings": [],
+      "observation": {
+        "samples": 261,
+        "collection_errors": 0,
+        "max_gap_seconds": 5.0916969776153564,
+        "resource_gap_samples": 0
+      },
+      "independent_primary_p95_matches": true,
+      "raw_k6_primary_latencies_match": true,
+      "saved_assessment_and_resources_match": true,
+      "system_outcomes": [
+        {
+          "pod_uid": "e6a7dca2-650b-4c56-b52b-8bd7dcb49f9f",
+          "restart_count": 1,
+          "termination": {
+            "containerID": "containerd://7aaea8a987a0240555bf652381b70c80e8b8f2a6c79fdfac4d08111ca3f5cede",
+            "exitCode": 255,
+            "finishedAt": "2026-10-26T10:03:21Z",
+            "reason": "Unknown",
+            "startedAt": "2026-10-26T00:08:02Z"
+          }
+        }
+      ]
+    },
+    {
+      "run": "attempt-17-fixed-1-burst",
+      "errors": [],
+      "warnings": [],
+      "observation": {
+        "samples": 193,
+        "collection_errors": 0,
+        "max_gap_seconds": 5.027094841003418
+      },
+      "independent_primary_p95_matches": true,
+      "raw_k6_primary_latencies_match": true,
+      "saved_assessment_and_resources_match": true,
+      "system_outcomes": [
+        {
+          "pod_uid": "e6a7dca2-650b-4c56-b52b-8bd7dcb49f9f",
+          "restart_count": 1,
+          "termination": {
+            "containerID": "containerd://7aaea8a987a0240555bf652381b70c80e8b8f2a6c79fdfac4d08111ca3f5cede",
+            "exitCode": 255,
+            "finishedAt": "2026-10-26T10:03:21Z",
+            "reason": "Unknown",
+            "startedAt": "2026-10-26T00:08:02Z"
+          }
+        }
+      ]
+    },
+    {
+      "run": "attempt-18-fixed-3-burst",
+      "errors": [],
+      "warnings": [
+        "request start within 1 ms timestamp boundary tolerance"
+      ],
+      "observation": {
+        "samples": 193,
+        "collection_errors": 0,
+        "max_gap_seconds": 5.030416011810303
+      },
+      "independent_primary_p95_matches": true,
+      "raw_k6_primary_latencies_match": true,
+      "saved_assessment_and_resources_match": true,
+      "system_outcomes": [
+        {
+          "pod_uid": "e6a7dca2-650b-4c56-b52b-8bd7dcb49f9f",
+          "restart_count": 1,
+          "termination": {
+            "containerID": "containerd://7aaea8a987a0240555bf652381b70c80e8b8f2a6c79fdfac4d08111ca3f5cede",
+            "exitCode": 255,
+            "finishedAt": "2026-10-26T10:03:21Z",
+            "reason": "Unknown",
+            "startedAt": "2026-10-26T00:08:02Z"
+          }
+        }
+      ]
+    }
+  ],
+  "source_sha256": {
+    "inference.js": "885d27570a056e290aedf8765df0b9b3232c1873da6402e58cf9c7889e4f8131",
+    "workload.json": "135ec5e42c747eec62fa3019cac1bf3bb5ad8a1735b92b600f2817ce51f0a6f7",
+    "run_pilot.py": "9dda2c7b9310773f663671e886c971d7428b7b3fd7661fce259b7f6e9e019a6a",
+    "observe.py": "2e6236612270aa972f891318c45813bb6ec521fab4e02ebb18615856d1e6a578",
+    "pilot_records.py": "b12ff7876b77f25d0f8298b7d550e8961d4211b6ddecea1379ba2763a3382251",
+    "main_protocol.py": "5022bbff821f4151f34ea322e3564dbc98593d6d4bde7f8a1aec12ba3ca157ac",
+    "analyze.py": "980a0ed365b0d5a3e28d8e6118cfc812b6b3849db2240938b3221f1112be2bf0",
+    "fixed_replicas.py": "b4febbc06919702f5b95160864b020154e0d3cd191b799d76c68f5982e06bca8",
+    "autoscaling.py": "a872ed1dd89ad64fc4a07e24dba292b7c1078f334c97b613b655e1df5056eba6",
+    "hpa.yaml": "1dd95c827dfd40cc4ebbe30b96a82bd89388c8d980effa4fd6d3fa8604363148"
+  },
+  "model_digests": [
+    "a8b0c51577010a279d933d14c2a8ab4b268079d44c5c8830c0a93900f1827c67"
+  ],
+  "image_ids": [
+    "sha256:7afaba776be2a7256ac0470ab06af3d437ab4920d87ce2998ccb24b1585707ce"
+  ],
+  "runtime_settings": [
+    {
+      "docker_engine": {
+        "cpu": 24,
+        "memory_bytes": 33528741888
+      },
+      "profile_cpu": 8,
+      "profile_memory": 12288
+    }
+  ]
+}

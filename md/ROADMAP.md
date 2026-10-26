@@ -1,12 +1,12 @@
 # Project Roadmap
 
-Updated: 2026-10-26. Latest saved preliminary HPA check: 2026-10-20 UTC.
+Updated: 2026-10-27. Latest saved preliminary HPA check: 2026-10-20 UTC.
 
 ## Goal and current position
 
 Evaluate how automatic scaling of AI inference handles changing request load while keeping response time acceptable. Compare one fixed replica, three fixed replicas, and automatic scaling between one and three replicas. A replica is one running copy of the model server.
 
-The local prototype, short load check, and continuous cluster/resource observer are complete. Direct kubelet resource measurements were verified with saved data on 2026-10-16. Technology decisions are documented. Request-level records and integrated collection now have offline tests and a saved live low-load check on 2026-10-18. Minimal pilot analysis and the increasing-load pilot are complete, including two five-minute repetitions per selected rate. The student agreed [main experiment protocol v1.1](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd) on 2026-10-21. Step-20 code and run instructions have local verification. Main execution started and is now paused at the student's request; [STATUS.md](STATUS.md) records current progress and resumption conditions. A [preliminary HPA check](../results/autoscaling/check-2026-10-20-series1/README.md) now verifies growth and reduction. The main repeated comparison remains unfinished.
+The local prototype, short load check, and continuous cluster/resource observer are complete. Direct kubelet resource measurements were verified with saved data on 2026-10-16. Technology decisions are documented. Request-level records and integrated collection now have offline tests and a saved live low-load check on 2026-10-18. Minimal pilot analysis and the increasing-load pilot are complete, including two five-minute repetitions per selected rate. I agreed [main experiment protocol v1.1](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd) on 2026-10-21. Step-20 code and run instructions have local verification. The 18-run main matrix and reproducible comparative tables/plots are complete; [STATUS.md](STATUS.md) records verification and limits. A [preliminary HPA check](../results/autoscaling/check-2026-10-20-series1/README.md) now verifies growth and reduction. The main findings document and final reproduction review remain unfinished.
 
 Completed steps refer to saved evidence, not a claim that the cluster is running today. All replicas use the CPU of one physical computer. Setup commands are in [GETTING_STARTED.md](GETTING_STARTED.md). Detailed pilot and scaling procedures live in the linked task plans; guide section numbers are topic references, not the order of project work.
 
@@ -34,8 +34,8 @@ Completed steps refer to saved evidence, not a claim that the cluster is running
 - [x] 18. Test three manually configured replicas.
 - [x] 19. Configure and verify automatic scaling from one to three replicas.
 - [x] 20. Prepare the main experiment matrix and run procedure.
-- [ ] 21. Execute and save the main experiment series.
-- [ ] 22. Process the measurements and build tables and charts.
+- [x] 21. Execute and save the main experiment series.
+- [x] 22. Process the measurements and build tables and charts.
 - [ ] 23. Write the findings, limitations, and recommendations.
 - [ ] 24. Check that another person can repeat the experiment.
 
@@ -127,7 +127,7 @@ Use the Ollama Service, which provides an application address independent of an 
 
 Implement steady and burst scenarios using the selected prompt and model settings. Record successful-response latency, inference errors, and dropped iterations separately. A dropped iteration is a scheduled request that the load generator could not start.
 
-**Completion evidence:** [bench/inference.js](../bench/inference.js). The short steady scenario was executed in step 12; the full burst scenario has not yet been validated in the main experiment. See guide step 7.
+**Completion evidence:** [bench/inference.js](../bench/inference.js). The short steady scenario was executed in step 12; all six mode/profile combinations, including the full burst, have saved main-series evidence in steps 21 and 22. See guide step 7.
 
 ### 12. Run and save a short load check
 
@@ -143,7 +143,7 @@ Run one minute at two requests per ten seconds against one warm replica. Exclude
 
 Compare alternatives for the model, model server, CPU versus GPU execution, load generator, resource measurements, and scaling policy. Keep concise accepted decisions in `md/DECISIONS.md` and detailed technology research in Notion; use the numerical agreement recorded in the separate Notion experiment protocol in step 17.
 
-**Completion evidence:** [Technology Decisions in Notion](https://app.notion.com/p/3fdc7c697bfd81baaaa7f197548b7c5a), completed on 2026-10-18, explains Qwen, Ollama, CPU, k6 and planned CPU-based HPA with requirements, alternatives, reasons, official sources and reconsideration criteria. The measurement decision and its verification remain in [DECISIONS.md](DECISIONS.md#6-separate-the-scaling-signal-from-resource-measurements). The pilot rates are now measured in step 16; the preliminary HPA check now records growth and reduction; repeated comparative scaling performance remains unmeasured.
+**Completion evidence:** [Technology Decisions in Notion](https://app.notion.com/p/3fdc7c697bfd81baaaa7f197548b7c5a), completed on 2026-10-18, explains Qwen, Ollama, CPU, k6 and planned CPU-based HPA with requirements, alternatives, reasons, official sources and reconsideration criteria. The measurement decision and its verification remain in [DECISIONS.md](DECISIONS.md#6-separate-the-scaling-signal-from-resource-measurements). The pilot rates are now measured in step 16; the preliminary HPA check now records growth and reduction; the repeated comparison is now saved in steps 21 and 22, without an established HPA advantage.
 
 ### 14. Implement continuous cluster observation
 
@@ -169,7 +169,7 @@ First verify Docker, the cluster, the application address, exactly one ready rep
 
 **Done when:** saved probes identify a low rate handled comfortably by one replica and a peak rate that makes its response times noticeably worse. Save the actual rate, duration, request settings, and raw data for every probe.
 
-**Completion evidence:** [the saved pilot series](../results/pilot/discovery-2026-10-18-series1/README.md), with eight valid discovery/confirmation runs and an excluded pre-fix diagnostic. Low=2 and peak=8 requests/10 s each have two five-minute repetitions. Response degradation repeats at the peak; timeout counts vary. Step 17 is complete and step-20 preparation has local verification; main execution is still open.
+**Completion evidence:** [the saved pilot series](../results/pilot/discovery-2026-10-18-series1/README.md), with eight valid discovery/confirmation runs and an excluded pre-fix diagnostic. Low=2 and peak=8 requests/10 s each have two five-minute repetitions. Response degradation repeats at the peak; timeout counts vary. Step 17 is complete, step-20 preparation has local verification, and the main matrix and comparative analysis are complete in steps 21 and 22. The older pilot slowdown did not recur; see [the open discrepancy](PILOT_MAIN_DISCREPANCY.md).
 
 ### 17. Record and freeze the experiment settings
 
@@ -179,7 +179,7 @@ Write a separate experiment protocol in Notion with the model, prompt, generatio
 
 **Done when:** settings are documented before the main series. Do not silently change them between modes or after seeing an inconvenient result; document any revised protocol and the affected runs.
 
-**Completion evidence:** the student approved [main experiment protocol v1.1](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd) on 2026-10-21. It records the settings, acceptance windows, 18-run order, preparation, selected resource quantities and outcome/data rules. Version 1.1 clarifies the original 1.0 agreement before any main run; step 17 remains complete. Executable alignment now has step-20 local verification; this agreement does not authorize or complete the main series.
+**Completion evidence:** I approved [main experiment protocol v1.1](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd) on 2026-10-21. It records the settings, acceptance windows, 18-run order, preparation, selected resource quantities and outcome/data rules. Version 1.1 clarifies the original 1.0 agreement before any main run; step 17 remains complete. Executable alignment now has step-20 local verification; this agreement does not authorize or complete the main series.
 
 ### 18. Test three manually configured replicas
 
@@ -223,6 +223,8 @@ Execute the matrix using the frozen settings. Save each run in its own folder wi
 
 **Done when:** the planned series has complete evidence. Mark and explain invalid or repeated runs. If variation prevents a reliable conclusion, add justified repetitions or report insufficient evidence.
 
+**Completion evidence (2026-10-26):** [18 reviewed main attempts and combined validation](../results/main/series-2026-10-25-v1.1/analysis-main-2026-10-26/validation.json). All 5,189 requests reconcile, all planned mode/profile/repetition cells are present, inputs match, and resource gaps remain explicit. The preserved pause/recovery records explain interruptions and pre-run restart context.
+
 ### 22. Process the measurements and build tables and charts
 
 **Purpose:** connect request behaviour, scaling changes, and resource use over time.
@@ -230,6 +232,8 @@ Execute the matrix using the frozen settings. Save each run in its own folder wi
 Extend the implemented [pilot analysis](plans/measurements-and-pilot.md#5-pilot-output-and-decisions) in `bench/analyze.py` using the [main result analysis plan](plans/scaling-experiment.md#4-main-result-analysis). Produce summaries and aligned time-series charts for response latency, errors, completed and dropped requests, ready replica count, and resources. Keep missing values as gaps.
 
 **Done when:** saved tables and charts can be regenerated from raw files, and their units, time windows, and data sources are documented.
+
+**Completion evidence (2026-10-26):** [reproducible combined analysis](../results/main/series-2026-10-25-v1.1/analysis-main-2026-10-26/README.md), produced by bench/summarize_main.py using the existing analyzer. It includes per-run/group/phase/scaling/resource CSVs, validation JSON, 18 aligned plot pairs and an all-repetition primary-p95 plot. Exact model-ready/server-drain times and complete HPA application CPU totals remain unavailable; these are stated limits, not zero values.
 
 ### 23. Write the findings, limitations, and recommendations
 

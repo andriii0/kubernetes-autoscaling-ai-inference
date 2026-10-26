@@ -1,0 +1,13 @@
+run,profile,repetition,direction,requested_seconds,running_matches_seconds,from_count,to_count
+attempt-03-autoscaling-steady,steady,1,growth,111.37677693367004,111.37677693367004,1,2
+attempt-03-autoscaling-steady,steady,1,reduction,,,,
+attempt-06-autoscaling-burst,burst,1,growth,170.4685640335083,175.481103181839,1,2
+attempt-06-autoscaling-burst,burst,1,reduction,816.50674700737,816.50674700737,2,1
+attempt-08-autoscaling-burst,burst,2,growth,234.28531694412231,234.28531694412231,1,2
+attempt-08-autoscaling-burst,burst,2,reduction,820.1401629447937,820.1401629447937,2,1
+attempt-11-autoscaling-steady,steady,2,growth,113.09119820594788,113.09119820594788,1,2
+attempt-11-autoscaling-steady,steady,2,reduction,,,,
+attempt-13-autoscaling-steady,steady,3,growth,111.25565814971924,111.25565814971924,1,2
+attempt-13-autoscaling-steady,steady,3,reduction,,,,
+attempt-16-autoscaling-burst,burst,3,growth,230.8267560005188,230.8267560005188,1,2
+attempt-16-autoscaling-burst,burst,3,reduction,756.7442770004272,756.7442770004272,2,1

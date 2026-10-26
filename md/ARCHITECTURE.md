@@ -1,6 +1,6 @@
 # Architecture
 
-Updated: 2026-10-26. This describes the implemented local prototype; preliminary autoscaling collection and one live mechanism check are verified.
+Updated: 2026-10-27. This describes the implemented local prototype. Preliminary checks, the 18-run main matrix and comparative analysis have saved evidence; this is not a check of current runtime availability.
 
 ## Runtime flow
 
@@ -18,20 +18,22 @@ The cluster is the existing Docker-backed Minikube profile `ai-lab`, configured 
 |---|---|---|
 | Model image | `app/Dockerfile` and local ignored `app/models/` | Pin the Ollama base image and bundle downloaded weights |
 | Application deployment | `deploy/ollama.yaml` | Declare the Deployment, resource settings, readiness probe and NodePort Service |
-| Load generator | `bench/inference.js` | Generate steady/burst traffic and collect request metrics; short probes and five-minute one-replica steady confirmations have run; one preliminary autoscaling burst is saved; the repeated main matrix is pending |
+| Load generator | `bench/inference.js` | Generate steady/burst traffic and collect request metrics; short probes and five-minute one-replica steady confirmations have run; one preliminary autoscaling burst is saved; the main matrix is complete |
 | Workload settings | `bench/workload.json` | Share the exact request payload and k6 execution settings between warmup and measured load |
 | Pilot launcher | `bench/run_pilot.py` | Exclusively create a run folder; validate fixed one/three-copy state or use the autoscaling lifecycle; orchestrate idle observation, warmup, k6, post-load observation and reconciliation; retain partial failures |
 | Main-series continuation | `bench/run_series.py` | Replay and skip completed attempts; manage a Service tunnel and call the existing launcher/analyzer sequentially; stop for incomplete data without automatic replacements |
+| Warmup-wait diagnostic | `bench/run_wait_pair.py` | Run the separately authorized two-run preparation check through the existing launcher; archive order/settings and host snapshots; keep diagnostic evidence outside the main matrix |
 | Autoscaling lifecycle | `bench/autoscaling.py` and `deploy/hpa.yaml` | Reset/warm the initial copy, attach HPA, validate dynamic state, stream logs by UID, and restore one copy |
 | Fixed replica preparation | `bench/fixed_replicas.py` | Warm each selected pod through the API proxy; verify Service endpoints and aggregate per-pod access-log counts |
 | Collection validator | `bench/pilot_records.py` | Check request counters and observation coverage/stability; report archive issues as warnings without modifying raw evidence |
 | Observer | `bench/observe.py` | Read Kubernetes and kubelet through `kubectl`; save raw state, source timings, CPU/memory and errors as JSONL |
 | Observer tests | `bench/test_observe.py` | Check parsing, counter resets, missing data, failures and output-file protection |
 | Pilot analysis | `bench/analyze.py` | Reconcile saved evidence and produce CSV/JSON summaries plus aligned plots; optional Matplotlib is used only for plotting |
+| Main comparison | `bench/summarize_main.py` | Replay all 18 main attempts and reuse the analyzer for per-run/group/phase/resource/scaling tables and plots; retain incomplete resource totals |
 | Offline verification | Scripts saved in result directories | Recalculate and validate the completed observation/overhead checks |
 | Evidence | `results/<run>/` | Keep configurations, raw measurements, summaries, snapshots and console output together |
 
-Ollama and k6 are the active inference and load-generation runtime; unused Python scaffolding has been removed. `bench/analyze.py` supports fixed-one and preliminary fixed-three runs, including per-pod resource plots. Preliminary autoscaling analysis includes phase results, HPA/Ready timelines and resources for all observed UIDs. The repeated main comparison remains future work.
+Ollama and k6 are the active inference and load-generation runtime; unused Python scaffolding has been removed. `bench/analyze.py` supports fixed-one and preliminary fixed-three runs, including per-pod resource plots. Preliminary autoscaling analysis includes phase results, HPA/Ready timelines and resources for all observed UIDs. The completed main comparison has saved tables and plots; final findings and reproduction remain separate work.
 
 ## Measurement flow
 
@@ -45,12 +47,12 @@ For a pilot, the launcher reuses the observer in one background thread and saves
 
 Collection integrity is separate from load thresholds: status `thresholds_failed` can retain valid evidence, while missing/mismatched request records or a failed observer invalidate collection. Tool-version and archive-hash problems are warnings; the duplicate before/after snapshots are inspection aids rather than additional validation inputs. Procedure and file schema: [pilot plan](plans/measurements-and-pilot.md#2-saved-run-format). Current verification is recorded in [STATUS.md](STATUS.md).
 
-## Planned changes
+## Main protocol and remaining work
 
-Pilot rate selection and its summaries/plots are complete; [saved evidence](../results/pilot/discovery-2026-10-18-series1/README.md) selects low=2 and peak=8 requests per 10 seconds. A [preliminary three-copy check](../results/fixed-replicas/check-2026-10-20-series1/README.md) is saved. The [main experiment protocol v1.1](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd) is agreed. Step-20 code and instructions have local verification. The repeated comparison and main-series findings remain unfinished. The HPA configuration and preliminary collector have [saved live verification](../results/autoscaling/check-2026-10-20-series1/README.md). The intended main matrix compares fixed one replica, fixed three replicas and automatic one-to-three replicas under steady and burst traffic. All replicas share the same physical computer.
+Pilot rate selection and its summaries/plots are complete; [saved evidence](../results/pilot/discovery-2026-10-18-series1/README.md) selects low=2 and peak=8 requests per 10 seconds. A [preliminary three-copy check](../results/fixed-replicas/check-2026-10-20-series1/README.md) is saved. The [main experiment protocol v1.1](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd) is agreed. Step-20 code and instructions have local verification. The repeated comparison has saved analysis; the final main-series findings remain unfinished. The HPA configuration and preliminary collector have [saved live verification](../results/autoscaling/check-2026-10-20-series1/README.md). The completed main matrix compares fixed one replica, fixed three replicas and automatic one-to-three replicas under steady and burst traffic. All replicas share the same physical computer.
 
 `--protocol-version 1.1` selects main-series behavior in the existing launcher, for every fixed/autoscaling and steady/burst combination. bench/main_protocol.py owns argument/matrix checks, pre-mode recovery, fresh-CPU settling, runtime identity records, primary-phase assessment and scheduled-window resource calculations. It uses the existing observer and unfinished-request validation. Main fixed-mode logs establish activity without requiring server/client equality after timeouts; the preliminary rule is unchanged. assessment.json retains system terminations/restarts and not_assessable partial attempts. Analysis additionally exports assessments.json and primary-resources.json; historical client-drain summaries remain unchanged. Local tests verify these paths; STATUS.md records current live main-series progress and limits.
 
 The work currently uses Kubernetes YAML and scripts; no Terraform provisioning or production cloud deployment exists. See [ROADMAP.md](ROADMAP.md), [STATUS.md](STATUS.md) and [DECISIONS.md](DECISIONS.md).
 
-Server/API readiness and model warmup are separate states. Initial replicas must finish a generation before measurement. A new replica created during scaling can accept a request before its model is warm; that request includes loading delay. Record the Ready transition separately from response observations. Native server logs identify the first observed HTTP response per pod, but do not prove its semantic success or associate it with an individual client request. The C4 views describe target architecture. Their saved status annotations predate pilot analysis; HPA has a preliminary live check and the main comparison remains unfinished, while current implementation state is recorded here and in STATUS.md.
+Server/API readiness and model warmup are separate states. Initial replicas must finish a generation before measurement. A new replica created during scaling can accept a request before its model is warm; that request includes loading delay. Record the Ready transition separately from response observations. Native server logs identify the first observed HTTP response per pod, but do not prove its semantic success or associate it with an individual client request. The C4 views describe target architecture. Their saved status annotations predate pilot analysis; the HPA check and completed main matrix now have saved evidence, while current implementation state is recorded here and in STATUS.md.

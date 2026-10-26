@@ -1,0 +1,14 @@
+{
+  "attempt-13-autoscaling-steady": {
+    "79fa4247-9261-4968-87a2-c63064a75e65": {
+      "cpu_valid_samples": 15,
+      "cpu_mean_cores": 0.9297250489794873,
+      "peak_memory_mib": 481.046875
+    },
+    "e6a7dca2-650b-4c56-b52b-8bd7dcb49f9f": {
+      "cpu_valid_samples": 19,
+      "cpu_mean_cores": 1.154726846872637,
+      "peak_memory_mib": 486.359375
+    }
+  }
+}

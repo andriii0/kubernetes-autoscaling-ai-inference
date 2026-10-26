@@ -1,0 +1,2144 @@
+{
+  "runs": [
+    {
+      "run": "A2-rate-2",
+      "kind": "pilot",
+      "rate_per_10s": 2,
+      "profile": "steady",
+      "duration_seconds": 120.0,
+      "started": 24,
+      "completed": 24,
+      "successful": 24,
+      "failed": 0,
+      "unfinished": 0,
+      "dropped": 0,
+      "mean_success_ms": 1229,
+      "p95_success_ms": 1377.55,
+      "first_30s_mean_success_ms": 1188.5,
+      "max_client_in_flight": 1,
+      "median_start_gap_ms": 5000.0,
+      "median_busy_completion_gap_ms": null,
+      "busy_completion_gap_samples": 0,
+      "cpu_sample_mean_cores": 0.48687464899551225,
+      "cpu_sample_max_cores": 0.60515286681085,
+      "cpu_fresh_source_mean_cores": 0.5506941851411262,
+      "median_elapsed_minus_http_ms": 1.107150000000047,
+      "warmup_ms": 1093.9999999973224,
+      "mean_model_load_ms": 0.9447438333333333,
+      "max_model_load_ms": 1.375814,
+      "output_tokens": "{\"56\": 24}",
+      "image_id": "sha256:7afaba776be2a7256ac0470ab06af3d437ab4920d87ce2998ccb24b1585707ce",
+      "request": {
+        "model": "qwen2.5:0.5b",
+        "prompt": "Explain what a container is in three short sentences.",
+        "stream": false,
+        "keep_alive": -1,
+        "options": {
+          "num_predict": 64,
+          "num_ctx": 1024,
+          "num_thread": 2,
+          "temperature": 0,
+          "seed": 42
+        }
+      },
+      "container": {
+        "env": [
+          {
+            "name": "OLLAMA_HOST",
+            "value": "0.0.0.0:11434"
+          },
+          {
+            "name": "OLLAMA_NUM_PARALLEL",
+            "value": "1"
+          },
+          {
+            "name": "OLLAMA_CONTEXT_LENGTH",
+            "value": "1024"
+          },
+          {
+            "name": "OLLAMA_KEEP_ALIVE",
+            "value": "-1"
+          }
+        ],
+        "image": "ai-inference:0.1",
+        "imagePullPolicy": "Never",
+        "lifecycle": {
+          "preStop": {
+            "exec": {
+              "command": [
+                "/bin/sleep",
+                "35"
+              ]
+            }
+          }
+        },
+        "name": "ollama",
+        "ports": [
+          {
+            "containerPort": 11434,
+            "protocol": "TCP"
+          }
+        ],
+        "readinessProbe": {
+          "failureThreshold": 3,
+          "httpGet": {
+            "path": "/api/tags",
+            "port": 11434,
+            "scheme": "HTTP"
+          },
+          "periodSeconds": 5,
+          "successThreshold": 1,
+          "timeoutSeconds": 5
+        },
+        "resources": {
+          "limits": {
+            "cpu": "2",
+            "memory": "2Gi"
+          },
+          "requests": {
+            "cpu": "2",
+            "memory": "1Gi"
+          }
+        },
+        "terminationMessagePath": "/dev/termination-log",
+        "terminationMessagePolicy": "File"
+      },
+      "versions": {
+        "python": {
+          "value": "3.12.0 (tags/v3.12.0:0fb18b0, Oct  2 2023, 13:03:39) [MSC v.1935 64 bit (AMD64)]"
+        },
+        "platform": {
+          "value": "Windows-11-10.0.26200-SP0"
+        },
+        "k6": "k6.EXE v2.2.0 (commit/00a9a1b7f5, go1.26.5, windows/amd64)",
+        "kubectl": [
+          "v1.36.1",
+          "v1.37.0"
+        ],
+        "minikube": "v1.39.0",
+        "docker": [
+          "29.8.2",
+          "29.8.2"
+        ]
+      },
+      "idle_before_warmup_seconds": 60,
+      "load_start_delay_after_warmup_s": 0.13913989067077637
+    },
+    {
+      "run": "B-rate-5",
+      "kind": "pilot",
+      "rate_per_10s": 5,
+      "profile": "steady",
+      "duration_seconds": 120.0,
+      "started": 61,
+      "completed": 61,
+      "successful": 61,
+      "failed": 0,
+      "unfinished": 0,
+      "dropped": 0,
+      "mean_success_ms": 1340.4426229508197,
+      "p95_success_ms": 1459.0,
+      "first_30s_mean_success_ms": 1328.6666666666667,
+      "max_client_in_flight": 1,
+      "median_start_gap_ms": 2000.0,
+      "median_busy_completion_gap_ms": null,
+      "busy_completion_gap_samples": 0,
+      "cpu_sample_mean_cores": 1.3321913621608685,
+      "cpu_sample_max_cores": 1.4831682267635364,
+      "cpu_fresh_source_mean_cores": 1.3321913621608685,
+      "median_elapsed_minus_http_ms": 1.2291999999999916,
+      "warmup_ms": 1375.0,
+      "mean_model_load_ms": 0.9572251967213115,
+      "max_model_load_ms": 1.554992,
+      "output_tokens": "{\"56\": 61}",
+      "image_id": "sha256:7afaba776be2a7256ac0470ab06af3d437ab4920d87ce2998ccb24b1585707ce",
+      "request": {
+        "model": "qwen2.5:0.5b",
+        "prompt": "Explain what a container is in three short sentences.",
+        "stream": false,
+        "keep_alive": -1,
+        "options": {
+          "num_predict": 64,
+          "num_ctx": 1024,
+          "num_thread": 2,
+          "temperature": 0,
+          "seed": 42
+        }
+      },
+      "container": {
+        "env": [
+          {
+            "name": "OLLAMA_HOST",
+            "value": "0.0.0.0:11434"
+          },
+          {
+            "name": "OLLAMA_NUM_PARALLEL",
+            "value": "1"
+          },
+          {
+            "name": "OLLAMA_CONTEXT_LENGTH",
+            "value": "1024"
+          },
+          {
+            "name": "OLLAMA_KEEP_ALIVE",
+            "value": "-1"
+          }
+        ],
+        "image": "ai-inference:0.1",
+        "imagePullPolicy": "Never",
+        "lifecycle": {
+          "preStop": {
+            "exec": {
+              "command": [
+                "/bin/sleep",
+                "35"
+              ]
+            }
+          }
+        },
+        "name": "ollama",
+        "ports": [
+          {
+            "containerPort": 11434,
+            "protocol": "TCP"
+          }
+        ],
+        "readinessProbe": {
+          "failureThreshold": 3,
+          "httpGet": {
+            "path": "/api/tags",
+            "port": 11434,
+            "scheme": "HTTP"
+          },
+          "periodSeconds": 5,
+          "successThreshold": 1,
+          "timeoutSeconds": 5
+        },
+        "resources": {
+          "limits": {
+            "cpu": "2",
+            "memory": "2Gi"
+          },
+          "requests": {
+            "cpu": "2",
+            "memory": "1Gi"
+          }
+        },
+        "terminationMessagePath": "/dev/termination-log",
+        "terminationMessagePolicy": "File"
+      },
+      "versions": {
+        "python": {
+          "value": "3.12.0 (tags/v3.12.0:0fb18b0, Oct  2 2023, 13:03:39) [MSC v.1935 64 bit (AMD64)]"
+        },
+        "platform": {
+          "value": "Windows-11-10.0.26200-SP0"
+        },
+        "k6": "k6.EXE v2.2.0 (commit/00a9a1b7f5, go1.26.5, windows/amd64)",
+        "kubectl": [
+          "v1.36.1",
+          "v1.37.0"
+        ],
+        "minikube": "v1.39.0",
+        "docker": [
+          "29.8.2",
+          "29.8.2"
+        ]
+      },
+      "idle_before_warmup_seconds": 60,
+      "load_start_delay_after_warmup_s": 0.144974946975708
+    },
+    {
+      "run": "C-rate-10",
+      "kind": "pilot",
+      "rate_per_10s": 10,
+      "profile": "steady",
+      "duration_seconds": 120.0,
+      "started": 121,
+      "completed": 121,
+      "successful": 79,
+      "failed": 42,
+      "unfinished": 0,
+      "dropped": 0,
+      "mean_success_ms": 15070.39240506329,
+      "p95_success_ms": 28266.699999999997,
+      "first_30s_mean_success_ms": 5965.1,
+      "max_client_in_flight": 31,
+      "median_start_gap_ms": 1000.0,
+      "median_busy_completion_gap_ms": 1354.5000553131104,
+      "busy_completion_gap_samples": 56,
+      "cpu_sample_mean_cores": 1.8216074568336709,
+      "cpu_sample_max_cores": 1.999534454516254,
+      "cpu_fresh_source_mean_cores": 1.853894941849651,
+      "median_elapsed_minus_http_ms": 1.3526999999994587,
+      "warmup_ms": 1358.9999999967404,
+      "mean_model_load_ms": 1.1445918481012658,
+      "max_model_load_ms": 2.893515,
+      "output_tokens": "{\"56\": 79}",
+      "image_id": "sha256:7afaba776be2a7256ac0470ab06af3d437ab4920d87ce2998ccb24b1585707ce",
+      "request": {
+        "model": "qwen2.5:0.5b",
+        "prompt": "Explain what a container is in three short sentences.",
+        "stream": false,
+        "keep_alive": -1,
+        "options": {
+          "num_predict": 64,
+          "num_ctx": 1024,
+          "num_thread": 2,
+          "temperature": 0,
+          "seed": 42
+        }
+      },
+      "container": {
+        "env": [
+          {
+            "name": "OLLAMA_HOST",
+            "value": "0.0.0.0:11434"
+          },
+          {
+            "name": "OLLAMA_NUM_PARALLEL",
+            "value": "1"
+          },
+          {
+            "name": "OLLAMA_CONTEXT_LENGTH",
+            "value": "1024"
+          },
+          {
+            "name": "OLLAMA_KEEP_ALIVE",
+            "value": "-1"
+          }
+        ],
+        "image": "ai-inference:0.1",
+        "imagePullPolicy": "Never",
+        "lifecycle": {
+          "preStop": {
+            "exec": {
+              "command": [
+                "/bin/sleep",
+                "35"
+              ]
+            }
+          }
+        },
+        "name": "ollama",
+        "ports": [
+          {
+            "containerPort": 11434,
+            "protocol": "TCP"
+          }
+        ],
+        "readinessProbe": {
+          "failureThreshold": 3,
+          "httpGet": {
+            "path": "/api/tags",
+            "port": 11434,
+            "scheme": "HTTP"
+          },
+          "periodSeconds": 5,
+          "successThreshold": 1,
+          "timeoutSeconds": 5
+        },
+        "resources": {
+          "limits": {
+            "cpu": "2",
+            "memory": "2Gi"
+          },
+          "requests": {
+            "cpu": "2",
+            "memory": "1Gi"
+          }
+        },
+        "terminationMessagePath": "/dev/termination-log",
+        "terminationMessagePolicy": "File"
+      },
+      "versions": {
+        "python": {
+          "value": "3.12.0 (tags/v3.12.0:0fb18b0, Oct  2 2023, 13:03:39) [MSC v.1935 64 bit (AMD64)]"
+        },
+        "platform": {
+          "value": "Windows-11-10.0.26200-SP0"
+        },
+        "k6": "k6.EXE v2.2.0 (commit/00a9a1b7f5, go1.26.5, windows/amd64)",
+        "kubectl": [
+          "v1.36.1",
+          "v1.37.0"
+        ],
+        "minikube": "v1.39.0",
+        "docker": [
+          "29.8.2",
+          "29.8.2"
+        ]
+      },
+      "idle_before_warmup_seconds": 60,
+      "load_start_delay_after_warmup_s": 0.15049195289611816
+    },
+    {
+      "run": "M-rate-8",
+      "kind": "pilot",
+      "rate_per_10s": 8,
+      "profile": "steady",
+      "duration_seconds": 120.0,
+      "started": 97,
+      "completed": 97,
+      "successful": 97,
+      "failed": 0,
+      "unfinished": 0,
+      "dropped": 0,
+      "mean_success_ms": 7652.711340206186,
+      "p95_success_ms": 12353.399999999996,
+      "first_30s_mean_success_ms": 2874.875,
+      "max_client_in_flight": 10,
+      "median_start_gap_ms": 1250.0,
+      "median_busy_completion_gap_ms": 1357.0001125335693,
+      "busy_completion_gap_samples": 65,
+      "cpu_sample_mean_cores": 1.7921877421243373,
+      "cpu_sample_max_cores": 1.9995798215470844,
+      "cpu_fresh_source_mean_cores": 1.8152395976032272,
+      "median_elapsed_minus_http_ms": 1.1794000000008964,
+      "warmup_ms": 1422.0000000059372,
+      "mean_model_load_ms": 1.4362987010309278,
+      "max_model_load_ms": 10.522168,
+      "output_tokens": "{\"56\": 97}",
+      "image_id": "sha256:7afaba776be2a7256ac0470ab06af3d437ab4920d87ce2998ccb24b1585707ce",
+      "request": {
+        "model": "qwen2.5:0.5b",
+        "prompt": "Explain what a container is in three short sentences.",
+        "stream": false,
+        "keep_alive": -1,
+        "options": {
+          "num_predict": 64,
+          "num_ctx": 1024,
+          "num_thread": 2,
+          "temperature": 0,
+          "seed": 42
+        }
+      },
+      "container": {
+        "env": [
+          {
+            "name": "OLLAMA_HOST",
+            "value": "0.0.0.0:11434"
+          },
+          {
+            "name": "OLLAMA_NUM_PARALLEL",
+            "value": "1"
+          },
+          {
+            "name": "OLLAMA_CONTEXT_LENGTH",
+            "value": "1024"
+          },
+          {
+            "name": "OLLAMA_KEEP_ALIVE",
+            "value": "-1"
+          }
+        ],
+        "image": "ai-inference:0.1",
+        "imagePullPolicy": "Never",
+        "lifecycle": {
+          "preStop": {
+            "exec": {
+              "command": [
+                "/bin/sleep",
+                "35"
+              ]
+            }
+          }
+        },
+        "name": "ollama",
+        "ports": [
+          {
+            "containerPort": 11434,
+            "protocol": "TCP"
+          }
+        ],
+        "readinessProbe": {
+          "failureThreshold": 3,
+          "httpGet": {
+            "path": "/api/tags",
+            "port": 11434,
+            "scheme": "HTTP"
+          },
+          "periodSeconds": 5,
+          "successThreshold": 1,
+          "timeoutSeconds": 5
+        },
+        "resources": {
+          "limits": {
+            "cpu": "2",
+            "memory": "2Gi"
+          },
+          "requests": {
+            "cpu": "2",
+            "memory": "1Gi"
+          }
+        },
+        "terminationMessagePath": "/dev/termination-log",
+        "terminationMessagePolicy": "File"
+      },
+      "versions": {
+        "python": {
+          "value": "3.12.0 (tags/v3.12.0:0fb18b0, Oct  2 2023, 13:03:39) [MSC v.1935 64 bit (AMD64)]"
+        },
+        "platform": {
+          "value": "Windows-11-10.0.26200-SP0"
+        },
+        "k6": "k6.EXE v2.2.0 (commit/00a9a1b7f5, go1.26.5, windows/amd64)",
+        "kubectl": [
+          "v1.36.1",
+          "v1.37.0"
+        ],
+        "minikube": "v1.39.0",
+        "docker": [
+          "29.8.2",
+          "29.8.2"
+        ]
+      },
+      "idle_before_warmup_seconds": 60,
+      "load_start_delay_after_warmup_s": 0.15899395942687988
+    },
+    {
+      "run": "confirm-low-1",
+      "kind": "pilot",
+      "rate_per_10s": 2,
+      "profile": "steady",
+      "duration_seconds": 300.0,
+      "started": 60,
+      "completed": 60,
+      "successful": 60,
+      "failed": 0,
+      "unfinished": 0,
+      "dropped": 0,
+      "mean_success_ms": 1317.4333333333334,
+      "p95_success_ms": 1429.75,
+      "first_30s_mean_success_ms": 1280.8333333333333,
+      "max_client_in_flight": 1,
+      "median_start_gap_ms": 5000.0,
+      "median_busy_completion_gap_ms": null,
+      "busy_completion_gap_samples": 0,
+      "cpu_sample_mean_cores": 0.5809345263835183,
+      "cpu_sample_max_cores": 0.7149109664453268,
+      "cpu_fresh_source_mean_cores": 0.5809345263835183,
+      "median_elapsed_minus_http_ms": 0.7742000000000644,
+      "warmup_ms": 1375.0,
+      "mean_model_load_ms": 0.920351,
+      "max_model_load_ms": 1.765699,
+      "output_tokens": "{\"56\": 60}",
+      "image_id": "sha256:7afaba776be2a7256ac0470ab06af3d437ab4920d87ce2998ccb24b1585707ce",
+      "request": {
+        "model": "qwen2.5:0.5b",
+        "prompt": "Explain what a container is in three short sentences.",
+        "stream": false,
+        "keep_alive": -1,
+        "options": {
+          "num_predict": 64,
+          "num_ctx": 1024,
+          "num_thread": 2,
+          "temperature": 0,
+          "seed": 42
+        }
+      },
+      "container": {
+        "env": [
+          {
+            "name": "OLLAMA_HOST",
+            "value": "0.0.0.0:11434"
+          },
+          {
+            "name": "OLLAMA_NUM_PARALLEL",
+            "value": "1"
+          },
+          {
+            "name": "OLLAMA_CONTEXT_LENGTH",
+            "value": "1024"
+          },
+          {
+            "name": "OLLAMA_KEEP_ALIVE",
+            "value": "-1"
+          }
+        ],
+        "image": "ai-inference:0.1",
+        "imagePullPolicy": "Never",
+        "lifecycle": {
+          "preStop": {
+            "exec": {
+              "command": [
+                "/bin/sleep",
+                "35"
+              ]
+            }
+          }
+        },
+        "name": "ollama",
+        "ports": [
+          {
+            "containerPort": 11434,
+            "protocol": "TCP"
+          }
+        ],
+        "readinessProbe": {
+          "failureThreshold": 3,
+          "httpGet": {
+            "path": "/api/tags",
+            "port": 11434,
+            "scheme": "HTTP"
+          },
+          "periodSeconds": 5,
+          "successThreshold": 1,
+          "timeoutSeconds": 5
+        },
+        "resources": {
+          "limits": {
+            "cpu": "2",
+            "memory": "2Gi"
+          },
+          "requests": {
+            "cpu": "2",
+            "memory": "1Gi"
+          }
+        },
+        "terminationMessagePath": "/dev/termination-log",
+        "terminationMessagePolicy": "File"
+      },
+      "versions": {
+        "python": {
+          "value": "3.12.0 (tags/v3.12.0:0fb18b0, Oct  2 2023, 13:03:39) [MSC v.1935 64 bit (AMD64)]"
+        },
+        "platform": {
+          "value": "Windows-11-10.0.26200-SP0"
+        },
+        "k6": "k6.EXE v2.2.0 (commit/00a9a1b7f5, go1.26.5, windows/amd64)",
+        "kubectl": [
+          "v1.36.1",
+          "v1.37.0"
+        ],
+        "minikube": "v1.39.0",
+        "docker": [
+          "29.8.2",
+          "29.8.2"
+        ]
+      },
+      "idle_before_warmup_seconds": 60,
+      "load_start_delay_after_warmup_s": 0.1478440761566162
+    },
+    {
+      "run": "confirm-peak-1",
+      "kind": "pilot",
+      "rate_per_10s": 8,
+      "profile": "steady",
+      "duration_seconds": 300.0,
+      "started": 240,
+      "completed": 240,
+      "successful": 227,
+      "failed": 13,
+      "unfinished": 0,
+      "dropped": 0,
+      "mean_success_ms": 16416.982378854627,
+      "p95_success_ms": 28247.099999999995,
+      "first_30s_mean_success_ms": 2801.1666666666665,
+      "max_client_in_flight": 24,
+      "median_start_gap_ms": 1250.0,
+      "median_busy_completion_gap_ms": 1365.9999370574951,
+      "busy_completion_gap_samples": 195,
+      "cpu_sample_mean_cores": 1.9110067951468497,
+      "cpu_sample_max_cores": 2.00037677161263,
+      "cpu_fresh_source_mean_cores": 1.9988048294741638,
+      "median_elapsed_minus_http_ms": 1.475799999999822,
+      "warmup_ms": 1328.0000000013388,
+      "mean_model_load_ms": 1.191071462555066,
+      "max_model_load_ms": 3.556901,
+      "output_tokens": "{\"56\": 227}",
+      "image_id": "sha256:7afaba776be2a7256ac0470ab06af3d437ab4920d87ce2998ccb24b1585707ce",
+      "request": {
+        "model": "qwen2.5:0.5b",
+        "prompt": "Explain what a container is in three short sentences.",
+        "stream": false,
+        "keep_alive": -1,
+        "options": {
+          "num_predict": 64,
+          "num_ctx": 1024,
+          "num_thread": 2,
+          "temperature": 0,
+          "seed": 42
+        }
+      },
+      "container": {
+        "env": [
+          {
+            "name": "OLLAMA_HOST",
+            "value": "0.0.0.0:11434"
+          },
+          {
+            "name": "OLLAMA_NUM_PARALLEL",
+            "value": "1"
+          },
+          {
+            "name": "OLLAMA_CONTEXT_LENGTH",
+            "value": "1024"
+          },
+          {
+            "name": "OLLAMA_KEEP_ALIVE",
+            "value": "-1"
+          }
+        ],
+        "image": "ai-inference:0.1",
+        "imagePullPolicy": "Never",
+        "lifecycle": {
+          "preStop": {
+            "exec": {
+              "command": [
+                "/bin/sleep",
+                "35"
+              ]
+            }
+          }
+        },
+        "name": "ollama",
+        "ports": [
+          {
+            "containerPort": 11434,
+            "protocol": "TCP"
+          }
+        ],
+        "readinessProbe": {
+          "failureThreshold": 3,
+          "httpGet": {
+            "path": "/api/tags",
+            "port": 11434,
+            "scheme": "HTTP"
+          },
+          "periodSeconds": 5,
+          "successThreshold": 1,
+          "timeoutSeconds": 5
+        },
+        "resources": {
+          "limits": {
+            "cpu": "2",
+            "memory": "2Gi"
+          },
+          "requests": {
+            "cpu": "2",
+            "memory": "1Gi"
+          }
+        },
+        "terminationMessagePath": "/dev/termination-log",
+        "terminationMessagePolicy": "File"
+      },
+      "versions": {
+        "python": {
+          "value": "3.12.0 (tags/v3.12.0:0fb18b0, Oct  2 2023, 13:03:39) [MSC v.1935 64 bit (AMD64)]"
+        },
+        "platform": {
+          "value": "Windows-11-10.0.26200-SP0"
+        },
+        "k6": "k6.EXE v2.2.0 (commit/00a9a1b7f5, go1.26.5, windows/amd64)",
+        "kubectl": [
+          "v1.36.1",
+          "v1.37.0"
+        ],
+        "minikube": "v1.39.0",
+        "docker": [
+          "29.8.2",
+          "29.8.2"
+        ]
+      },
+      "idle_before_warmup_seconds": 60,
+      "load_start_delay_after_warmup_s": 0.14680099487304688
+    },
+    {
+      "run": "confirm-low-2",
+      "kind": "pilot",
+      "rate_per_10s": 2,
+      "profile": "steady",
+      "duration_seconds": 300.0,
+      "started": 61,
+      "completed": 61,
+      "successful": 61,
+      "failed": 0,
+      "unfinished": 0,
+      "dropped": 0,
+      "mean_success_ms": 1307.5573770491803,
+      "p95_success_ms": 1432.0,
+      "first_30s_mean_success_ms": 1287.8333333333333,
+      "max_client_in_flight": 1,
+      "median_start_gap_ms": 5000.0,
+      "median_busy_completion_gap_ms": null,
+      "busy_completion_gap_samples": 0,
+      "cpu_sample_mean_cores": 0.5784896458920563,
+      "cpu_sample_max_cores": 0.7421191257986982,
+      "cpu_fresh_source_mean_cores": 0.5784896458920563,
+      "median_elapsed_minus_http_ms": 1.0697999999999865,
+      "warmup_ms": 1328.9999999979045,
+      "mean_model_load_ms": 0.9746359344262295,
+      "max_model_load_ms": 1.880119,
+      "output_tokens": "{\"56\": 61}",
+      "image_id": "sha256:7afaba776be2a7256ac0470ab06af3d437ab4920d87ce2998ccb24b1585707ce",
+      "request": {
+        "model": "qwen2.5:0.5b",
+        "prompt": "Explain what a container is in three short sentences.",
+        "stream": false,
+        "keep_alive": -1,
+        "options": {
+          "num_predict": 64,
+          "num_ctx": 1024,
+          "num_thread": 2,
+          "temperature": 0,
+          "seed": 42
+        }
+      },
+      "container": {
+        "env": [
+          {
+            "name": "OLLAMA_HOST",
+            "value": "0.0.0.0:11434"
+          },
+          {
+            "name": "OLLAMA_NUM_PARALLEL",
+            "value": "1"
+          },
+          {
+            "name": "OLLAMA_CONTEXT_LENGTH",
+            "value": "1024"
+          },
+          {
+            "name": "OLLAMA_KEEP_ALIVE",
+            "value": "-1"
+          }
+        ],
+        "image": "ai-inference:0.1",
+        "imagePullPolicy": "Never",
+        "lifecycle": {
+          "preStop": {
+            "exec": {
+              "command": [
+                "/bin/sleep",
+                "35"
+              ]
+            }
+          }
+        },
+        "name": "ollama",
+        "ports": [
+          {
+            "containerPort": 11434,
+            "protocol": "TCP"
+          }
+        ],
+        "readinessProbe": {
+          "failureThreshold": 3,
+          "httpGet": {
+            "path": "/api/tags",
+            "port": 11434,
+            "scheme": "HTTP"
+          },
+          "periodSeconds": 5,
+          "successThreshold": 1,
+          "timeoutSeconds": 5
+        },
+        "resources": {
+          "limits": {
+            "cpu": "2",
+            "memory": "2Gi"
+          },
+          "requests": {
+            "cpu": "2",
+            "memory": "1Gi"
+          }
+        },
+        "terminationMessagePath": "/dev/termination-log",
+        "terminationMessagePolicy": "File"
+      },
+      "versions": {
+        "python": {
+          "value": "3.12.0 (tags/v3.12.0:0fb18b0, Oct  2 2023, 13:03:39) [MSC v.1935 64 bit (AMD64)]"
+        },
+        "platform": {
+          "value": "Windows-11-10.0.26200-SP0"
+        },
+        "k6": "k6.EXE v2.2.0 (commit/00a9a1b7f5, go1.26.5, windows/amd64)",
+        "kubectl": [
+          "v1.36.1",
+          "v1.37.0"
+        ],
+        "minikube": "v1.39.0",
+        "docker": [
+          "29.8.2",
+          "29.8.2"
+        ]
+      },
+      "idle_before_warmup_seconds": 60,
+      "load_start_delay_after_warmup_s": 0.15384507179260254
+    },
+    {
+      "run": "confirm-peak-2",
+      "kind": "pilot",
+      "rate_per_10s": 8,
+      "profile": "steady",
+      "duration_seconds": 300.0,
+      "started": 240,
+      "completed": 240,
+      "successful": 240,
+      "failed": 0,
+      "unfinished": 0,
+      "dropped": 0,
+      "mean_success_ms": 11336.633333333333,
+      "p95_success_ms": 16446.9,
+      "first_30s_mean_success_ms": 2944.625,
+      "max_client_in_flight": 14,
+      "median_start_gap_ms": 1250.0,
+      "median_busy_completion_gap_ms": 1224.9999046325684,
+      "busy_completion_gap_samples": 211,
+      "cpu_sample_mean_cores": 1.976211794456649,
+      "cpu_sample_max_cores": 1.9998836609774742,
+      "cpu_fresh_source_mean_cores": 1.9772521867020432,
+      "median_elapsed_minus_http_ms": 1.0143000000007305,
+      "warmup_ms": 1391.0000000032596,
+      "mean_model_load_ms": 1.2098159833333333,
+      "max_model_load_ms": 3.11625,
+      "output_tokens": "{\"56\": 240}",
+      "image_id": "sha256:7afaba776be2a7256ac0470ab06af3d437ab4920d87ce2998ccb24b1585707ce",
+      "request": {
+        "model": "qwen2.5:0.5b",
+        "prompt": "Explain what a container is in three short sentences.",
+        "stream": false,
+        "keep_alive": -1,
+        "options": {
+          "num_predict": 64,
+          "num_ctx": 1024,
+          "num_thread": 2,
+          "temperature": 0,
+          "seed": 42
+        }
+      },
+      "container": {
+        "env": [
+          {
+            "name": "OLLAMA_HOST",
+            "value": "0.0.0.0:11434"
+          },
+          {
+            "name": "OLLAMA_NUM_PARALLEL",
+            "value": "1"
+          },
+          {
+            "name": "OLLAMA_CONTEXT_LENGTH",
+            "value": "1024"
+          },
+          {
+            "name": "OLLAMA_KEEP_ALIVE",
+            "value": "-1"
+          }
+        ],
+        "image": "ai-inference:0.1",
+        "imagePullPolicy": "Never",
+        "lifecycle": {
+          "preStop": {
+            "exec": {
+              "command": [
+                "/bin/sleep",
+                "35"
+              ]
+            }
+          }
+        },
+        "name": "ollama",
+        "ports": [
+          {
+            "containerPort": 11434,
+            "protocol": "TCP"
+          }
+        ],
+        "readinessProbe": {
+          "failureThreshold": 3,
+          "httpGet": {
+            "path": "/api/tags",
+            "port": 11434,
+            "scheme": "HTTP"
+          },
+          "periodSeconds": 5,
+          "successThreshold": 1,
+          "timeoutSeconds": 5
+        },
+        "resources": {
+          "limits": {
+            "cpu": "2",
+            "memory": "2Gi"
+          },
+          "requests": {
+            "cpu": "2",
+            "memory": "1Gi"
+          }
+        },
+        "terminationMessagePath": "/dev/termination-log",
+        "terminationMessagePolicy": "File"
+      },
+      "versions": {
+        "python": {
+          "value": "3.12.0 (tags/v3.12.0:0fb18b0, Oct  2 2023, 13:03:39) [MSC v.1935 64 bit (AMD64)]"
+        },
+        "platform": {
+          "value": "Windows-11-10.0.26200-SP0"
+        },
+        "k6": "k6.EXE v2.2.0 (commit/00a9a1b7f5, go1.26.5, windows/amd64)",
+        "kubectl": [
+          "v1.36.1",
+          "v1.37.0"
+        ],
+        "minikube": "v1.39.0",
+        "docker": [
+          "29.8.2",
+          "29.8.2"
+        ]
+      },
+      "idle_before_warmup_seconds": 60,
+      "load_start_delay_after_warmup_s": 0.14488911628723145
+    },
+    {
+      "run": "attempt-01-fixed-1-steady",
+      "kind": "main",
+      "rate_per_10s": 8,
+      "profile": "steady",
+      "duration_seconds": 300.0,
+      "started": 240,
+      "completed": 240,
+      "successful": 240,
+      "failed": 0,
+      "unfinished": 0,
+      "dropped": 0,
+      "mean_success_ms": 954.1041666666666,
+      "p95_success_ms": 1094.3,
+      "first_30s_mean_success_ms": 957.6666666666666,
+      "max_client_in_flight": 2,
+      "median_start_gap_ms": 1250.0,
+      "median_busy_completion_gap_ms": null,
+      "busy_completion_gap_samples": 0,
+      "cpu_sample_mean_cores": 1.6669942103082374,
+      "cpu_sample_max_cores": 1.793977158143441,
+      "cpu_fresh_source_mean_cores": 1.6669942103082374,
+      "median_elapsed_minus_http_ms": 0.7839500000000044,
+      "warmup_ms": 3561.999999998079,
+      "mean_model_load_ms": 0.9755313916666667,
+      "max_model_load_ms": 3.767055,
+      "output_tokens": "{\"56\": 240}",
+      "image_id": "sha256:7afaba776be2a7256ac0470ab06af3d437ab4920d87ce2998ccb24b1585707ce",
+      "request": {
+        "model": "qwen2.5:0.5b",
+        "prompt": "Explain what a container is in three short sentences.",
+        "stream": false,
+        "keep_alive": -1,
+        "options": {
+          "num_predict": 64,
+          "num_ctx": 1024,
+          "num_thread": 2,
+          "temperature": 0,
+          "seed": 42
+        }
+      },
+      "container": {
+        "env": [
+          {
+            "name": "OLLAMA_HOST",
+            "value": "0.0.0.0:11434"
+          },
+          {
+            "name": "OLLAMA_NUM_PARALLEL",
+            "value": "1"
+          },
+          {
+            "name": "OLLAMA_CONTEXT_LENGTH",
+            "value": "1024"
+          },
+          {
+            "name": "OLLAMA_KEEP_ALIVE",
+            "value": "-1"
+          }
+        ],
+        "image": "ai-inference:0.1",
+        "imagePullPolicy": "Never",
+        "lifecycle": {
+          "preStop": {
+            "exec": {
+              "command": [
+                "/bin/sleep",
+                "35"
+              ]
+            }
+          }
+        },
+        "name": "ollama",
+        "ports": [
+          {
+            "containerPort": 11434,
+            "protocol": "TCP"
+          }
+        ],
+        "readinessProbe": {
+          "failureThreshold": 3,
+          "httpGet": {
+            "path": "/api/tags",
+            "port": 11434,
+            "scheme": "HTTP"
+          },
+          "periodSeconds": 5,
+          "successThreshold": 1,
+          "timeoutSeconds": 5
+        },
+        "resources": {
+          "limits": {
+            "cpu": "2",
+            "memory": "2Gi"
+          },
+          "requests": {
+            "cpu": "2",
+            "memory": "1Gi"
+          }
+        },
+        "terminationMessagePath": "/dev/termination-log",
+        "terminationMessagePolicy": "File"
+      },
+      "versions": {
+        "python": {
+          "value": "3.12.0 (tags/v3.12.0:0fb18b0, Oct  2 2023, 13:03:39) [MSC v.1935 64 bit (AMD64)]"
+        },
+        "platform": {
+          "value": "Windows-11-10.0.26200-SP0"
+        },
+        "k6": "k6.EXE v2.2.0 (commit/00a9a1b7f5, go1.26.5, windows/amd64)",
+        "kubectl": [
+          "v1.36.1",
+          "v1.37.0"
+        ],
+        "minikube": "v1.39.0",
+        "docker": [
+          "29.8.2",
+          "29.8.2"
+        ]
+      },
+      "idle_before_warmup_seconds": 60,
+      "load_start_delay_after_warmup_s": 40.20987892150879
+    },
+    {
+      "run": "attempt-12-fixed-1-steady",
+      "kind": "main",
+      "rate_per_10s": 8,
+      "profile": "steady",
+      "duration_seconds": 300.0,
+      "started": 240,
+      "completed": 240,
+      "successful": 240,
+      "failed": 0,
+      "unfinished": 0,
+      "dropped": 0,
+      "mean_success_ms": 1094.4916666666666,
+      "p95_success_ms": 2242.8999999999996,
+      "first_30s_mean_success_ms": 893.375,
+      "max_client_in_flight": 3,
+      "median_start_gap_ms": 1250.0,
+      "median_busy_completion_gap_ms": 1212.0001316070557,
+      "busy_completion_gap_samples": 9,
+      "cpu_sample_mean_cores": 1.7291028961777033,
+      "cpu_sample_max_cores": 2.000013682114392,
+      "cpu_fresh_source_mean_cores": 1.7291028961777033,
+      "median_elapsed_minus_http_ms": 0.832300000000032,
+      "warmup_ms": 1015.9999999996217,
+      "mean_model_load_ms": 0.992450225,
+      "max_model_load_ms": 2.206889,
+      "output_tokens": "{\"56\": 240}",
+      "image_id": "sha256:7afaba776be2a7256ac0470ab06af3d437ab4920d87ce2998ccb24b1585707ce",
+      "request": {
+        "model": "qwen2.5:0.5b",
+        "prompt": "Explain what a container is in three short sentences.",
+        "stream": false,
+        "keep_alive": -1,
+        "options": {
+          "num_predict": 64,
+          "num_ctx": 1024,
+          "num_thread": 2,
+          "temperature": 0,
+          "seed": 42
+        }
+      },
+      "container": {
+        "env": [
+          {
+            "name": "OLLAMA_HOST",
+            "value": "0.0.0.0:11434"
+          },
+          {
+            "name": "OLLAMA_NUM_PARALLEL",
+            "value": "1"
+          },
+          {
+            "name": "OLLAMA_CONTEXT_LENGTH",
+            "value": "1024"
+          },
+          {
+            "name": "OLLAMA_KEEP_ALIVE",
+            "value": "-1"
+          }
+        ],
+        "image": "ai-inference:0.1",
+        "imagePullPolicy": "Never",
+        "lifecycle": {
+          "preStop": {
+            "exec": {
+              "command": [
+                "/bin/sleep",
+                "35"
+              ]
+            }
+          }
+        },
+        "name": "ollama",
+        "ports": [
+          {
+            "containerPort": 11434,
+            "protocol": "TCP"
+          }
+        ],
+        "readinessProbe": {
+          "failureThreshold": 3,
+          "httpGet": {
+            "path": "/api/tags",
+            "port": 11434,
+            "scheme": "HTTP"
+          },
+          "periodSeconds": 5,
+          "successThreshold": 1,
+          "timeoutSeconds": 5
+        },
+        "resources": {
+          "limits": {
+            "cpu": "2",
+            "memory": "2Gi"
+          },
+          "requests": {
+            "cpu": "2",
+            "memory": "1Gi"
+          }
+        },
+        "terminationMessagePath": "/dev/termination-log",
+        "terminationMessagePolicy": "File"
+      },
+      "versions": {
+        "python": {
+          "value": "3.12.0 (tags/v3.12.0:0fb18b0, Oct  2 2023, 13:03:39) [MSC v.1935 64 bit (AMD64)]"
+        },
+        "platform": {
+          "value": "Windows-11-10.0.26200-SP0"
+        },
+        "k6": "k6.EXE v2.2.0 (commit/00a9a1b7f5, go1.26.5, windows/amd64)",
+        "kubectl": [
+          "v1.36.1",
+          "v1.37.0"
+        ],
+        "minikube": "v1.39.0",
+        "docker": [
+          "29.8.2",
+          "29.8.2"
+        ]
+      },
+      "idle_before_warmup_seconds": 60,
+      "load_start_delay_after_warmup_s": 35.190346002578735
+    },
+    {
+      "run": "attempt-14-fixed-1-steady",
+      "kind": "main",
+      "rate_per_10s": 8,
+      "profile": "steady",
+      "duration_seconds": 300.0,
+      "started": 240,
+      "completed": 240,
+      "successful": 240,
+      "failed": 0,
+      "unfinished": 0,
+      "dropped": 0,
+      "mean_success_ms": 1154.1166666666666,
+      "p95_success_ms": 1497.6499999999987,
+      "first_30s_mean_success_ms": 996.875,
+      "max_client_in_flight": 2,
+      "median_start_gap_ms": 1250.0,
+      "median_busy_completion_gap_ms": null,
+      "busy_completion_gap_samples": 0,
+      "cpu_sample_mean_cores": 1.8513683569255044,
+      "cpu_sample_max_cores": 1.9887459496075741,
+      "cpu_fresh_source_mean_cores": 1.8513683569255044,
+      "median_elapsed_minus_http_ms": 1.065050000000042,
+      "warmup_ms": 1000.0,
+      "mean_model_load_ms": 1.0490863875,
+      "max_model_load_ms": 9.672753,
+      "output_tokens": "{\"56\": 240}",
+      "image_id": "sha256:7afaba776be2a7256ac0470ab06af3d437ab4920d87ce2998ccb24b1585707ce",
+      "request": {
+        "model": "qwen2.5:0.5b",
+        "prompt": "Explain what a container is in three short sentences.",
+        "stream": false,
+        "keep_alive": -1,
+        "options": {
+          "num_predict": 64,
+          "num_ctx": 1024,
+          "num_thread": 2,
+          "temperature": 0,
+          "seed": 42
+        }
+      },
+      "container": {
+        "env": [
+          {
+            "name": "OLLAMA_HOST",
+            "value": "0.0.0.0:11434"
+          },
+          {
+            "name": "OLLAMA_NUM_PARALLEL",
+            "value": "1"
+          },
+          {
+            "name": "OLLAMA_CONTEXT_LENGTH",
+            "value": "1024"
+          },
+          {
+            "name": "OLLAMA_KEEP_ALIVE",
+            "value": "-1"
+          }
+        ],
+        "image": "ai-inference:0.1",
+        "imagePullPolicy": "Never",
+        "lifecycle": {
+          "preStop": {
+            "exec": {
+              "command": [
+                "/bin/sleep",
+                "35"
+              ]
+            }
+          }
+        },
+        "name": "ollama",
+        "ports": [
+          {
+            "containerPort": 11434,
+            "protocol": "TCP"
+          }
+        ],
+        "readinessProbe": {
+          "failureThreshold": 3,
+          "httpGet": {
+            "path": "/api/tags",
+            "port": 11434,
+            "scheme": "HTTP"
+          },
+          "periodSeconds": 5,
+          "successThreshold": 1,
+          "timeoutSeconds": 5
+        },
+        "resources": {
+          "limits": {
+            "cpu": "2",
+            "memory": "2Gi"
+          },
+          "requests": {
+            "cpu": "2",
+            "memory": "1Gi"
+          }
+        },
+        "terminationMessagePath": "/dev/termination-log",
+        "terminationMessagePolicy": "File"
+      },
+      "versions": {
+        "python": {
+          "value": "3.12.0 (tags/v3.12.0:0fb18b0, Oct  2 2023, 13:03:39) [MSC v.1935 64 bit (AMD64)]"
+        },
+        "platform": {
+          "value": "Windows-11-10.0.26200-SP0"
+        },
+        "k6": "k6.EXE v2.2.0 (commit/00a9a1b7f5, go1.26.5, windows/amd64)",
+        "kubectl": [
+          "v1.36.1",
+          "v1.37.0"
+        ],
+        "minikube": "v1.39.0",
+        "docker": [
+          "29.8.2",
+          "29.8.2"
+        ]
+      },
+      "idle_before_warmup_seconds": 60,
+      "load_start_delay_after_warmup_s": 50.24277591705322
+    }
+  ],
+  "windows": [
+    {
+      "run": "A2-rate-2",
+      "start_second": 0,
+      "completed": 6,
+      "failed": 0,
+      "mean_success_ms": 1188.5,
+      "p95_success_ms": 1339.0,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "A2-rate-2",
+      "start_second": 30,
+      "completed": 6,
+      "failed": 0,
+      "mean_success_ms": 1166,
+      "p95_success_ms": 1320.5,
+      "client_in_flight_at_window_end": 0
+    },
+    {
+      "run": "A2-rate-2",
+      "start_second": 60,
+      "completed": 6,
+      "failed": 0,
+      "mean_success_ms": 1255.5,
+      "p95_success_ms": 1334.0,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "A2-rate-2",
+      "start_second": 90,
+      "completed": 6,
+      "failed": 0,
+      "mean_success_ms": 1306,
+      "p95_success_ms": 1421.75,
+      "client_in_flight_at_window_end": 0
+    },
+    {
+      "run": "B-rate-5",
+      "start_second": 0,
+      "completed": 15,
+      "failed": 0,
+      "mean_success_ms": 1328.6666666666667,
+      "p95_success_ms": 1430.3999999999999,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "B-rate-5",
+      "start_second": 30,
+      "completed": 15,
+      "failed": 0,
+      "mean_success_ms": 1354.4,
+      "p95_success_ms": 1447.2,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "B-rate-5",
+      "start_second": 60,
+      "completed": 15,
+      "failed": 0,
+      "mean_success_ms": 1341.5333333333333,
+      "p95_success_ms": 1459.6,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "B-rate-5",
+      "start_second": 90,
+      "completed": 15,
+      "failed": 0,
+      "mean_success_ms": 1342.6666666666667,
+      "p95_success_ms": 1470.9999999999998,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "C-rate-10",
+      "start_second": 0,
+      "completed": 30,
+      "failed": 0,
+      "mean_success_ms": 5965.1,
+      "p95_success_ms": 10696.249999999998,
+      "client_in_flight_at_window_end": 9
+    },
+    {
+      "run": "C-rate-10",
+      "start_second": 30,
+      "completed": 30,
+      "failed": 0,
+      "mean_success_ms": 17072.3,
+      "p95_success_ms": 21759.6,
+      "client_in_flight_at_window_end": 17
+    },
+    {
+      "run": "C-rate-10",
+      "start_second": 60,
+      "completed": 30,
+      "failed": 11,
+      "mean_success_ms": 26286.263157894737,
+      "p95_success_ms": 29363.7,
+      "client_in_flight_at_window_end": 25
+    },
+    {
+      "run": "C-rate-10",
+      "start_second": 90,
+      "completed": 30,
+      "failed": 30,
+      "mean_success_ms": null,
+      "p95_success_ms": null,
+      "client_in_flight_at_window_end": 30
+    },
+    {
+      "run": "M-rate-8",
+      "start_second": 0,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 2874.875,
+      "p95_success_ms": 4310.65,
+      "client_in_flight_at_window_end": 3
+    },
+    {
+      "run": "M-rate-8",
+      "start_second": 30,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 6460.5,
+      "p95_success_ms": 8164.349999999999,
+      "client_in_flight_at_window_end": 6
+    },
+    {
+      "run": "M-rate-8",
+      "start_second": 60,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 9302.541666666666,
+      "p95_success_ms": 10311.35,
+      "client_in_flight_at_window_end": 7
+    },
+    {
+      "run": "M-rate-8",
+      "start_second": 90,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 11740.583333333334,
+      "p95_success_ms": 13072.5,
+      "client_in_flight_at_window_end": 9
+    },
+    {
+      "run": "confirm-low-1",
+      "start_second": 0,
+      "completed": 6,
+      "failed": 0,
+      "mean_success_ms": 1280.8333333333333,
+      "p95_success_ms": 1314.25,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "confirm-low-1",
+      "start_second": 30,
+      "completed": 6,
+      "failed": 0,
+      "mean_success_ms": 1284.6666666666667,
+      "p95_success_ms": 1326.75,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "confirm-low-1",
+      "start_second": 60,
+      "completed": 6,
+      "failed": 0,
+      "mean_success_ms": 1365,
+      "p95_success_ms": 1418.75,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "confirm-low-1",
+      "start_second": 90,
+      "completed": 6,
+      "failed": 0,
+      "mean_success_ms": 1339.8333333333333,
+      "p95_success_ms": 1379.0,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "confirm-low-1",
+      "start_second": 120,
+      "completed": 6,
+      "failed": 0,
+      "mean_success_ms": 1328.5,
+      "p95_success_ms": 1391.5,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "confirm-low-1",
+      "start_second": 150,
+      "completed": 6,
+      "failed": 0,
+      "mean_success_ms": 1324.3333333333333,
+      "p95_success_ms": 1414.0,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "confirm-low-1",
+      "start_second": 180,
+      "completed": 6,
+      "failed": 0,
+      "mean_success_ms": 1273.3333333333333,
+      "p95_success_ms": 1308.0,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "confirm-low-1",
+      "start_second": 210,
+      "completed": 6,
+      "failed": 0,
+      "mean_success_ms": 1213.5,
+      "p95_success_ms": 1278.25,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "confirm-low-1",
+      "start_second": 240,
+      "completed": 6,
+      "failed": 0,
+      "mean_success_ms": 1429.5,
+      "p95_success_ms": 1623.5,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "confirm-low-1",
+      "start_second": 270,
+      "completed": 6,
+      "failed": 0,
+      "mean_success_ms": 1334.8333333333333,
+      "p95_success_ms": 1440.75,
+      "client_in_flight_at_window_end": 0
+    },
+    {
+      "run": "confirm-peak-1",
+      "start_second": 0,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 2801.1666666666665,
+      "p95_success_ms": 4289.2,
+      "client_in_flight_at_window_end": 4
+    },
+    {
+      "run": "confirm-peak-1",
+      "start_second": 30,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 5728.666666666667,
+      "p95_success_ms": 6852.2,
+      "client_in_flight_at_window_end": 6
+    },
+    {
+      "run": "confirm-peak-1",
+      "start_second": 60,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 8789.458333333334,
+      "p95_success_ms": 11272.5,
+      "client_in_flight_at_window_end": 8
+    },
+    {
+      "run": "confirm-peak-1",
+      "start_second": 90,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 13255.375,
+      "p95_success_ms": 14406.449999999999,
+      "client_in_flight_at_window_end": 11
+    },
+    {
+      "run": "confirm-peak-1",
+      "start_second": 120,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 16602.666666666668,
+      "p95_success_ms": 18167.85,
+      "client_in_flight_at_window_end": 14
+    },
+    {
+      "run": "confirm-peak-1",
+      "start_second": 150,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 19884.5,
+      "p95_success_ms": 21152.75,
+      "client_in_flight_at_window_end": 16
+    },
+    {
+      "run": "confirm-peak-1",
+      "start_second": 180,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 22556.25,
+      "p95_success_ms": 24742.699999999997,
+      "client_in_flight_at_window_end": 18
+    },
+    {
+      "run": "confirm-peak-1",
+      "start_second": 210,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 25526.75,
+      "p95_success_ms": 26209.65,
+      "client_in_flight_at_window_end": 21
+    },
+    {
+      "run": "confirm-peak-1",
+      "start_second": 240,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 26661.375,
+      "p95_success_ms": 27919.95,
+      "client_in_flight_at_window_end": 21
+    },
+    {
+      "run": "confirm-peak-1",
+      "start_second": 270,
+      "completed": 24,
+      "failed": 13,
+      "mean_success_ms": 29391.454545454544,
+      "p95_success_ms": 29909.5,
+      "client_in_flight_at_window_end": 23
+    },
+    {
+      "run": "confirm-low-2",
+      "start_second": 0,
+      "completed": 6,
+      "failed": 0,
+      "mean_success_ms": 1287.8333333333333,
+      "p95_success_ms": 1323.75,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "confirm-low-2",
+      "start_second": 30,
+      "completed": 6,
+      "failed": 0,
+      "mean_success_ms": 1292,
+      "p95_success_ms": 1354.75,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "confirm-low-2",
+      "start_second": 60,
+      "completed": 6,
+      "failed": 0,
+      "mean_success_ms": 1324.1666666666667,
+      "p95_success_ms": 1428.0,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "confirm-low-2",
+      "start_second": 90,
+      "completed": 6,
+      "failed": 0,
+      "mean_success_ms": 1301.3333333333333,
+      "p95_success_ms": 1355.0,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "confirm-low-2",
+      "start_second": 120,
+      "completed": 6,
+      "failed": 0,
+      "mean_success_ms": 1286.6666666666667,
+      "p95_success_ms": 1322.75,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "confirm-low-2",
+      "start_second": 150,
+      "completed": 6,
+      "failed": 0,
+      "mean_success_ms": 1286.6666666666667,
+      "p95_success_ms": 1328.75,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "confirm-low-2",
+      "start_second": 180,
+      "completed": 6,
+      "failed": 0,
+      "mean_success_ms": 1328.6666666666667,
+      "p95_success_ms": 1437.5,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "confirm-low-2",
+      "start_second": 210,
+      "completed": 6,
+      "failed": 0,
+      "mean_success_ms": 1288.1666666666667,
+      "p95_success_ms": 1381.0,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "confirm-low-2",
+      "start_second": 240,
+      "completed": 6,
+      "failed": 0,
+      "mean_success_ms": 1378,
+      "p95_success_ms": 1452.0,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "confirm-low-2",
+      "start_second": 270,
+      "completed": 6,
+      "failed": 0,
+      "mean_success_ms": 1309.8333333333333,
+      "p95_success_ms": 1378.5,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "confirm-peak-2",
+      "start_second": 0,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 2944.625,
+      "p95_success_ms": 4211.9,
+      "client_in_flight_at_window_end": 3
+    },
+    {
+      "run": "confirm-peak-2",
+      "start_second": 30,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 6032.791666666667,
+      "p95_success_ms": 9187.699999999999,
+      "client_in_flight_at_window_end": 6
+    },
+    {
+      "run": "confirm-peak-2",
+      "start_second": 60,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 9987.75,
+      "p95_success_ms": 10383.05,
+      "client_in_flight_at_window_end": 7
+    },
+    {
+      "run": "confirm-peak-2",
+      "start_second": 90,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 11156.333333333334,
+      "p95_success_ms": 13464.0,
+      "client_in_flight_at_window_end": 9
+    },
+    {
+      "run": "confirm-peak-2",
+      "start_second": 120,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 14815.708333333334,
+      "p95_success_ms": 15901.099999999999,
+      "client_in_flight_at_window_end": 11
+    },
+    {
+      "run": "confirm-peak-2",
+      "start_second": 150,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 16408.458333333332,
+      "p95_success_ms": 16812.15,
+      "client_in_flight_at_window_end": 13
+    },
+    {
+      "run": "confirm-peak-2",
+      "start_second": 180,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 15077.666666666666,
+      "p95_success_ms": 16041.55,
+      "client_in_flight_at_window_end": 11
+    },
+    {
+      "run": "confirm-peak-2",
+      "start_second": 210,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 14993.208333333334,
+      "p95_success_ms": 15853.65,
+      "client_in_flight_at_window_end": 12
+    },
+    {
+      "run": "confirm-peak-2",
+      "start_second": 240,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 12344.083333333334,
+      "p95_success_ms": 13647.8,
+      "client_in_flight_at_window_end": 9
+    },
+    {
+      "run": "confirm-peak-2",
+      "start_second": 270,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 9605.708333333334,
+      "p95_success_ms": 10569.699999999999,
+      "client_in_flight_at_window_end": 7
+    },
+    {
+      "run": "attempt-01-fixed-1-steady",
+      "start_second": 0,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 957.6666666666666,
+      "p95_success_ms": 1074.8,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "attempt-01-fixed-1-steady",
+      "start_second": 30,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 923.5416666666666,
+      "p95_success_ms": 966.4,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "attempt-01-fixed-1-steady",
+      "start_second": 60,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 937.1666666666666,
+      "p95_success_ms": 1000.8499999999999,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "attempt-01-fixed-1-steady",
+      "start_second": 90,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 928.5833333333334,
+      "p95_success_ms": 977.7,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "attempt-01-fixed-1-steady",
+      "start_second": 120,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 1021.5,
+      "p95_success_ms": 1391.2499999999995,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "attempt-01-fixed-1-steady",
+      "start_second": 150,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 958.0416666666666,
+      "p95_success_ms": 1082.25,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "attempt-01-fixed-1-steady",
+      "start_second": 180,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 946.625,
+      "p95_success_ms": 1070.1999999999998,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "attempt-01-fixed-1-steady",
+      "start_second": 210,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 956.5,
+      "p95_success_ms": 1131.2499999999998,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "attempt-01-fixed-1-steady",
+      "start_second": 240,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 953.5,
+      "p95_success_ms": 1128.3999999999996,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "attempt-01-fixed-1-steady",
+      "start_second": 270,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 957.9166666666666,
+      "p95_success_ms": 1164.7499999999998,
+      "client_in_flight_at_window_end": 0
+    },
+    {
+      "run": "attempt-12-fixed-1-steady",
+      "start_second": 0,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 893.375,
+      "p95_success_ms": 954.4,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "attempt-12-fixed-1-steady",
+      "start_second": 30,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 949.9166666666666,
+      "p95_success_ms": 1042.55,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "attempt-12-fixed-1-steady",
+      "start_second": 60,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 978.3333333333334,
+      "p95_success_ms": 1159.1499999999999,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "attempt-12-fixed-1-steady",
+      "start_second": 90,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 967.5416666666666,
+      "p95_success_ms": 1069.1999999999998,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "attempt-12-fixed-1-steady",
+      "start_second": 120,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 1363.875,
+      "p95_success_ms": 2535.999999999999,
+      "client_in_flight_at_window_end": 3
+    },
+    {
+      "run": "attempt-12-fixed-1-steady",
+      "start_second": 150,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 1933.375,
+      "p95_success_ms": 2791.2999999999997,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "attempt-12-fixed-1-steady",
+      "start_second": 180,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 901.4583333333334,
+      "p95_success_ms": 977.05,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "attempt-12-fixed-1-steady",
+      "start_second": 210,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 1016.4166666666666,
+      "p95_success_ms": 1222.3999999999999,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "attempt-12-fixed-1-steady",
+      "start_second": 240,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 963.25,
+      "p95_success_ms": 1030.45,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "attempt-12-fixed-1-steady",
+      "start_second": 270,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 977.375,
+      "p95_success_ms": 1082.3,
+      "client_in_flight_at_window_end": 0
+    },
+    {
+      "run": "attempt-14-fixed-1-steady",
+      "start_second": 0,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 996.875,
+      "p95_success_ms": 1209.9999999999998,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "attempt-14-fixed-1-steady",
+      "start_second": 30,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 991.625,
+      "p95_success_ms": 1209.95,
+      "client_in_flight_at_window_end": 0
+    },
+    {
+      "run": "attempt-14-fixed-1-steady",
+      "start_second": 60,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 1026.8333333333333,
+      "p95_success_ms": 1264.0499999999997,
+      "client_in_flight_at_window_end": 0
+    },
+    {
+      "run": "attempt-14-fixed-1-steady",
+      "start_second": 90,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 1423.25,
+      "p95_success_ms": 1914.7,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "attempt-14-fixed-1-steady",
+      "start_second": 120,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 1230.7083333333333,
+      "p95_success_ms": 1384.55,
+      "client_in_flight_at_window_end": 0
+    },
+    {
+      "run": "attempt-14-fixed-1-steady",
+      "start_second": 150,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 1191.7083333333333,
+      "p95_success_ms": 1334.3999999999999,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "attempt-14-fixed-1-steady",
+      "start_second": 180,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 1193.2083333333333,
+      "p95_success_ms": 1321.8,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "attempt-14-fixed-1-steady",
+      "start_second": 210,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 1181.375,
+      "p95_success_ms": 1298.45,
+      "client_in_flight_at_window_end": 1
+    },
+    {
+      "run": "attempt-14-fixed-1-steady",
+      "start_second": 240,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 1157,
+      "p95_success_ms": 1260.75,
+      "client_in_flight_at_window_end": 2
+    },
+    {
+      "run": "attempt-14-fixed-1-steady",
+      "start_second": 270,
+      "completed": 24,
+      "failed": 0,
+      "mean_success_ms": 1148.5833333333333,
+      "p95_success_ms": 1234.0,
+      "client_in_flight_at_window_end": 0
+    }
+  ]
+}

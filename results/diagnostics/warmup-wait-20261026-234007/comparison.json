@@ -1,0 +1,568 @@
+[
+  {
+    "variant": "quiet",
+    "folder": "results\\diagnostics\\warmup-wait-20261026-234007\\01-quiet",
+    "collection_valid": true,
+    "counts": {
+      "started": 240,
+      "completed": 240,
+      "successful": 240,
+      "failed": 0,
+      "unfinished": 0,
+      "dropped": 0
+    },
+    "warnings": [],
+    "p95_ms": 1319.199999999999,
+    "mean_ms": 1077.5875,
+    "max_ms": 2553,
+    "p95_target_pass": true,
+    "first_30s_mean_ms": 993.125,
+    "max_client_in_flight": 3,
+    "post_warmup_delay_seconds": 50.239084005355835,
+    "warmup": {
+      "phase": "warmup",
+      "started_at_utc": "2026-10-26T22:44:27.693601+00:00",
+      "finished_at_utc": "2026-10-26T22:44:29.183916+00:00",
+      "timeout_seconds": 120,
+      "http_status": 200,
+      "successful": true,
+      "output_tokens": 56.0,
+      "model_load_ms": 3.604325,
+      "duration_ms": 1485.000000000582
+    },
+    "initial_identity": {
+      "pod_uid": "e6a7dca2-650b-4c56-b52b-8bd7dcb49f9f",
+      "container_id": "containerd://48484ac9c31b5e6cb2c8450cbd4445d84439548aac070a7478c35bd863ec6698",
+      "restart_count": 1,
+      "image_id": "sha256:7afaba776be2a7256ac0470ab06af3d437ab4920d87ce2998ccb24b1585707ce"
+    },
+    "runtime_context": {
+      "models": {
+        "e6a7dca2-650b-4c56-b52b-8bd7dcb49f9f": {
+          "name": "qwen2.5:0.5b",
+          "model": "qwen2.5:0.5b",
+          "modified_at": "2026-09-26T23:43:44Z",
+          "size": 397821319,
+          "digest": "a8b0c51577010a279d933d14c2a8ab4b268079d44c5c8830c0a93900f1827c67",
+          "details": {
+            "parent_model": "",
+            "format": "gguf",
+            "family": "qwen2",
+            "families": [
+              "qwen2"
+            ],
+            "parameter_size": "494.03M",
+            "quantization_level": "Q4_K_M",
+            "context_length": 32768,
+            "embedding_length": 896
+          },
+          "capabilities": [
+            "completion",
+            "tools"
+          ]
+        }
+      },
+      "docker_limits": {
+        "cpu": 24,
+        "memory_bytes": 33528741888
+      },
+      "minikube_profile": {
+        "Name": "ai-lab",
+        "Status": "OK",
+        "Config": {
+          "Name": "ai-lab",
+          "KeepContext": false,
+          "EmbedCerts": false,
+          "MinikubeISO": "",
+          "KicBaseImage": "gcr.io/k8s-minikube/kicbase:v0.0.51@sha256:4a1c825b61479e6c898851ea66f13c620aaeab6002746e95067fc2c4b38a0b24",
+          "Memory": 12288,
+          "CPUs": 8,
+          "DiskSize": 20000,
+          "Driver": "docker",
+          "HyperkitVpnKitSock": "",
+          "HyperkitVSockPorts": [],
+          "DockerEnv": null,
+          "ContainerVolumeMounts": null,
+          "InsecureRegistry": null,
+          "RegistryMirror": [],
+          "HostOnlyCIDR": "192.168.59.1/24",
+          "HypervVirtualSwitch": "",
+          "HypervUseExternalSwitch": false,
+          "HypervExternalAdapter": "",
+          "KVMNetwork": "default",
+          "KVMQemuURI": "qemu:///system",
+          "KVMGPU": false,
+          "KVMHidden": false,
+          "KVMNUMACount": 1,
+          "APIServerPort": 8443,
+          "DockerOpt": null,
+          "DisableDriverMounts": false,
+          "NFSShare": [],
+          "NFSSharesRoot": "/nfsshares",
+          "UUID": "",
+          "NoVTXCheck": false,
+          "DNSProxy": false,
+          "HostDNSResolver": true,
+          "HostOnlyNicType": "virtio",
+          "NatNicType": "virtio",
+          "SSHIPAddress": "",
+          "SSHUser": "root",
+          "SSHKey": "",
+          "SSHPort": 22,
+          "KubernetesConfig": {
+            "KubernetesVersion": "v1.37.0",
+            "ClusterName": "ai-lab",
+            "Namespace": "default",
+            "APIServerHAVIP": "",
+            "APIServerName": "minikubeCA",
+            "APIServerNames": null,
+            "APIServerIPs": null,
+            "DNSDomain": "cluster.local",
+            "ContainerRuntime": "containerd",
+            "CRISocket": "",
+            "NetworkPlugin": "cni",
+            "FeatureGates": "",
+            "ServiceCIDR": "10.96.0.0/12",
+            "ImageRepository": "",
+            "LoadBalancerStartIP": "",
+            "LoadBalancerEndIP": "",
+            "CustomIngressCert": "",
+            "RegistryAliases": "",
+            "ExtraOptions": null,
+            "ShouldLoadCachedImages": true,
+            "EnableDefaultCNI": false,
+            "CNI": ""
+          },
+          "Nodes": [
+            {
+              "Name": "",
+              "IP": "192.168.49.2",
+              "Port": 8443,
+              "KubernetesVersion": "v1.37.0",
+              "ContainerRuntime": "containerd",
+              "ControlPlane": true,
+              "Worker": true
+            }
+          ],
+          "Addons": {
+            "dashboard": true,
+            "default-storageclass": true,
+            "metrics-server": true,
+            "storage-provisioner": true
+          },
+          "CustomAddonImages": null,
+          "CustomAddonRegistries": null,
+          "VerifyComponents": {
+            "apiserver": true,
+            "system_pods": true
+          },
+          "StartHostTimeout": 360000000000,
+          "ScheduledStop": null,
+          "ExposedPorts": [],
+          "ListenAddress": "",
+          "Network": "",
+          "Subnet": "",
+          "MultiNodeRequested": false,
+          "ExtraDisks": 0,
+          "CertExpiration": 94608000000000000,
+          "MountString": "",
+          "Mount9PVersion": "9p2000.L",
+          "MountGID": "docker",
+          "MountIP": "",
+          "MountMSize": 262144,
+          "MountOptions": [],
+          "MountPort": 0,
+          "MountType": "9p",
+          "MountUID": "docker",
+          "BinaryMirror": "",
+          "DisableOptimizations": false,
+          "DisableMetrics": false,
+          "DisableCoreDNSLog": false,
+          "CustomQemuFirmwarePath": "",
+          "SocketVMnetClientPath": "",
+          "SocketVMnetPath": "",
+          "StaticIP": "",
+          "SSHAuthSock": "",
+          "SSHAgentPID": 0,
+          "GPUs": "",
+          "AutoPauseInterval": 60000000000,
+          "Rosetta": false,
+          "VmnetOffloading": false,
+          "DNSServers": null,
+          "MDNS": false
+        },
+        "Active": false,
+        "ActiveKubeContext": true
+      }
+    },
+    "source_sha256": {
+      "inference.js": "885d27570a056e290aedf8765df0b9b3232c1873da6402e58cf9c7889e4f8131",
+      "workload.json": "135ec5e42c747eec62fa3019cac1bf3bb5ad8a1735b92b600f2817ce51f0a6f7",
+      "run_pilot.py": "9ee66c668dc6051680253883f270522399de2f6a4f62885b59e8887b1ab0d7f8",
+      "observe.py": "2e6236612270aa972f891318c45813bb6ec521fab4e02ebb18615856d1e6a578",
+      "pilot_records.py": "b12ff7876b77f25d0f8298b7d550e8961d4211b6ddecea1379ba2763a3382251",
+      "main_protocol.py": "5022bbff821f4151f34ea322e3564dbc98593d6d4bde7f8a1aec12ba3ca157ac",
+      "analyze.py": "980a0ed365b0d5a3e28d8e6118cfc812b6b3849db2240938b3221f1112be2bf0",
+      "fixed_replicas.py": "b4febbc06919702f5b95160864b020154e0d3cd191b799d76c68f5982e06bca8"
+    },
+    "workload": {
+      "request": {
+        "model": "qwen2.5:0.5b",
+        "prompt": "Explain what a container is in three short sentences.",
+        "stream": false,
+        "keep_alive": -1,
+        "options": {
+          "num_predict": 64,
+          "num_ctx": 1024,
+          "num_thread": 2,
+          "temperature": 0,
+          "seed": 42
+        }
+      },
+      "timeout_seconds": 30,
+      "graceful_stop_seconds": 35,
+      "time_unit_seconds": 10,
+      "preallocated_vus": 50,
+      "max_vus": 100,
+      "burst_stages": [
+        {
+          "name": "low-before",
+          "seconds": 120,
+          "target": "low"
+        },
+        {
+          "name": "rise",
+          "seconds": 1,
+          "target": "peak"
+        },
+        {
+          "name": "peak",
+          "seconds": 300,
+          "target": "peak"
+        },
+        {
+          "name": "fall",
+          "seconds": 1,
+          "target": "low"
+        },
+        {
+          "name": "low-after",
+          "seconds": 360,
+          "target": "low"
+        }
+      ],
+      "thresholds": {
+        "error_rate": 0.01,
+        "dropped_starts": 0
+      },
+      "main_protocol": {
+        "version": "1.1",
+        "primary_p95_ms": 5000,
+        "sensitivity_p95_ms": 10000,
+        "low_rate": 2,
+        "peak_rate": 8,
+        "steady_seconds": 300,
+        "observer_interval_seconds": 5,
+        "idle_seconds": 60,
+        "warmup_timeout_seconds": 120,
+        "fixed_post_seconds": 10,
+        "hpa_post_seconds": 300
+      }
+    },
+    "settings": {
+      "rate": 8,
+      "profile": "steady",
+      "duration_seconds": 300.0,
+      "idle_seconds": 60,
+      "post_seconds": 10,
+      "observer_interval_seconds": 5,
+      "slo_ms": 5000.0
+    },
+    "output_tokens": {
+      "56": 240
+    }
+  },
+  {
+    "variant": "immediate",
+    "folder": "results\\diagnostics\\warmup-wait-20261026-234007\\02-immediate",
+    "collection_valid": true,
+    "counts": {
+      "started": 241,
+      "completed": 241,
+      "successful": 241,
+      "failed": 0,
+      "unfinished": 0,
+      "dropped": 0
+    },
+    "warnings": [],
+    "p95_ms": 1267.0,
+    "mean_ms": 1045.8672199170123,
+    "max_ms": 1647,
+    "p95_target_pass": true,
+    "first_30s_mean_ms": 1076.875,
+    "max_client_in_flight": 2,
+    "post_warmup_delay_seconds": 0.14232611656188965,
+    "warmup": {
+      "phase": "warmup",
+      "started_at_utc": "2026-10-26T22:53:13.099072+00:00",
+      "finished_at_utc": "2026-10-26T22:53:14.185674+00:00",
+      "timeout_seconds": 120,
+      "http_status": 200,
+      "successful": true,
+      "output_tokens": 56.0,
+      "model_load_ms": 0.813264,
+      "duration_ms": 1078.0000000013388
+    },
+    "initial_identity": {
+      "pod_uid": "e6a7dca2-650b-4c56-b52b-8bd7dcb49f9f",
+      "container_id": "containerd://48484ac9c31b5e6cb2c8450cbd4445d84439548aac070a7478c35bd863ec6698",
+      "restart_count": 1,
+      "image_id": "sha256:7afaba776be2a7256ac0470ab06af3d437ab4920d87ce2998ccb24b1585707ce"
+    },
+    "runtime_context": {
+      "models": {
+        "e6a7dca2-650b-4c56-b52b-8bd7dcb49f9f": {
+          "name": "qwen2.5:0.5b",
+          "model": "qwen2.5:0.5b",
+          "modified_at": "2026-09-26T23:43:44Z",
+          "size": 397821319,
+          "digest": "a8b0c51577010a279d933d14c2a8ab4b268079d44c5c8830c0a93900f1827c67",
+          "details": {
+            "parent_model": "",
+            "format": "gguf",
+            "family": "qwen2",
+            "families": [
+              "qwen2"
+            ],
+            "parameter_size": "494.03M",
+            "quantization_level": "Q4_K_M",
+            "context_length": 32768,
+            "embedding_length": 896
+          },
+          "capabilities": [
+            "completion",
+            "tools"
+          ]
+        }
+      },
+      "docker_limits": {
+        "cpu": 24,
+        "memory_bytes": 33528741888
+      },
+      "minikube_profile": {
+        "Name": "ai-lab",
+        "Status": "OK",
+        "Config": {
+          "Name": "ai-lab",
+          "KeepContext": false,
+          "EmbedCerts": false,
+          "MinikubeISO": "",
+          "KicBaseImage": "gcr.io/k8s-minikube/kicbase:v0.0.51@sha256:4a1c825b61479e6c898851ea66f13c620aaeab6002746e95067fc2c4b38a0b24",
+          "Memory": 12288,
+          "CPUs": 8,
+          "DiskSize": 20000,
+          "Driver": "docker",
+          "HyperkitVpnKitSock": "",
+          "HyperkitVSockPorts": [],
+          "DockerEnv": null,
+          "ContainerVolumeMounts": null,
+          "InsecureRegistry": null,
+          "RegistryMirror": [],
+          "HostOnlyCIDR": "192.168.59.1/24",
+          "HypervVirtualSwitch": "",
+          "HypervUseExternalSwitch": false,
+          "HypervExternalAdapter": "",
+          "KVMNetwork": "default",
+          "KVMQemuURI": "qemu:///system",
+          "KVMGPU": false,
+          "KVMHidden": false,
+          "KVMNUMACount": 1,
+          "APIServerPort": 8443,
+          "DockerOpt": null,
+          "DisableDriverMounts": false,
+          "NFSShare": [],
+          "NFSSharesRoot": "/nfsshares",
+          "UUID": "",
+          "NoVTXCheck": false,
+          "DNSProxy": false,
+          "HostDNSResolver": true,
+          "HostOnlyNicType": "virtio",
+          "NatNicType": "virtio",
+          "SSHIPAddress": "",
+          "SSHUser": "root",
+          "SSHKey": "",
+          "SSHPort": 22,
+          "KubernetesConfig": {
+            "KubernetesVersion": "v1.37.0",
+            "ClusterName": "ai-lab",
+            "Namespace": "default",
+            "APIServerHAVIP": "",
+            "APIServerName": "minikubeCA",
+            "APIServerNames": null,
+            "APIServerIPs": null,
+            "DNSDomain": "cluster.local",
+            "ContainerRuntime": "containerd",
+            "CRISocket": "",
+            "NetworkPlugin": "cni",
+            "FeatureGates": "",
+            "ServiceCIDR": "10.96.0.0/12",
+            "ImageRepository": "",
+            "LoadBalancerStartIP": "",
+            "LoadBalancerEndIP": "",
+            "CustomIngressCert": "",
+            "RegistryAliases": "",
+            "ExtraOptions": null,
+            "ShouldLoadCachedImages": true,
+            "EnableDefaultCNI": false,
+            "CNI": ""
+          },
+          "Nodes": [
+            {
+              "Name": "",
+              "IP": "192.168.49.2",
+              "Port": 8443,
+              "KubernetesVersion": "v1.37.0",
+              "ContainerRuntime": "containerd",
+              "ControlPlane": true,
+              "Worker": true
+            }
+          ],
+          "Addons": {
+            "dashboard": true,
+            "default-storageclass": true,
+            "metrics-server": true,
+            "storage-provisioner": true
+          },
+          "CustomAddonImages": null,
+          "CustomAddonRegistries": null,
+          "VerifyComponents": {
+            "apiserver": true,
+            "system_pods": true
+          },
+          "StartHostTimeout": 360000000000,
+          "ScheduledStop": null,
+          "ExposedPorts": [],
+          "ListenAddress": "",
+          "Network": "",
+          "Subnet": "",
+          "MultiNodeRequested": false,
+          "ExtraDisks": 0,
+          "CertExpiration": 94608000000000000,
+          "MountString": "",
+          "Mount9PVersion": "9p2000.L",
+          "MountGID": "docker",
+          "MountIP": "",
+          "MountMSize": 262144,
+          "MountOptions": [],
+          "MountPort": 0,
+          "MountType": "9p",
+          "MountUID": "docker",
+          "BinaryMirror": "",
+          "DisableOptimizations": false,
+          "DisableMetrics": false,
+          "DisableCoreDNSLog": false,
+          "CustomQemuFirmwarePath": "",
+          "SocketVMnetClientPath": "",
+          "SocketVMnetPath": "",
+          "StaticIP": "",
+          "SSHAuthSock": "",
+          "SSHAgentPID": 0,
+          "GPUs": "",
+          "AutoPauseInterval": 60000000000,
+          "Rosetta": false,
+          "VmnetOffloading": false,
+          "DNSServers": null,
+          "MDNS": false
+        },
+        "Active": false,
+        "ActiveKubeContext": true
+      }
+    },
+    "source_sha256": {
+      "inference.js": "885d27570a056e290aedf8765df0b9b3232c1873da6402e58cf9c7889e4f8131",
+      "workload.json": "135ec5e42c747eec62fa3019cac1bf3bb5ad8a1735b92b600f2817ce51f0a6f7",
+      "run_pilot.py": "9ee66c668dc6051680253883f270522399de2f6a4f62885b59e8887b1ab0d7f8",
+      "observe.py": "2e6236612270aa972f891318c45813bb6ec521fab4e02ebb18615856d1e6a578",
+      "pilot_records.py": "b12ff7876b77f25d0f8298b7d550e8961d4211b6ddecea1379ba2763a3382251",
+      "main_protocol.py": "5022bbff821f4151f34ea322e3564dbc98593d6d4bde7f8a1aec12ba3ca157ac",
+      "analyze.py": "980a0ed365b0d5a3e28d8e6118cfc812b6b3849db2240938b3221f1112be2bf0",
+      "fixed_replicas.py": "b4febbc06919702f5b95160864b020154e0d3cd191b799d76c68f5982e06bca8"
+    },
+    "workload": {
+      "request": {
+        "model": "qwen2.5:0.5b",
+        "prompt": "Explain what a container is in three short sentences.",
+        "stream": false,
+        "keep_alive": -1,
+        "options": {
+          "num_predict": 64,
+          "num_ctx": 1024,
+          "num_thread": 2,
+          "temperature": 0,
+          "seed": 42
+        }
+      },
+      "timeout_seconds": 30,
+      "graceful_stop_seconds": 35,
+      "time_unit_seconds": 10,
+      "preallocated_vus": 50,
+      "max_vus": 100,
+      "burst_stages": [
+        {
+          "name": "low-before",
+          "seconds": 120,
+          "target": "low"
+        },
+        {
+          "name": "rise",
+          "seconds": 1,
+          "target": "peak"
+        },
+        {
+          "name": "peak",
+          "seconds": 300,
+          "target": "peak"
+        },
+        {
+          "name": "fall",
+          "seconds": 1,
+          "target": "low"
+        },
+        {
+          "name": "low-after",
+          "seconds": 360,
+          "target": "low"
+        }
+      ],
+      "thresholds": {
+        "error_rate": 0.01,
+        "dropped_starts": 0
+      },
+      "main_protocol": {
+        "version": "1.1",
+        "primary_p95_ms": 5000,
+        "sensitivity_p95_ms": 10000,
+        "low_rate": 2,
+        "peak_rate": 8,
+        "steady_seconds": 300,
+        "observer_interval_seconds": 5,
+        "idle_seconds": 60,
+        "warmup_timeout_seconds": 120,
+        "fixed_post_seconds": 10,
+        "hpa_post_seconds": 300
+      }
+    },
+    "settings": {
+      "rate": 8,
+      "profile": "steady",
+      "duration_seconds": 300.0,
+      "idle_seconds": 60,
+      "post_seconds": 10,
+      "observer_interval_seconds": 5,
+      "slo_ms": 5000.0
+    },
+    "output_tokens": {
+      "56": 241
+    }
+  }
+]

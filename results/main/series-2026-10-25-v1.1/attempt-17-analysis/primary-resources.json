@@ -1,0 +1,51 @@
+{
+  "attempt-17-fixed-1-burst": {
+    "window": {
+      "started_at_utc": "2026-10-26T11:28:09.293000+00:00",
+      "scheduled_end_at_utc": "2026-10-26T11:41:11.293000+00:00",
+      "client_drain_end_at_utc": "2026-10-26T11:41:11.293000+00:00",
+      "request_start_tolerance_ms": 1
+    },
+    "method": "Counter deltas clipped by interval overlap; constant average rate within each source interval.",
+    "instances": [
+      {
+        "scope": "container",
+        "pod_uid": "e6a7dca2-650b-4c56-b52b-8bd7dcb49f9f",
+        "restart_count": 1,
+        "container_id": "containerd://48484ac9c31b5e6cb2c8450cbd4445d84439548aac070a7478c35bd863ec6698",
+        "active_start_utc": "2026-10-26T10:03:36+00:00",
+        "active_end_utc": "2026-10-26T11:41:11.293000+00:00",
+        "expected_seconds": 782.0,
+        "cpu_covered_seconds": 782.0,
+        "cpu_coverage": 1.0,
+        "cpu_full_coverage": true,
+        "cpu_core_seconds_estimate": 725.5470632920313,
+        "observed_peak_memory_mib": 491.2265625,
+        "memory_samples": 49,
+        "memory_missing_polls": 2,
+        "memory_first_source_utc": "2026-10-26T11:28:17.595000+00:00",
+        "memory_last_source_utc": "2026-10-26T11:41:07.616000+00:00"
+      }
+    ],
+    "nodes": [
+      {
+        "scope": "node",
+        "node": "ai-lab",
+        "active_start_utc": "2026-10-26T11:28:09.293000+00:00",
+        "active_end_utc": "2026-10-26T11:41:11.293000+00:00",
+        "expected_seconds": 782.0,
+        "cpu_covered_seconds": 782.0,
+        "cpu_coverage": 1.0,
+        "cpu_full_coverage": true,
+        "cpu_core_seconds_estimate": 825.6369966970071,
+        "observed_peak_memory_mib": 1956.8515625,
+        "memory_samples": 78,
+        "memory_missing_polls": 1,
+        "memory_first_source_utc": "2026-10-26T11:28:12.974000+00:00",
+        "memory_last_source_utc": "2026-10-26T11:41:04.952000+00:00"
+      }
+    ],
+    "application_cpu_core_seconds_estimate": 725.5470632920313,
+    "application_state_complete": true
+  }
+}

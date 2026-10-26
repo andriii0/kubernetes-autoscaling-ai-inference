@@ -1,0 +1,722 @@
+{
+  "attempt-01-fixed-1-steady": {
+    "protocol_version": "1.1",
+    "data_valid": true,
+    "duration_complete": true,
+    "unfinished": 0,
+    "dropped": 0,
+    "primary": {
+      "name": "steady",
+      "seconds": 300.0,
+      "target": "peak",
+      "start_seconds": 0,
+      "end_seconds": 300.0,
+      "assignment": "request start time",
+      "completed": 240,
+      "successful": 240,
+      "failed": 0,
+      "p95_ms": 1094.3,
+      "mean_ms": 954.1041666666666,
+      "failure_categories": {}
+    },
+    "primary_p95_pass": true,
+    "primary_errors_pass": true,
+    "whole_run_errors_pass": true,
+    "scaling_observed": "not_applicable",
+    "overall": "pass",
+    "sensitivity_p95_pass": true,
+    "system_outcomes": [
+      {
+        "pod_uid": "7b9728ed-777d-4122-bde5-587149502438",
+        "restart_count": 1,
+        "termination": {
+          "containerID": "containerd://ee2c7ac1024578bbe16aaff4c7f57da62bbe48c2ce37ab2cc6d4b5cdbbc1766b",
+          "exitCode": 255,
+          "finishedAt": "2026-10-25T18:27:06Z",
+          "reason": "Unknown",
+          "startedAt": "2026-10-20T13:13:48Z"
+        }
+      }
+    ],
+    "limitations": [],
+    "server_drain_verified": false
+  },
+  "attempt-02-fixed-3-steady": {
+    "protocol_version": "1.1",
+    "data_valid": true,
+    "duration_complete": true,
+    "unfinished": 0,
+    "dropped": 0,
+    "primary": {
+      "name": "steady",
+      "seconds": 300.0,
+      "target": "peak",
+      "start_seconds": 0,
+      "end_seconds": 300.0,
+      "assignment": "request start time",
+      "completed": 240,
+      "successful": 240,
+      "failed": 0,
+      "p95_ms": 1197.0,
+      "mean_ms": 947.2333333333333,
+      "failure_categories": {}
+    },
+    "primary_p95_pass": true,
+    "primary_errors_pass": true,
+    "whole_run_errors_pass": true,
+    "scaling_observed": "not_applicable",
+    "overall": "pass",
+    "sensitivity_p95_pass": true,
+    "system_outcomes": [
+      {
+        "pod_uid": "7b9728ed-777d-4122-bde5-587149502438",
+        "restart_count": 1,
+        "termination": {
+          "containerID": "containerd://ee2c7ac1024578bbe16aaff4c7f57da62bbe48c2ce37ab2cc6d4b5cdbbc1766b",
+          "exitCode": 255,
+          "finishedAt": "2026-10-25T18:27:06Z",
+          "reason": "Unknown",
+          "startedAt": "2026-10-20T13:13:48Z"
+        }
+      }
+    ],
+    "limitations": [],
+    "server_drain_verified": false
+  },
+  "attempt-03-autoscaling-steady": {
+    "protocol_version": "1.1",
+    "data_valid": true,
+    "duration_complete": true,
+    "unfinished": 0,
+    "dropped": 0,
+    "primary": {
+      "name": "steady",
+      "seconds": 300.0,
+      "target": "peak",
+      "start_seconds": 0,
+      "end_seconds": 300.0,
+      "assignment": "request start time",
+      "completed": 241,
+      "successful": 241,
+      "failed": 0,
+      "p95_ms": 1445.0,
+      "mean_ms": 1086.9377593360996,
+      "failure_categories": {}
+    },
+    "primary_p95_pass": true,
+    "primary_errors_pass": true,
+    "whole_run_errors_pass": true,
+    "scaling_observed": "growth",
+    "overall": "pass",
+    "sensitivity_p95_pass": true,
+    "system_outcomes": [
+      {
+        "pod_uid": "7b9728ed-777d-4122-bde5-587149502438",
+        "restart_count": 1,
+        "termination": {
+          "containerID": "containerd://ee2c7ac1024578bbe16aaff4c7f57da62bbe48c2ce37ab2cc6d4b5cdbbc1766b",
+          "exitCode": 255,
+          "finishedAt": "2026-10-25T18:27:06Z",
+          "reason": "Unknown",
+          "startedAt": "2026-10-20T13:13:48Z"
+        }
+      }
+    ],
+    "limitations": [],
+    "server_drain_verified": false
+  },
+  "attempt-04-fixed-1-burst": {
+    "protocol_version": "1.1",
+    "data_valid": true,
+    "duration_complete": true,
+    "unfinished": 0,
+    "dropped": 0,
+    "primary": {
+      "name": "peak",
+      "seconds": 300,
+      "target": "peak",
+      "start_seconds": 121,
+      "end_seconds": 421,
+      "assignment": "request start time",
+      "completed": 240,
+      "successful": 240,
+      "failed": 0,
+      "p95_ms": 1299.1499999999999,
+      "mean_ms": 1023.5625,
+      "failure_categories": {}
+    },
+    "primary_p95_pass": true,
+    "primary_errors_pass": true,
+    "whole_run_errors_pass": true,
+    "scaling_observed": "not_applicable",
+    "overall": "pass",
+    "sensitivity_p95_pass": true,
+    "system_outcomes": [
+      {
+        "pod_uid": "7b9728ed-777d-4122-bde5-587149502438",
+        "restart_count": 1,
+        "termination": {
+          "containerID": "containerd://ee2c7ac1024578bbe16aaff4c7f57da62bbe48c2ce37ab2cc6d4b5cdbbc1766b",
+          "exitCode": 255,
+          "finishedAt": "2026-10-25T18:27:06Z",
+          "reason": "Unknown",
+          "startedAt": "2026-10-20T13:13:48Z"
+        }
+      }
+    ],
+    "limitations": [],
+    "server_drain_verified": false
+  },
+  "attempt-05-fixed-3-burst": {
+    "protocol_version": "1.1",
+    "data_valid": true,
+    "duration_complete": true,
+    "unfinished": 0,
+    "dropped": 0,
+    "primary": {
+      "name": "peak",
+      "seconds": 300,
+      "target": "peak",
+      "start_seconds": 121,
+      "end_seconds": 421,
+      "assignment": "request start time",
+      "completed": 240,
+      "successful": 240,
+      "failed": 0,
+      "p95_ms": 1522.1,
+      "mean_ms": 1145.4291666666666,
+      "failure_categories": {}
+    },
+    "primary_p95_pass": true,
+    "primary_errors_pass": true,
+    "whole_run_errors_pass": true,
+    "scaling_observed": "not_applicable",
+    "overall": "pass",
+    "sensitivity_p95_pass": true,
+    "system_outcomes": [
+      {
+        "pod_uid": "7b9728ed-777d-4122-bde5-587149502438",
+        "restart_count": 1,
+        "termination": {
+          "containerID": "containerd://ee2c7ac1024578bbe16aaff4c7f57da62bbe48c2ce37ab2cc6d4b5cdbbc1766b",
+          "exitCode": 255,
+          "finishedAt": "2026-10-25T18:27:06Z",
+          "reason": "Unknown",
+          "startedAt": "2026-10-20T13:13:48Z"
+        }
+      }
+    ],
+    "limitations": [],
+    "server_drain_verified": false
+  },
+  "attempt-06-autoscaling-burst": {
+    "protocol_version": "1.1",
+    "data_valid": true,
+    "duration_complete": true,
+    "unfinished": 0,
+    "dropped": 0,
+    "primary": {
+      "name": "peak",
+      "seconds": 300,
+      "target": "peak",
+      "start_seconds": 121,
+      "end_seconds": 421,
+      "assignment": "request start time",
+      "completed": 240,
+      "successful": 240,
+      "failed": 0,
+      "p95_ms": 3216.899999999999,
+      "mean_ms": 1834.5208333333333,
+      "failure_categories": {}
+    },
+    "primary_p95_pass": true,
+    "primary_errors_pass": true,
+    "whole_run_errors_pass": true,
+    "scaling_observed": "growth+reduction",
+    "overall": "pass",
+    "sensitivity_p95_pass": true,
+    "system_outcomes": [
+      {
+        "pod_uid": "570c890e-c9ee-4c1e-8046-2684ee329920",
+        "identity_before": [
+          null,
+          0
+        ],
+        "identity_after": [
+          "containerd://0f07aad3bf7c9c000b7075d531066fb2adc1a7db241601d7d9c2133a7e2e754a",
+          0
+        ],
+        "observed_at_utc": "2026-10-25T22:50:36.262103+00:00"
+      },
+      {
+        "pod_uid": "570c890e-c9ee-4c1e-8046-2684ee329920",
+        "restart_count": 0,
+        "termination": {
+          "containerID": "containerd://0f07aad3bf7c9c000b7075d531066fb2adc1a7db241601d7d9c2133a7e2e754a",
+          "exitCode": 0,
+          "finishedAt": "2026-10-25T23:01:52Z",
+          "reason": "Completed",
+          "startedAt": "2026-10-25T22:50:33Z"
+        }
+      }
+    ],
+    "limitations": [],
+    "server_drain_verified": false
+  },
+  "attempt-07-fixed-3-burst": {
+    "protocol_version": "1.1",
+    "data_valid": true,
+    "duration_complete": true,
+    "unfinished": 0,
+    "dropped": 0,
+    "primary": {
+      "name": "peak",
+      "seconds": 300,
+      "target": "peak",
+      "start_seconds": 121,
+      "end_seconds": 421,
+      "assignment": "request start time",
+      "completed": 240,
+      "successful": 240,
+      "failed": 0,
+      "p95_ms": 2197.0,
+      "mean_ms": 1478.1291666666666,
+      "failure_categories": {}
+    },
+    "primary_p95_pass": true,
+    "primary_errors_pass": true,
+    "whole_run_errors_pass": true,
+    "scaling_observed": "not_applicable",
+    "overall": "pass",
+    "sensitivity_p95_pass": true,
+    "system_outcomes": [],
+    "limitations": [],
+    "server_drain_verified": false
+  },
+  "attempt-08-autoscaling-burst": {
+    "protocol_version": "1.1",
+    "data_valid": true,
+    "duration_complete": true,
+    "unfinished": 0,
+    "dropped": 0,
+    "primary": {
+      "name": "peak",
+      "seconds": 300,
+      "target": "peak",
+      "start_seconds": 121,
+      "end_seconds": 421,
+      "assignment": "request start time",
+      "completed": 240,
+      "successful": 240,
+      "failed": 0,
+      "p95_ms": 2706.7999999999975,
+      "mean_ms": 1568.3125,
+      "failure_categories": {}
+    },
+    "primary_p95_pass": true,
+    "primary_errors_pass": true,
+    "whole_run_errors_pass": true,
+    "scaling_observed": "growth+reduction",
+    "overall": "pass",
+    "sensitivity_p95_pass": true,
+    "system_outcomes": [],
+    "limitations": [],
+    "server_drain_verified": false
+  },
+  "attempt-09-fixed-1-burst": {
+    "protocol_version": "1.1",
+    "data_valid": true,
+    "duration_complete": true,
+    "unfinished": 0,
+    "dropped": 0,
+    "primary": {
+      "name": "peak",
+      "seconds": 300,
+      "target": "peak",
+      "start_seconds": 121,
+      "end_seconds": 421,
+      "assignment": "request start time",
+      "completed": 240,
+      "successful": 240,
+      "failed": 0,
+      "p95_ms": 1870.6,
+      "mean_ms": 1379.9791666666667,
+      "failure_categories": {}
+    },
+    "primary_p95_pass": true,
+    "primary_errors_pass": true,
+    "whole_run_errors_pass": true,
+    "scaling_observed": "not_applicable",
+    "overall": "pass",
+    "sensitivity_p95_pass": true,
+    "system_outcomes": [],
+    "limitations": [],
+    "server_drain_verified": false
+  },
+  "attempt-10-fixed-3-steady": {
+    "protocol_version": "1.1",
+    "data_valid": true,
+    "duration_complete": true,
+    "unfinished": 0,
+    "dropped": 0,
+    "primary": {
+      "name": "steady",
+      "seconds": 300.0,
+      "target": "peak",
+      "start_seconds": 0,
+      "end_seconds": 300.0,
+      "assignment": "request start time",
+      "completed": 241,
+      "successful": 241,
+      "failed": 0,
+      "p95_ms": 2202.0,
+      "mean_ms": 1332.0497925311204,
+      "failure_categories": {}
+    },
+    "primary_p95_pass": true,
+    "primary_errors_pass": true,
+    "whole_run_errors_pass": true,
+    "scaling_observed": "not_applicable",
+    "overall": "pass",
+    "sensitivity_p95_pass": true,
+    "system_outcomes": [],
+    "limitations": [],
+    "server_drain_verified": false
+  },
+  "attempt-11-autoscaling-steady": {
+    "protocol_version": "1.1",
+    "data_valid": true,
+    "duration_complete": true,
+    "unfinished": 0,
+    "dropped": 0,
+    "primary": {
+      "name": "steady",
+      "seconds": 300.0,
+      "target": "peak",
+      "start_seconds": 0,
+      "end_seconds": 300.0,
+      "assignment": "request start time",
+      "completed": 241,
+      "successful": 241,
+      "failed": 0,
+      "p95_ms": 1151.0,
+      "mean_ms": 969.3692946058092,
+      "failure_categories": {}
+    },
+    "primary_p95_pass": true,
+    "primary_errors_pass": true,
+    "whole_run_errors_pass": true,
+    "scaling_observed": "growth",
+    "overall": "pass",
+    "sensitivity_p95_pass": true,
+    "system_outcomes": [
+      {
+        "pod_uid": "e6a7dca2-650b-4c56-b52b-8bd7dcb49f9f",
+        "restart_count": 1,
+        "termination": {
+          "containerID": "containerd://7aaea8a987a0240555bf652381b70c80e8b8f2a6c79fdfac4d08111ca3f5cede",
+          "exitCode": 255,
+          "finishedAt": "2026-10-26T10:03:21Z",
+          "reason": "Unknown",
+          "startedAt": "2026-10-26T00:08:02Z"
+        }
+      }
+    ],
+    "limitations": [],
+    "server_drain_verified": false
+  },
+  "attempt-12-fixed-1-steady": {
+    "protocol_version": "1.1",
+    "data_valid": true,
+    "duration_complete": true,
+    "unfinished": 0,
+    "dropped": 0,
+    "primary": {
+      "name": "steady",
+      "seconds": 300.0,
+      "target": "peak",
+      "start_seconds": 0,
+      "end_seconds": 300.0,
+      "assignment": "request start time",
+      "completed": 240,
+      "successful": 240,
+      "failed": 0,
+      "p95_ms": 2242.8999999999996,
+      "mean_ms": 1094.4916666666666,
+      "failure_categories": {}
+    },
+    "primary_p95_pass": true,
+    "primary_errors_pass": true,
+    "whole_run_errors_pass": true,
+    "scaling_observed": "not_applicable",
+    "overall": "pass",
+    "sensitivity_p95_pass": true,
+    "system_outcomes": [
+      {
+        "pod_uid": "e6a7dca2-650b-4c56-b52b-8bd7dcb49f9f",
+        "restart_count": 1,
+        "termination": {
+          "containerID": "containerd://7aaea8a987a0240555bf652381b70c80e8b8f2a6c79fdfac4d08111ca3f5cede",
+          "exitCode": 255,
+          "finishedAt": "2026-10-26T10:03:21Z",
+          "reason": "Unknown",
+          "startedAt": "2026-10-26T00:08:02Z"
+        }
+      }
+    ],
+    "limitations": [],
+    "server_drain_verified": false
+  },
+  "attempt-13-autoscaling-steady": {
+    "protocol_version": "1.1",
+    "data_valid": true,
+    "duration_complete": true,
+    "unfinished": 0,
+    "dropped": 0,
+    "primary": {
+      "name": "steady",
+      "seconds": 300.0,
+      "target": "peak",
+      "start_seconds": 0,
+      "end_seconds": 300.0,
+      "assignment": "request start time",
+      "completed": 240,
+      "successful": 240,
+      "failed": 0,
+      "p95_ms": 1221.1499999999999,
+      "mean_ms": 996.0375,
+      "failure_categories": {}
+    },
+    "primary_p95_pass": true,
+    "primary_errors_pass": true,
+    "whole_run_errors_pass": true,
+    "scaling_observed": "growth",
+    "overall": "pass",
+    "sensitivity_p95_pass": true,
+    "system_outcomes": [
+      {
+        "pod_uid": "e6a7dca2-650b-4c56-b52b-8bd7dcb49f9f",
+        "restart_count": 1,
+        "termination": {
+          "containerID": "containerd://7aaea8a987a0240555bf652381b70c80e8b8f2a6c79fdfac4d08111ca3f5cede",
+          "exitCode": 255,
+          "finishedAt": "2026-10-26T10:03:21Z",
+          "reason": "Unknown",
+          "startedAt": "2026-10-26T00:08:02Z"
+        }
+      }
+    ],
+    "limitations": [],
+    "server_drain_verified": false
+  },
+  "attempt-14-fixed-1-steady": {
+    "protocol_version": "1.1",
+    "data_valid": true,
+    "duration_complete": true,
+    "unfinished": 0,
+    "dropped": 0,
+    "primary": {
+      "name": "steady",
+      "seconds": 300.0,
+      "target": "peak",
+      "start_seconds": 0,
+      "end_seconds": 300.0,
+      "assignment": "request start time",
+      "completed": 240,
+      "successful": 240,
+      "failed": 0,
+      "p95_ms": 1497.6499999999987,
+      "mean_ms": 1154.1166666666666,
+      "failure_categories": {}
+    },
+    "primary_p95_pass": true,
+    "primary_errors_pass": true,
+    "whole_run_errors_pass": true,
+    "scaling_observed": "not_applicable",
+    "overall": "pass",
+    "sensitivity_p95_pass": true,
+    "system_outcomes": [
+      {
+        "pod_uid": "e6a7dca2-650b-4c56-b52b-8bd7dcb49f9f",
+        "restart_count": 1,
+        "termination": {
+          "containerID": "containerd://7aaea8a987a0240555bf652381b70c80e8b8f2a6c79fdfac4d08111ca3f5cede",
+          "exitCode": 255,
+          "finishedAt": "2026-10-26T10:03:21Z",
+          "reason": "Unknown",
+          "startedAt": "2026-10-26T00:08:02Z"
+        }
+      }
+    ],
+    "limitations": [],
+    "server_drain_verified": false
+  },
+  "attempt-15-fixed-3-steady": {
+    "protocol_version": "1.1",
+    "data_valid": true,
+    "duration_complete": true,
+    "unfinished": 0,
+    "dropped": 0,
+    "primary": {
+      "name": "steady",
+      "seconds": 300.0,
+      "target": "peak",
+      "start_seconds": 0,
+      "end_seconds": 300.0,
+      "assignment": "request start time",
+      "completed": 240,
+      "successful": 240,
+      "failed": 0,
+      "p95_ms": 1593.6499999999994,
+      "mean_ms": 1187.975,
+      "failure_categories": {}
+    },
+    "primary_p95_pass": true,
+    "primary_errors_pass": true,
+    "whole_run_errors_pass": true,
+    "scaling_observed": "not_applicable",
+    "overall": "pass",
+    "sensitivity_p95_pass": true,
+    "system_outcomes": [
+      {
+        "pod_uid": "e6a7dca2-650b-4c56-b52b-8bd7dcb49f9f",
+        "restart_count": 1,
+        "termination": {
+          "containerID": "containerd://7aaea8a987a0240555bf652381b70c80e8b8f2a6c79fdfac4d08111ca3f5cede",
+          "exitCode": 255,
+          "finishedAt": "2026-10-26T10:03:21Z",
+          "reason": "Unknown",
+          "startedAt": "2026-10-26T00:08:02Z"
+        }
+      }
+    ],
+    "limitations": [],
+    "server_drain_verified": false
+  },
+  "attempt-16-autoscaling-burst": {
+    "protocol_version": "1.1",
+    "data_valid": true,
+    "duration_complete": true,
+    "unfinished": 0,
+    "dropped": 0,
+    "primary": {
+      "name": "peak",
+      "seconds": 300,
+      "target": "peak",
+      "start_seconds": 121,
+      "end_seconds": 421,
+      "assignment": "request start time",
+      "completed": 240,
+      "successful": 240,
+      "failed": 0,
+      "p95_ms": 1078.1,
+      "mean_ms": 950.9458333333333,
+      "failure_categories": {}
+    },
+    "primary_p95_pass": true,
+    "primary_errors_pass": true,
+    "whole_run_errors_pass": true,
+    "scaling_observed": "growth+reduction",
+    "overall": "pass",
+    "sensitivity_p95_pass": true,
+    "system_outcomes": [
+      {
+        "pod_uid": "e6a7dca2-650b-4c56-b52b-8bd7dcb49f9f",
+        "restart_count": 1,
+        "termination": {
+          "containerID": "containerd://7aaea8a987a0240555bf652381b70c80e8b8f2a6c79fdfac4d08111ca3f5cede",
+          "exitCode": 255,
+          "finishedAt": "2026-10-26T10:03:21Z",
+          "reason": "Unknown",
+          "startedAt": "2026-10-26T00:08:02Z"
+        }
+      }
+    ],
+    "limitations": [],
+    "server_drain_verified": false
+  },
+  "attempt-17-fixed-1-burst": {
+    "protocol_version": "1.1",
+    "data_valid": true,
+    "duration_complete": true,
+    "unfinished": 0,
+    "dropped": 0,
+    "primary": {
+      "name": "peak",
+      "seconds": 300,
+      "target": "peak",
+      "start_seconds": 121,
+      "end_seconds": 421,
+      "assignment": "request start time",
+      "completed": 240,
+      "successful": 240,
+      "failed": 0,
+      "p95_ms": 1073.35,
+      "mean_ms": 957.2666666666667,
+      "failure_categories": {}
+    },
+    "primary_p95_pass": true,
+    "primary_errors_pass": true,
+    "whole_run_errors_pass": true,
+    "scaling_observed": "not_applicable",
+    "overall": "pass",
+    "sensitivity_p95_pass": true,
+    "system_outcomes": [
+      {
+        "pod_uid": "e6a7dca2-650b-4c56-b52b-8bd7dcb49f9f",
+        "restart_count": 1,
+        "termination": {
+          "containerID": "containerd://7aaea8a987a0240555bf652381b70c80e8b8f2a6c79fdfac4d08111ca3f5cede",
+          "exitCode": 255,
+          "finishedAt": "2026-10-26T10:03:21Z",
+          "reason": "Unknown",
+          "startedAt": "2026-10-26T00:08:02Z"
+        }
+      }
+    ],
+    "limitations": [],
+    "server_drain_verified": false
+  },
+  "attempt-18-fixed-3-burst": {
+    "protocol_version": "1.1",
+    "data_valid": true,
+    "duration_complete": true,
+    "unfinished": 0,
+    "dropped": 0,
+    "primary": {
+      "name": "peak",
+      "seconds": 300,
+      "target": "peak",
+      "start_seconds": 121,
+      "end_seconds": 421,
+      "assignment": "request start time",
+      "completed": 240,
+      "successful": 240,
+      "failed": 0,
+      "p95_ms": 1012.05,
+      "mean_ms": 938.0666666666667,
+      "failure_categories": {}
+    },
+    "primary_p95_pass": true,
+    "primary_errors_pass": true,
+    "whole_run_errors_pass": true,
+    "scaling_observed": "not_applicable",
+    "overall": "pass",
+    "sensitivity_p95_pass": true,
+    "system_outcomes": [
+      {
+        "pod_uid": "e6a7dca2-650b-4c56-b52b-8bd7dcb49f9f",
+        "restart_count": 1,
+        "termination": {
+          "containerID": "containerd://7aaea8a987a0240555bf652381b70c80e8b8f2a6c79fdfac4d08111ca3f5cede",
+          "exitCode": 255,
+          "finishedAt": "2026-10-26T10:03:21Z",
+          "reason": "Unknown",
+          "startedAt": "2026-10-26T00:08:02Z"
+        }
+      }
+    ],
+    "limitations": [],
+    "server_drain_verified": false
+  }
+}

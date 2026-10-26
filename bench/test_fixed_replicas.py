@@ -179,7 +179,7 @@ class FixedReplicaTests(unittest.TestCase):
 
 
 class FixedLauncherTests(unittest.TestCase):
-    def run_fixture(self, failed_warmup=False, main=False, replicas=3, profile="steady"):
+    def run_fixture(self, failed_warmup=False, main=False, replicas=3, profile="steady", diagnostic=None):
         temporary = tempfile.TemporaryDirectory()
         self.addCleanup(temporary.cleanup)
         folder = Path(temporary.name) / "run"
@@ -242,6 +242,8 @@ class FixedLauncherTests(unittest.TestCase):
 
         args = ["--base-url", base, "--replicas", str(replicas), "--rate", "30", "--duration", "1s", "--idle-seconds", "0",
                 "--post-seconds", "0", "--run-dir", str(folder)]
+        if diagnostic:
+            args += ['--diagnostic-warmup-wait', diagnostic, '--observer-interval', '.05']
         workload_path = Path(run_pilot.__file__).with_name('workload.json')
         workload = json.loads(workload_path.read_text())
         if main:
@@ -302,6 +304,39 @@ class FixedLauncherTests(unittest.TestCase):
         warm["replicas"].pop()
         warm_path.write_text(json.dumps(warm))
         self.assertFalse(pilot_records.reconcile(folder, metadata)["valid"])
+
+    @unittest.skipUnless(shutil.which('k6'), 'k6 is required for this integration check')
+    def test_diagnostic_variants_reuse_preparation_and_only_quiet_adds_post_warmup_gate(self):
+        for variant in ('immediate', 'quiet'):
+            with self.subTest(variant=variant):
+                folder, code, payloads = self.run_fixture(replicas=1, diagnostic=variant)
+                metadata = json.loads((folder / 'metadata.json').read_text())
+                report = json.loads((folder / 'collection-check.json').read_text())
+                self.assertEqual(code, 0, report)
+                self.assertTrue(report['valid'], report)
+                self.assertEqual(metadata['purpose'], 'diagnostic-warmup-wait')
+                self.assertEqual(metadata['diagnostic_warmup_wait'], variant)
+                self.assertNotIn('protocol_version', metadata)
+                self.assertFalse((folder / 'assessment.json').exists())
+                phases = [p['phase'] for p in metadata['phases']]
+                self.assertIn('recovery_quiet', phases)
+                self.assertIn('initial_quiet', phases)
+                self.assertEqual('post_warmup_quiet' in phases, variant == 'quiet')
+                self.assertEqual(len(payloads), report['counts']['completed'] + 1)
+                self.assertTrue(all(p == metadata['workload']['request'] for p in payloads))
+                self.assertIsNotNone(metadata['scheduled_profile_finished_at_utc'])
+                self.assertTrue({'main_protocol.py', 'analyze.py', 'fixed_replicas.py'} <= set(metadata['source_sha256']))
+
+    def test_diagnostic_rejects_main_protocol_and_other_modes_before_creating_output(self):
+        for extra in (['--protocol-version', '1.1'], ['--mode', 'autoscaling'], ['--mode', 'fixed-3'], ['--profile', 'burst']):
+            with tempfile.TemporaryDirectory() as temporary, self.subTest(extra=extra):
+                folder = Path(temporary) / 'run'
+                args = ['--base-url', 'http://127.0.0.1:1', '--rate', '8', '--run-dir', str(folder),
+                        '--diagnostic-warmup-wait', 'immediate'] + extra
+                with patch.object(run_pilot, 'Observer') as observer, self.assertRaises(SystemExit):
+                    run_pilot.main(args)
+                observer.assert_not_called()
+                self.assertFalse(folder.exists())
 
     def test_second_pod_warmup_failure_preserves_records_and_never_loads(self):
         folder, code, payloads = self.run_fixture(failed_warmup=True)

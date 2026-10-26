@@ -22,6 +22,7 @@
 
 ## Documentation
 
+- Write project narrative in first person as the project author (`I`/`my`), not as `the student` or `the user`. Keep attributed feedback and uncertainty explicit.
 - `md/ROADMAP.md`: milestones, priorities and completion criteria.
 - `md/STATUS.md`: verified implementation state, blockers, remaining work and next steps.
 - `md/ARCHITECTURE.md`: component responsibilities and runtime interactions.

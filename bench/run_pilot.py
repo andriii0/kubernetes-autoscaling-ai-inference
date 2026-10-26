@@ -232,6 +232,8 @@ def main(argv=None):
     parser.add_argument("--actual-order", type=int, help="Attempt number, including failed/replaced attempts")
     parser.add_argument("--replaces-run", help="Path or run ID of an earlier attempt; never overwrite it")
     parser.add_argument("--replacement-reason")
+    parser.add_argument("--diagnostic-warmup-wait", choices=("immediate", "quiet"),
+                        help="Fixed-one steady diagnostic; vary only post-warmup settling, outside the main protocol")
     parser.add_argument("--base-url", required=True)
     parser.add_argument("--rate", type=int, required=True, help="Requests per 10 seconds")
     parser.add_argument("--duration")
@@ -264,6 +266,9 @@ def main(argv=None):
         parser.error("burst duration is defined by workload stages; omit --duration")
     args.mode = args.mode or f"fixed-{args.replicas or 1}"
     args.replicas = int(args.mode[-1]) if args.mode.startswith("fixed-") else 1
+    if args.diagnostic_warmup_wait and (args.protocol_version or args.mode != "fixed-1" or args.profile != "steady"):
+        parser.error("--diagnostic-warmup-wait requires fixed-1/steady without --protocol-version")
+    prepared = bool(args.protocol_version or args.diagnostic_warmup_wait)
     args.post_seconds = args.post_seconds if args.post_seconds is not None else (300 if args.mode == "autoscaling" else 10)
     workload = json.loads((Path(__file__).parent / "workload.json").read_text(encoding="utf-8"))
     stages = workload["burst_stages"]
@@ -304,6 +309,8 @@ def main(argv=None):
     metadata.update(expected_replicas=None if args.mode == "autoscaling" else args.replicas, mode=args.mode,
                     purpose="preliminary-hpa-check" if args.mode == "autoscaling" else
                     "pilot" if args.replicas == 1 else "preliminary-fixed-replica-check")
+    if args.diagnostic_warmup_wait:
+        metadata.update(purpose="diagnostic-warmup-wait", diagnostic_warmup_wait=args.diagnostic_warmup_wait)
     if args.protocol_version:
         metadata.update(purpose="main-series", workload=workload, protocol_version=args.protocol_version, repetition=args.repetition,
                         planned_order=args.planned_order, actual_order=args.actual_order,
@@ -327,11 +334,11 @@ def main(argv=None):
         inputs.mkdir()
         metadata["source_sha256"] = {}
         names = ["inference.js", "workload.json", "run_pilot.py", "observe.py", "pilot_records.py"]
-        if args.protocol_version:
+        if prepared:
             names.extend(["main_protocol.py", "analyze.py"])
             from main_protocol import source_revision
             metadata["source_revision"] = source_revision(source.parent)
-        if args.protocol_version or args.replicas == 3 or args.mode == "autoscaling":
+        if prepared or args.replicas == 3 or args.mode == "autoscaling":
             names.append("fixed_replicas.py")
         if args.mode == "autoscaling":
             names.append("autoscaling.py")
@@ -353,7 +360,7 @@ def main(argv=None):
         metadata["k6_version"] = metadata["versions"].get("k6", {}).get("stdout")
         # An explicit empty config prevents a user's k6 config file overriding the scenario.
         save_json(inputs / "k6-config.json", {})
-        if args.protocol_version:
+        if prepared:
             from main_protocol import recover
             phase("recovery_quiet")
             metadata["initial_recovery"] = recover(observer, args.run_dir, args.container)
@@ -365,7 +372,7 @@ def main(argv=None):
             session = Session(observer, args.run_dir, args.deployment, args.container, args.service, manifest)
             phase("reset")
             session.prepare()
-        elif args.protocol_version:
+        elif prepared:
             from main_protocol import prepare_fixed
             phase("initial_state")
             prepare_fixed(observer, args.deployment, args.container, args.replicas)
@@ -375,22 +382,22 @@ def main(argv=None):
         metadata["initial_identity"] = collection.identity
         metadata["deployment_snapshot"] = next(d for d in collection.last["deployments"]["items"]
                                                 if d["metadata"]["name"] == args.deployment)
-        if args.protocol_version:
+        if prepared:
             from main_protocol import check_configuration
             check_configuration(metadata["deployment_snapshot"])
         pods = collection.last["pods"]["items"]
         metadata["pod_snapshot"] = pods[0]
-        if args.protocol_version:
+        if prepared:
             from main_protocol import runtime_context
             metadata["runtime_context"] = runtime_context(observer, pods, args.run_dir, workload["request"]["model"])
-        if args.replicas == 3 or args.protocol_version and not session:
+        if args.replicas == 3 or prepared and not session:
             from fixed_replicas import capture_route, check_route
             metadata["pod_snapshots"] = pods
             route = capture_route(observer, args.service)
             save_json(args.run_dir / "service-route.json", route)
             initial = collection.identity if isinstance(collection.identity, list) else [collection.identity]
             check_route(route, initial, metadata["deployment_snapshot"])
-        if args.protocol_version:
+        if prepared:
             from main_protocol import settle
             phase("initial_quiet")
             metadata["initial_quiet"] = settle(collection, metadata["phases"][-1]["started_at_utc"])
@@ -406,7 +413,7 @@ def main(argv=None):
         if not record["successful"]:
             raise RuntimeError("warmup failed; see warmup.json")
         collection.wait(0)
-        if args.protocol_version:
+        if args.protocol_version or args.diagnostic_warmup_wait == "quiet":
             phase("post_warmup_quiet")
             metadata["post_warmup_quiet"] = settle(collection, metadata["phases"][-1]["started_at_utc"], bool(session))
         if session:
@@ -426,12 +433,12 @@ def main(argv=None):
         result = run_load(command, environment, args.run_dir, collection, metadata)
         if result not in (0, 99):
             raise RuntimeError(f"k6 failed with exit code {result}")
-        if args.protocol_version:
+        if prepared:
             from main_protocol import finish_scheduled_window
             finish_scheduled_window(collection, args.run_dir, metadata)
         phase("post_load_no_new_requests" if session else "post_load")
         collection.wait(args.post_seconds)
-        if args.replicas == 3 or args.protocol_version and not session:
+        if args.replicas == 3 or prepared and not session:
             from fixed_replicas import capture_logs
             capture_logs(observer, pods, args.container, args.run_dir, metadata["load_process_started_at_utc"])
         exit_code = result
@@ -461,7 +468,7 @@ def main(argv=None):
             except (OSError, RuntimeError, subprocess.SubprocessError) as error:
                 metadata["errors"].append(f"log shutdown: {error}")
             metadata["recovery"] = session.restore()
-        if args.protocol_version and not session and metadata.get("load_process_started_at_utc") and not (args.run_dir / "pod-logs").exists():
+        if prepared and not session and metadata.get("load_process_started_at_utc") and not (args.run_dir / "pod-logs").exists():
             try:
                 from fixed_replicas import capture_logs
                 capture_logs(observer, pods, args.container, args.run_dir, metadata["load_process_started_at_utc"])

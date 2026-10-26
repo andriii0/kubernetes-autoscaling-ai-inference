@@ -1,0 +1,15 @@
+{
+  "observed_date_local": "2026-10-26",
+  "method": "docker inspect ai-lab --format {{json .HostConfig}}; selected fields only",
+  "HostConfig": {
+    "NanoCpus": 8000000000,
+    "CpuQuota": 0,
+    "CpuPeriod": 0,
+    "CpusetCpus": "",
+    "CpuShares": 0,
+    "Memory": 12884901888
+  },
+  "scope": "Current Minikube Docker container, after the main series. This is not a historical inspection of either run.",
+  "pilot_scope": "The pilot README reports an 8-CPU/12-GiB container quota. Per-run pilot folders do not archive docker inspect.",
+  "main_scope": "runtime-context.json docker_limits was populated by docker info, reporting engine NCPU=24/MemTotal=33528741888. This is a different scope, not proof of a quota increase."
+}
