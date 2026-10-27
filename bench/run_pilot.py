@@ -234,6 +234,8 @@ def main(argv=None):
     parser.add_argument("--replacement-reason")
     parser.add_argument("--diagnostic-warmup-wait", choices=("immediate", "quiet"),
                         help="Fixed-one steady diagnostic; vary only post-warmup settling, outside the main protocol")
+    parser.add_argument("--pilot-preparation", action="store_true",
+                        help="Use existing recovery and quiet-state gates for a fresh fixed-one steady pilot")
     parser.add_argument("--base-url", required=True)
     parser.add_argument("--rate", type=int, required=True, help="Requests per 10 seconds")
     parser.add_argument("--duration")
@@ -268,7 +270,10 @@ def main(argv=None):
     args.replicas = int(args.mode[-1]) if args.mode.startswith("fixed-") else 1
     if args.diagnostic_warmup_wait and (args.protocol_version or args.mode != "fixed-1" or args.profile != "steady"):
         parser.error("--diagnostic-warmup-wait requires fixed-1/steady without --protocol-version")
-    prepared = bool(args.protocol_version or args.diagnostic_warmup_wait)
+    if args.pilot_preparation and (args.protocol_version or args.diagnostic_warmup_wait or
+                                   args.mode != "fixed-1" or args.profile != "steady"):
+        parser.error("--pilot-preparation requires fixed-1/steady without protocol or diagnostic options")
+    prepared = bool(args.protocol_version or args.diagnostic_warmup_wait or args.pilot_preparation)
     args.post_seconds = args.post_seconds if args.post_seconds is not None else (300 if args.mode == "autoscaling" else 10)
     workload = json.loads((Path(__file__).parent / "workload.json").read_text(encoding="utf-8"))
     stages = workload["burst_stages"]
@@ -311,6 +316,8 @@ def main(argv=None):
                     "pilot" if args.replicas == 1 else "preliminary-fixed-replica-check")
     if args.diagnostic_warmup_wait:
         metadata.update(purpose="diagnostic-warmup-wait", diagnostic_warmup_wait=args.diagnostic_warmup_wait)
+    if args.pilot_preparation:
+        metadata.update(purpose="pilot-recalibration", pilot_preparation=True)
     if args.protocol_version:
         metadata.update(purpose="main-series", workload=workload, protocol_version=args.protocol_version, repetition=args.repetition,
                         planned_order=args.planned_order, actual_order=args.actual_order,
@@ -413,7 +420,7 @@ def main(argv=None):
         if not record["successful"]:
             raise RuntimeError("warmup failed; see warmup.json")
         collection.wait(0)
-        if args.protocol_version or args.diagnostic_warmup_wait == "quiet":
+        if args.protocol_version or args.diagnostic_warmup_wait == "quiet" or args.pilot_preparation:
             phase("post_warmup_quiet")
             metadata["post_warmup_quiet"] = settle(collection, metadata["phases"][-1]["started_at_utc"], bool(session))
         if session:

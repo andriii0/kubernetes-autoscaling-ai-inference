@@ -141,6 +141,58 @@ Proposed discovery stop rules: do not increase the rate if p95 exceeds twice the
 
 Repeat the selected low and peak candidates for 5 minutes each, at least twice, to check that the choice is not based on one short fluctuation. Extend or repeat when the trend or variation remains unclear. A peak candidate should show reproducible response-time degradation while still producing enough completed responses to compare modes. If one replica has no usable overload boundary in these probes, revise the rates or workload and record the change.
 
+## Fresh rate selection: 2026-10-27
+
+I requested a new one-copy pilot after the completed main series and wait/no-wait pair. Its purpose is to select rates for a possible later comparison under current host conditions. This is a separate exploratory series; protocol v1.1 and all earlier results remain unchanged. I have not requested HPA or another main matrix as part of this background job.
+
+Reuse the existing launcher, workload, observer, recovery/quiet-state gates, Service-tunnel helper and analyzer. A narrow `--pilot-preparation` option uses the already tested prepared fixed-one path and records purpose `pilot-recalibration`, without main-protocol metadata. A small sequential driver saves its fixed selection rules before load and stops after discovery and confirmations.
+
+- Check one fixed copy, no HPA, the existing image/model/request settings, no game or other project generator, and the pre-launch host snapshot. Retain 60-second idle, separate warmup, fresh low CPU before load, 5-second observation and 10-second post-load observation. Record host snapshots again before each probe; they cannot reconstruct historical host conditions.
+- Probe 2 requests/10 s for 2 minutes. If it misses p95 <= 5000 ms or errors <= 1%, or has any response failure, try 1 once; stop if neither is calm. Search peak candidates 8, 10, 12, 16 and 20 requests/10 s, each for 2 minutes, stopping at the first target miss. These are predefined candidates, not capacity claims. Stop further discovery on any response failure even if the combined target is not missed; retain an unresolved selection rather than escalating past it.
+- A peak candidate misses the existing 5-second successful p95 or 1% response-error criterion. These criteria guide this new search and do not retroactively change earlier verdicts. Drops, unfinished requests, incomplete duration, collection errors or unexpected warnings stop the job and cannot be selected as valid delivered-load evidence. No automatic replacement runs.
+- If a calm and peak candidate are found, confirm low/peak/low/peak with four separate five-minute runs. Both low confirmations must meet the criteria; both peak confirmations must miss at least one criterion. Otherwise record inconclusive selection and stop. HPA benefit is not a selection condition.
+- Save raw inputs, observations, outcomes, source/runtime identity, actual timings, collection checks and CSV/JSON analysis beside every run. Check controlled settings and initial identity across runs; preserve target failures. Keep a two-hour wall-clock budget for scheduling further runs; an active run finishes its normal cleanup before exit.
+
+Acceptance: the manifest reports the selected rates and confirmation verdict, or the exact reason selection could not be established. No old path is overwritten. No additional series, HPA run, commit or push follows automatically. Verify the new driver selection/stop rules and the launcher preparation path with local fixtures before starting actual load.
+
+I requested one check about an hour after actual launch. If still running, schedule another check thirty minutes later and end the first check without monitoring. At that later check, follow to completion only if the current phase and remaining run count support an estimate of ten minutes or less; otherwise schedule another thirty-minute check. Pause the follow-up when the job finishes or stops, review saved outcomes and report any problem without starting replacement load.
+
+Pre-launch verification: all 152 bench tests passed, including a real-k6/local-HTTP check of the new prepared pilot path and driver selection/stop fixtures. All 1,207 earlier result files retain their hashes. Docker was started and the existing ai-lab profile resumed without recreation. One Ready copy and no HPA were observed before launch; the retained restart is from recovery before measurement. No main-protocol settings or earlier executable archives changed. Current code/doc changes are uncommitted.
+
+Outcome reviewed on 2026-10-27: [the background series](../../results/pilot/recalibration-20261027-104833/README.md) was interrupted after valid two-minute probes at 2, 8 and 10 requests/10 s (242 successful requests in total). The driver disappeared before measured load at rate 12; its last phase is `initial_quiet`, with no final exit record. All three saved analyses and archived input hashes match replay. No peak candidate or four five-minute confirmations were completed. The raw `running` manifest remains preserved; the separate review records observed process absence and incomplete selection. The exit cause is unknown. The final review deleted the follow-up heartbeat; no new load was started. Any continuation needs a new instruction and new paths, while completed main v1.1 evidence remains unchanged.
+
+### Explicit retry after interruption
+
+I requested another fresh pilot on 2026-10-27 with the same candidate rates, criteria, preparation and four confirmations. The new path is `results/pilot/recalibration-20261027-172726/`; no previous result is reused as a confirmation or overwritten. The existing measurement/selection code remains unchanged. A hidden PowerShell launcher records the driver PID and observed exit code separately because the previous process disappeared without a final record. The wrapper does not alter workload or collection rules.
+
+I requested checks after thirty and sixty minutes. If still running at sixty minutes, schedule the next check twenty minutes later and continue at that interval. Do not continuously observe between checks; at later twenty-minute checks, follow only if the current phase and measured durations support no more than ten minutes remaining. Delete the heartbeat on completion or failure. Do not automatically restart failed attempts, start HPA, modify the main protocol or publish changes.
+
+Retry startup confirmed at 17:31:47 UTC on 2026-10-27, with driver PID 6684 and a new manifest. The launcher syntax check passed; measurement code is unchanged from the 152-test verification. Heartbeat `30-60-20` records the requested follow-up cadence. The initial unsigned-script block happened before load and its log remains saved; the successful launch changes execution permission only for that wrapper process.
+
+Completion reviewed on 2026-10-27: [all eight retry runs](../../results/pilot/recalibration-20261027-172726/README.md) finished by 18:29:08 UTC. Low=2 and peak=12 requests/10 s satisfy the predefined repeated-selection rule. Five-minute low p95 is 0.894/1.135 seconds; peak p95 is 18.941/27.730 seconds, with 0/361 and 153/360 timeout failures. Both peak target misses are preserved; severe variation is not hidden. All 1,231 requests have completions, with zero dropped/unfinished work. All collection checks, saved analyses, archived hashes and controlled identities match replay. The outer wrapper exit code remains unavailable despite a final driver manifest and complete run records. The heartbeat is no longer active. No new load, protocol change or publication followed review.
+
+### Another full repeat after the completed pilot
+
+I requested one more full pilot on 2026-10-27 after reviewing the completed retry. New path: `results/pilot/recalibration-20261027-191145/`. Reuse the same driver, preparation, low/peak candidates, criteria and four-confirmation order. The outcome may differ; do not force peak 12 or replace an unfavorable result. Preserve both earlier fresh series and main protocol v1.1.
+
+Use the same background check cadence: thirty minutes, sixty minutes, then every twenty minutes while still active. No continuous observation between checks; at later twenty-minute checks, follow only if at most ten minutes remain. Delete the heartbeat when done. The operational wrapper retains the process handle before waiting; a no-load exit-code-7 check verifies exit recording. No measurement code or workload change is included, so no full suite rerun or additional validation load precedes this repeat. No HPA or publication follows automatically.
+
+Actual startup was confirmed at 19:12:54 UTC on 2026-10-27. The [repeat completed](../../results/pilot/recalibration-20261027-191145/README.md) at 20:10:36 UTC with captured outer exit code 0, all eight valid runs and the same 2/12 selection. Low p95 is 1.148/1.234 seconds; peak p95 is 29.081/26.612 seconds, with 188/360 and 198/361 timeouts. All 1,229 requests completed, 843 successfully; no unfinished/dropped requests. Replay, saved analyses and archived hashes match. Controlled inputs also match the previous complete pilot. Selection repeats, while severe error-rate variation remains explicit. All raw files are preserved; the heartbeat was deleted and no additional load or publication followed.
+
+### Publication checkpoint after both complete searches
+
+I requested commit and push on 2026-10-27 after reviewing both complete 2/12 pilots and the interrupted attempt. Preserve all three series, including partial records, original verdicts, per-run archives and analysis. The publication includes the prepared fixed-one pilot option, bounded search driver and its tests. External temporary launchers, scheduling records and QA logs are excluded; no measured input or raw file is pruned to reduce the file count.
+
+The publication review replayed all 19 completed runs, checked saved analysis and archived hashes, and confirmed that current executable files still match the last verified live pilot. The earlier 152-test verification is retained without another full suite run for unchanged code. Historical verification and Markdown checks pass. Any later fixed-three/HPA probe is a separate task; main v1.1 settings and its completed matrix remain unchanged.
+
+To run the same search manually from the repository root, use a new destination each time:
+
+```powershell
+.\.venv\Scripts\python.exe -B bench/run_pilot_search.py --series-dir results/pilot/recalibration-new
+```
+
+This command creates real load. The example documents the entry point; it is not authorization for another run. The driver refuses an existing destination and stops after its fixed search/confirmations or a retained failure/inconclusive outcome.
+
 ## 5. Pilot output and decisions
 
 Implement the minimum pilot analysis in `bench/analyze.py`: one CSV row per run containing actual rate, duration, completed/successful/failed/dropped counts, mean/p50/p95/max successful-response latency, output-token distribution, CPU observations and peak memory. Include sample counts and collection coverage.

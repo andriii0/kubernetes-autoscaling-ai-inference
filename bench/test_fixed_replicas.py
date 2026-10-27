@@ -179,7 +179,7 @@ class FixedReplicaTests(unittest.TestCase):
 
 
 class FixedLauncherTests(unittest.TestCase):
-    def run_fixture(self, failed_warmup=False, main=False, replicas=3, profile="steady", diagnostic=None):
+    def run_fixture(self, failed_warmup=False, main=False, replicas=3, profile="steady", diagnostic=None, pilot=False):
         temporary = tempfile.TemporaryDirectory()
         self.addCleanup(temporary.cleanup)
         folder = Path(temporary.name) / "run"
@@ -244,6 +244,8 @@ class FixedLauncherTests(unittest.TestCase):
                 "--post-seconds", "0", "--run-dir", str(folder)]
         if diagnostic:
             args += ['--diagnostic-warmup-wait', diagnostic, '--observer-interval', '.05']
+        if pilot:
+            args += ['--pilot-preparation', '--observer-interval', '.05']
         workload_path = Path(run_pilot.__file__).with_name('workload.json')
         workload = json.loads(workload_path.read_text())
         if main:
@@ -326,6 +328,30 @@ class FixedLauncherTests(unittest.TestCase):
                 self.assertTrue(all(p == metadata['workload']['request'] for p in payloads))
                 self.assertIsNotNone(metadata['scheduled_profile_finished_at_utc'])
                 self.assertTrue({'main_protocol.py', 'analyze.py', 'fixed_replicas.py'} <= set(metadata['source_sha256']))
+
+    @unittest.skipUnless(shutil.which('k6'), 'k6 is required for this integration check')
+    def test_fresh_pilot_reuses_prepared_path_without_main_metadata(self):
+        folder, code, payloads = self.run_fixture(replicas=1, pilot=True)
+        metadata = json.loads((folder / 'metadata.json').read_text())
+        report = json.loads((folder / 'collection-check.json').read_text())
+        self.assertEqual(code, 0, report)
+        self.assertTrue(report['valid'], report)
+        self.assertEqual(metadata['purpose'], 'pilot-recalibration')
+        self.assertNotIn('protocol_version', metadata)
+        self.assertNotIn('diagnostic_warmup_wait', metadata)
+        self.assertIn('post_warmup_quiet', [p['phase'] for p in metadata['phases']])
+        self.assertEqual(len(payloads), report['counts']['completed'] + 1)
+
+    def test_fresh_pilot_rejects_conflicting_options_before_creating_output(self):
+        for extra in (['--protocol-version', '1.1'], ['--diagnostic-warmup-wait', 'quiet'],
+                      ['--mode', 'autoscaling'], ['--mode', 'fixed-3'], ['--profile', 'burst']):
+            with tempfile.TemporaryDirectory() as temporary, self.subTest(extra=extra):
+                folder = Path(temporary) / 'run'
+                with patch.object(run_pilot, 'Observer') as observer, self.assertRaises(SystemExit):
+                    run_pilot.main(['--base-url', 'http://127.0.0.1:1', '--rate', '8',
+                                    '--run-dir', str(folder), '--pilot-preparation'] + extra)
+                observer.assert_not_called()
+                self.assertFalse(folder.exists())
 
     def test_diagnostic_rejects_main_protocol_and_other_modes_before_creating_output(self):
         for extra in (['--protocol-version', '1.1'], ['--mode', 'autoscaling'], ['--mode', 'fixed-3'], ['--profile', 'burst']):

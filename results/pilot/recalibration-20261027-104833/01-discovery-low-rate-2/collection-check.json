@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "valid": true,
+  "errors": [],
+  "warnings": [],
+  "counts": {
+    "started": 24,
+    "completed": 24,
+    "successful": 24,
+    "failed": 0,
+    "unfinished": 0,
+    "dropped": 0
+  },
+  "load_window": {
+    "started_at_utc": "2026-10-27T10:53:25.880000+00:00",
+    "scheduled_end_at_utc": "2026-10-27T10:55:25.880000+00:00",
+    "client_drain_end_at_utc": "2026-10-27T10:55:25.880000+00:00",
+    "request_start_tolerance_ms": 1
+  },
+  "events_read": {
+    "started": 24,
+    "completed": 24
+  },
+  "observation": {
+    "samples": 53,
+    "collection_errors": 0,
+    "max_gap_seconds": 5.027914047241211
+  }
+}

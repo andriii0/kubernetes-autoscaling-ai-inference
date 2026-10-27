@@ -66,6 +66,24 @@ On 2026-10-27, I suggested that a game, downloads or another background task may
 
 The confirmed current finding is that one copy handles this rate quickly with either post-warmup variant. The physical cause of the historical slowdown remains open; do not rewrite the old verdicts or present background activity as an established cause.
 
+### Interrupted fresh rate selection (2026-10-27)
+
+I then requested a separate rate-selection pilot. It completed two-minute probes at 2, 8 and 10 requests/10 s, with successful p95 1.067, 1.141 and 1.705 seconds. All 242 requests succeeded, with zero unfinished/dropped requests. The [review](../results/pilot/recalibration-20261027-104833/README.md) verifies saved analyses and archived inputs.
+
+The background process disappeared before measured load at rate 12. No peak, five-minute confirmation or repeated low/peak selection was established. The raw manifest still says `running`, but process checks and the stale partial metadata show an interrupted job; the exit cause remains unknown. This is separate from the unexplained historical latency difference. These short fast results at rate 8 are consistent with the later main/diagnostic results, but they do not establish a sustained capacity boundary. I preserved the partial evidence and did not start replacement load or HPA. The follow-up automation was deleted after review.
+
+### Completed fresh rate selection (2026-10-27)
+
+I explicitly requested a new retry after the interrupted attempt. The [completed pilot](../results/pilot/recalibration-20261027-172726/README.md) selects low=2 and peak=12 requests/10 s. Rate 8 remained fast in discovery (p95 0.937 seconds). The two five-minute low confirmations had p95 0.894/1.135 seconds; the peak confirmations had p95 18.941/27.730 seconds. Peak 1 completed 361/361 successfully; peak 2 completed 207/360 successfully, with 153 thirty-second timeouts. All eight collection checks and saved analyses pass replay, with no dropped or unfinished requests.
+
+The current-host search found repeated overload at 12, but not stable severity. This does not reproduce the old rate-8 slowdown or explain its physical cause. Main protocol v1.1 still uses peak 8 and its completed comparison remains unchanged. A later fixed-three/HPA check at the new rate is a separate decision; this result does not establish an HPA benefit. I retained the interrupted attempt and all unfavorable outcomes. Normal server drain after client timeouts remains unverified; any later load must pass fresh recovery/quiet-state checks.
+
+### Second completed fresh pilot (2026-10-27)
+
+I requested a further complete repeat under the same selection rules. The [latest pilot](../results/pilot/recalibration-20261027-191145/README.md) again selects low=2 and peak=12 requests/10 s. Low p95 is 1.148/1.234 seconds with no failures; peak p95 is 29.081/26.612 seconds with 188/360 and 198/361 thirty-second timeouts. All eight collection checks and saved analyses match replay, with zero unfinished/dropped requests. Executable input hashes, workload, initial identity and model digests match the earlier completed search.
+
+The current-host selection and severe target misses at 12 repeat across both complete pilots; their timeout rates do not remain stable. The old rate-8 slowdown is still unexplained. More timeouts can remove slow responses from successful p95, so compare latency and errors together. This adds evidence for choosing an overload candidate in a separately agreed follow-up, not an HPA benefit or a revised main v1.1 result. No further load followed completion; the heartbeat was deleted. Raw measurements and all earlier verdicts remain unchanged.
+
 ## Evidence and reproduction
 
 - [Pilot report](../results/pilot/discovery-2026-10-18-series1/README.md).
