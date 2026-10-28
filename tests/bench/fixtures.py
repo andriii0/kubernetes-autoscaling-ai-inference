@@ -350,7 +350,7 @@ class FixedLauncherFixture(unittest.TestCase):
 
 
 class AutoscalingFixture(unittest.TestCase):
-    def exercise(self, interrupt=False, fail_warmup=False, profile="burst", main=False, latency_target=None, startup_delay=0):
+    def exercise(self, interrupt=False, fail_warmup=False, profile="burst", main=False, latency_target=None, startup_delay=0, pilot=False):
         import time
         import shutil
         fixture = PilotLauncherFixture()
@@ -452,6 +452,8 @@ class AutoscalingFixture(unittest.TestCase):
             args += ['--duration', '1s']
         if main:
             args += ['--protocol-version', '1.1', '--repetition', '1', '--planned-order', '3' if profile == 'steady' else '6', '--actual-order', '1']
+        if pilot:
+            args += ['--pilot-preparation']
         with patch.object(run_pilot, 'run_load', delayed_load), \
              patch.object(run_pilot, 'Observer', Observer), patch.object(run_pilot, 'versions', fixture.fake_versions), \
              patch.object(autoscaling, 'Logs', Logs), patch.object(Path, 'read_text', read), \
@@ -466,7 +468,7 @@ class AutoscalingFixture(unittest.TestCase):
                     code = run_pilot.main(args)
             else:
                 code = run_pilot.main(args)
-        if main and not interrupt and not fail_warmup:
+        if (main or pilot) and not interrupt and not fail_warmup:
             self.assertEqual(settle.call_count, 2)
             self.assertFalse(settle.call_args_list[0].args[2:] or ())
             self.assertEqual(settle.call_args_list[1].args[2:], (True,))

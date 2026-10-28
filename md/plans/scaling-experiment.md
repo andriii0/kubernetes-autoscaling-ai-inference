@@ -23,6 +23,23 @@ Verification completed on 2026-10-25:
 
 ## Objective and prerequisites
 
+### Authorized prepared HPA check at peak 12 (2026-10-28)
+
+I requested one preliminary HPA burst after the fresh pilots and prepared fixed-three check. I keep main protocol v1.1 and all earlier evidence unchanged. This is one mechanism check, not another matrix or a controlled repeated comparison.
+
+- Reuse the existing workload, image/model and per-copy resources. Apply the existing HPA: CPU target 60%, minimum 1, maximum 3, scale-down stabilization 300 seconds.
+- Use 2 requests/10 s for 120 seconds, rise to 12 in 1 second, keep 12 for 300 seconds, fall to 2 in 1 second, and keep 2 for 360 seconds. Observe another 300 seconds after load. Keep the 60-second idle and 5-second observation interval.
+- Extend `--pilot-preparation` only to preliminary autoscaling/burst. Reuse recovery, initial and post-warmup quiet gates before HPA activation. Keep purpose `preliminary-hpa-check`, with no main-protocol version or matrix metadata. The existing lifecycle resets to one copy, warms it, enables HPA and restores one Ready copy without HPA after the run.
+- Retain the descriptive whole-run successful p95 target of 5000 ms and existing error/drop limits. Report peak-phase p95/errors separately through the analyzer. A target miss with valid collection is retained; timeouts, dropped and unfinished requests remain separate. Do not expect a 5-second pass from the earlier fixed-three result.
+- Verify the changed option with focused local lifecycle/argument tests before live load. Record host state, source hashes, command, raw records and CSV/JSON analysis in new paths under `results/autoscaling/`. Do not run competing checks during measurement.
+- Schedule a first review about 30 minutes after launch. If still active, verify process identity, small metadata and bounded log tails, then check again in 10 minutes. On completion/failure, replay saved collection/analysis, inspect phase outcomes, scaling, log coverage and restoration, update existing status/plan/discrepancy documents, and remove the heartbeat. Do not automatically repeat, tune targets, start another series, commit or push.
+
+Acceptance: preserve the complete attempted run and its honest collection/target outcomes; show observed scaling or its absence, source/CPU coverage gaps, preparation and cleanup results. A lack of scaling or failed target is an outcome, not a reason to replace this run.
+
+Pre-launch verification: 71 focused autoscaling, fixed-replica and main-protocol tests passed in 36.555 seconds, including the prepared preliminary HPA lifecycle and both quiet gates. Historical verification passed (120 protected files, 263 local links). Docker/ai-lab resumed; three Ollama copies and metrics-server were Ready, metrics API available and pod CPU numeric. The first wrapper stopped before creating a run or generating inference: its own command line triggered the competing-process check. Its logs/state and empty host-snapshot file remain preserved. After moving that check before the orchestration interpreter starts, the corrected wrapper started at 18:17:53 UTC with new run path `results/autoscaling/check-20261028-181713-peak12/`. PID/state/log details remain in STATUS.md.
+
+Completed review: the [saved HPA check](../../results/autoscaling/check-20261028-181713-peak12/README.md) finished at 18:41:54 UTC with valid collection and a latency target miss (exit 99). All 457 starts complete, with 453 successes, four timeouts and zero dropped/unfinished requests. Whole-run/peak successful p95 is 23.253/24.346 seconds. Whole-run errors are 0.875%; peak errors are 1.111%, kept separate from the preliminary whole-run threshold. Desired/Ready copies follow 1 -> 2 -> 3 -> 1; reduction occurs during post-load observation. The retained missing-resource sample concerns terminating copies after load, not a failed collector. Saved calculations, archived hashes, independent percentiles and raw k6 values match. Preparation ordering and recovery are verified; a read-only snapshot confirms one Ready copy and no HPA. I deleted heartbeat `hpa-12`. No new load, targets, matrix or publication followed; normal server drain and causal HPA benefit remain unverified.
+
 ### Authorized fixed-three check at the new peak (2026-10-27)
 
 I requested one preliminary check of three fixed copies after both fresh pilots selected low=2 and peak=12 requests/10 s. Use a new path under `results/fixed-replicas/`. This does not reopen the completed original step 18, modify main protocol v1.1, or authorize HPA or another matrix.

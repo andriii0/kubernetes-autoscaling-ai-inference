@@ -1,6 +1,6 @@
 # Pilot and main-series latency discrepancy
 
-Updated: 2026-10-27.
+Updated: 2026-10-28.
 
 Status: open. The discrepancy is confirmed. Request accumulation supports a queueing explanation for the large latency increase in the pilot. The physical cause of the difference in effective processing speed remains unknown.
 
@@ -91,6 +91,10 @@ I requested one preliminary fixed-three steady check at 12 requests/10 s for fiv
 This observation has shorter successful latency than the four earlier one-copy peaks at rate 12; it is a single preliminary run at another time on the shared host, not proof of an isolated capacity benefit or acceptable HPA latency. The combined CPU limit also rises from 2 to 6. Both the old rate-8 discrepancy and remaining rate-12 latency need to stay explicit. The check ended with three Ready copies, no HPA and no new load; the follow-up was deleted. No main protocol or historical verdict changed.
 
 ## Evidence and reproduction
+
+On 2026-10-28 I completed the separately authorized [prepared HPA burst](../results/autoscaling/check-20261028-181713-peak12/README.md) at 2 -> 12 -> 2 requests/10 s. Desired/Ready copies follow 1 -> 2 -> 3 -> 1; one copy is restored after load. Collection is valid: 453/457 requests succeed, four time out, and none are dropped or unfinished. Peak successful p95 is 24.346 seconds; whole-run p95 is 23.253 seconds, both above 5 seconds. Whole-run errors are 0.875%, while peak errors are 1.111%. Successful percentiles exclude the four timeouts. One missing-resource sample occurs after load during pod termination. Source hashes, saved analysis and independent request/raw-k6 calculations match; cleanup is verified. The [procedure](plans/scaling-experiment.md#authorized-prepared-hpa-check-at-peak-12-2026-10-28) and [completed status](STATUS.md#completed-prepared-hpa-check-at-peak-12) own execution details. Heartbeat `hpa-12` was deleted.
+
+This demonstrates scaling under the new burst, not acceptable latency or an isolated HPA benefit. The earlier fixed-three run is steady and at another time; one observation per configuration cannot establish a controlled repeated comparison. Neither check explains the historical rate-8 discrepancy or revises main v1.1. I retained the earlier 181350 wrapper failure before measured-run creation, its logs/state and empty host snapshot. No repeat, tuning or new matrix followed this review.
 
 - [Pilot report](../results/pilot/discovery-2026-10-18-series1/README.md).
 - [Main-series run table](../results/main/series-2026-10-25-v1.1/analysis-main-2026-10-26/main-runs.csv).

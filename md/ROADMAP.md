@@ -1,6 +1,6 @@
 # Project Roadmap
 
-Updated: 2026-10-27. Latest saved preliminary HPA check: 2026-10-20 UTC.
+Updated: 2026-10-28. Latest saved preliminary HPA check: 2026-10-28 UTC, at the separately authorized peak rate 12; main protocol v1.1 remains unchanged.
 
 ## Goal and current position
 
@@ -9,6 +9,8 @@ Evaluate how automatic scaling of AI inference handles changing request load whi
 The local prototype, short load check, and continuous cluster/resource observer are complete. Direct kubelet resource measurements were verified with saved data on 2026-10-16. Technology decisions are documented. Request-level records and integrated collection now have offline tests and a saved live low-load check on 2026-10-18. Minimal pilot analysis and the increasing-load pilot are complete, including two five-minute repetitions per selected rate. I agreed [main experiment protocol v1.1](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd) on 2026-10-21. Step-20 code and run instructions have local verification. The 18-run main matrix and reproducible comparative tables/plots are complete; [STATUS.md](STATUS.md) records verification and limits. A [preliminary HPA check](../results/autoscaling/check-2026-10-20-series1/README.md) now verifies growth and reduction. The main findings document and final reproduction review remain unfinished.
 
 Completed steps refer to saved evidence, not a claim that the cluster is running today. All replicas use the CPU of one physical computer. Setup commands are in [GETTING_STARTED.md](GETTING_STARTED.md). Detailed pilot and scaling procedures live in the linked task plans; guide section numbers are topic references, not the order of project work.
+
+The [new preliminary HPA burst](../results/autoscaling/check-20261028-181713-peak12/README.md) shows 1 -> 2 -> 3 -> 1 scaling at 2 -> 12 -> 2 requests/10 s, with valid collection but a latency target miss. It is separate from the completed main matrix and does not close the open findings or reproduction steps.
 
 ## All steps
 

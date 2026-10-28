@@ -358,6 +358,26 @@ class LauncherTests(unittest.TestCase):
 
 class AutoscalingLifecycleTests(AutoscalingFixture):
     @unittest.skipUnless(shutil.which('k6'), 'k6 is required for this integration check')
+    def test_prepared_burst_keeps_quiet_gates_and_preliminary_metadata(self):
+        folder, code = self.exercise(pilot=True)
+        metadata = json.loads((folder / 'metadata.json').read_text())
+        check = json.loads((folder / 'collection-check.json').read_text())
+        self.assertEqual(code, 0, check)
+        self.assertTrue(check['valid'], check)
+        self.assertEqual(metadata['purpose'], 'preliminary-hpa-check')
+        self.assertTrue(metadata['pilot_preparation'])
+        self.assertNotIn('protocol_version', metadata)
+        self.assertNotIn('repetition', metadata)
+        self.assertTrue(metadata['recovery']['successful'])
+        phases = [p['phase'] for p in metadata['phases']]
+        self.assertIn('recovery_quiet', phases)
+        self.assertIn('initial_quiet', phases)
+        self.assertLess(phases.index('post_warmup_quiet'), phases.index('hpa_readiness'))
+        self.assertLess(phases.index('hpa_readiness'), phases.index('load'))
+        self.assertTrue({'main_protocol.py', 'analyze.py', 'fixed_replicas.py', 'autoscaling.py', 'records.py'}
+                        <= set(metadata['source_sha256']))
+
+    @unittest.skipUnless(shutil.which('k6'), 'k6 is required for this integration check')
     def test_real_k6_burst_dynamic_collection_analysis_and_recovery(self):
         folder, code = self.exercise()
         check = json.loads((folder / 'collection-check.json').read_text())
