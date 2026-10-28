@@ -23,6 +23,20 @@ Verification completed on 2026-10-25:
 
 ## Objective and prerequisites
 
+### Authorized fixed-three check at the new peak (2026-10-27)
+
+I requested one preliminary check of three fixed copies after both fresh pilots selected low=2 and peak=12 requests/10 s. Use a new path under `results/fixed-replicas/`. This does not reopen the completed original step 18, modify main protocol v1.1, or authorize HPA or another matrix.
+
+- Use the existing image/model, prompt/generation settings and per-copy resources. No HPA; three desired/Ready copies; steady 12 requests/10 s for 300 seconds; whole-run successful p95 <= 5000 ms and existing 1% error/zero-drop settings. Retain 60-second idle, individual warmup, fresh low-CPU gates, 5-second observation and 10-second post-load observation.
+- Extend the narrow `--pilot-preparation` option to fixed-three/steady using the existing preparation, per-pod warmup and quiet-state helpers. Keep purpose `preliminary-fixed-replica-check` and omit main-protocol metadata. Verify all three warmups, Service endpoints and measured traffic through the existing log reconciliation.
+- Run the focused fixed-replica fixtures before actual load. Retain collection/preparation failures and threshold misses. The existing preliminary log rule still requires server/client count reconciliation; a timeout/drain mismatch needs review and is not silently converted into valid evidence.
+- Save the command, host snapshot, raw measurements, inputs and CSV/JSON analysis. Leave three fixed copies after the check; do not automatically start HPA, scale them down, rerun or publish. This is a capacity/path check, not a controlled repeated comparison with the steady one-copy pilot or a later HPA burst.
+- Check the background job once about fifteen minutes after launch. If still active, inspect only small metadata/log tails and arrange another check in five minutes; follow briefly only when completion is near. Review saved outcomes, update existing documents and delete the heartbeat on completion/failure.
+
+Acceptance: complete delivered-load/client records, stable selected instances, three successful warmups and measured activity on all three, explicit resource gaps and a saved service-target outcome. Failure to improve is retained as an outcome. Normal server drain after client timeouts and current readiness remain separate checks.
+
+Completed on 2026-10-27: [the prepared three-copy check](../../results/fixed-replicas/check-20261027-203849-peak12/README.md) delivered 361/361 successful requests, with zero dropped/unfinished work and no response failures. Mean/p95/max latency is 4.066/9.507/14.773 seconds; the 5000-ms p95 target fails while collection remains valid. All three warmups and native log counts 123/118/120 are verified. Saved analysis, archived hashes, raw k6 latencies and independently calculated p95 match. The local fixed-replica suite passed 14 tests before load; no full-suite rerun is claimed for this narrow extension. Three Ready copies and no HPA were observed after completion. The heartbeat was deleted; no new load, scale-down, protocol change, commit or push followed.
+
 Compare fixed capacity with automatic scaling on the existing local CPU setup. The [roadmap](../ROADMAP.md#18-test-three-manually-configured-replicas) owns milestones and the intended experiment matrix. [STATUS.md](../STATUS.md) names the active task. The [pilot plan](measurements-and-pilot.md) has saved results.
 
 The [fixed replica preparation](fixed-replicas.md) may run a separately labelled preliminary check before the main protocol is agreed. It checks collection, warmup and traffic distribution; it does not complete the main comparison.

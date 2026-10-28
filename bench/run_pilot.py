@@ -235,7 +235,7 @@ def main(argv=None):
     parser.add_argument("--diagnostic-warmup-wait", choices=("immediate", "quiet"),
                         help="Fixed-one steady diagnostic; vary only post-warmup settling, outside the main protocol")
     parser.add_argument("--pilot-preparation", action="store_true",
-                        help="Use existing recovery and quiet-state gates for a fresh fixed-one steady pilot")
+                        help="Use existing recovery and quiet-state gates for a fixed-one/three steady check")
     parser.add_argument("--base-url", required=True)
     parser.add_argument("--rate", type=int, required=True, help="Requests per 10 seconds")
     parser.add_argument("--duration")
@@ -271,8 +271,8 @@ def main(argv=None):
     if args.diagnostic_warmup_wait and (args.protocol_version or args.mode != "fixed-1" or args.profile != "steady"):
         parser.error("--diagnostic-warmup-wait requires fixed-1/steady without --protocol-version")
     if args.pilot_preparation and (args.protocol_version or args.diagnostic_warmup_wait or
-                                   args.mode != "fixed-1" or args.profile != "steady"):
-        parser.error("--pilot-preparation requires fixed-1/steady without protocol or diagnostic options")
+                                   args.mode not in ("fixed-1", "fixed-3") or args.profile != "steady"):
+        parser.error("--pilot-preparation requires fixed-1 or fixed-3/steady without protocol or diagnostic options")
     prepared = bool(args.protocol_version or args.diagnostic_warmup_wait or args.pilot_preparation)
     args.post_seconds = args.post_seconds if args.post_seconds is not None else (300 if args.mode == "autoscaling" else 10)
     workload = json.loads((Path(__file__).parent / "workload.json").read_text(encoding="utf-8"))
@@ -317,7 +317,8 @@ def main(argv=None):
     if args.diagnostic_warmup_wait:
         metadata.update(purpose="diagnostic-warmup-wait", diagnostic_warmup_wait=args.diagnostic_warmup_wait)
     if args.pilot_preparation:
-        metadata.update(purpose="pilot-recalibration", pilot_preparation=True)
+        metadata.update(purpose="pilot-recalibration" if args.replicas == 1 else "preliminary-fixed-replica-check",
+                        pilot_preparation=True)
     if args.protocol_version:
         metadata.update(purpose="main-series", workload=workload, protocol_version=args.protocol_version, repetition=args.repetition,
                         planned_order=args.planned_order, actual_order=args.actual_order,

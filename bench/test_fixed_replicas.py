@@ -344,7 +344,7 @@ class FixedLauncherTests(unittest.TestCase):
 
     def test_fresh_pilot_rejects_conflicting_options_before_creating_output(self):
         for extra in (['--protocol-version', '1.1'], ['--diagnostic-warmup-wait', 'quiet'],
-                      ['--mode', 'autoscaling'], ['--mode', 'fixed-3'], ['--profile', 'burst']):
+                      ['--mode', 'autoscaling'], ['--profile', 'burst']):
             with tempfile.TemporaryDirectory() as temporary, self.subTest(extra=extra):
                 folder = Path(temporary) / 'run'
                 with patch.object(run_pilot, 'Observer') as observer, self.assertRaises(SystemExit):
@@ -352,6 +352,25 @@ class FixedLauncherTests(unittest.TestCase):
                                     '--run-dir', str(folder), '--pilot-preparation'] + extra)
                 observer.assert_not_called()
                 self.assertFalse(folder.exists())
+
+    @unittest.skipUnless(shutil.which('k6'), 'k6 is required for this integration check')
+    def test_prepared_fixed_three_keeps_per_pod_warmup_distribution_and_quiet_gates(self):
+        folder, code, payloads = self.run_fixture(replicas=3, pilot=True)
+        metadata = json.loads((folder / 'metadata.json').read_text())
+        report = json.loads((folder / 'collection-check.json').read_text())
+        warm = json.loads((folder / 'warmup.json').read_text())
+        self.assertEqual(code, 0, report)
+        self.assertTrue(report['valid'], report)
+        self.assertEqual(metadata['purpose'], 'preliminary-fixed-replica-check')
+        self.assertNotIn('protocol_version', metadata)
+        self.assertEqual(metadata['expected_replicas'], 3)
+        self.assertEqual(len(warm['replicas']), 3)
+        self.assertEqual(len(report['distribution']['pods']), 3)
+        self.assertTrue(all(p['completed'] > 0 for p in report['distribution']['pods'].values()))
+        self.assertEqual(len(payloads), report['counts']['completed'] + 3)
+        phases = {p['phase'] for p in metadata['phases']}
+        self.assertTrue({'recovery_quiet', 'initial_quiet', 'post_warmup_quiet'} <= phases)
+
 
     def test_diagnostic_rejects_main_protocol_and_other_modes_before_creating_output(self):
         for extra in (['--protocol-version', '1.1'], ['--mode', 'autoscaling'], ['--mode', 'fixed-3'], ['--profile', 'burst']):

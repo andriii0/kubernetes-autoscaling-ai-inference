@@ -1,0 +1,54 @@
+{
+  "phase": "warmup",
+  "successful": true,
+  "http_status": 200,
+  "started_at_utc": "2026-10-27T20:47:33.136122+00:00",
+  "finished_at_utc": "2026-10-27T20:47:41.020209+00:00",
+  "replicas": [
+    {
+      "phase": "warmup",
+      "started_at_utc": "2026-10-27T20:47:33.136122+00:00",
+      "finished_at_utc": "2026-10-27T20:47:36.976816+00:00",
+      "timeout_seconds": 120,
+      "http_status": 200,
+      "successful": true,
+      "output_tokens": 64.0,
+      "model_load_ms": 2295.703159,
+      "duration_ms": 3843.9999999973224,
+      "pod_uid": "13ea5689-315a-45d6-b809-382e0f72127e",
+      "pod_name": "ollama-7db4f544df-nm7bw",
+      "transport": "kubernetes-pod-proxy",
+      "ready_transition_at_utc": "2026-10-27T20:45:45Z"
+    },
+    {
+      "phase": "warmup",
+      "started_at_utc": "2026-10-27T20:47:36.976816+00:00",
+      "finished_at_utc": "2026-10-27T20:47:38.436575+00:00",
+      "timeout_seconds": 120,
+      "http_status": 200,
+      "successful": true,
+      "output_tokens": 56.0,
+      "model_load_ms": 0.887785,
+      "duration_ms": 1453.0000000013388,
+      "pod_uid": "e6a7dca2-650b-4c56-b52b-8bd7dcb49f9f",
+      "pod_name": "ollama-7db4f544df-swtk9",
+      "transport": "kubernetes-pod-proxy",
+      "ready_transition_at_utc": "2026-10-27T10:46:58Z"
+    },
+    {
+      "phase": "warmup",
+      "started_at_utc": "2026-10-27T20:47:38.437112+00:00",
+      "finished_at_utc": "2026-10-27T20:47:41.020209+00:00",
+      "timeout_seconds": 120,
+      "http_status": 200,
+      "successful": true,
+      "output_tokens": 64.0,
+      "model_load_ms": 1033.897144,
+      "duration_ms": 2593.9999999973224,
+      "pod_uid": "ee38f8af-8777-45b4-aa55-7b6155c7defd",
+      "pod_name": "ollama-7db4f544df-s6xhv",
+      "transport": "kubernetes-pod-proxy",
+      "ready_transition_at_utc": "2026-10-27T20:45:45Z"
+    }
+  ]
+}

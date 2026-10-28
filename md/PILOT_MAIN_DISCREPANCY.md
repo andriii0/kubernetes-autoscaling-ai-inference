@@ -84,6 +84,12 @@ I requested a further complete repeat under the same selection rules. The [lates
 
 The current-host selection and severe target misses at 12 repeat across both complete pilots; their timeout rates do not remain stable. The old rate-8 slowdown is still unexplained. More timeouts can remove slow responses from successful p95, so compare latency and errors together. This adds evidence for choosing an overload candidate in a separately agreed follow-up, not an HPA benefit or a revised main v1.1 result. No further load followed completion; the heartbeat was deleted. Raw measurements and all earlier verdicts remain unchanged.
 
+### Three prepared copies at the new peak (2026-10-27)
+
+I requested one preliminary fixed-three steady check at 12 requests/10 s for five minutes. The [saved check](../results/fixed-replicas/check-20261027-203849-peak12/README.md) completed 361/361 requests successfully, without dropped or unfinished work. Three individual warmups and native Service completion counts 123/118/120 are verified. Successful mean/p95/max is 4.066/9.507/14.773 seconds: no timeout occurred, but p95 still exceeds the 5-second target. Collection and independent p95/raw-k6/saved-analysis checks pass.
+
+This observation has shorter successful latency than the four earlier one-copy peaks at rate 12; it is a single preliminary run at another time on the shared host, not proof of an isolated capacity benefit or acceptable HPA latency. The combined CPU limit also rises from 2 to 6. Both the old rate-8 discrepancy and remaining rate-12 latency need to stay explicit. The check ended with three Ready copies, no HPA and no new load; the follow-up was deleted. No main protocol or historical verdict changed.
+
 ## Evidence and reproduction
 
 - [Pilot report](../results/pilot/discovery-2026-10-18-series1/README.md).
