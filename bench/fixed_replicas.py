@@ -6,7 +6,7 @@ import re
 import subprocess
 from urllib.parse import quote
 
-from pilot_records import timestamp
+from records import timestamp
 
 
 def warmup_pods(observer, pods, workload, timeout, warmup):

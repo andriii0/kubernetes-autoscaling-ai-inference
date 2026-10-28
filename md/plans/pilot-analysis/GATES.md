@@ -1,5 +1,7 @@
 # Gates: pilot analysis and discovery
 
+Historical verification record: source paths and test commands below refer to the layout at that checkpoint. Current tests are in `tests/bench`; see [the setup guide](../../GETTING_STARTED.md) for current commands.
+
 OWNS: bench/analyze.py, bench/test_analyze.py, bench/pilot_records.py, bench/test_pilot_records.py, pyproject.toml, md/STATUS.md, md/ROADMAP.md, md/plans/measurements-and-pilot.md, md/plans/pilot-analysis/**, results/pilot/**, md/plans/experiment-protocol.md
 
 Scope: finish minimal reproducible analysis, inspect successive one-replica discovery probes and repeated selected candidates, record supported settings and limitations.

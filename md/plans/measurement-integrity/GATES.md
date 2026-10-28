@@ -1,5 +1,7 @@
 # Gates: measurement integrity and documentation consistency
 
+Historical verification record: source paths and test commands below refer to the layout at that checkpoint. Current tests are in `tests/bench`; see [the setup guide](../../GETTING_STARTED.md) for current commands.
+
 Historical verification record from 2026-10-18, before the later pilot. Current state is in [STATUS.md](../../STATUS.md); commands and evidence below retain their original execution context.
 
 Scope: Address all seven reported issues and preserve raw historical evidence.

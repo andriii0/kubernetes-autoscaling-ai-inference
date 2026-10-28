@@ -1,85 +1,25 @@
 import copy
 import hashlib
 import json
-import tempfile
 import unittest
-from pathlib import Path
 
 import pilot_records
+import records
+from tests.bench.fixtures import RunFixture, sample
 
 
-def sample(at="2026-10-18T12:00:00Z"):
-    return {"time": at, "collection_duration_seconds": 0, "errors": [],
-            "pods": {"items": [{"metadata": {"name": "ollama-one", "namespace": "inference", "uid": "pod-1",
-                                              "labels": {"app": "ollama"}},
-                                "spec": {"nodeName": "ai-lab", "containers": [{"name": "ollama", "resources": {
-                                    "requests": {"cpu": "2", "memory": "1Gi"}, "limits": {"cpu": "2", "memory": "2Gi"}}}]},
-                                "status": {"phase": "Running", "conditions": [{"type": "Ready", "status": "True"}],
-                                           "containerStatuses": [{"name": "ollama", "ready": True, "restartCount": 0,
-                                                                  "state": {"running": {}}, "containerID": "container-1",
-                                                                  "imageID": "sha256:image-1"}]}}]},
-            "deployments": {"items": [{"metadata": {"name": "ollama", "generation": 1},
-                                       "spec": {"replicas": 1, "selector": {"matchLabels": {"app": "ollama"}}},
-                                       "status": {"replicas": 1, "updatedReplicas": 1, "readyReplicas": 1,
-                                                  "availableReplicas": 1, "observedGeneration": 1}}]},
-            "hpa": {"items": []}, "nodes": {"items": []},
-            "resource_usage": [{"scope": "container", "node": "ai-lab", "pod_uid": "pod-1", "container": "ollama",
-                                "cpu_usage_seconds_total": 10, "memory_working_set_bytes": 1000},
-                               {"scope": "node", "node": "ai-lab", "cpu_usage_seconds_total": 20,
-                                "memory_working_set_bytes": 2000}]}
+class RecordTests(RunFixture):
+    def test_new_source_archives_require_records_without_changing_legacy_checks(self):
+        self.assertFalse(self.check()['warnings'])
+        self.metadata['source_archive_version'] = 2
+        self.assertIn('incomplete executable input hashes', self.check()['warnings'])
+        helper = self.folder / 'inputs/records.py'
+        helper.write_bytes(b'archived helper')
+        self.metadata['source_sha256']['records.py'] = hashlib.sha256(helper.read_bytes()).hexdigest()
+        self.assertFalse(self.check()['warnings'])
+        helper.unlink()
+        self.assertTrue(any('input archive:' in warning for warning in self.check()['warnings']))
 
-
-def write_lines(path, records):
-    path.write_text("".join(json.dumps(r) + "\n" for r in records), encoding="utf-8")
-
-
-class RecordTests(unittest.TestCase):
-    def setUp(self):
-        temporary = tempfile.TemporaryDirectory()
-        self.addCleanup(temporary.cleanup)
-        self.folder = Path(temporary.name)
-        self.metadata = {"run_id": "test", "duration_seconds": 1, "observer_interval_seconds": 5,
-                         "initial_identity": pilot_records.pilot_identity(sample()),
-                         "deployment": "ollama", "container": "ollama", "errors": [], "k6_exit_code": 0,
-                         "collector_exit_code": 0, "load_process_started_at_utc": "2026-10-18T12:00:01Z"}
-        (self.folder / "inputs").mkdir()
-        hashes = {}
-        for name in ("inference.js", "workload.json", "run_pilot.py", "observe.py", "pilot_records.py"):
-            data = name.encode()
-            (self.folder / "inputs" / name).write_bytes(data)
-            hashes[name] = hashlib.sha256(data).hexdigest()
-        self.metadata["source_sha256"] = hashes
-        (self.folder / "warmup.json").write_text(json.dumps({"phase": "warmup", "successful": True,
-            "http_status": 200, "finished_at_utc": "2026-10-18T12:00:00.900Z"}))
-        self.start = {"schema_version": 1, "run_id": "test", "phase": "load", "request_id": "test:load:0",
-                      "scenario": "load", "iteration": 0, "vu": 1, "event": "started",
-                      "scenario_started_at_utc": "2026-10-18T12:00:01Z", "started_at_utc": "2026-10-18T12:00:01Z"}
-        self.completed = {**self.start, "event": "completed", "finished_at_utc": "2026-10-18T12:00:01.500Z",
-                          "duration_ms": 500, "outcome": "success", "http_status": 200,
-                          "error_category": None, "output_tokens": None, "model_load_ms": 0}
-        self.events = [self.start, self.completed]
-        counts = {"requests_started": 1, "requests_completed": 1, "http_reqs": 1, "iterations": 1, "dropped_iterations": 0}
-        self.summary = {"metrics": {k: {"count": v} for k, v in counts.items()}}
-        self.summary["metrics"]["inference_errors"] = {"passes": 0, "fails": 1}
-        for name in ('request_latency_ms', 'successful_latency_ms'):
-            self.summary['metrics'][name] = {'avg': 500, 'min': 500, 'max': 500, 'p(95)': 500}
-        self.points = [{"type": "Point", "metric": k, "data": {"value": v}} for k, v in counts.items()]
-        self.points.extend({'type': 'Point', 'metric': name, 'data': {'value': 500}}
-                           for name in ('request_latency_ms', 'successful_latency_ms'))
-        self.points.append({"type": "Point", "metric": "inference_errors", "data": {"value": 0}})
-        self.samples = [sample(), sample("2026-10-18T12:00:05Z")]
-
-    def remove_latency(self, *metrics):
-        self.points = [p for p in self.points if p['metric'] not in metrics]
-        for metric in metrics:
-            self.summary['metrics'].pop(metric, None)
-
-    def check(self):
-        write_lines(self.folder / "request-events.jsonl", self.events)
-        write_lines(self.folder / "requests.json", self.points)
-        write_lines(self.folder / "cluster.jsonl", self.samples)
-        (self.folder / "summary.json").write_text(json.dumps(self.summary))
-        return pilot_records.reconcile(self.folder, self.metadata)
 
     def test_valid_collection_and_missing_optional_values(self):
         report = self.check()
@@ -195,12 +135,12 @@ class RecordTests(unittest.TestCase):
         self.assertEqual(report["counts"]["failed"], 1)
 
     def test_millisecond_boundaries_accept_one_tick_but_reject_two(self):
-        beginning = pilot_records.timestamp(self.start["scenario_started_at_utc"])
+        beginning = records.timestamp(self.start["scenario_started_at_utc"])
         for offset_ms, valid in ((0, True), (-1, True), (-2, False), (1000, True), (1001, True), (1002, False)):
             with self.subTest(offset_ms=offset_ms):
-                self.start["started_at_utc"] = pilot_records.iso_time(beginning + offset_ms / 1000)
+                self.start["started_at_utc"] = records.iso_time(beginning + offset_ms / 1000)
                 self.completed = {**self.completed, "started_at_utc": self.start["started_at_utc"],
-                                  "finished_at_utc": pilot_records.iso_time(beginning + offset_ms / 1000 + .5)}
+                                  "finished_at_utc": records.iso_time(beginning + offset_ms / 1000 + .5)}
                 self.events = [self.start, self.completed]
                 report = self.check()
                 self.assertEqual(report["valid"], valid, report)
@@ -327,7 +267,7 @@ class RecordTests(unittest.TestCase):
             else:
                 current["deployments"]["items"][0]["status"]["observedGeneration"] = 0
             with self.assertRaisesRegex(ValueError, reason):
-                pilot_records.pilot_identity(current)
+                records.pilot_identity(current)
 
 
 if __name__ == "__main__":

@@ -10,12 +10,12 @@ from pathlib import Path
 from unittest.mock import patch
 
 import analyze
-import test_pilot_records as fixtures
+from tests.bench import fixtures
 
 
 class AnalysisTests(unittest.TestCase):
     def data(self):
-        fixture = fixtures.RecordTests("test_valid_collection_and_missing_optional_values")
+        fixture = fixtures.RunFixture()
         fixture.setUp()
         self.addCleanup(fixture.doCleanups)
         fixture.metadata["namespace"] = "inference"
@@ -33,10 +33,7 @@ class AnalysisTests(unittest.TestCase):
         return analyze.load_results(fixture.folder)
 
     def autoscaling_fixture(self):
-        from test_autoscaling import ReconciliationTests
-        host = ReconciliationTests()
-        fixture = host.fixture()
-        self.addCleanup(host.doCleanups)
+        fixture = fixtures.autoscaling_fixture(self)
         fixture.metadata.update(rate=2, low_rate=2, phases=[],
                                 burst_stages=[{'name': 'low', 'seconds': 1, 'target': 'low'}])
         (fixture.folder / 'metadata.json').write_text(json.dumps(fixture.metadata))
@@ -121,7 +118,7 @@ class AnalysisTests(unittest.TestCase):
         self.assertIsNone(row["peak_memory_mib"])
 
     def test_saved_live_check_agrees_with_independent_k6_summary(self):
-        folder = Path(__file__).resolve().parents[1] / "results/pilot/20261018T202951240Z-collection-check"
+        folder = fixtures.ROOT / "results/pilot/20261018T202951240Z-collection-check"
         row = analyze.calculate_metrics(analyze.load_results(folder))
         summary = json.loads((folder / "summary.json").read_text())["metrics"]
         self.assertEqual(row["completed"], summary["http_reqs"]["count"])
@@ -175,7 +172,7 @@ class AnalysisTests(unittest.TestCase):
 
     @unittest.skipUnless(importlib.util.find_spec('matplotlib'), 'Install the optional analysis dependency for plot checks')
     def test_saved_fixed_and_autoscaling_plots_keep_replica_and_hpa_series(self):
-        root = Path(__file__).resolve().parents[1]
+        root = fixtures.ROOT
         runs = [('results/fixed-replicas/check-2026-10-20-series1/peak-1', 'CPU per copy'),
                 ('results/autoscaling/check-2026-10-20-series1/burst-1', 'HPA desired')]
         with tempfile.TemporaryDirectory() as temporary:

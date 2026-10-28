@@ -34,7 +34,7 @@ The node measurements describe the Minikube Linux node. They include Kubernetes 
 ## Verification
 
 ```powershell
-python -m unittest discover -s bench -p test_observe.py -v
+python -m unittest tests.bench.test_observe -v
 ```
 
 Tests cover unit interpretation, stale timestamps, counter resets, restarts/replacements, missing and malformed data, scrape errors, source timeouts, unrelated pods, empty HPA lists, nonzero failure exits, and protection against overwriting output.

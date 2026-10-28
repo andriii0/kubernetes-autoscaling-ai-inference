@@ -1,8 +1,6 @@
 import copy
 import json
 import shutil
-from datetime import datetime, timedelta, timezone
-import subprocess
 import tempfile
 import unittest
 from pathlib import Path
@@ -10,24 +8,18 @@ from unittest.mock import Mock, patch
 
 import analyze
 import autoscaling
-import pilot_records
+import records
 import run_pilot
-from test_fixed_replicas import three_sample
-from test_pilot_records import sample
-import test_pilot_records
-
-
-def hpa():
-    return {'metadata': {'name': 'ollama'}, 'spec': {'scaleTargetRef': {'kind': 'Deployment', 'name': 'ollama'},
-            'minReplicas': 1, 'maxReplicas': 3}, 'status': {'currentReplicas': 1, 'desiredReplicas': 1,
-            'currentMetrics': [{'type': 'Resource', 'resource': {'name': 'cpu', 'current': {'averageUtilization': 2}}}],
-            'conditions': [{'type': 'ScalingActive', 'status': 'True'}]}}
+from tests.bench.fixtures import AutoscalingFixture
+from tests.bench.fixtures import three_sample
+from tests.bench.fixtures import sample
+from tests.bench.fixtures import autoscaling_fixture, hpa
 
 
 class DynamicStateTests(unittest.TestCase):
     def state(self):
         s = sample()
-        i = pilot_records.pilot_identity(s)
+        i = records.pilot_identity(s)
         state = autoscaling.State('ollama', 'ollama', autoscaling.configuration(s['deployments']['items'][0]), i['image_id'])
         state.identities[i['pod_uid']] = (i['container_id'], i['restart_count'], i['image_id'])
         state.hpa_spec = hpa()['spec']
@@ -50,7 +42,7 @@ class DynamicStateTests(unittest.TestCase):
         new['metadata']['deletionTimestamp'] = current['time']
         state.accept(current)
         with self.assertRaises(ValueError):
-            pilot_records.pilot_identity(current, replicas=3)
+            records.pilot_identity(current, replicas=3)
 
     def test_restart_api_failure_and_configuration_change_fail(self):
         for case in ('restart', 'api', 'template', 'hpa', 'image', 'replicas', 'missing-hpa'):
@@ -208,19 +200,7 @@ class LogTests(unittest.TestCase):
 
 class ReconciliationTests(unittest.TestCase):
     def fixture(self):
-        fixture = test_pilot_records.RecordTests('test_valid_collection_and_missing_optional_values')
-        fixture.setUp()
-        self.addCleanup(fixture.doCleanups)
-        fixture.metadata.update(mode='autoscaling', expected_replicas=None, namespace='inference',
-                                deployment_snapshot=sample()['deployments']['items'][0], hpa_spec=hpa()['spec'], profile='steady')
-        (fixture.folder / 'service-route.json').write_text(json.dumps({'service': {'spec': {'selector': {'app': 'ollama'},
-            'ports': [{'port': 11434, 'targetPort': 11434}]}}, 'endpoint_slices': {'items': [{'endpoints': [
-                {'conditions': {'ready': True}, 'targetRef': {'kind': 'Pod', 'uid': 'pod-1'}}]}]}}))
-        (fixture.folder / 'pod-logs').mkdir()
-        (fixture.folder / 'pod-logs/pod-1.log').write_text('')
-        (fixture.folder / 'log-coverage.json').write_text(json.dumps({'pod-1': {'pod_name': 'ollama-one', 'complete': True,
-            'exit_code': 1, 'stopped_by_collector': True}}))
-        return fixture
+        return autoscaling_fixture(self)
 
     def test_valid_requests_do_not_require_matching_server_statuses_after_timeout(self):
         f = self.fixture()
@@ -376,130 +356,7 @@ class LauncherTests(unittest.TestCase):
             self.assertEqual(json.loads((session.folder / 'recovery.json').read_text())['errors'], ['API down'])
 
 
-class AutoscalingLifecycleTests(unittest.TestCase):
-    def exercise(self, interrupt=False, fail_warmup=False, profile="burst", main=False, latency_target=None, startup_delay=0):
-        import time
-        import shutil
-        import test_run_pilot
-        fixture = test_run_pilot.PilotLauncherTests('test_real_k6_full_lifecycle_and_complete_evidence')
-        fixture.setUp()
-        self.addCleanup(fixture.doCleanups)
-        captured = fixture.server(fail_warmup=fail_warmup)
-        workload_path = Path(run_pilot.__file__).parent / 'workload.json'
-        workload = json.loads(workload_path.read_text())
-        for stage, seconds in zip(workload['burst_stages'], (.2, .05, .5, .05, .2)):
-            stage['seconds'] = seconds
-        if main:
-            workload["main_protocol"].update(peak_rate=30, steady_seconds=1, observer_interval_seconds=.05, idle_seconds=0, hpa_post_seconds=1)
-        if latency_target is not None:
-            workload["main_protocol"]["primary_p95_ms"] = latency_target
-        original_read, original_copy = Path.read_text, shutil.copyfile
-
-        def read(path, *args, **kwargs):
-            if path == workload_path:
-                return json.dumps(workload)
-            return original_read(path, *args, **kwargs)
-
-        def copy(source, destination, *args, **kwargs):
-            if Path(source) == workload_path:
-                Path(destination).write_text(json.dumps(workload))
-                return destination
-            return original_copy(source, destination, *args, **kwargs)
-
-        # Keep fixture timestamps on a precise elapsed clock, even on coarse wall clocks.
-        origin = datetime.now(timezone.utc)
-        origin_counter = time.perf_counter_ns()
-
-        def observation_time():
-            return (origin + timedelta(microseconds=(time.perf_counter_ns() - origin_counter) // 1000)).isoformat()
-
-        class Observer:
-            applied = None
-            load_samples = 0
-            def __init__(self, context, namespace, selector):
-                self.context, self.namespace, self.selector = context, namespace, selector
-            def collect(self, interval):
-                current = sample(observation_time())
-                if Observer.applied is not None:
-                    # The first request warms the model; later requests are measured traffic.
-                    # Advance on collected samples so k6 startup time cannot consume the transition.
-                    if len(captured) > 1:
-                        Observer.load_samples += 1
-                    count = 2 if 1 <= Observer.load_samples <= 3 else 1
-                    if count == 2:
-                        current = three_sample(current["time"])
-                        current['pods']['items'] = current['pods']['items'][:2]
-                        current['deployments']['items'][0]['spec']['replicas'] = 2
-                    current['hpa']['items'] = [hpa()]
-                    current['hpa']['items'][0]['status'].update(currentReplicas=count, desiredReplicas=count)
-                return current
-            def read(self, *args):
-                if 'apply' in args:
-                    Observer.applied = time.monotonic()
-                    return 'applied'
-                if 'delete' in args:
-                    Observer.applied = None
-                    return 'deleted'
-                if 'scale' in args: return 'scaled'
-                if 'endpointslices' in args:
-                    return json.dumps({'items': [{'endpoints': [{'conditions': {'ready': True}, 'targetRef': {'kind': 'Pod', 'uid': 'pod-1'}}]}]})
-                if 'service' in args:
-                    return json.dumps({'spec': {'selector': {'app': 'ollama'}, 'ports': [{'port': 11434, 'targetPort': 11434}]}})
-                if 'hpa' in args and 'ollama' in args: return json.dumps(hpa())
-                kind = next(x for x in ('deployment', 'pods', 'hpa') if x in args)
-                return json.dumps(self.collect(5)[{'deployment': 'deployments', 'pods': 'pods', 'hpa': 'hpa'}[kind]])
-
-        class Logs:
-            def __init__(self, observer, folder, container):
-                self.folder = folder
-                self.records = {}
-                self.stopped = False
-                (folder / 'pod-logs').mkdir()
-            def update(self, sample):
-                for p in sample['pods']['items']:
-                    uid = p['metadata']['uid']
-                    self.records[uid] = {'pod_name': p['metadata']['name'], 'complete': True,
-                                         'exit_code': 1, 'stopped_by_collector': True}
-                    (self.folder / 'pod-logs' / (uid + '.log')).touch()
-            def stop(self):
-                self.stopped = True
-                (self.folder / 'log-coverage.json').write_text(json.dumps(self.records))
-
-        original_load = run_pilot.run_load
-
-        def delayed_load(command, environment, folder, collection, metadata):
-            collection.wait(startup_delay)
-            return original_load(command, environment, folder, collection, metadata)
-
-        args = fixture.args[:]
-        args[args.index('--post-seconds') + 1] = '1'
-        index = args.index('--duration')
-        del args[index:index+2]
-        args += ['--mode', 'autoscaling', '--profile', profile, '--rate', '30', '--observer-interval', '.05']
-        if profile == 'steady':
-            args += ['--duration', '1s']
-        if main:
-            args += ['--protocol-version', '1.1', '--repetition', '1', '--planned-order', '3' if profile == 'steady' else '6', '--actual-order', '1']
-        with patch.object(run_pilot, 'run_load', delayed_load), \
-             patch.object(run_pilot, 'Observer', Observer), patch.object(run_pilot, 'versions', fixture.fake_versions), \
-             patch.object(autoscaling, 'Logs', Logs), patch.object(Path, 'read_text', read), \
-             patch.object(run_pilot.shutil, 'copyfile', copy), \
-             patch.object(run_pilot.shutil, 'which', return_value=shutil.which('k6') or 'test-k6'), \
-             patch('main_protocol.recover', return_value={'test_stub': True}), \
-             patch('main_protocol.runtime_context', return_value={'test_stub': True}), \
-             patch('main_protocol.check_configuration') as configuration, \
-             patch('main_protocol.settle', return_value={'test_stub': True}) as settle:
-            if interrupt:
-                with patch.object(run_pilot, 'run_load', side_effect=KeyboardInterrupt):
-                    code = run_pilot.main(args)
-            else:
-                code = run_pilot.main(args)
-        if main and not interrupt and not fail_warmup:
-            self.assertEqual(settle.call_count, 2)
-            self.assertFalse(settle.call_args_list[0].args[2:] or ())
-            self.assertEqual(settle.call_args_list[1].args[2:], (True,))
-        return fixture.folder, code
-
+class AutoscalingLifecycleTests(AutoscalingFixture):
     @unittest.skipUnless(shutil.which('k6'), 'k6 is required for this integration check')
     def test_real_k6_burst_dynamic_collection_analysis_and_recovery(self):
         folder, code = self.exercise()

@@ -6,7 +6,7 @@ import re
 import subprocess
 import time
 
-from pilot_records import pilot_identity, timestamp
+from records import pilot_identity, timestamp
 from observe import utc_now
 
 

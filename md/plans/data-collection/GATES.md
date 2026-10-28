@@ -1,5 +1,7 @@
 # Gates: pilot data collection
 
+Historical verification record: source paths and test commands below refer to the layout at that checkpoint. Current tests are in `tests/bench`; see [the setup guide](../../GETTING_STARTED.md) for current commands.
+
 OWNS: bench/inference.js, bench/workload.json, bench/run_pilot.py, bench/pilot_records.py, bench/test_inference.py, bench/test_run_pilot.py, bench/test_pilot_records.py, md/STATUS.md, md/ARCHITECTURE.md, md/GETTING_STARTED.md, md/ROADMAP.md, md/plans/measurements-and-pilot.md, md/plans/data-collection/**
 
 Historical completion record for the 2026-10-18 collection revision. Its test counts and remaining-analysis statements describe that revision, before the later [pilot](../../../results/pilot/discovery-2026-10-18-series1/README.md).

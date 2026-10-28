@@ -1,10 +1,16 @@
 # Project status
 
-Updated: 2026-10-27. The one-replica pilot completed on 2026-10-18 UTC, including two five-minute confirmations at each selected rate. Collection and analysis have saved evidence; this does not certify runtime availability at a later time.
+Updated: 2026-10-28. The one-replica pilot completed on 2026-10-18 UTC, including two five-minute confirmations at each selected rate. Collection and analysis have saved evidence; this does not certify runtime availability at a later time.
 
 ## FigJam architecture views
 
 I updated the [existing C1/C2 board](https://www.figma.com/board/KaoXEMPbKjCy1gOwdFdrUE/Kubernetes-PE) on 2026-10-28 against the current code and [architecture](ARCHITECTURE.md). I kept the colors and block style, removed stale planned labels, and added the runner and Service path. All ten arrows are native connectors attached at both ends, with labels of at most three words. I checked both rendered views; C2 has eight editable shapes and no vector arrows or image layers. No runtime check or load experiment was part of this diagram update.
+
+## Bench structure refactor
+
+I completed the [bench refactor](plans/bench-structure.md) on 2026-10-28. Tests and shared fixtures now live in `tests/bench`; `bench` has 15 files. Shared record and runtime helpers have explicit modules, scenario drivers no longer import each other, and the import graph has no cycles. `analyze.py` owns phase assessments and resource calculations. The launcher keeps the same CLI and its outer cleanup scope, with separate stage functions. New run archives include `records.py` and declare archive version 2; legacy archive checks retain their original requirements.
+
+All 156 local tests passed, including isolated archive imports and fixed-mode log cleanup after a load error. Before/after checks match for 53 supported run analyses and the existing read failures of 12 legacy/partial records. All 1,778 existing result files retain their bytes, and all 13 regenerated main-series CSV/JSON artifacts match the saved report. Historical integrity and negative-test checks pass. These are offline/local-HTTP checks; I did not run cluster load or verify current runtime readiness. Existing staged results and prior working-tree changes are preserved. The plan records commands and limits. The next research action remains the one below.
 
 ## Continue from the current working tree
 
@@ -12,7 +18,7 @@ I keep code and project Markdown in `C:/Users/matvi/PycharmProjects/kubernetes-a
 
 This publication checkpoint includes the complete main matrix, combined analysis, discrepancy review, diagnostic pair, two complete fresh pilots and the interrupted rate-selection attempt. It also includes the prepared-pilot launcher option, bounded search driver and tests. Earlier commit `2589749` contains the main-series/diagnostic checkpoint; `91ae959` contains only the first ten main attempts and continuation command. Preserve any later working-tree changes and untracked evidence; check Git before assuming a clone matches this checkpoint.
 
-The checkpoint includes `bench/summarize_main.py`, `bench/run_wait_pair.py`, the diagnostic option in `bench/run_pilot.py` and its tests in `bench/test_fixed_replicas.py`. The diagnostic option is restricted to fixed-one/steady and cannot use main-protocol metadata. All 145 bench tests passed again on 2026-10-27, including after the driver encoding/error-handling fix. The initial sandbox run could not access Git/local HTTP; the normal-environment run passed without code changes. Archived executable copies and result files remain unchanged.
+The checkpoint includes `bench/summarize_main.py`, `bench/run_wait_pair.py`, the diagnostic option in `bench/run_pilot.py` and its tests in `tests/bench/test_fixed_replicas.py`. The diagnostic option is restricted to fixed-one/steady and cannot use main-protocol metadata. All 145 bench tests passed again on 2026-10-27, including after the driver encoding/error-handling fix. The initial sandbox run could not access Git/local HTTP; the normal-environment run passed without code changes. Archived executable copies and result files remain unchanged.
 
 The [first fresh pilot was interrupted](../results/pilot/recalibration-20261027-104833/README.md) after three completed probes and before measured load at rate 12. The later two full searches both selected low=2 and peak=12 under the same [procedure](plans/measurements-and-pilot.md#fresh-rate-selection-2026-10-27), with variable peak timeout rates. Their reports and the partial attempt are included in this checkpoint. I requested commit and push after reviewing all three pilot histories. HPA and another main matrix remain outside this publication request. The old pilot slowdown remains unexplained. The separate main findings document (23) and reproduction review (24) remain open. Later loads and commits need a new request. Write narrative from my perspective in simple English. Prefer direct file patches for small edits; avoid temporary replacement scripts when they add no value.
 

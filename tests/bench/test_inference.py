@@ -8,6 +8,7 @@ import time
 import unittest
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+from tests.bench.fixtures import BENCH
 
 
 class InferenceMetricTests(unittest.TestCase):
@@ -33,7 +34,7 @@ class InferenceMetricTests(unittest.TestCase):
             with tempfile.TemporaryDirectory() as temporary:
                 folder = Path(temporary)
                 wrapper = folder / "scenario.js"
-                source = Path(__file__).with_name("inference.js").resolve().as_uri()
+                source = (BENCH / "inference.js").resolve().as_uri()
                 wrapper.write_text(f"import generate from {json.dumps(source)};\n"
                                    "export const options = { vus: 3, iterations: 12 };\nexport default generate;\n")
                 events = folder / "events.jsonl"
@@ -92,8 +93,8 @@ class InferenceMetricTests(unittest.TestCase):
         try:
             with tempfile.TemporaryDirectory() as temporary:
                 folder = Path(temporary)
-                shutil.copyfile(Path(__file__).with_name("inference.js"), folder / "inference.js")
-                workload = json.loads(Path(__file__).with_name("workload.json").read_text())
+                shutil.copyfile((BENCH / "inference.js"), folder / "inference.js")
+                workload = json.loads((BENCH / "workload.json").read_text())
                 workload["timeout_seconds"] = .15
                 (folder / "workload.json").write_text(json.dumps(workload))
                 wrapper = folder / "scenario.js"
@@ -160,7 +161,7 @@ class InferenceMetricTests(unittest.TestCase):
             with tempfile.TemporaryDirectory() as temporary:
                 folder = Path(temporary)
                 wrapper = folder / "scenario.js"
-                source = Path(__file__).with_name("inference.js").resolve().as_uri()
+                source = (BENCH / "inference.js").resolve().as_uri()
                 wrapper.write_text(
                     f"import generate from {json.dumps(source)};\n"
                     f"export const options = {{ vus: 1, iterations: {len(responses)} }};\n"

@@ -14,19 +14,20 @@ import analyze
 import fixed_replicas
 import main_protocol as protocol
 import pilot_records
+import records
 import run_pilot
-from test_pilot_records import sample
+from tests.bench.fixtures import sample
 
 
-WORKLOAD = json.loads(Path(__file__).with_name('workload.json').read_text())
-START = pilot_records.timestamp('2026-10-18T12:00:00Z')
+WORKLOAD = json.loads((Path(__file__).resolve().parents[2] / 'bench/workload.json').read_text())
+START = records.timestamp('2026-10-18T12:00:00Z')
 
 
 def point(second, counter=None):
-    at = pilot_records.iso_time(START + second)
+    at = records.iso_time(START + second)
     result = sample(at)
     status = result['pods']['items'][0]['status']['containerStatuses'][0]
-    status['state']['running']['startedAt'] = pilot_records.iso_time(START - 60)
+    status['state']['running']['startedAt'] = records.iso_time(START - 60)
     for r in result['resource_usage']:
         r.update(namespace='inference', cpu_timestamp_ms=(START + second) * 1000,
                  memory_timestamp_ms=(START + second) * 1000, restart_count=0,
@@ -43,17 +44,17 @@ def data(profile='steady'):
             'expected_replicas': 1, 'namespace': 'inference', 'container': 'ollama', 'deployment': 'ollama',
             'duration_seconds': duration, 'observer_interval_seconds': 5, 'workload': copy.deepcopy(WORKLOAD),
             'burst_stages': copy.deepcopy(WORKLOAD['burst_stages']) if profile == 'burst' else None,
-            'load_process_finished_at_utc': pilot_records.iso_time(START + duration + 1),
-            'scheduled_profile_finished_at_utc': pilot_records.iso_time(START + duration + 1),
+            'load_process_finished_at_utc': records.iso_time(START + duration + 1),
+            'scheduled_profile_finished_at_utc': records.iso_time(START + duration + 1),
             'phases': [{'phase': 'post_load'}]},
             'check': {'valid': True, 'errors': [], 'counts': {'completed': 240, 'failed': 0, 'unfinished': 0, 'dropped': 0},
-                      'load_window': {'started_at_utc': pilot_records.iso_time(START),
-                                      'scheduled_end_at_utc': pilot_records.iso_time(START + duration)}},
+                      'load_window': {'started_at_utc': records.iso_time(START),
+                                      'scheduled_end_at_utc': records.iso_time(START + duration)}},
             'events': [], 'cluster': []}
 
 
 def completed(second, duration=1000, success=True):
-    return {'event': 'completed', 'started_at_utc': pilot_records.iso_time(START + second),
+    return {'event': 'completed', 'started_at_utc': records.iso_time(START + second),
             'duration_ms': duration, 'outcome': 'success' if success else 'failure',
             'error_category': None if success else 'timeout'}
 
@@ -118,10 +119,10 @@ class PreparationTests(unittest.TestCase):
                 self.assertEqual(gate.consecutive, 0)
 
     def test_staggered_copies_each_need_two_fresh_intervals_after_warmup(self):
-        from test_fixed_replicas import three_sample
+        from tests.bench.fixtures import three_sample
         gate = protocol.QuietState([{'pod_uid': f'pod-{i}'} for i in (1, 2, 3)], 'ollama', START)
         for second in range(0, 31, 5):
-            p = three_sample(pilot_records.iso_time(START + second))
+            p = three_sample(records.iso_time(START + second))
             for r in p['resource_usage']:
                 if r['scope'] != 'container': continue
                 shift = (0, 5, 3)[int(r['pod_uid'][-1]) - 1]
@@ -132,10 +133,10 @@ class PreparationTests(unittest.TestCase):
         self.assertEqual(gate.consecutive, 2)
 
     def test_cached_copy_cannot_borrow_other_copies_quiet_intervals(self):
-        from test_fixed_replicas import three_sample
+        from tests.bench.fixtures import three_sample
         gate = protocol.QuietState([{'pod_uid': f'pod-{i}'} for i in (1, 2, 3)], 'ollama', START)
         for second in range(0, 51, 5):
-            p = three_sample(pilot_records.iso_time(START + second))
+            p = three_sample(records.iso_time(START + second))
             for r in p['resource_usage']:
                 if r['scope'] != 'container': continue
                 source = 0 if r['pod_uid'] == 'pod-3' else second
@@ -152,7 +153,7 @@ class PreparationTests(unittest.TestCase):
                             (20, 15, 100.25), (25, 20, 100.5), (30, 25, 100.75))
                 for collected, source, counter in readings:
                     p = point(source, counter)
-                    p['time'] = pilot_records.iso_time(START + collected)
+                    p['time'] = records.iso_time(START + collected)
                     self.assertEqual(gate.accept(p), collected == 30, collected)
 
     def test_hpa_metrics_window_must_exclude_warmup_and_be_low(self):
@@ -170,7 +171,7 @@ class PreparationTests(unittest.TestCase):
         collection = Mock(identity={'pod_uid': 'pod-1'}, container='ollama', interval=5)
         with patch.object(protocol.time, 'monotonic', side_effect=[0, 181]):
             with self.assertRaisesRegex(RuntimeError, '180 seconds'):
-                protocol.settle(collection, pilot_records.iso_time(START))
+                protocol.settle(collection, records.iso_time(START))
 
     def test_model_and_runtime_context_use_independent_sources(self):
         observer = Mock(namespace='inference', context='ai-lab')
@@ -187,9 +188,9 @@ class PreparationTests(unittest.TestCase):
         observer = Mock()
         observer.collect.side_effect = [point(0), point(5), point(10)]
         with tempfile.TemporaryDirectory() as temporary, patch.object(protocol.time, 'sleep'), \
-                patch('observe.utc_now', return_value=pilot_records.iso_time(START)):
+                patch('observe.utc_now', return_value=records.iso_time(START)):
             result = protocol.recover(observer, Path(temporary), 'ollama')
-            self.assertEqual(len(list(pilot_records.read_jsonl(Path(temporary) / 'recovery-observations.jsonl'))), 3)
+            self.assertEqual(len(list(records.read_jsonl(Path(temporary) / 'recovery-observations.jsonl'))), 3)
         self.assertEqual(result['passed_at_utc'], point(10)['time'])
         observer.read.assert_not_called()
 
@@ -218,9 +219,9 @@ class AssessmentTests(unittest.TestCase):
     def test_burst_peak_uses_start_time_and_retains_late_completions(self):
         d = data('burst')
         d['events'] = [completed(120.999, 10), completed(121, 6000), completed(420.999, 6000), completed(421, 10)]
-        peak = next(p for p in protocol.phase_results(d) if p['name'] == 'peak')
+        peak = next(p for p in analyze.phase_results(d) if p['name'] == 'peak')
         self.assertEqual(peak['completed'], 2)
-        result = protocol.assessment(d)
+        result = analyze.assessment(d)
         self.assertFalse(result['primary_p95_pass'])
         self.assertTrue(result['sensitivity_p95_pass'])
         self.assertEqual(result['overall'], 'fail')
@@ -230,18 +231,18 @@ class AssessmentTests(unittest.TestCase):
             d = data()
             d['events'] = [completed(i, success=i >= failed) for i in range(240)]
             d['check']['counts']['failed'] = failed
-            r = protocol.assessment(d)
+            r = analyze.assessment(d)
             self.assertIs(r['primary_errors_pass'], expected)
             self.assertEqual(r['overall'], 'pass' if expected else 'fail')
         d = data('burst')
         d['events'] = [completed(121)]
         d['check']['counts'].update(failed=4, completed=240)
-        self.assertEqual(protocol.assessment(d)['overall'], 'fail')
+        self.assertEqual(analyze.assessment(d)['overall'], 'fail')
 
     def test_empty_latency_drops_invalid_data_and_early_stop_cannot_pass(self):
         d = data()
         d['events'] = [completed(1, success=False)]
-        self.assertEqual(protocol.assessment(d)['primary_p95_pass'], 'not_assessable')
+        self.assertEqual(analyze.assessment(d)['primary_p95_pass'], 'not_assessable')
         for change in ('drops', 'unfinished', 'early'):
             d = data()
             d['events'] = [completed(1)]
@@ -250,7 +251,7 @@ class AssessmentTests(unittest.TestCase):
                 d['check']['counts']['unfinished'] = 1
                 d['check']['valid'] = False  # Existing reconcile owns this rejection.
             if change == 'early': d['metadata']['phases'] = []
-            self.assertEqual(protocol.assessment(d)['overall'], 'not_assessable')
+            self.assertEqual(analyze.assessment(d)['overall'], 'not_assessable')
 
     def test_resource_gaps_keep_request_verdict_and_oom_is_retained(self):
         d = data()
@@ -259,17 +260,17 @@ class AssessmentTests(unittest.TestCase):
         p['errors'] = [{'category': 'missing_resource'}]
         p['resource_usage'] = []
         d['cluster'] = [p]
-        self.assertEqual(protocol.assessment(d)['overall'], 'pass')
+        self.assertEqual(analyze.assessment(d)['overall'], 'pass')
         status = p['pods']['items'][0]['status']['containerStatuses'][0]
         status['lastState'] = {'terminated': {'reason': 'OOMKilled', 'exitCode': 137}}
         d['check']['valid'] = False
-        r = protocol.assessment(d)
+        r = analyze.assessment(d)
         self.assertEqual(r['system_outcomes'][0]['termination']['reason'], 'OOMKilled')
         self.assertEqual(r['overall'], 'not_assessable')
 
     def test_fixed_timeout_status_mismatch_is_not_missing_traffic(self):
-        from test_fixed_replicas import FixedReplicaTests
-        host = FixedReplicaTests()
+        from tests.bench.fixtures import FixedReplicaFixture
+        host = FixedReplicaFixture()
         host.setUp()
         self.addCleanup(host.doCleanups)
         metadata = host.logs()
@@ -290,7 +291,7 @@ class AssessmentTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             folder = Path(temporary)
             (folder / 'cluster.jsonl').write_text(json.dumps(p) + '\n{"truncated":')
-            result = protocol.save_assessment(folder, d['metadata'], d['check'])
+            result = analyze.save_assessment(folder, d['metadata'], d['check'])
         self.assertEqual(result['overall'], 'not_assessable')
         self.assertEqual(result['system_outcomes'][0]['termination']['reason'], 'OOMKilled')
 
@@ -298,13 +299,13 @@ class AssessmentTests(unittest.TestCase):
 class ResourceTests(unittest.TestCase):
     def resources(self, points):
         d = data()
-        d['check']['load_window']['scheduled_end_at_utc'] = pilot_records.iso_time(START + 10)
+        d['check']['load_window']['scheduled_end_at_utc'] = records.iso_time(START + 10)
         d['cluster'] = points
-        return protocol.primary_resources(d)
+        return analyze.primary_resources(d)
 
     def test_counter_integration_clips_boundaries_and_deduplicates_source_polls(self):
         points = [point(t, 100 + 2 * t) for t in (-2, 2, 2, 8, 12)]
-        points[2]['time'] = pilot_records.iso_time(START + 3)
+        points[2]['time'] = records.iso_time(START + 3)
         result = self.resources(points)
         r = result['instances'][0]
         self.assertEqual(r['cpu_core_seconds_estimate'], 20)
@@ -334,7 +335,7 @@ class ResourceTests(unittest.TestCase):
             for r in p['resource_usage']:
                 r['cpu_timestamp_ms'] = (START + source) * 1000
             d['cluster'].append(p)
-        result = protocol.primary_resources(d)
+        result = analyze.primary_resources(d)
         self.assertIsNone(result['application_cpu_core_seconds_estimate'])
         for r in result['instances'] + result['nodes']:
             self.assertEqual(r['cpu_core_seconds_estimate'], 298)
@@ -356,18 +357,18 @@ class ResourceTests(unittest.TestCase):
         p = point(0)
         p['resource_usage'] = []
         p['errors'] = [{'category': 'missing_resource'}]
-        with self.assertRaises(ValueError): pilot_records.pilot_identity(p)
-        self.assertEqual(pilot_records.pilot_identity(p, allow_resource_gaps=True)['pod_uid'], 'pod-1')
+        with self.assertRaises(ValueError): records.pilot_identity(p)
+        self.assertEqual(records.pilot_identity(p, allow_resource_gaps=True)['pod_uid'], 'pod-1')
         p['errors'] = [{'source': 'pods', 'message': 'API failed'}]
-        with self.assertRaises(ValueError): pilot_records.pilot_identity(p, allow_resource_gaps=True)
+        with self.assertRaises(ValueError): records.pilot_identity(p, allow_resource_gaps=True)
 
     def test_asynchronous_instances_can_sum_only_complete_interval_totals(self):
-        from test_fixed_replicas import three_sample
+        from tests.bench.fixtures import three_sample
         points = []
         for second in (-2, 5, 12):
-            p = three_sample(pilot_records.iso_time(START + second))
+            p = three_sample(records.iso_time(START + second))
             for pod in p['pods']['items']:
-                pod['status']['containerStatuses'][0]['state']['running']['startedAt'] = pilot_records.iso_time(START - 60)
+                pod['status']['containerStatuses'][0]['state']['running']['startedAt'] = records.iso_time(START - 60)
             for r in p['resource_usage']:
                 if r['scope'] == 'node': continue
                 index = int(r['pod_uid'][-1])
@@ -384,8 +385,8 @@ class ResourceTests(unittest.TestCase):
 class MainLifecycleTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which('k6'), 'k6 is required for this local integration check')
     def test_actual_k6_primary_target_failure_retains_valid_collection(self):
-        from test_autoscaling import AutoscalingLifecycleTests
-        host = AutoscalingLifecycleTests()
+        from tests.bench.fixtures import AutoscalingFixture
+        host = AutoscalingFixture()
         self.addCleanup(host.doCleanups)
         # Deliberately impossible fixture threshold; never a project SLO.
         folder, code = host.exercise(profile='steady', main=True, latency_target=.000001)
@@ -397,11 +398,11 @@ class MainLifecycleTests(unittest.TestCase):
 
     @unittest.skipUnless(shutil.which('k6'), 'k6 is required for this local integration check')
     def test_main_fixed_one_and_three_with_both_profiles(self):
-        from test_fixed_replicas import FixedLauncherTests
+        from tests.bench.fixtures import FixedLauncherFixture
         for replicas in (1, 3):
             for profile in ('steady', 'burst'):
                 with self.subTest(replicas=replicas, profile=profile):
-                    host = FixedLauncherTests()
+                    host = FixedLauncherFixture()
                     self.addCleanup(host.doCleanups)
                     folder, code, _ = host.run_fixture(main=True, replicas=replicas, profile=profile)
                     result = json.loads((folder / 'assessment.json').read_text())
@@ -411,10 +412,10 @@ class MainLifecycleTests(unittest.TestCase):
 
     @unittest.skipUnless(shutil.which('k6'), 'k6 is required for this local integration check')
     def test_main_autoscaling_steady_and_burst_reuse_existing_lifecycle(self):
-        from test_autoscaling import AutoscalingLifecycleTests
+        from tests.bench.fixtures import AutoscalingFixture
         for profile in ('steady', 'burst'):
             with self.subTest(profile=profile):
-                host = AutoscalingLifecycleTests()
+                host = AutoscalingFixture()
                 self.addCleanup(host.doCleanups)
                 folder, code = host.exercise(profile=profile, main=True)
                 check = json.loads((folder / 'collection-check.json').read_text())

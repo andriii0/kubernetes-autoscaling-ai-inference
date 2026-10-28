@@ -15,17 +15,18 @@ mutations = (
 )
 with tempfile.TemporaryDirectory() as temporary:
     folder = Path(temporary)
-    for name in ("pilot_records.py", "test_pilot_records.py"):
-        shutil.copyfile(root / "bench" / name, folder / name)
-    original = (folder / "pilot_records.py").read_text(encoding="utf-8")
-    baseline = subprocess.run([sys.executable, "-B", "-m", "unittest", "test_pilot_records"],
+    shutil.copytree(root / "bench", folder / "bench", ignore=shutil.ignore_patterns("__pycache__"))
+    shutil.copytree(root / "tests", folder / "tests", ignore=shutil.ignore_patterns("__pycache__"))
+    validator = folder / "bench/pilot_records.py"
+    original = validator.read_text(encoding="utf-8")
+    baseline = subprocess.run([sys.executable, "-B", "-m", "unittest", "tests.bench.test_pilot_records"],
                               cwd=folder, capture_output=True, text=True)
     if baseline.returncode:
         raise AssertionError("baseline tests failed:\n" + baseline.stdout + baseline.stderr)
     for name, condition, method in mutations:
         assert original.count(condition) == 1, condition
-        (folder / "pilot_records.py").write_text(original.replace(condition, "if False:"), encoding="utf-8")
-        target = f"test_pilot_records.RecordTests.{method}"
+        validator.write_text(original.replace(condition, "if False:"), encoding="utf-8")
+        target = f"tests.bench.test_pilot_records.RecordTests.{method}"
         result = subprocess.run([sys.executable, "-B", "-m", "unittest", target],
                                 cwd=folder, capture_output=True, text=True)
         output = result.stdout + result.stderr

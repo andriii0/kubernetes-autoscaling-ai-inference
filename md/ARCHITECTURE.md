@@ -1,6 +1,6 @@
 # Architecture
 
-Updated: 2026-10-27. This describes the implemented local prototype. Preliminary checks, the 18-run main matrix and comparative analysis have saved evidence; this is not a check of current runtime availability.
+Updated: 2026-10-28. This describes the implemented local prototype. Preliminary checks, the 18-run main matrix and comparative analysis have saved evidence; this is not a check of current runtime availability.
 
 ## Runtime flow
 
@@ -23,12 +23,15 @@ The cluster is the existing Docker-backed Minikube profile `ai-lab`, configured 
 | Pilot launcher | `bench/run_pilot.py` | Exclusively create a run folder; validate fixed one/three-copy state or use the autoscaling lifecycle; orchestrate idle observation, warmup, k6, post-load observation and reconciliation; retain partial failures |
 | Main-series continuation | `bench/run_series.py` | Replay and skip completed attempts; manage a Service tunnel and call the existing launcher/analyzer sequentially; stop for incomplete data without automatic replacements |
 | Warmup-wait diagnostic | `bench/run_wait_pair.py` | Run the separately authorized two-run preparation check through the existing launcher; archive order/settings and host snapshots; keep diagnostic evidence outside the main matrix |
+| Shared runtime | `bench/runtime.py` | Run child processes, own the Service tunnel and record pre-launch host state for the scenario drivers |
+| Protocol preparation | `bench/main_protocol.py` | Define the matrix and frozen argument checks; prepare replicas, check runtime configuration and wait for quiet state |
 | Autoscaling lifecycle | `bench/autoscaling.py` and `deploy/hpa.yaml` | Reset/warm the initial copy, attach HPA, validate dynamic state, stream logs by UID, and restore one copy |
 | Fixed replica preparation | `bench/fixed_replicas.py` | Warm each selected pod through the API proxy; verify Service endpoints and aggregate per-pod access-log counts |
 | Collection validator | `bench/pilot_records.py` | Check request counters and observation coverage/stability; report archive issues as warnings without modifying raw evidence |
+| Shared records | `bench/records.py` | Read JSONL, interpret timestamps and percentiles, and validate fixed replica identities without importing lifecycle modules |
 | Observer | `bench/observe.py` | Read Kubernetes and kubelet through `kubectl`; save raw state, source timings, CPU/memory and errors as JSONL |
-| Observer tests | `bench/test_observe.py` | Check parsing, counter resets, missing data, failures and output-file protection |
-| Pilot analysis | `bench/analyze.py` | Reconcile saved evidence and produce CSV/JSON summaries plus aligned plots; optional Matplotlib is used only for plotting |
+| Local tests | `tests/bench/` and `tests/bench/fixtures.py` | Check parsing, missing data, failures, lifecycle cleanup, source archives and analysis using temporary evidence and local HTTP servers |
+| Run analysis | `bench/analyze.py` | Reconcile saved evidence, calculate phase assessments and resource estimates, and produce CSV/JSON summaries plus aligned plots; optional Matplotlib is used only for plotting |
 | Main comparison | `bench/summarize_main.py` | Replay all 18 main attempts and reuse the analyzer for per-run/group/phase/resource/scaling tables and plots; retain incomplete resource totals |
 | Offline verification | Scripts saved in result directories | Recalculate and validate the completed observation/overhead checks |
 | Evidence | `results/<run>/` | Keep configurations, raw measurements, summaries, snapshots and console output together |
@@ -36,6 +39,8 @@ The cluster is the existing Docker-backed Minikube profile `ai-lab`, configured 
 Ollama and k6 are the active inference and load-generation runtime; unused Python scaffolding has been removed. `bench/analyze.py` supports fixed-one and preliminary fixed-three runs, including per-pod resource plots. Preliminary autoscaling analysis includes phase results, HPA/Ready timelines and resources for all observed UIDs. The completed main comparison has saved tables and plots; final findings and reproduction remain separate work.
 
 ## Measurement flow
+
+`run_pilot.py` keeps the existing CLI and separates parsing, metadata, input archives, preparation, load and finalization into functions. Its outer `try/finally` owns cleanup. Scenario drivers use `runtime.py`; record readers and identity checks in `records.py` have no dependency on lifecycle or analysis modules. Phase assessments and resource estimates belong to `analyze.py`. The bench import graph has no cycles, including imports inside functions.
 
 The observer reads selected pods, namespace Deployments/HPA, nodes and metrics-server data. It separately queries each selected pod's node at `/api/v1/nodes/<node>/proxy/metrics/resource`. Deployment metadata may not carry the pod label, so Deployment reads cover the namespace.
 
@@ -55,4 +60,6 @@ Pilot rate selection and its summaries/plots are complete; [saved evidence](../r
 
 The work currently uses Kubernetes YAML and scripts; no Terraform provisioning or production cloud deployment exists. See [ROADMAP.md](ROADMAP.md), [STATUS.md](STATUS.md) and [DECISIONS.md](DECISIONS.md).
 
-Server/API readiness and model warmup are separate states. Initial replicas must finish a generation before measurement. A new replica created during scaling can accept a request before its model is warm; that request includes loading delay. Record the Ready transition separately from response observations. Native server logs identify the first observed HTTP response per pod, but do not prove its semantic success or associate it with an individual client request. The C4 views describe target architecture. Their saved status annotations predate pilot analysis; the HPA check and completed main matrix now have saved evidence, while current implementation state is recorded here and in STATUS.md.
+Server/API readiness and model warmup are separate states. Initial replicas must finish a generation before measurement. A new replica created during scaling can accept a request before its model is warm; that request includes loading delay. Record the Ready transition separately from response observations. Native server logs identify the first observed HTTP response per pod, but do not prove its semantic success or associate it with an individual client request.
+
+I updated the [C1 and C2 FigJam views](https://www.figma.com/board/KaoXEMPbKjCy1gOwdFdrUE/Kubernetes-PE) on 2026-10-28 to describe the implemented local prototype. C2 shows the experiment runner, k6, Service, Ollama, observer, local results and analysis, with Kubernetes as the supporting platform. The Service is a Kubernetes network object, not a separate application process. HPA and analysis are implemented; the diagram does not certify current runtime availability or an HPA performance benefit. This file owns the implementation detail and STATUS.md owns verified progress.

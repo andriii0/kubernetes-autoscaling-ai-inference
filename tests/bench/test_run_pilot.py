@@ -2,75 +2,40 @@ import argparse
 import json
 import os
 import shutil
-import tempfile
+import subprocess
+import sys
 import threading
 import time
 import unittest
-from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
-from pathlib import Path
 from unittest.mock import Mock, patch
 
 import run_pilot
-from test_pilot_records import sample
+from tests.bench.fixtures import PilotLauncherFixture, FakeObserver
 
 
-class FakeObserver:
-    broken = False
+class PilotLauncherTests(PilotLauncherFixture):
+    def test_source_archives_import_without_the_checkout(self):
+        variants = ((), ('--mode', 'fixed-3'), ('--mode', 'autoscaling'), ('--pilot-preparation',))
+        for index, extra in enumerate(variants):
+            with self.subTest(options=extra):
+                args, workload, seconds, prepared = run_pilot.parse_arguments(self.args + list(extra))
+                args.run_dir = self.folder.parent / f'archive-{index}'
+                args.run_dir.mkdir()
+                metadata = run_pilot.create_metadata(args, workload, seconds)
+                with patch('main_protocol.source_revision', return_value={'commit': 'fixture', 'dirty': False}):
+                    inputs, _ = run_pilot.archive_inputs(args, metadata, prepared)
+                self.assertEqual(metadata['source_archive_version'], 2)
+                self.assertIn('records.py', metadata['source_sha256'])
+                modules = 'import run_pilot, pilot_records, records'
+                if prepared:
+                    modules += ', main_protocol, analyze'
+                if args.mode == 'autoscaling':
+                    modules += ', autoscaling, fixed_replicas'
+                script = 'import sys; sys.path.insert(0, sys.argv[1]); ' + modules
+                result = subprocess.run([sys.executable, '-I', '-B', '-c', script, str(inputs)],
+                                        cwd=inputs, capture_output=True, text=True, timeout=15)
+                self.assertEqual(result.returncode, 0, result.stderr)
 
-    def __init__(self, context, namespace, selector):
-        self.context, self.namespace, self.selector = context, namespace, selector
-
-    def collect(self, interval):
-        result = sample(run_pilot.utc_now())
-        if self.broken:
-            result["errors"] = [{"source": "test", "message": "unavailable"}]
-        return result
-
-
-class PilotLauncherTests(unittest.TestCase):
-    def setUp(self):
-        temporary = tempfile.TemporaryDirectory()
-        self.addCleanup(temporary.cleanup)
-        self.folder = Path(temporary.name) / "run"
-        self.args = ["--base-url", "http://127.0.0.1:1234", "--rate", "2", "--run-dir", str(self.folder),
-                     "--idle-seconds", "0", "--post-seconds", "0", "--duration", "1s"]
-        FakeObserver.broken = False
-
-    def metadata(self):
-        return json.loads((self.folder / "metadata.json").read_text())
-
-    def fake_versions(self, *args):
-        return {name: {"stdout": "test-version", "exit_code": 0} for name in ("k6", "kubectl", "minikube", "docker")}
-
-    def server(self, fail_after_warmup=False, fail_warmup=False):
-        captured = []
-
-        class Handler(BaseHTTPRequestHandler):
-            def do_POST(self):
-                captured.append(json.loads(self.rfile.read(int(self.headers["Content-Length"]))))
-                status = 503 if fail_warmup or (fail_after_warmup and len(captured) > 1) else 200
-                data = json.dumps({"done": True, "response": "Stub answer", "eval_count": 0, "load_duration": 0}).encode()
-                self.send_response(status)
-                self.send_header("Content-Type", "application/json")
-                self.send_header("Content-Length", str(len(data)))
-                self.end_headers()
-                self.wfile.write(data)
-
-            def log_message(self, *args):
-                pass
-
-        server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
-        worker = threading.Thread(target=server.serve_forever, daemon=True)
-        worker.start()
-
-        def close():
-            server.shutdown()
-            server.server_close()
-            worker.join(timeout=5)
-
-        self.addCleanup(close)
-        self.args[1] = f"http://127.0.0.1:{server.server_port}"
-        return captured
 
     def test_explicit_slo_is_passed_and_ambient_overrides_stay_blocked(self):
         args = argparse.Namespace(base_url='http://localhost:1', rate=2, duration='1s', slo_ms=None)
@@ -102,20 +67,6 @@ class PilotLauncherTests(unittest.TestCase):
         summary = json.loads((self.folder / 'summary.json').read_text())
         self.assertGreater(summary['metrics']['successful_latency_ms']['p(95)'], metadata['slo_ms'])
 
-    def invoke(self):
-        with patch.object(run_pilot, "Observer", FakeObserver), patch.object(run_pilot, "versions", self.fake_versions), \
-             patch.object(run_pilot.shutil, "which", return_value=shutil.which('k6') or 'test-k6'):
-            return run_pilot.main(self.args)
-
-    def assert_run_exit(self, expected):
-        actual = self.invoke()
-        if actual != expected:
-            preserved = Path(tempfile.mkdtemp(prefix="pilot-test-failure-")) / "run"
-            shutil.copytree(self.folder, preserved)
-            diagnostics = {name: (self.folder / name).read_text(encoding="utf-8")
-                           for name in ("collection-check.json", "console.txt") if (self.folder / name).exists()}
-            self.fail(f"exit {actual}, expected {expected}; evidence: {preserved}\n"
-                      + json.dumps(diagnostics, indent=2))
 
     @unittest.skipUnless(shutil.which('k6'), 'k6 is required for this integration check')
     def test_real_k6_full_lifecycle_and_complete_evidence(self):

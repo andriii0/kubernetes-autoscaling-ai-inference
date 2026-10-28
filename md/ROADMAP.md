@@ -151,7 +151,7 @@ Compare alternatives for the model, model server, CPU versus GPU execution, load
 
 Maintain `bench/observe.py` using the schema and collection rules in [OBSERVATION.md](OBSERVATION.md). Save timestamped replica state, scaling state, and resource observations throughout a run. Use UTC timestamps so request and cluster records can be aligned.
 
-**Completion evidence:** `bench/observe.py`, `bench/test_observe.py`, and [the live check](../results/observation-check-2026-10-16-verified/README.md). The check saved 30 observations across a 150-second session with no collection errors. Error handling and output protection were also verified. JSONL records retain raw state, source timestamps, gaps and errors.
+**Completion evidence:** `bench/observe.py`, `tests/bench/test_observe.py`, and [the live check](../results/observation-check-2026-10-16-verified/README.md). The check saved 30 observations across a 150-second session with no collection errors. Error handling and output protection were also verified. JSONL records retain raw state, source timestamps, gaps and errors.
 
 ### 15. Select and verify resource measurements for the final report
 

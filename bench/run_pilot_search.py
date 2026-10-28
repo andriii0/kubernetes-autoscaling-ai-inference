@@ -11,9 +11,8 @@ import sys
 import time
 
 import analyze
-from pilot_records import timestamp
-from run_series import BOUNDARY_WARNING, run_command, service_url
-from run_wait_pair import host_snapshot
+from records import timestamp
+from runtime import BOUNDARY_WARNING, host_snapshot, run_command, service_url
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -84,6 +83,8 @@ def main(argv=None):
                     limitation='Current-host rate selection; not an HPA benefit or historical-cause test')
     shutil.copyfile(__file__, series / 'run_pilot_search.py')
     manifest['runner_sha256'] = hashlib.sha256((series / 'run_pilot_search.py').read_bytes()).hexdigest()
+    shutil.copyfile(ROOT / 'bench/runtime.py', series / 'runtime.py')
+    manifest['runtime_sha256'] = hashlib.sha256((series / 'runtime.py').read_bytes()).hexdigest()
     save(series / 'manifest.json', manifest)
     deadline, controlled = time.monotonic() + 7200, None
 

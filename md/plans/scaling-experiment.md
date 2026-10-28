@@ -190,7 +190,7 @@ Verification (2026-10-25): 26 focused HPA checks and 9 fixed-replica checks pass
 
 ## 3. Main run procedure
 
-Step 20 preparation is complete with local verification. Reuse the existing launcher, reconciliation, analyzer, observer and workload. bench/main_protocol.py contains protocol-specific preparation and calculations. The optional continuation command below only calls the existing launcher and analyzer; it adds no collector or service. I authorized step-21 execution on 2026-10-25. I confirmed that the game was closed on 2026-10-25. I later authorized continuation after the saved pause; all 18 attempts and the combined analysis are now reviewed. The checkpoint below remains historical evidence.
+Step 20 preparation is complete with local verification. Reuse the existing launcher, reconciliation, analyzer, observer and workload. bench/main_protocol.py contains protocol-specific preparation; bench/analyze.py now owns phase assessments and resource calculations. The optional continuation command below only calls the existing launcher and analyzer; it adds no collector or service. I authorized step-21 execution on 2026-10-25. I confirmed that the game was closed on 2026-10-25. I later authorized continuation after the saved pause; all 18 attempts and the combined analysis are now reviewed. The checkpoint below remains historical evidence.
 
 ### Implementation and verification
 

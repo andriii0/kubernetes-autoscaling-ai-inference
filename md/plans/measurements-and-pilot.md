@@ -109,6 +109,8 @@ The observer interval defaults to 5 seconds. `--idle-seconds`, `--post-seconds`,
 python .\bench\pilot_records.py "$runDir"
 ```
 
+After the 2026-10-28 code refactor, new runs declare `source_archive_version: 2` and also archive `records.py`. The validator requires that helper for the new archive version and retains the original requirements for old runs. Prepared runs still archive `main_protocol.py`, `analyze.py` and mode helpers. The rate-search and wait-pair drivers also save `runtime.py` with its hash beside their own source copy.
+
 Exit 0 means collection passed and k6 thresholds passed; 99 with status `thresholds_failed` means thresholds failed but complete measurement evidence was retained. Exit 1 means failed/incomplete collection, 2 rejects an existing path, and 130 records an interruption. Inspect both `k6_exit_code` and `collection_valid`: load overload and measurement failure are different outcomes. A timeout is a completed failed client request; it does not prove Ollama stopped processing it. `server_drain_verified` remains false: wait for outstanding work and CPU recovery before another probe. The 10-second post-load observation alone does not certify recovery. The numeric discovery sequence and stop rules are defined only in section 4.
 
 ## 3. Verify the measurements first

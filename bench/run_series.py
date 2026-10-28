@@ -1,24 +1,20 @@
 """Continue an existing v1.1 series with the existing launcher and analyzer."""
 
 import argparse
-from contextlib import contextmanager
 import hashlib
 import json
 from pathlib import Path
-import re
 import shutil
 import subprocess
 import sys
-import tempfile
-import time
 
-from analyze import load_results
-from main_protocol import assessment, matrix
+from analyze import assessment, load_results
+from main_protocol import matrix
+from runtime import BOUNDARY_WARNING, run_command, service_url
 
 
 ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_SERIES = ROOT / 'results/main/series-2026-10-25-v1.1'
-BOUNDARY_WARNING = 'request start within 1 ms timestamp boundary tolerance'
 
 
 def read_json(path):
@@ -101,60 +97,6 @@ def pending_rows(series):
     return pending
 
 
-def run_command(command, folder=None):
-    """Keep child output visible and wait for launcher cleanup after console Ctrl+C."""
-    child = subprocess.Popen(command, cwd=ROOT)
-    last_phase = None
-    try:
-        while child.poll() is None:
-            if folder and (folder / 'metadata.json').exists():
-                try:
-                    phase = read_json(folder / 'metadata.json').get('phase')
-                    if phase != last_phase:
-                        print(f'{folder.name}: {phase}', flush=True)
-                        last_phase = phase
-                except (OSError, ValueError):
-                    pass  # The launcher may be replacing the metadata while we read it.
-            time.sleep(1)
-        return child.returncode
-    except KeyboardInterrupt:
-        print('Stopping series. Waiting for the current command to finish cleanup...', flush=True)
-        child.wait()
-        raise
-
-
-@contextmanager
-def service_url(base_url):
-    if base_url:
-        yield base_url
-        return
-    if run_command(['minikube', 'start', '-p', 'ai-lab']) != 0:
-        raise ValueError('Cannot resume ai-lab; check Docker Desktop and Minikube')
-    with tempfile.TemporaryFile(mode='w+', encoding='utf-8') as log:
-        tunnel = subprocess.Popen(['minikube', '-p', 'ai-lab', 'service', 'ollama', '-n', 'inference', '--url'],
-                                  cwd=ROOT, stdout=log, stderr=subprocess.STDOUT)
-        try:
-            deadline = time.monotonic() + 120
-            while time.monotonic() < deadline:
-                log.seek(0)
-                output = log.read()
-                match = re.search(r'https?://(?:127\.0\.0\.1|localhost):\d+', output)
-                if match and tunnel.poll() is None:
-                    print(f'Service tunnel: {match.group()}', flush=True)
-                    yield match.group()
-                    return
-                if tunnel.poll() is not None:
-                    break
-                time.sleep(.5)
-            raise ValueError(f'Cannot open the Service tunnel: {output}')
-        finally:
-            if tunnel.poll() is None:
-                tunnel.terminate()
-                try:
-                    tunnel.wait(timeout=10)
-                except subprocess.TimeoutExpired:
-                    tunnel.kill()
-                    tunnel.wait()
 
 
 def execute(series, rows, base_url, activity):

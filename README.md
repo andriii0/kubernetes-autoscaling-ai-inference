@@ -26,6 +26,7 @@ Start with [current status](md/STATUS.md) for progress, the [setup guide](md/GET
 - `app/`: Ollama image definition and local ignored model weights.
 - `deploy/`: reproducible local environment and deployment configuration.
 - `bench/`: load generation, observation, and result analysis.
+- `tests/bench/`: local collection, lifecycle and analysis tests with shared fixtures.
 - `results/`: run settings, raw measurements, and generated figures.
 
 The final findings belong in a separate Notion document in roadmap step 23, with links to supporting raw measurements.

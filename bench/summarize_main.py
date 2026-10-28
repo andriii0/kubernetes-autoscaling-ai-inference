@@ -10,7 +10,7 @@ import statistics
 
 import analyze
 import main_protocol
-from pilot_records import read_jsonl, timestamp
+from records import read_jsonl, timestamp
 
 
 def write_csv(path, rows):
@@ -30,8 +30,8 @@ def compare(series, output, plots=True):
         metadata, check = data['metadata'], data['check']
         if any(metadata.get(key) != value for key, value in dict(expected, actual_order=expected['planned_order']).items()):
             raise ValueError(f'{folder.name}: matrix identity mismatch; review manually')
-        assessment = json.loads(json.dumps(main_protocol.assessment(data)))
-        resources = main_protocol.primary_resources(data)
+        assessment = json.loads(json.dumps(analyze.assessment(data)))
+        resources = analyze.primary_resources(data)
         saved = series / f"attempt-{expected['planned_order']:02d}-analysis"
         for name, replay in (('assessment.json', assessment),):
             if json.loads((folder / name).read_text()) != replay:
@@ -113,7 +113,7 @@ def compare(series, output, plots=True):
         for kind, records in ((instances, active), (nodes, resources['nodes'])):
             for record in records:
                 kind.append(dict(run=folder.name, mode=metadata['mode'], profile=metadata['profile'], repetition=metadata['repetition'], **record))
-        for phase in main_protocol.phase_results(data):
+        for phase in analyze.phase_results(data):
             phases.append(dict(run=folder.name, mode=metadata['mode'], profile=metadata['profile'], repetition=metadata['repetition'],
                                **{k:v for k,v in phase.items() if k != 'failure_categories'}))
         if metadata['mode'] == 'autoscaling':

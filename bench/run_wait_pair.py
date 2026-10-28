@@ -12,40 +12,14 @@ import subprocess
 import sys
 
 import analyze
-from pilot_records import timestamp
-from run_series import run_command, service_url
+from records import timestamp
+from runtime import host_snapshot, run_command, service_url
 
 ROOT=Path(__file__).resolve().parent.parent
 
 
 def save(path, value):
     path.write_text(json.dumps(value,indent=2)+'\n',encoding='utf-8')
-
-
-def host_snapshot():
-    script = r'''$ErrorActionPreference = 'Stop'
-    [Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false)
-    $p = @(Get-CimInstance Win32_Process | Where-Object {
-        $_.Name -eq 'k6.exe' -or $_.Name -match 'ForHonor' -or
-        ($_.Name -match '^python(w)?\.exe$' -and $_.CommandLine -match '(run_series|run_pilot|observe)\.py')
-    } | Select-Object ProcessId,Name,CommandLine)
-    $cpu = @(Get-CimInstance Win32_Processor | Select-Object Name,CurrentClockSpeed,MaxClockSpeed,LoadPercentage)
-    $power = powercfg /getactivescheme
-    $schemeGuid = [regex]::Match(($power -join ' '), '[A-Fa-f0-9]{8}-(?:[A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}').Value
-    if (-not $schemeGuid) { throw 'Cannot identify the active power scheme' }
-    [pscustomobject]@{conflicting_processes=$p; processor_snapshot=$cpu; power_scheme_guid=$schemeGuid} | ConvertTo-Json -Depth 5'''
-    result=subprocess.run(['powershell.exe','-NoProfile','-NonInteractive','-Command',script],
-                          check=True,capture_output=True,text=True,encoding='utf-8',timeout=30)
-    host=json.loads(result.stdout)
-    inspected=subprocess.run(['docker','inspect','ai-lab','--format','{{json .HostConfig}}'],
-                              check=True,capture_output=True,text=True,timeout=15)
-    config=json.loads(inspected.stdout)
-    host.update(recorded_at_utc=datetime.now(timezone.utc).isoformat(),
-                scope='Pre-launch snapshot; not a continuous Windows load/frequency measurement',
-                minikube_container={key:config.get(key) for key in ('NanoCpus','CpuQuota','CpuPeriod','CpusetCpus','Memory')})
-    if host['conflicting_processes']:
-        raise ValueError('A game or another project generator/observer is running; do not start diagnostic load')
-    return host
 
 
 def inspect(folder):
@@ -108,6 +82,8 @@ def main(argv=None):
     save(series/'manifest.json',manifest)
     shutil.copyfile(__file__,series/'run_wait_pair.py')
     manifest['runner_sha256']=hashlib.sha256((series/'run_wait_pair.py').read_bytes()).hexdigest()
+    shutil.copyfile(ROOT/'bench/runtime.py',series/'runtime.py')
+    manifest['runtime_sha256']=hashlib.sha256((series/'runtime.py').read_bytes()).hexdigest()
     save(series/'manifest.json',manifest)
     rows=[]
     try:

@@ -2,6 +2,7 @@ import tempfile
 import unittest
 from contextlib import nullcontext
 import json
+import hashlib
 from pathlib import Path
 from unittest.mock import patch
 
@@ -48,6 +49,7 @@ class PilotSearchTests(unittest.TestCase):
             manifest = json.loads((series / 'manifest.json').read_text())
             self.assertTrue(manifest['selection_confirmed'])
             self.assertEqual(manifest['status'], 'finished')
+            self.assertEqual(manifest['runtime_sha256'], hashlib.sha256((series / 'runtime.py').read_bytes()).hexdigest())
 
     def test_collection_failure_prevents_next_probe(self):
         with tempfile.TemporaryDirectory() as temporary:

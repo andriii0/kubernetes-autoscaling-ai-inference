@@ -6,6 +6,7 @@ from contextlib import redirect_stdout
 from unittest.mock import Mock, patch
 
 import run_series as series
+import runtime
 
 
 class SeriesTests(unittest.TestCase):
@@ -114,7 +115,7 @@ class SeriesTests(unittest.TestCase):
         self.assertEqual(list(self.root.iterdir()), [])
 
     def test_external_tunnel_is_reused_without_starting_minikube(self):
-        with patch.object(series, 'run_command') as run, series.service_url('http://localhost:1234') as url:
+        with patch.object(runtime, 'run_command') as run, runtime.service_url('http://localhost:1234') as url:
             self.assertEqual(url, 'http://localhost:1234')
         run.assert_not_called()
 
@@ -127,10 +128,10 @@ class SeriesTests(unittest.TestCase):
             kwargs['stdout'].flush()
             return tunnel
 
-        with patch.object(series, 'run_command', return_value=0), \
-                patch.object(series.subprocess, 'Popen', side_effect=open_tunnel):
+        with patch.object(runtime, 'run_command', return_value=0), \
+                patch.object(runtime.subprocess, 'Popen', side_effect=open_tunnel):
             with self.assertRaisesRegex(ValueError, 'stop'):
-                with series.service_url(None) as url:
+                with runtime.service_url(None) as url:
                     self.assertEqual(url, 'http://127.0.0.1:54321')
                     raise ValueError('stop')
         tunnel.terminate.assert_called_once()
