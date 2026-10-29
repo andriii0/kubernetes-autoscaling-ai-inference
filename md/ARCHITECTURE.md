@@ -1,6 +1,6 @@
 # Architecture
 
-Updated: 2026-10-28. This describes the implemented local prototype. Preliminary checks, the 18-run main matrix and comparative analysis have saved evidence; this is not a check of current runtime availability.
+Updated: 2026-10-29. This describes the implemented local prototype. Preliminary checks, the 18-run main matrix and comparative analysis have saved evidence; this is not a check of current runtime availability.
 
 ## Runtime flow
 
@@ -56,7 +56,7 @@ Collection integrity is separate from load thresholds: status `thresholds_failed
 
 Pilot rate selection and its summaries/plots are complete; [saved evidence](../results/pilot/discovery-2026-10-18-series1/README.md) selects low=2 and peak=8 requests per 10 seconds. A [preliminary three-copy check](../results/fixed-replicas/check-2026-10-20-series1/README.md) is saved. The [main experiment protocol v1.1](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd) is agreed. Step-20 code and instructions have local verification. The repeated comparison has saved analysis; the final main-series findings remain unfinished. The HPA configuration and preliminary collector have [saved live verification](../results/autoscaling/check-2026-10-20-series1/README.md). The completed main matrix compares fixed one replica, fixed three replicas and automatic one-to-three replicas under steady and burst traffic. All replicas share the same physical computer.
 
-`--protocol-version 1.1` selects main-series behavior in the existing launcher, for every fixed/autoscaling and steady/burst combination. bench/main_protocol.py owns argument/matrix checks, pre-mode recovery, fresh-CPU settling, runtime identity records, primary-phase assessment and scheduled-window resource calculations. It uses the existing observer and unfinished-request validation. Main fixed-mode logs establish activity without requiring server/client equality after timeouts; the preliminary rule is unchanged. assessment.json retains system terminations/restarts and not_assessable partial attempts. Analysis additionally exports assessments.json and primary-resources.json; historical client-drain summaries remain unchanged. Local tests verify these paths; STATUS.md records current live main-series progress and limits.
+`--protocol-version 1.1` selects main-series behavior in the existing launcher, for every fixed/autoscaling and steady/burst combination. `bench/main_protocol.py` owns argument/matrix checks, pre-mode recovery, fresh-CPU settling and runtime identity records. `bench/analyze.py` owns primary-phase assessment and scheduled-window resource calculations, using the saved observer and request-validation records. Main fixed-mode logs establish activity without requiring server/client equality after timeouts; the preliminary rule is unchanged. assessment.json retains system terminations/restarts and not_assessable partial attempts. Analysis additionally exports assessments.json and primary-resources.json; historical client-drain summaries remain unchanged. Local tests verify these paths; STATUS.md records saved progress and limits.
 
 The work currently uses Kubernetes YAML and scripts; no Terraform provisioning or production cloud deployment exists. See [ROADMAP.md](ROADMAP.md), [STATUS.md](STATUS.md) and [DECISIONS.md](DECISIONS.md).
 

@@ -274,7 +274,7 @@ The continuation checks current executable hashes against saved attempts. The 20
 
 ## 13. Turn measurements into findings
 
-[bench/analyze.py](../bench/analyze.py) generates per-run CSV/JSON summaries and aligned PNG/SVG plots for saved pilot, preliminary fixed-three and autoscaling data. It refuses an existing output directory. The [pilot report](../results/pilot/discovery-2026-10-18-series1/README.md#reproduce-and-inspect) includes a reproduction command; [Main result analysis](plans/scaling-experiment.md#4-main-result-analysis) describes the remaining repeated comparison and reporting against agreed targets. The observation schema remains in [OBSERVATION.md](OBSERVATION.md).
+[bench/analyze.py](../bench/analyze.py) generates per-run CSV/JSON summaries and aligned PNG/SVG plots for saved pilot, preliminary fixed-three and autoscaling data. It refuses an existing output directory. The [pilot report](../results/pilot/discovery-2026-10-18-series1/README.md#reproduce-and-inspect) includes a reproduction command; [Main result analysis](plans/scaling-experiment.md#4-main-result-analysis) describes how to reproduce the completed comparison and report its limits. The separate findings document remains unfinished. The observation schema remains in [OBSERVATION.md](OBSERVATION.md).
 
 CSV/JSON-only analysis uses Python's standard library. Plots additionally require the optional Matplotlib version declared in [pyproject.toml](../pyproject.toml):
 

@@ -1,6 +1,6 @@
 # Pilot results in Notion
 
-Updated: 2026-10-21. I requested one topic per document and simple English.
+Updated: 2026-10-29. I keep one topic per document and use simple English.
 
 ## Scope
 
@@ -29,3 +29,17 @@ Scope: reconcile current Markdown and the four related Notion pages with saved m
 Verified: all four saved Notion pages were read back. Frozen protocol sections are unchanged. All 1,207 existing result files retain their SHA-256 hashes; the historical verifier passes for 120 protected files, matching aggregates and 239 local links. Markdown whitespace checks pass. No runtime/code changes or live load were needed for this documentation review; application tests were not rerun.
 
 Final findings (step 23), reproduction review (step 24) and Portflow submission remain separate work. The 2026-10-27 Git checkpoint includes the later evidence and current documentation after my publication request. All 145 bench tests passed in the normal environment; historical verification and Markdown checks pass. Historical result reports retain their earlier publication/status wording.
+
+## Documentation synchronization: 2026-10-29
+
+I requested the corrections from the documentation review and their Git publication. I keep this task limited to existing Markdown and Notion pages; code, collected documents, raw results and archived inputs stay unchanged.
+
+- [x] Correct module ownership, archive descriptions, completed-analysis wording and editable/exported diagram roles.
+- [x] Separate current handoff information from historical publication records in STATUS.md.
+- [x] Shorten the HPA explanation in Technology Decisions and link to evidence.
+- [x] Add the separate rate-12 follow-up context to Pilot Results, PDP and the protocol's execution notes. The 5,189 successes belong only to the 18 main v1.1 runs at peak 8.
+- [x] Check saved Notion edits, unchanged frozen protocol sections, local links and all existing result hashes, then prepare only the related Markdown for the requested Git publication.
+
+Verification uses read-only source/evidence checks, Markdown whitespace checks and the historical verifier. Application tests and new cluster load are unnecessary for these documentation-only changes. The proposed nine-run study remains a recommendation; steps 23 and 24 remain open.
+
+Verified: all four saved Notion pages contain only the planned edits. Original source links remain available, and the protocol text from Question and scope through Run assessment is unchanged. All 1,824 existing result files retain their SHA-256 hashes. Historical verification preserves 120 protected files, matches saved aggregates and resolves 274 local links. The diff contains only eight Markdown files. No application tests, live load or collected Word/PDF edits were needed. Git publication is requested; final commit/push results are reported separately after permission and verification.
