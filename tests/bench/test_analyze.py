@@ -11,6 +11,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 import analyze
+import summarize_main
 from tests.bench import fixtures
 
 
@@ -139,6 +140,16 @@ class AnalysisTests(unittest.TestCase):
                                                '--output-dir', str(output), '--no-plots']), 1)
             self.assertIn(f'duplicate run folder name {first.name!r}', message.getvalue())
             self.assertFalse(output.exists())
+
+    def test_main_optional_measurements_keep_missing_values_and_zero_distinct(self):
+        events = [{'output_tokens': 56, 'model_load_ms': None},
+                  {'output_tokens': None, 'model_load_ms': None},
+                  {'output_tokens': 0}]
+        summary = summarize_main.optional_measurements(events)
+        self.assertEqual(json.loads(summary['output_token_counts']), {'56': 1, 'null': 1, '0': 1})
+        self.assertIsNone(summary['largest_model_load_ms'])
+        events[-1]['model_load_ms'] = 0
+        self.assertEqual(summarize_main.optional_measurements(events)['largest_model_load_ms'], 0)
 
     def test_existing_output_is_rejected_without_touching_it(self):
         with tempfile.TemporaryDirectory() as temporary:

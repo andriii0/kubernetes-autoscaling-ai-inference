@@ -20,6 +20,16 @@ def write_csv(path, rows):
         writer.writerows(rows)
 
 
+def optional_measurements(events):
+    tokens = (e.get('output_tokens') for e in events)
+    token_counts = Counter('null' if count is None else str(count) for count in tokens)
+    load_times = (e.get('model_load_ms') for e in events)
+    return {
+        'largest_model_load_ms': max((ms for ms in load_times if ms is not None), default=None),
+        'output_token_counts': json.dumps(token_counts, sort_keys=True),
+    }
+
+
 def compare(series, output, plots=True):
     folders = [series / f"attempt-{r['planned_order']:02d}-{r['mode']}-{r['profile']}"
                for r in main_protocol.matrix()]
@@ -106,8 +116,7 @@ def compare(series, output, plots=True):
             node_observed_peak_memory_mib=node['observed_peak_memory_mib'],
             smallest_instance_cpu_coverage=min(r['cpu_coverage'] for r in active if r['cpu_coverage'] is not None),
             distribution_counts=json.dumps(check.get('distribution', {}).get('pods', {}), sort_keys=True),
-            largest_model_load_ms=max(e.get('model_load_ms') or 0 for e in events),
-            output_token_counts=json.dumps(Counter(e.get('output_tokens') for e in events), sort_keys=True),
+            **optional_measurements(events),
             warnings='; '.join(warnings))
         rows.append(row)
         for kind, records in ((instances, active), (nodes, resources['nodes'])):
