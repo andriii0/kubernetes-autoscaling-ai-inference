@@ -201,14 +201,6 @@ def reconcile(folder, metadata):
     except (OSError, ValueError, KeyError, TypeError, AttributeError) as error:
         errors.append(f"request evidence: {error}")
     report["events_read"] = {"started": len(starts), "completed": len(completions)}
-    if metadata.get("protocol_version") and metadata.get("mode") != "autoscaling" and report["load_window"]:
-        try:
-            identity = metadata["initial_identity"]
-            for i in identity if isinstance(identity, list) else [identity]:
-                (folder / "pod-logs" / (i["pod_uid"] + ".log")).read_text(encoding="utf-8")
-        except (OSError, KeyError) as error:
-            errors.append(f"fixed-mode log evidence: {error}")
-
     try:
         times = []
         error_count = 0
@@ -238,10 +230,17 @@ def reconcile(folder, metadata):
             errors.append("cluster observations do not bracket the load and drain interval")
     except (OSError, ValueError, KeyError, TypeError, AttributeError) as error:
         errors.append(f"cluster evidence: {error}")
-    if metadata.get("expected_replicas", 1) == 3:
+    replicas = metadata.get("expected_replicas", 1)
+    main_fixed_one = (metadata.get("protocol_version") and metadata.get("mode") == "fixed-1"
+                      and report["load_window"])
+    if replicas == 3 or main_fixed_one:
         try:
             from fixed_replicas import distribution
-            report["distribution"] = distribution(folder, metadata, report["counts"], completions.values())
+            activity = distribution(folder, metadata, report["counts"], completions.values())
+            if replicas == 3:
+                report["distribution"] = activity
+            elif not activity["all_pods_active"]:
+                errors.append("no measured generation traffic in the fixed-one pod log")
         except (OSError, ValueError, KeyError, TypeError, AttributeError) as error:
             errors.append(f"Service distribution: {error}")
     if metadata.get("mode") == "autoscaling":

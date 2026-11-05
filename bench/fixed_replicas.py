@@ -92,7 +92,8 @@ def distribution(folder, metadata, counts, completed_events):
     server_statuses = Counter()
     beginning = timestamp(metadata["load_process_started_at_utc"])
     ending = timestamp(metadata["load_process_finished_at_utc"])
-    for identity in metadata["initial_identity"]:
+    identities = metadata["initial_identity"]
+    for identity in identities if isinstance(identities, list) else [identities]:
         statuses = []
         for line in (folder / "pod-logs" / (identity["pod_uid"] + ".log")).read_text(encoding="utf-8").splitlines():
             if not re.search(r'\bPOST\s+"/api/generate"', line):

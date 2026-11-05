@@ -411,6 +411,23 @@ class MainLifecycleTests(unittest.TestCase):
                     self.assertEqual(result['scaling_observed'], 'not_applicable')
 
     @unittest.skipUnless(shutil.which('k6'), 'k6 is required for this local integration check')
+    def test_main_fixed_one_without_measured_pod_traffic_is_not_assessable(self):
+        from tests.bench.fixtures import FixedLauncherFixture
+        host = FixedLauncherFixture()
+        self.addCleanup(host.doCleanups)
+        folder, code, _ = host.run_fixture(main=True, replicas=1)
+        self.assertEqual(code, 0, (folder / 'collection-check.json').read_text())
+        log = folder / 'pod-logs/pod-1.log'
+        warmup = log.read_text().splitlines()[0]
+        for evidence in ('', warmup):
+            with self.subTest(evidence=evidence):
+                log.write_text(evidence, encoding='utf-8')
+                data = analyze.load_results(folder)
+                self.assertFalse(data['check']['valid'])
+                self.assertIn('no measured generation traffic in the fixed-one pod log', data['check']['errors'])
+                self.assertEqual(analyze.assessment(data)['overall'], 'not_assessable')
+
+    @unittest.skipUnless(shutil.which('k6'), 'k6 is required for this local integration check')
     def test_main_autoscaling_steady_and_burst_reuse_existing_lifecycle(self):
         from tests.bench.fixtures import AutoscalingFixture
         for profile in ('steady', 'burst'):

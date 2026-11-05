@@ -314,11 +314,14 @@ class FixedLauncherFixture(unittest.TestCase):
         workload_path = Path(run_pilot.__file__).with_name('workload.json')
         workload = json.loads(workload_path.read_text())
         if main:
-            workload['main_protocol'].update(peak_rate=30, steady_seconds=1, observer_interval_seconds=.05, idle_seconds=0, fixed_post_seconds=0)
+            # Allow normal Windows scheduling jitter between fixture observations.
+            interval = .2
+            workload['main_protocol'].update(peak_rate=30, steady_seconds=1, observer_interval_seconds=interval,
+                                             idle_seconds=0, fixed_post_seconds=0)
             for stage, seconds in zip(workload['burst_stages'], (.2, .05, 1.5, .05, .2)):
                 stage['seconds'] = seconds
             planned = (1 if replicas == 1 else 2) + (3 if profile == 'burst' else 0)
-            args += ['--protocol-version', '1.1', '--profile', profile, '--observer-interval', '.05',
+            args += ['--protocol-version', '1.1', '--profile', profile, '--observer-interval', str(interval),
                      '--repetition', '1', '--planned-order', str(planned), '--actual-order', '1']
             if profile == 'burst':
                 index = args.index('--duration')
