@@ -44,6 +44,10 @@ def review(folder, row):
     if (metadata.get('exit_code') not in (0, 99) or metadata.get('collector_exit_code') != 0
             or metadata.get('errors') or not metadata.get('collection_valid')):
         raise ValueError(f'{folder.name}: preparation/collection did not finish normally')
+    if row['mode'] == 'autoscaling':
+        recovery = metadata.get('recovery')
+        if not isinstance(recovery, dict) or recovery.get('successful') is not True:
+            raise ValueError(f'{folder.name}: HPA recovery was not confirmed; review manually ({recovery!r})')
     check_inputs(metadata)
     result = json.loads(json.dumps(assessment(data)))
     if result != read_json(folder / 'assessment.json'):

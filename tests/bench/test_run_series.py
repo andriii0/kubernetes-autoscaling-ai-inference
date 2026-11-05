@@ -22,12 +22,12 @@ class SeriesTests(unittest.TestCase):
                         collector_exit_code=0, errors=[], collection_valid=True, warnings=[])
         return dict(metadata=metadata, check=dict(warnings=[]))
 
-    def review(self, data, result):
+    def review(self, data, result, row=None):
         with patch.object(series, 'load_results', return_value=data), \
                 patch.object(series, 'check_inputs'), \
                 patch.object(series, 'assessment', return_value=result), \
                 patch.object(series, 'read_json', return_value=result):
-            return series.review(self.root, self.row)
+            return series.review(self.root, self.row if row is None else row)
 
     def test_target_failure_is_retained(self):
         data = self.saved_data()
@@ -56,6 +56,18 @@ class SeriesTests(unittest.TestCase):
             data['metadata'].update(change)
             with self.subTest(change=change), self.assertRaises(ValueError):
                 self.review(data, self.result)
+
+    def test_autoscaling_requires_successful_recovery_to_continue(self):
+        row = next(row for row in series.matrix() if row['mode'] == 'autoscaling')
+        data = self.saved_data()
+        data['metadata'].update(row, actual_order=row['planned_order'])
+        with self.assertRaisesRegex(ValueError, 'HPA recovery was not confirmed'):
+            self.review(data, self.result, row)
+        data['metadata']['recovery'] = dict(successful=False, errors=['cannot delete HPA'])
+        with self.assertRaisesRegex(ValueError, 'cannot delete HPA'):
+            self.review(data, self.result, row)
+        data['metadata']['recovery'] = dict(successful=True, errors=[])
+        self.assertEqual(self.review(data, self.result, row), self.result)
 
     def test_changed_executable_is_rejected(self):
         (self.root / 'bench').mkdir()
