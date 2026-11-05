@@ -556,7 +556,13 @@ def main(argv=None):
             print('Plots require the optional Matplotlib analysis dependency; install it or use --no-plots.', file=sys.stderr)
             return 1
     try:
-        datasets = [load_results(folder) for folder in args.run_dirs]
+        folders = [folder.resolve() for folder in args.run_dirs]
+        names = set()
+        for folder in folders:
+            if folder.name in names:
+                raise ValueError(f'duplicate run folder name {folder.name!r}; analyze these runs separately')
+            names.add(folder.name)
+        datasets = [load_results(folder) for folder in folders]
         rows = [calculate_metrics(data) for data in datasets]
         args.output_dir.mkdir(parents=True, exist_ok=False)
         with (args.output_dir / "summary.csv").open("x", encoding="utf-8", newline="") as output:

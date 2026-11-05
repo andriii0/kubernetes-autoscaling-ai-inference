@@ -2,6 +2,7 @@ import csv
 import importlib.util
 import io
 import json
+import shutil
 import sys
 import tempfile
 import unittest
@@ -124,6 +125,20 @@ class AnalysisTests(unittest.TestCase):
         self.assertEqual(row["completed"], summary["http_reqs"]["count"])
         self.assertAlmostEqual(row["mean_ms"], summary["successful_latency_ms"]["avg"])
         self.assertAlmostEqual(row["p95_ms"], summary["successful_latency_ms"]["p(95)"])
+
+    def test_duplicate_run_folder_names_are_rejected_before_writing(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            first = self.data()['folder']
+            second = root / 'other-series' / first.name
+            shutil.copytree(first, second)
+            output = root / 'analysis'
+            message = io.StringIO()
+            with redirect_stderr(message):
+                self.assertEqual(analyze.main([str(first), str(second),
+                                               '--output-dir', str(output), '--no-plots']), 1)
+            self.assertIn(f'duplicate run folder name {first.name!r}', message.getvalue())
+            self.assertFalse(output.exists())
 
     def test_existing_output_is_rejected_without_touching_it(self):
         with tempfile.TemporaryDirectory() as temporary:
