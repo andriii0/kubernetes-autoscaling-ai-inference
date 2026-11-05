@@ -1,6 +1,12 @@
 # Project status
 
-Updated: 2026-10-29. The 18-run main v1.1 series at peak 8 requests/10 s is complete, with all 5,189 requests successful. The later rate-selection pilots and fixed-three/HPA checks at peak 12 are separate evidence, with target misses and timeouts retained. Final findings (23) and reproduction review (24) remain open; the proposed nine-run follow-up is not an approved series. Saved evidence does not certify current runtime availability.
+Updated: 2026-11-06. The 18-run main v1.1 series at peak 8 requests/10 s is complete, with all 5,189 requests successful. The later rate-selection pilots and fixed-three/HPA checks at peak 12 are separate evidence, with target misses and timeouts retained. Final findings (23) and reproduction review (24) remain open; the proposed nine-run follow-up is not an approved series. Saved evidence does not certify current runtime availability.
+
+## Benchmark validation fixes
+
+I now require Ollama generation activity in the measured pod log for a main fixed-one verdict. Series continuation requires confirmed HPA recovery, while the run assessment stays separate. The analyzer rejects duplicate run folder names before writing and keeps missing token and model-load measurements explicit.
+
+All 161 local tests passed. I replayed the 18 saved main attempts and reproduced all 13 CSV/JSON files byte for byte. The historical integrity check passed. See the [review fixes and verification](plans/bench-review-fixes.md). This verification used saved data and local HTTP fixtures. Current cluster readiness remains unverified.
 
 ## FigJam architecture views
 
