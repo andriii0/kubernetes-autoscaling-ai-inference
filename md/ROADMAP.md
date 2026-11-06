@@ -1,16 +1,16 @@
 # Project Roadmap
 
-Updated: 2026-10-28. Latest saved preliminary HPA check: 2026-10-28 UTC, at the separately authorized peak rate 12; main protocol v1.1 remains unchanged.
+Updated: 2026-11-06. Step 23 findings are saved in Notion. The latest preliminary HPA check was recorded on 2026-10-28 UTC at peak 12.
 
 ## Goal and current position
 
 Evaluate how automatic scaling of AI inference handles changing request load while keeping response time acceptable. Compare one fixed replica, three fixed replicas, and automatic scaling between one and three replicas. A replica is one running copy of the model server.
 
-The local prototype, short load check, and continuous cluster/resource observer are complete. Direct kubelet resource measurements were verified with saved data on 2026-10-16. Technology decisions are documented. Request-level records and integrated collection now have offline tests and a saved live low-load check on 2026-10-18. Minimal pilot analysis and the increasing-load pilot are complete, including two five-minute repetitions per selected rate. I agreed [main experiment protocol v1.1](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd) on 2026-10-21. Step-20 code and run instructions have local verification. The 18-run main matrix and reproducible comparative tables/plots are complete; [STATUS.md](STATUS.md) records verification and limits. A [preliminary HPA check](../results/autoscaling/check-2026-10-20-series1/README.md) now verifies growth and reduction. The main findings document and final reproduction review remain unfinished.
+The local prototype, short load check, and continuous cluster/resource observer are complete. Direct kubelet resource measurements were verified with saved data on 2026-10-16. Technology decisions are documented. Request-level records and integrated collection now have offline tests and a saved live low-load check on 2026-10-18. Minimal pilot analysis and the increasing-load pilot are complete, including two five-minute repetitions per selected rate. I agreed [main experiment protocol v1.1](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd) on 2026-10-21. Step-20 code and run instructions have local verification. The 18-run main matrix and reproducible comparative tables and plots are complete. A [preliminary HPA check](../results/autoscaling/check-2026-10-20-series1/README.md) verifies growth and reduction. The [main findings](https://app.notion.com/p/40fc7c697bfd81bbb00fcf67a8c3d00c) are saved. The reproduction review remains open. [STATUS.md](STATUS.md) records verification and limits.
 
 Completed steps refer to saved evidence, not a claim that the cluster is running today. All replicas use the CPU of one physical computer. Setup commands are in [GETTING_STARTED.md](GETTING_STARTED.md). Detailed pilot and scaling procedures live in the linked task plans; guide section numbers are topic references, not the order of project work.
 
-The [new preliminary HPA burst](../results/autoscaling/check-20261028-181713-peak12/README.md) shows 1 -> 2 -> 3 -> 1 scaling at 2 -> 12 -> 2 requests/10 s, with valid collection but a latency target miss. It is separate from the completed main matrix and does not close the open findings or reproduction steps.
+The [later preliminary HPA burst](../results/autoscaling/check-20261028-181713-peak12/README.md) shows 1 -> 2 -> 3 -> 1 scaling at 2 -> 12 -> 2 requests/10 s, with valid collection and a latency target miss. The findings report it separately from the completed main matrix.
 
 ## All steps
 
@@ -38,7 +38,7 @@ The [new preliminary HPA burst](../results/autoscaling/check-20261028-181713-pea
 - [x] 20. Prepare the main experiment matrix and run procedure.
 - [x] 21. Execute and save the main experiment series.
 - [x] 22. Process the measurements and build tables and charts.
-- [ ] 23. Write the findings, limitations, and recommendations.
+- [x] 23. Write the findings, limitations, and recommendations.
 - [ ] 24. Check that another person can repeat the experiment.
 
 ## Step descriptions
@@ -244,6 +244,8 @@ Extend the implemented [pilot analysis](plans/measurements-and-pilot.md#5-pilot-
 Write a separate findings document in Notion and link to the supporting runs. Compare response times, errors, scaling reaction, resource use, and variation between repetitions. Explain the limits of one physical computer, the small model, the repeated short prompt, possible caching, and measurement sources.
 
 **Done when:** conclusions link to the supporting runs and state when autoscaling helps, does not help, or cannot be judged from the evidence. The project does not require a positive result for autoscaling.
+
+**Completion evidence (2026-11-06):** the [findings in Notion](https://app.notion.com/p/40fc7c697bfd81bbb00fcf67a8c3d00c) answer the research question and subquestions, compare the three modes and explain the resource and workload limits. The separate [experiment log](https://app.notion.com/p/40fc7c697bfd812c86b9fb9cad9ee986) records the workflow, follow-up checks and fixes.
 
 ### 24. Check that another person can repeat the experiment
 

@@ -2,11 +2,11 @@
 
 This is an independent research project about scaling AI inference when request load changes. The work starts with a short comparison of container orchestration platforms, then uses one selected platform for a local prototype and repeatable measurements. It is separate from the SUE group infrastructure.
 
-## Research question
+## Practical research question (SQ4)
 
-How effectively can the selected container orchestration platform autoscale AI inference under changing load while keeping latency acceptable?
+How effectively does Kubernetes autoscale this local AI inference service as traffic changes, and what limits did I observe? The [Research Document](<docs/PDP Research document.docx>) also compares platforms for inference and agent workloads. The practical tests cover inference only.
 
-The [main experiment protocol v1.1](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd), agreed on 2026-10-21, defines the main acceptance targets and comparison rules. The 5-second successful-response p95 target is an explicit study assumption for a short complete answer, not a validated user requirement. The completed main series compares a fixed number of inference instances with automatic scaling under steady and burst traffic. It records request latency, throughput, errors, resource use, replica count and observed scaling reaction. Final findings remain to be written.
+The [main experiment protocol v1.1](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd), agreed on 2026-10-21, defines the main acceptance targets and comparison rules. The 5-second successful-response p95 target is an explicit study assumption for a short complete answer, not a validated user requirement. The completed main series compares a fixed number of inference instances with automatic scaling under steady and burst traffic. It records request latency, throughput, errors, resource use, replica count and observed scaling reaction.
 
 ## Documentation
 
@@ -29,7 +29,7 @@ Start with [current status](md/STATUS.md) for progress, the [setup guide](md/GET
 - `tests/bench/`: local collection, lifecycle and analysis tests with shared fixtures.
 - `results/`: run settings, raw measurements, and generated figures.
 
-The final findings belong in a separate Notion document in roadmap step 23, with links to supporting raw measurements.
+The [Findings](https://app.notion.com/p/40fc7c697bfd81bbb00fcf67a8c3d00c) answer SQ4 using the saved measurements.
 
 ## Planned workflow
 
@@ -37,7 +37,7 @@ Define one inference workload and two load profiles. Compare suitable orchestrat
 
 ## Current state
 
-The implemented path uses Ollama for inference, k6 for load generation and `bench/observe.py` for cluster/resource observations. Pilot rate selection and pilot CSV/JSON summaries and plots are implemented; a preliminary three-copy check is saved. A [preliminary HPA check](results/autoscaling/check-2026-10-20-series1/README.md) verifies growth and reduction. Protocol agreement is complete. The existing launcher/analyzer now support protocol v1.1 and the manual matrix (step 20), with local verification. The 18-run main matrix is complete; the [initial series record](results/main/series-2026-10-25-v1.1/README.md) preserves preparation, the first ten attempts and their pause checkpoint. [Comparative tables and plots](results/main/series-2026-10-25-v1.1/analysis-main-2026-10-26/README.md) are saved. All modes meet the agreed targets, including one fixed copy; an HPA advantage is not established. The final findings and reproduction review remain unfinished. Recheck runtime readiness before any additional approved load. See [STATUS.md](md/STATUS.md) for verification dates, limitations and the active plan, and [ARCHITECTURE.md](md/ARCHITECTURE.md) for implementation details.
+The implemented path uses Ollama for inference, k6 for load generation and `bench/observe.py` for cluster/resource observations. Pilot rate selection and pilot CSV/JSON summaries and plots are implemented; a preliminary three-copy check is saved. A [preliminary HPA check](results/autoscaling/check-2026-10-20-series1/README.md) verifies growth and reduction. Protocol agreement is complete. The existing launcher/analyzer now support protocol v1.1 and the manual matrix (step 20), with local verification. The 18-run main matrix is complete; the [initial series record](results/main/series-2026-10-25-v1.1/README.md) preserves preparation, the first ten attempts and their pause checkpoint. [Comparative tables and plots](results/main/series-2026-10-25-v1.1/analysis-main-2026-10-26/README.md) are saved. All modes meet the agreed targets, including one fixed copy; an HPA advantage is not established. The fresh-environment reproduction review (step 24) remains open. Recheck runtime readiness before any additional approved load. See [STATUS.md](md/STATUS.md) for verification dates, limitations and the active plan, and [ARCHITECTURE.md](md/ARCHITECTURE.md) for implementation details.
 
 The 5,189 successful requests belong only to the 18 main v1.1 runs at peak 8 requests/10 s. The later [rate-selection pilots](md/PILOT_MAIN_DISCREPANCY.md#completed-fresh-rate-selection-2026-10-27) selected low 2/peak 12, with variable peak timeouts. The separate [fixed-three steady check](results/fixed-replicas/check-20261027-203849-peak12/README.md) and [HPA burst](results/autoscaling/check-20261028-181713-peak12/README.md) missed the 5-second target. These checks are outside v1.1 and are not a controlled repeated comparison.
 

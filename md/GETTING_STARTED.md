@@ -4,7 +4,7 @@ This guide explains how to prepare and use the local CPU prototype on Windows. R
 
 The section numbers group topics. They are not the project schedule. Check [STATUS.md](STATUS.md) for the current state and active plan, and [ROADMAP.md](ROADMAP.md) for the order of work. Set up observation before collecting pilot results, even though its reference section appears later in this guide.
 
-Saved checks do not prove that Docker or the cluster is running today. The preliminary HPA check, 18-run main comparison and comparative analysis have saved evidence. Final findings and reproduction review remain open; current completion evidence is in [STATUS.md](STATUS.md).
+Saved checks do not prove that Docker or the cluster is running today. The preliminary HPA check, 18-run main comparison and comparative analysis have saved evidence. The findings are complete. The fresh-environment reproduction review remains open. See [STATUS.md](STATUS.md).
 
 ## What the project will do
 
@@ -274,7 +274,7 @@ The continuation checks current executable hashes against saved attempts. The 20
 
 ## 13. Turn measurements into findings
 
-[bench/analyze.py](../bench/analyze.py) generates per-run CSV/JSON summaries and aligned PNG/SVG plots for saved pilot, preliminary fixed-three and autoscaling data. It refuses an existing output directory. The [pilot report](../results/pilot/discovery-2026-10-18-series1/README.md#reproduce-and-inspect) includes a reproduction command; [Main result analysis](plans/scaling-experiment.md#4-main-result-analysis) describes how to reproduce the completed comparison and report its limits. The separate findings document remains unfinished. The observation schema remains in [OBSERVATION.md](OBSERVATION.md).
+[bench/analyze.py](../bench/analyze.py) generates per-run CSV/JSON summaries and aligned PNG/SVG plots for saved pilot, preliminary fixed-three and autoscaling data. It refuses an existing output directory. The [pilot report](../results/pilot/discovery-2026-10-18-series1/README.md#reproduce-and-inspect) includes a reproduction command; [Main result analysis](plans/scaling-experiment.md#4-main-result-analysis) describes how to reproduce the completed comparison and report its limits. The observation schema remains in [OBSERVATION.md](OBSERVATION.md).
 
 CSV/JSON-only analysis uses Python's standard library. Plots additionally require the optional Matplotlib version declared in [pyproject.toml](../pyproject.toml):
 
