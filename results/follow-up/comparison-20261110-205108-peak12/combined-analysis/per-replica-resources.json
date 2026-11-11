@@ -1,0 +1,104 @@
+{
+  "attempt-02-autoscaling-burst": {
+    "4750633f-02a7-453d-910f-a913c8537ba1": {
+      "cpu_valid_samples": 60,
+      "cpu_mean_cores": 0.7145673055282377,
+      "peak_memory_mib": 887.4375
+    },
+    "73fe6592-02ec-4cbd-9902-5d572c02c51c": {
+      "cpu_valid_samples": 45,
+      "cpu_mean_cores": 0.4186788748381709,
+      "peak_memory_mib": 483.1875
+    },
+    "ee38f8af-8777-45b4-aa55-7b6155c7defd": {
+      "cpu_valid_samples": 81,
+      "cpu_mean_cores": 0.9430470804411781,
+      "peak_memory_mib": 532.28125
+    }
+  },
+  "attempt-03-fixed-3-burst": {
+    "3378a26c-d655-4d3d-a6e9-820c8960d821": {
+      "cpu_valid_samples": 86,
+      "cpu_mean_cores": 0.5462784692211865,
+      "peak_memory_mib": 480.1484375
+    },
+    "4c94a49d-add2-445e-843c-88865f6005cc": {
+      "cpu_valid_samples": 87,
+      "cpu_mean_cores": 0.6979137157345423,
+      "peak_memory_mib": 482.828125
+    },
+    "ee38f8af-8777-45b4-aa55-7b6155c7defd": {
+      "cpu_valid_samples": 94,
+      "cpu_mean_cores": 0.70825946799565,
+      "peak_memory_mib": 530.046875
+    }
+  },
+  "attempt-04-autoscaling-burst": {
+    "b84b0545-6847-417d-920e-72e867704afe": {
+      "cpu_valid_samples": 42,
+      "cpu_mean_cores": 0.45440417496033175,
+      "peak_memory_mib": 485.98046875
+    },
+    "e88e00c4-28e2-4b20-b93c-a123453402a8": {
+      "cpu_valid_samples": 58,
+      "cpu_mean_cores": 0.816767566713884,
+      "peak_memory_mib": 890.1015625
+    },
+    "ee38f8af-8777-45b4-aa55-7b6155c7defd": {
+      "cpu_valid_samples": 86,
+      "cpu_mean_cores": 1.0057801788894665,
+      "peak_memory_mib": 528.921875
+    }
+  },
+  "attempt-05-fixed-3-burst": {
+    "0e1a6a20-2c20-47d1-9da1-3acc77004664": {
+      "cpu_valid_samples": 83,
+      "cpu_mean_cores": 0.648202356264781,
+      "peak_memory_mib": 480.1171875
+    },
+    "69edbfc1-35b7-4c77-bea0-cdea6940f01b": {
+      "cpu_valid_samples": 88,
+      "cpu_mean_cores": 0.7252561102525312,
+      "peak_memory_mib": 482.87890625
+    },
+    "ee38f8af-8777-45b4-aa55-7b6155c7defd": {
+      "cpu_valid_samples": 88,
+      "cpu_mean_cores": 0.6031151474905719,
+      "peak_memory_mib": 527.734375
+    }
+  },
+  "attempt-07-fixed-3-burst-recovered": {
+    "4c7bf415-7906-4834-a346-ee26110f1f55": {
+      "cpu_valid_samples": 80,
+      "cpu_mean_cores": 0.6003345055823764,
+      "peak_memory_mib": 483.92578125
+    },
+    "ee38f8af-8777-45b4-aa55-7b6155c7defd": {
+      "cpu_valid_samples": 85,
+      "cpu_mean_cores": 0.5201297774606927,
+      "peak_memory_mib": 528.03515625
+    },
+    "f650848d-1d2f-4568-bde1-e7744de1da32": {
+      "cpu_valid_samples": 89,
+      "cpu_mean_cores": 0.5456733297981122,
+      "peak_memory_mib": 483.87890625
+    }
+  },
+  "attempt-09-autoscaling-burst": {
+    "adcfaae3-d5a8-44b9-99ee-cc6782a03173": {
+      "cpu_valid_samples": 53,
+      "cpu_mean_cores": 0.4250564139732396,
+      "peak_memory_mib": 484.1953125
+    },
+    "d2c92ed6-b19e-45a2-971e-53afe6143b08": {
+      "cpu_valid_samples": 66,
+      "cpu_mean_cores": 0.8161498158267122,
+      "peak_memory_mib": 896.3671875
+    },
+    "ee38f8af-8777-45b4-aa55-7b6155c7defd": {
+      "cpu_valid_samples": 84,
+      "cpu_mean_cores": 0.9095875338857538,
+      "peak_memory_mib": 529.81640625
+    }
+  }
+}

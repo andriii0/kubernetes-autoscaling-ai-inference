@@ -1,0 +1,14 @@
+{
+  "started_at_utc": "2026-11-10T23:58:56.144026+00:00",
+  "previous_finished_at_utc": "2026-11-10T23:30:41.626203+00:00",
+  "reason": "Replay validated evidence and recorded log recovery/source boundary when present",
+  "replayed": [
+    "attempt-01-fixed-1-burst",
+    "attempt-02-autoscaling-burst",
+    "attempt-03-fixed-3-burst",
+    "attempt-04-autoscaling-burst",
+    "attempt-05-fixed-3-burst",
+    "attempt-06-fixed-1-burst",
+    "attempt-07-fixed-3-burst-recovered"
+  ]
+}

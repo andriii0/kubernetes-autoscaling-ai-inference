@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "valid": true,
+  "errors": [],
+  "warnings": [],
+  "counts": {
+    "started": 457,
+    "completed": 457,
+    "successful": 457,
+    "failed": 0,
+    "unfinished": 0,
+    "dropped": 0
+  },
+  "load_window": {
+    "started_at_utc": "2026-11-10T21:33:47.167000+00:00",
+    "scheduled_end_at_utc": "2026-11-10T21:46:49.167000+00:00",
+    "client_drain_end_at_utc": "2026-11-10T21:46:49.167000+00:00",
+    "request_start_tolerance_ms": 1
+  },
+  "events_read": {
+    "started": 457,
+    "completed": 457
+  },
+  "observation": {
+    "samples": 187,
+    "collection_errors": 0,
+    "max_gap_seconds": 5.026001930236816
+  },
+  "distribution": {
+    "pods": {
+      "3378a26c-d655-4d3d-a6e9-820c8960d821": {
+        "completed": 147,
+        "http_200": 147
+      },
+      "4c94a49d-add2-445e-843c-88865f6005cc": {
+        "completed": 155,
+        "http_200": 155
+      },
+      "ee38f8af-8777-45b4-aa55-7b6155c7defd": {
+        "completed": 155,
+        "http_200": 155
+      }
+    },
+    "started_at_utc": "2026-11-10T21:33:47.035050+00:00",
+    "finished_at_utc": "2026-11-10T21:46:48.222233+00:00",
+    "method": "Ollama completion logs; aggregate pod counts, not client-request attribution"
+  }
+}

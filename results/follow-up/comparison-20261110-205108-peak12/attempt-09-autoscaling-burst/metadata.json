@@ -1,0 +1,935 @@
+{
+  "schema_version": 2,
+  "source_archive_version": 2,
+  "run_id": "a136d4342c88415b89e8ae71d4378269",
+  "status": "thresholds_failed",
+  "phase": "validation",
+  "started_at_utc": "2026-11-11T00:16:23.680471+00:00",
+  "finished_at_utc": "2026-11-11T00:37:59.205619+00:00",
+  "base_url": "http://127.0.0.1:51228",
+  "profile": "burst",
+  "low_rate": 2,
+  "burst_stages": [
+    {
+      "name": "low-before",
+      "seconds": 120,
+      "target": "low"
+    },
+    {
+      "name": "rise",
+      "seconds": 1,
+      "target": "peak"
+    },
+    {
+      "name": "peak",
+      "seconds": 300,
+      "target": "peak"
+    },
+    {
+      "name": "fall",
+      "seconds": 1,
+      "target": "low"
+    },
+    {
+      "name": "low-after",
+      "seconds": 360,
+      "target": "low"
+    }
+  ],
+  "rate": 12,
+  "time_unit": "10s",
+  "duration": "782s",
+  "duration_seconds": 782.0,
+  "slo_ms": 5000.0,
+  "context": "ai-lab",
+  "namespace": "inference",
+  "selector": "app=ollama",
+  "deployment": "ollama",
+  "container": "ollama",
+  "observer_interval_seconds": 5.0,
+  "idle_seconds": 60.0,
+  "post_seconds": 300.0,
+  "warmup_timeout_seconds": 120,
+  "activity_note": "No game or competing project load was detected in the pre-launch host snapshot.",
+  "k6_exit_code": 99,
+  "collector_exit_code": 0,
+  "collection_valid": true,
+  "server_drain_verified": false,
+  "phases": [
+    {
+      "phase": "recovery_quiet",
+      "started_at_utc": "2026-11-11T00:16:24.362078+00:00",
+      "finished_at_utc": "2026-11-11T00:16:49.178410+00:00"
+    },
+    {
+      "phase": "reset",
+      "started_at_utc": "2026-11-11T00:16:49.178410+00:00",
+      "finished_at_utc": "2026-11-11T00:16:53.959249+00:00"
+    },
+    {
+      "phase": "initial_quiet",
+      "started_at_utc": "2026-11-11T00:16:53.959249+00:00",
+      "finished_at_utc": "2026-11-11T00:17:19.013592+00:00"
+    },
+    {
+      "phase": "idle",
+      "started_at_utc": "2026-11-11T00:17:19.013592+00:00",
+      "finished_at_utc": "2026-11-11T00:18:19.016598+00:00"
+    },
+    {
+      "phase": "warmup",
+      "started_at_utc": "2026-11-11T00:18:19.016598+00:00",
+      "finished_at_utc": "2026-11-11T00:18:20.396919+00:00"
+    },
+    {
+      "phase": "post_warmup_quiet",
+      "started_at_utc": "2026-11-11T00:18:20.396919+00:00",
+      "finished_at_utc": "2026-11-11T00:19:45.515943+00:00"
+    },
+    {
+      "phase": "hpa_readiness",
+      "started_at_utc": "2026-11-11T00:19:45.515943+00:00",
+      "finished_at_utc": "2026-11-11T00:19:55.751873+00:00"
+    },
+    {
+      "phase": "load",
+      "started_at_utc": "2026-11-11T00:19:55.752874+00:00",
+      "finished_at_utc": "2026-11-11T00:32:57.900143+00:00"
+    },
+    {
+      "phase": "post_load_no_new_requests",
+      "started_at_utc": "2026-11-11T00:32:57.900143+00:00",
+      "finished_at_utc": "2026-11-11T00:37:58.921588+00:00"
+    },
+    {
+      "phase": "validation",
+      "started_at_utc": "2026-11-11T00:37:58.921588+00:00",
+      "finished_at_utc": "2026-11-11T00:37:59.205619+00:00"
+    }
+  ],
+  "errors": [],
+  "warnings": [],
+  "expected_replicas": null,
+  "mode": "autoscaling",
+  "purpose": "preliminary-hpa-check",
+  "pilot_preparation": true,
+  "source_sha256": {
+    "inference.js": "885d27570a056e290aedf8765df0b9b3232c1873da6402e58cf9c7889e4f8131",
+    "workload.json": "135ec5e42c747eec62fa3019cac1bf3bb5ad8a1735b92b600f2817ce51f0a6f7",
+    "run_pilot.py": "bcaebbbe449076ae56e8605f931cca3f0f7a39d9118b506dfe829dc96310fa0c",
+    "observe.py": "2e6236612270aa972f891318c45813bb6ec521fab4e02ebb18615856d1e6a578",
+    "pilot_records.py": "dabced021dfd60f7865bbd72f989500abc8a3433dbef079eb86a645628ab9b50",
+    "records.py": "2c72ba816509e6176cafc1691671fea830470a7da692be77d2f962d9effe3549",
+    "main_protocol.py": "c017f286e3d68dfe2aa3fa7af498d3b01b3ded83e867e427280ea4b5be2a11da",
+    "analyze.py": "e5ed3e050c259c2d9e0c68bf7d7a3a0f2bfcb28b0548e00633708bf683f3b51f",
+    "fixed_replicas.py": "14a6c991959e51b2e1a57a356668d4f17feed3908f68e23deedd1690dbcd394d",
+    "autoscaling.py": "3e7c254424af76f6ed7a89ed0b1d6bc6d0c6ab0723b40e385e4565f917fa9ee2",
+    "hpa.yaml": "1dd95c827dfd40cc4ebbe30b96a82bd89388c8d980effa4fd6d3fa8604363148"
+  },
+  "source_revision": {
+    "commit": "c1e43b1552401c8dbc412c09cda8115baf59c792",
+    "dirty": true
+  },
+  "script_sha256": "885D27570A056E290AEDF8765DF0B9B3232C1873DA6402E58CF9C7889E4F8131",
+  "workload": {
+    "request": {
+      "model": "qwen2.5:0.5b",
+      "prompt": "Explain what a container is in three short sentences.",
+      "stream": false,
+      "keep_alive": -1,
+      "options": {
+        "num_predict": 64,
+        "num_ctx": 1024,
+        "num_thread": 2,
+        "temperature": 0,
+        "seed": 42
+      }
+    },
+    "timeout_seconds": 30,
+    "graceful_stop_seconds": 35,
+    "time_unit_seconds": 10,
+    "preallocated_vus": 50,
+    "max_vus": 100,
+    "burst_stages": [
+      {
+        "name": "low-before",
+        "seconds": 120,
+        "target": "low"
+      },
+      {
+        "name": "rise",
+        "seconds": 1,
+        "target": "peak"
+      },
+      {
+        "name": "peak",
+        "seconds": 300,
+        "target": "peak"
+      },
+      {
+        "name": "fall",
+        "seconds": 1,
+        "target": "low"
+      },
+      {
+        "name": "low-after",
+        "seconds": 360,
+        "target": "low"
+      }
+    ],
+    "thresholds": {
+      "error_rate": 0.01,
+      "dropped_starts": 0
+    },
+    "main_protocol": {
+      "version": "1.1",
+      "primary_p95_ms": 5000,
+      "sensitivity_p95_ms": 10000,
+      "low_rate": 2,
+      "peak_rate": 8,
+      "steady_seconds": 300,
+      "observer_interval_seconds": 5,
+      "idle_seconds": 60,
+      "warmup_timeout_seconds": 120,
+      "fixed_post_seconds": 10,
+      "hpa_post_seconds": 300
+    }
+  },
+  "versions": {
+    "python": {
+      "value": "3.12.0 (tags/v3.12.0:0fb18b0, Oct  2 2023, 13:03:39) [MSC v.1935 64 bit (AMD64)]"
+    },
+    "platform": {
+      "value": "Windows-11-10.0.26200-SP0"
+    },
+    "k6": {
+      "exit_code": 0,
+      "stdout": "k6.EXE v2.2.0 (commit/00a9a1b7f5, go1.26.5, windows/amd64)",
+      "stderr": ""
+    },
+    "kubectl": {
+      "exit_code": 0,
+      "stdout": "{\n  \"clientVersion\": {\n    \"major\": \"1\",\n    \"minor\": \"36\",\n    \"gitVersion\": \"v1.36.1\",\n    \"gitCommit\": \"756939600b9a7180fc2df6550a4585b638875e67\",\n    \"gitTreeState\": \"clean\",\n    \"buildDate\": \"2026-05-12T09:54:35Z\",\n    \"goVersion\": \"go1.26.2\",\n    \"compiler\": \"gc\",\n    \"platform\": \"windows/amd64\"\n  },\n  \"kustomizeVersion\": \"v5.8.1\",\n  \"serverVersion\": {\n    \"major\": \"1\",\n    \"minor\": \"37\",\n    \"emulationMajor\": \"1\",\n    \"emulationMinor\": \"37\",\n    \"minCompatibilityMajor\": \"1\",\n    \"minCompatibilityMinor\": \"36\",\n    \"gitVersion\": \"v1.37.0\",\n    \"gitCommit\": \"f54c212e3a2f75d674b717a9b29052b20b60aefc\",\n    \"gitTreeState\": \"clean\",\n    \"buildDate\": \"2026-08-26T10:44:25Z\",\n    \"goVersion\": \"go1.26.6\",\n    \"compiler\": \"gc\",\n    \"platform\": \"linux/amd64\"\n  }\n}",
+      "stderr": ""
+    },
+    "minikube": {
+      "exit_code": 0,
+      "stdout": "{\"commit\":\"7a9f6a841470a207de8cf4bafcccee0969d8ba10\",\"minikubeVersion\":\"v1.39.0\"}",
+      "stderr": ""
+    },
+    "docker": {
+      "exit_code": 0,
+      "stdout": "{\"Client\":{\"Version\":\"29.8.2\",\"ApiVersion\":\"1.56\",\"DefaultAPIVersion\":\"1.56\",\"GitCommit\":\"7fc2dff\",\"GoVersion\":\"go1.26.8\",\"Os\":\"windows\",\"Arch\":\"amd64\",\"BuildTime\":\"Wed Sep 30 19:35:42 2026\",\"Context\":\"desktop-linux\"},\"Server\":{\"Platform\":{\"Name\":\"Docker Desktop 4.95.0 (242831)\"},\"Version\":\"29.8.2\",\"ApiVersion\":\"1.56\",\"MinAPIVersion\":\"1.40\",\"Os\":\"linux\",\"Arch\":\"amd64\",\"Components\":[{\"Name\":\"Engine\",\"Version\":\"29.8.2\",\"Details\":{\"ApiVersion\":\"1.56\",\"Arch\":\"amd64\",\"BuildTime\":\"Wed Sep 30 19:32:25 2026\",\"Experimental\":\"false\",\"GitCommit\":\"8af9fe3\",\"GoVersion\":\"go1.26.8\",\"KernelVersion\":\"5.15.167.4-microsoft-standard-WSL2\",\"MinAPIVersion\":\"1.40\",\"Module\":\"github.com/moby/moby/v2\",\"ModuleVersion\":\"v2.0.0+unknown\",\"Os\":\"linux\"}},{\"Name\":\"containerd\",\"Version\":\"v2.3.6\",\"Details\":{\"GitCommit\":\"ee2735368117d2eb259779949d5e75cdafec9761\"}},{\"Name\":\"runc\",\"Version\":\"1.5.1\",\"Details\":{\"GitCommit\":\"v1.5.1-0-g8f2685a4\"}},{\"Name\":\"docker-init\",\"Version\":\"0.19.0\",\"Details\":{\"GitCommit\":\"de40ad0\"}}],\"GitCommit\":\"8af9fe3\",\"GoVersion\":\"go1.26.8\",\"KernelVersion\":\"5.15.167.4-microsoft-standard-WSL2\",\"BuildTime\":\"2026-09-30T19:32:25.000000000+00:00\"}}",
+      "stderr": ""
+    }
+  },
+  "k6_version": "k6.EXE v2.2.0 (commit/00a9a1b7f5, go1.26.5, windows/amd64)",
+  "initial_recovery": {
+    "started_at_utc": "2026-11-11T00:16:24.362592+00:00",
+    "passed_at_utc": "2026-11-11T00:16:48.194428+00:00",
+    "identity": [
+      {
+        "pod_uid": "ee38f8af-8777-45b4-aa55-7b6155c7defd",
+        "container_id": "containerd://acc8502bfb79a5347ddefb52a177b2b4bc9c6d3d1b163fdb9b80f9a0e215ef05",
+        "restart_count": 2
+      }
+    ]
+  },
+  "initial_identity": {
+    "pod_uid": "ee38f8af-8777-45b4-aa55-7b6155c7defd",
+    "container_id": "containerd://acc8502bfb79a5347ddefb52a177b2b4bc9c6d3d1b163fdb9b80f9a0e215ef05",
+    "restart_count": 2,
+    "image_id": "sha256:7afaba776be2a7256ac0470ab06af3d437ab4920d87ce2998ccb24b1585707ce"
+  },
+  "deployment_snapshot": {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": {
+      "annotations": {
+        "deployment.kubernetes.io/revision": "1",
+        "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"apps/v1\",\"kind\":\"Deployment\",\"metadata\":{\"annotations\":{},\"name\":\"ollama\",\"namespace\":\"inference\"},\"spec\":{\"replicas\":1,\"selector\":{\"matchLabels\":{\"app\":\"ollama\"}},\"strategy\":{\"rollingUpdate\":{\"maxSurge\":0,\"maxUnavailable\":1},\"type\":\"RollingUpdate\"},\"template\":{\"metadata\":{\"labels\":{\"app\":\"ollama\"}},\"spec\":{\"containers\":[{\"env\":[{\"name\":\"OLLAMA_HOST\",\"value\":\"0.0.0.0:11434\"},{\"name\":\"OLLAMA_NUM_PARALLEL\",\"value\":\"1\"},{\"name\":\"OLLAMA_CONTEXT_LENGTH\",\"value\":\"1024\"},{\"name\":\"OLLAMA_KEEP_ALIVE\",\"value\":\"-1\"}],\"image\":\"ai-inference:0.1\",\"imagePullPolicy\":\"Never\",\"lifecycle\":{\"preStop\":{\"exec\":{\"command\":[\"/bin/sleep\",\"35\"]}}},\"name\":\"ollama\",\"ports\":[{\"containerPort\":11434}],\"readinessProbe\":{\"httpGet\":{\"path\":\"/api/tags\",\"port\":11434},\"periodSeconds\":5,\"timeoutSeconds\":5},\"resources\":{\"limits\":{\"cpu\":\"2\",\"memory\":\"2Gi\"},\"requests\":{\"cpu\":\"2\",\"memory\":\"1Gi\"}}}],\"terminationGracePeriodSeconds\":60}}}}\n"
+      },
+      "creationTimestamp": "2026-10-04T18:08:42Z",
+      "generation": 52,
+      "name": "ollama",
+      "namespace": "inference",
+      "resourceVersion": "221623",
+      "uid": "959546fb-0e98-4116-bb3b-6b1167f13069"
+    },
+    "spec": {
+      "progressDeadlineSeconds": 600,
+      "replicas": 1,
+      "revisionHistoryLimit": 10,
+      "selector": {
+        "matchLabels": {
+          "app": "ollama"
+        }
+      },
+      "strategy": {
+        "rollingUpdate": {
+          "maxSurge": 0,
+          "maxUnavailable": 1
+        },
+        "type": "RollingUpdate"
+      },
+      "template": {
+        "metadata": {
+          "labels": {
+            "app": "ollama"
+          }
+        },
+        "spec": {
+          "containers": [
+            {
+              "env": [
+                {
+                  "name": "OLLAMA_HOST",
+                  "value": "0.0.0.0:11434"
+                },
+                {
+                  "name": "OLLAMA_NUM_PARALLEL",
+                  "value": "1"
+                },
+                {
+                  "name": "OLLAMA_CONTEXT_LENGTH",
+                  "value": "1024"
+                },
+                {
+                  "name": "OLLAMA_KEEP_ALIVE",
+                  "value": "-1"
+                }
+              ],
+              "image": "ai-inference:0.1",
+              "imagePullPolicy": "Never",
+              "lifecycle": {
+                "preStop": {
+                  "exec": {
+                    "command": [
+                      "/bin/sleep",
+                      "35"
+                    ]
+                  }
+                }
+              },
+              "name": "ollama",
+              "ports": [
+                {
+                  "containerPort": 11434,
+                  "protocol": "TCP"
+                }
+              ],
+              "readinessProbe": {
+                "failureThreshold": 3,
+                "httpGet": {
+                  "path": "/api/tags",
+                  "port": 11434,
+                  "scheme": "HTTP"
+                },
+                "periodSeconds": 5,
+                "successThreshold": 1,
+                "timeoutSeconds": 5
+              },
+              "resources": {
+                "limits": {
+                  "cpu": "2",
+                  "memory": "2Gi"
+                },
+                "requests": {
+                  "cpu": "2",
+                  "memory": "1Gi"
+                }
+              },
+              "terminationMessagePath": "/dev/termination-log",
+              "terminationMessagePolicy": "File"
+            }
+          ],
+          "dnsPolicy": "ClusterFirst",
+          "restartPolicy": "Always",
+          "schedulerName": "default-scheduler",
+          "securityContext": {},
+          "terminationGracePeriodSeconds": 60
+        }
+      }
+    },
+    "status": {
+      "availableReplicas": 1,
+      "conditions": [
+        {
+          "lastTransitionTime": "2026-10-04T18:08:42Z",
+          "lastUpdateTime": "2026-10-04T18:08:48Z",
+          "message": "ReplicaSet \"ollama-7db4f544df\" has successfully progressed.",
+          "reason": "NewReplicaSetAvailable",
+          "status": "True",
+          "type": "Progressing"
+        },
+        {
+          "lastTransitionTime": "2026-11-10T23:15:04Z",
+          "lastUpdateTime": "2026-11-10T23:15:04Z",
+          "message": "Deployment has minimum availability.",
+          "reason": "MinimumReplicasAvailable",
+          "status": "True",
+          "type": "Available"
+        }
+      ],
+      "observedGeneration": 52,
+      "readyReplicas": 1,
+      "replicas": 1,
+      "terminatingReplicas": 0,
+      "updatedReplicas": 1
+    }
+  },
+  "pod_snapshot": {
+    "apiVersion": "v1",
+    "kind": "Pod",
+    "metadata": {
+      "creationTimestamp": "2026-10-27T20:45:43Z",
+      "generateName": "ollama-7db4f544df-",
+      "generation": 1,
+      "labels": {
+        "app": "ollama",
+        "pod-template-hash": "7db4f544df"
+      },
+      "name": "ollama-7db4f544df-s6xhv",
+      "namespace": "inference",
+      "ownerReferences": [
+        {
+          "apiVersion": "apps/v1",
+          "blockOwnerDeletion": true,
+          "controller": true,
+          "kind": "ReplicaSet",
+          "name": "ollama-7db4f544df",
+          "uid": "e26262a5-3907-411d-9bd6-97056120fb23"
+        }
+      ],
+      "resourceVersion": "205696",
+      "uid": "ee38f8af-8777-45b4-aa55-7b6155c7defd"
+    },
+    "spec": {
+      "containers": [
+        {
+          "env": [
+            {
+              "name": "OLLAMA_HOST",
+              "value": "0.0.0.0:11434"
+            },
+            {
+              "name": "OLLAMA_NUM_PARALLEL",
+              "value": "1"
+            },
+            {
+              "name": "OLLAMA_CONTEXT_LENGTH",
+              "value": "1024"
+            },
+            {
+              "name": "OLLAMA_KEEP_ALIVE",
+              "value": "-1"
+            }
+          ],
+          "image": "ai-inference:0.1",
+          "imagePullPolicy": "Never",
+          "lifecycle": {
+            "preStop": {
+              "exec": {
+                "command": [
+                  "/bin/sleep",
+                  "35"
+                ]
+              }
+            }
+          },
+          "name": "ollama",
+          "ports": [
+            {
+              "containerPort": 11434,
+              "protocol": "TCP"
+            }
+          ],
+          "readinessProbe": {
+            "failureThreshold": 3,
+            "httpGet": {
+              "path": "/api/tags",
+              "port": 11434,
+              "scheme": "HTTP"
+            },
+            "periodSeconds": 5,
+            "successThreshold": 1,
+            "timeoutSeconds": 5
+          },
+          "resources": {
+            "limits": {
+              "cpu": "2",
+              "memory": "2Gi"
+            },
+            "requests": {
+              "cpu": "2",
+              "memory": "1Gi"
+            }
+          },
+          "terminationMessagePath": "/dev/termination-log",
+          "terminationMessagePolicy": "File",
+          "volumeMounts": [
+            {
+              "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+              "name": "kube-api-access-5psqz",
+              "readOnly": true
+            }
+          ]
+        }
+      ],
+      "dnsPolicy": "ClusterFirst",
+      "enableServiceLinks": true,
+      "nodeName": "ai-lab",
+      "preemptionPolicy": "PreemptLowerPriority",
+      "priority": 0,
+      "restartPolicy": "Always",
+      "schedulerName": "default-scheduler",
+      "securityContext": {},
+      "serviceAccount": "default",
+      "serviceAccountName": "default",
+      "terminationGracePeriodSeconds": 60,
+      "tolerations": [
+        {
+          "effect": "NoExecute",
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "tolerationSeconds": 300
+        },
+        {
+          "effect": "NoExecute",
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "tolerationSeconds": 300
+        }
+      ],
+      "volumes": [
+        {
+          "name": "kube-api-access-5psqz",
+          "projected": {
+            "defaultMode": 420,
+            "sources": [
+              {
+                "serviceAccountToken": {
+                  "expirationSeconds": 3607,
+                  "path": "token"
+                }
+              },
+              {
+                "configMap": {
+                  "items": [
+                    {
+                      "key": "ca.crt",
+                      "path": "ca.crt"
+                    }
+                  ],
+                  "name": "kube-root-ca.crt"
+                }
+              },
+              {
+                "downwardAPI": {
+                  "items": [
+                    {
+                      "fieldRef": {
+                        "apiVersion": "v1",
+                        "fieldPath": "metadata.namespace"
+                      },
+                      "path": "namespace"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "status": {
+      "allocatedResources": {
+        "cpu": "2",
+        "memory": "1Gi"
+      },
+      "conditions": [
+        {
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-11-10T19:19:35Z",
+          "observedGeneration": 1,
+          "status": "True",
+          "type": "PodReadyToStartContainers"
+        },
+        {
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-10-27T20:45:43Z",
+          "observedGeneration": 1,
+          "status": "True",
+          "type": "Initialized"
+        },
+        {
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-11-10T19:19:39Z",
+          "observedGeneration": 1,
+          "status": "True",
+          "type": "Ready"
+        },
+        {
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-11-10T19:19:39Z",
+          "observedGeneration": 1,
+          "status": "True",
+          "type": "ContainersReady"
+        },
+        {
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-10-27T20:45:43Z",
+          "observedGeneration": 1,
+          "status": "True",
+          "type": "PodScheduled"
+        }
+      ],
+      "containerStatuses": [
+        {
+          "allocatedResources": {
+            "cpu": "2",
+            "memory": "1Gi"
+          },
+          "containerID": "containerd://acc8502bfb79a5347ddefb52a177b2b4bc9c6d3d1b163fdb9b80f9a0e215ef05",
+          "image": "docker.io/library/ai-inference:0.1",
+          "imageID": "sha256:7afaba776be2a7256ac0470ab06af3d437ab4920d87ce2998ccb24b1585707ce",
+          "lastState": {
+            "terminated": {
+              "containerID": "containerd://2fa5afebead7c74cdb54df413ea1ac9788359c0e1ad4a3893ea9f4e2ac6146b1",
+              "exitCode": 255,
+              "finishedAt": "2026-11-10T19:19:27Z",
+              "reason": "Unknown",
+              "startedAt": "2026-10-28T18:12:06Z"
+            }
+          },
+          "name": "ollama",
+          "ready": true,
+          "resources": {
+            "limits": {
+              "cpu": "2",
+              "memory": "2Gi"
+            },
+            "requests": {
+              "cpu": "2",
+              "memory": "1Gi"
+            }
+          },
+          "restartCount": 2,
+          "started": true,
+          "state": {
+            "running": {
+              "startedAt": "2026-11-10T19:19:36Z"
+            }
+          },
+          "user": {
+            "linux": {
+              "gid": 0,
+              "supplementalGroups": [
+                0
+              ],
+              "uid": 0
+            }
+          },
+          "volumeMounts": [
+            {
+              "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+              "name": "kube-api-access-5psqz",
+              "readOnly": true,
+              "recursiveReadOnly": "Disabled"
+            }
+          ]
+        }
+      ],
+      "hostIP": "192.168.49.2",
+      "hostIPs": [
+        {
+          "ip": "192.168.49.2"
+        }
+      ],
+      "observedGeneration": 1,
+      "phase": "Running",
+      "podIP": "10.244.0.2",
+      "podIPs": [
+        {
+          "ip": "10.244.0.2"
+        }
+      ],
+      "qosClass": "Burstable",
+      "resources": {
+        "limits": {
+          "cpu": "2",
+          "memory": "2Gi"
+        },
+        "requests": {
+          "cpu": "2",
+          "memory": "1Gi"
+        }
+      },
+      "startTime": "2026-10-27T20:45:43Z"
+    }
+  },
+  "runtime_context": {
+    "models": {
+      "ee38f8af-8777-45b4-aa55-7b6155c7defd": {
+        "name": "qwen2.5:0.5b",
+        "model": "qwen2.5:0.5b",
+        "modified_at": "2026-09-26T23:43:44Z",
+        "size": 397821319,
+        "digest": "a8b0c51577010a279d933d14c2a8ab4b268079d44c5c8830c0a93900f1827c67",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "qwen2",
+          "families": [
+            "qwen2"
+          ],
+          "parameter_size": "494.03M",
+          "quantization_level": "Q4_K_M",
+          "context_length": 32768,
+          "embedding_length": 896
+        },
+        "capabilities": [
+          "completion",
+          "tools"
+        ]
+      }
+    },
+    "docker_limits": {
+      "cpu": 24,
+      "memory_bytes": 33528741888
+    },
+    "minikube_profile": {
+      "Name": "ai-lab",
+      "Status": "OK",
+      "Config": {
+        "Name": "ai-lab",
+        "KeepContext": false,
+        "EmbedCerts": false,
+        "MinikubeISO": "",
+        "KicBaseImage": "gcr.io/k8s-minikube/kicbase:v0.0.51@sha256:4a1c825b61479e6c898851ea66f13c620aaeab6002746e95067fc2c4b38a0b24",
+        "Memory": 12288,
+        "CPUs": 8,
+        "DiskSize": 20000,
+        "Driver": "docker",
+        "HyperkitVpnKitSock": "",
+        "HyperkitVSockPorts": [],
+        "DockerEnv": null,
+        "ContainerVolumeMounts": null,
+        "InsecureRegistry": null,
+        "RegistryMirror": [],
+        "HostOnlyCIDR": "192.168.59.1/24",
+        "HypervVirtualSwitch": "",
+        "HypervUseExternalSwitch": false,
+        "HypervExternalAdapter": "",
+        "KVMNetwork": "default",
+        "KVMQemuURI": "qemu:///system",
+        "KVMGPU": false,
+        "KVMHidden": false,
+        "KVMNUMACount": 1,
+        "APIServerPort": 8443,
+        "DockerOpt": null,
+        "DisableDriverMounts": false,
+        "NFSShare": [],
+        "NFSSharesRoot": "/nfsshares",
+        "UUID": "",
+        "NoVTXCheck": false,
+        "DNSProxy": false,
+        "HostDNSResolver": true,
+        "HostOnlyNicType": "virtio",
+        "NatNicType": "virtio",
+        "SSHIPAddress": "",
+        "SSHUser": "root",
+        "SSHKey": "",
+        "SSHPort": 22,
+        "KubernetesConfig": {
+          "KubernetesVersion": "v1.37.0",
+          "ClusterName": "ai-lab",
+          "Namespace": "default",
+          "APIServerHAVIP": "",
+          "APIServerName": "minikubeCA",
+          "APIServerNames": null,
+          "APIServerIPs": null,
+          "DNSDomain": "cluster.local",
+          "ContainerRuntime": "containerd",
+          "CRISocket": "",
+          "NetworkPlugin": "cni",
+          "FeatureGates": "",
+          "ServiceCIDR": "10.96.0.0/12",
+          "ImageRepository": "",
+          "LoadBalancerStartIP": "",
+          "LoadBalancerEndIP": "",
+          "CustomIngressCert": "",
+          "RegistryAliases": "",
+          "ExtraOptions": null,
+          "ShouldLoadCachedImages": true,
+          "EnableDefaultCNI": false,
+          "CNI": ""
+        },
+        "Nodes": [
+          {
+            "Name": "",
+            "IP": "192.168.49.2",
+            "Port": 8443,
+            "KubernetesVersion": "v1.37.0",
+            "ContainerRuntime": "containerd",
+            "ControlPlane": true,
+            "Worker": true
+          }
+        ],
+        "Addons": {
+          "dashboard": true,
+          "default-storageclass": true,
+          "metrics-server": true,
+          "storage-provisioner": true
+        },
+        "CustomAddonImages": null,
+        "CustomAddonRegistries": null,
+        "VerifyComponents": {
+          "apiserver": true,
+          "system_pods": true
+        },
+        "StartHostTimeout": 360000000000,
+        "ScheduledStop": null,
+        "ExposedPorts": [],
+        "ListenAddress": "",
+        "Network": "",
+        "Subnet": "",
+        "MultiNodeRequested": false,
+        "ExtraDisks": 0,
+        "CertExpiration": 94608000000000000,
+        "MountString": "",
+        "Mount9PVersion": "9p2000.L",
+        "MountGID": "docker",
+        "MountIP": "",
+        "MountMSize": 262144,
+        "MountOptions": [],
+        "MountPort": 0,
+        "MountType": "9p",
+        "MountUID": "docker",
+        "BinaryMirror": "",
+        "DisableOptimizations": false,
+        "DisableMetrics": false,
+        "DisableCoreDNSLog": false,
+        "CustomQemuFirmwarePath": "",
+        "SocketVMnetClientPath": "",
+        "SocketVMnetPath": "",
+        "StaticIP": "",
+        "SSHAuthSock": "",
+        "SSHAgentPID": 0,
+        "GPUs": "",
+        "AutoPauseInterval": 60000000000,
+        "Rosetta": false,
+        "VmnetOffloading": false,
+        "DNSServers": null,
+        "MDNS": false
+      },
+      "Active": false,
+      "ActiveKubeContext": true
+    }
+  },
+  "initial_quiet": {
+    "after_utc": "2026-11-11T00:16:53.959249+00:00",
+    "passed_at_utc": "2026-11-11T00:17:16.679152+00:00",
+    "cpu_limit_cores": 0.1,
+    "fresh_low_intervals": 2,
+    "metrics_server_window_checked": false
+  },
+  "post_warmup_quiet": {
+    "after_utc": "2026-11-11T00:18:20.396919+00:00",
+    "passed_at_utc": "2026-11-11T00:19:41.977191+00:00",
+    "cpu_limit_cores": 0.1,
+    "fresh_low_intervals": 6,
+    "metrics_server_window_checked": true
+  },
+  "hpa_spec": {
+    "behavior": {
+      "scaleDown": {
+        "policies": [
+          {
+            "periodSeconds": 15,
+            "type": "Percent",
+            "value": 100
+          }
+        ],
+        "selectPolicy": "Max",
+        "stabilizationWindowSeconds": 300
+      },
+      "scaleUp": {
+        "policies": [
+          {
+            "periodSeconds": 15,
+            "type": "Pods",
+            "value": 4
+          },
+          {
+            "periodSeconds": 15,
+            "type": "Percent",
+            "value": 100
+          }
+        ],
+        "selectPolicy": "Max",
+        "stabilizationWindowSeconds": 0
+      }
+    },
+    "maxReplicas": 3,
+    "metrics": [
+      {
+        "resource": {
+          "name": "cpu",
+          "target": {
+            "averageUtilization": 60,
+            "type": "Utilization"
+          }
+        },
+        "type": "Resource"
+      }
+    ],
+    "minReplicas": 1,
+    "scaleTargetRef": {
+      "apiVersion": "apps/v1",
+      "kind": "Deployment",
+      "name": "ollama"
+    }
+  },
+  "hpa_applied_at_utc": "2026-11-11T00:19:45.736077+00:00",
+  "k6_command": [
+    "C:\\Program Files\\k6\\k6.EXE",
+    "run",
+    "--config",
+    "C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\results\\follow-up\\comparison-20261110-205108-peak12\\attempt-09-autoscaling-burst\\inputs\\k6-config.json",
+    "--no-usage-report",
+    "--no-color",
+    "--log-format",
+    "raw",
+    "--console-output",
+    "C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\results\\follow-up\\comparison-20261110-205108-peak12\\attempt-09-autoscaling-burst\\request-events.jsonl",
+    "--out",
+    "json=C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\results\\follow-up\\comparison-20261110-205108-peak12\\attempt-09-autoscaling-burst\\requests.json",
+    "--summary-export",
+    "C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\results\\follow-up\\comparison-20261110-205108-peak12\\attempt-09-autoscaling-burst\\summary.json",
+    "C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\results\\follow-up\\comparison-20261110-205108-peak12\\attempt-09-autoscaling-burst\\inputs\\inference.js"
+  ],
+  "load_process_started_at_utc": "2026-11-11T00:19:55.754382+00:00",
+  "load_process_finished_at_utc": "2026-11-11T00:32:57.124032+00:00",
+  "scheduled_profile_finished_at_utc": "2026-11-11T00:32:57.900143+00:00",
+  "recovery": {
+    "attempted": true,
+    "successful": true,
+    "errors": []
+  },
+  "counts": {
+    "started": 457,
+    "completed": 457,
+    "successful": 457,
+    "failed": 0,
+    "unfinished": 0,
+    "dropped": 0
+  },
+  "load_window": {
+    "started_at_utc": "2026-11-11T00:19:55.887000+00:00",
+    "scheduled_end_at_utc": "2026-11-11T00:32:57.887000+00:00",
+    "client_drain_end_at_utc": "2026-11-11T00:32:57.887000+00:00",
+    "request_start_tolerance_ms": 1
+  },
+  "exit_code": 99
+}

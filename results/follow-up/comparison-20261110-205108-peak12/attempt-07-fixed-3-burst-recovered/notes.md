@@ -1,0 +1,1 @@
+This derived copy adds the raw rotated CRI log found on the node. The normal validator now matches all 457 client completions, with 156, 155 and 146 requests across the three copies. Peak p95 was 4.001 seconds, so the run passed. I did not repeat or synthesize any load.

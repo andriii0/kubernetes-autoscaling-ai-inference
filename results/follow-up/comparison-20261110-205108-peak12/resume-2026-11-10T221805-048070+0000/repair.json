@@ -1,0 +1,10 @@
+{
+  "started_at_utc": "2026-11-10T22:18:07.545654+00:00",
+  "previous_finished_at_utc": "2026-11-10T21:47:01.959506+00:00",
+  "reason": "Derive preliminary fixed-three activity from validated expected pod counts",
+  "replayed": [
+    "attempt-01-fixed-1-burst",
+    "attempt-02-autoscaling-burst",
+    "attempt-03-fixed-3-burst"
+  ]
+}

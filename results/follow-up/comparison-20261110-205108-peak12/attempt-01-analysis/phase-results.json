@@ -1,0 +1,76 @@
+[
+  {
+    "name": "low-before",
+    "seconds": 120,
+    "target": "low",
+    "start_seconds": 0,
+    "end_seconds": 120,
+    "assignment": "request start time",
+    "completed": 23,
+    "successful": 23,
+    "failed": 0,
+    "p95_ms": 1335.4,
+    "mean_ms": 1104.4782608695652,
+    "failure_categories": {}
+  },
+  {
+    "name": "rise",
+    "seconds": 1,
+    "target": "peak",
+    "start_seconds": 120,
+    "end_seconds": 121,
+    "assignment": "request start time",
+    "completed": 1,
+    "successful": 1,
+    "failed": 0,
+    "p95_ms": 1391.0,
+    "mean_ms": 1391.0,
+    "failure_categories": {}
+  },
+  {
+    "name": "peak",
+    "seconds": 300,
+    "target": "peak",
+    "start_seconds": 121,
+    "end_seconds": 421,
+    "assignment": "request start time",
+    "completed": 360,
+    "successful": 68,
+    "failed": 292,
+    "p95_ms": 29496.6,
+    "mean_ms": 13311.617647058823,
+    "failure_categories": {
+      "timeout": 292
+    }
+  },
+  {
+    "name": "fall",
+    "seconds": 1,
+    "target": "low",
+    "start_seconds": 421,
+    "end_seconds": 422,
+    "assignment": "request start time",
+    "completed": 1,
+    "successful": 0,
+    "failed": 1,
+    "p95_ms": null,
+    "mean_ms": null,
+    "failure_categories": {
+      "timeout": 1
+    }
+  },
+  {
+    "name": "low-after",
+    "seconds": 360,
+    "target": "low",
+    "start_seconds": 422,
+    "end_seconds": 782,
+    "assignment": "request start time",
+    "completed": 72,
+    "successful": 72,
+    "failed": 0,
+    "p95_ms": 13526.400000000012,
+    "mean_ms": 2442.625,
+    "failure_categories": {}
+  }
+]

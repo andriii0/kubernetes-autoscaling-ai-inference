@@ -1,0 +1,12 @@
+{
+  "runs": {
+    "attempt-07-fixed-3-burst": "attempt-07-fixed-3-burst-recovered"
+  },
+  "source_versions": {
+    "run_pilot.py": [
+      "ebacf55e6359837da59bb4d587e62f8b003b943586d3893dc21739f26d7d5967",
+      "bcaebbbe449076ae56e8605f931cca3f0f7a39d9118b506dfe829dc96310fa0c"
+    ]
+  },
+  "reason": "Continuous fixed-mode log capture replaces end-only snapshot"
+}

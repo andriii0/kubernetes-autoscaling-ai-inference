@@ -1,0 +1,1 @@
+The measured load completed with 457 successful requests, and all three copies handled traffic. The driver first rejected it because the preliminary report did not include the activity flag expected by the comparison assessment. The corrected offline assessment is a valid target miss: peak p95 was 5.116 seconds against the 5-second target. I did not repeat the load.

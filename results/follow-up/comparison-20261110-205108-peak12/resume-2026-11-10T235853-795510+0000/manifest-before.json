@@ -1,0 +1,200 @@
+{
+  "protocol": "peak12-v1",
+  "status": "failed",
+  "started_at_utc": "2026-11-10T20:51:10.522898+00:00",
+  "cells": [
+    {
+      "order": 1,
+      "repetition": 1,
+      "mode": "fixed-1"
+    },
+    {
+      "order": 2,
+      "repetition": 1,
+      "mode": "autoscaling"
+    },
+    {
+      "order": 3,
+      "repetition": 1,
+      "mode": "fixed-3"
+    },
+    {
+      "order": 4,
+      "repetition": 2,
+      "mode": "autoscaling"
+    },
+    {
+      "order": 5,
+      "repetition": 2,
+      "mode": "fixed-3"
+    },
+    {
+      "order": 6,
+      "repetition": 2,
+      "mode": "fixed-1"
+    },
+    {
+      "order": 7,
+      "repetition": 3,
+      "mode": "fixed-3"
+    },
+    {
+      "order": 8,
+      "repetition": 3,
+      "mode": "fixed-1"
+    },
+    {
+      "order": 9,
+      "repetition": 3,
+      "mode": "autoscaling"
+    }
+  ],
+  "completed_runs": [
+    {
+      "order": 1,
+      "repetition": 1,
+      "mode": "fixed-1",
+      "run": "attempt-01-fixed-1-burst",
+      "analysis": "attempt-01-analysis",
+      "verdict": "fail",
+      "peak": {
+        "name": "peak",
+        "seconds": 300,
+        "target": "peak",
+        "start_seconds": 121,
+        "end_seconds": 421,
+        "assignment": "request start time",
+        "completed": 360,
+        "successful": 68,
+        "failed": 292,
+        "p95_ms": 29496.6,
+        "mean_ms": 13311.617647058823,
+        "failure_categories": {
+          "timeout": 292
+        }
+      }
+    },
+    {
+      "order": 2,
+      "repetition": 1,
+      "mode": "autoscaling",
+      "run": "attempt-02-autoscaling-burst",
+      "analysis": "attempt-02-analysis",
+      "verdict": "fail",
+      "peak": {
+        "name": "peak",
+        "seconds": 300,
+        "target": "peak",
+        "start_seconds": 121,
+        "end_seconds": 421,
+        "assignment": "request start time",
+        "completed": 360,
+        "successful": 313,
+        "failed": 47,
+        "p95_ms": 29801.2,
+        "mean_ms": 14382.654952076677,
+        "failure_categories": {
+          "timeout": 47
+        }
+      }
+    },
+    {
+      "order": 3,
+      "repetition": 1,
+      "mode": "fixed-3",
+      "run": "attempt-03-fixed-3-burst",
+      "analysis": "attempt-03-analysis",
+      "verdict": "fail",
+      "peak": {
+        "name": "peak",
+        "seconds": 300,
+        "target": "peak",
+        "start_seconds": 121,
+        "end_seconds": 421,
+        "assignment": "request start time",
+        "completed": 360,
+        "successful": 360,
+        "failed": 0,
+        "p95_ms": 5116.45,
+        "mean_ms": 2870.6916666666666,
+        "failure_categories": {}
+      }
+    },
+    {
+      "order": 4,
+      "repetition": 2,
+      "mode": "autoscaling",
+      "run": "attempt-04-autoscaling-burst",
+      "analysis": "attempt-04-analysis",
+      "verdict": "fail",
+      "peak": {
+        "name": "peak",
+        "seconds": 300,
+        "target": "peak",
+        "start_seconds": 121,
+        "end_seconds": 421,
+        "assignment": "request start time",
+        "completed": 360,
+        "successful": 318,
+        "failed": 42,
+        "p95_ms": 28964.1,
+        "mean_ms": 15244.619496855346,
+        "failure_categories": {
+          "timeout": 42
+        }
+      }
+    },
+    {
+      "order": 5,
+      "repetition": 2,
+      "mode": "fixed-3",
+      "run": "attempt-05-fixed-3-burst",
+      "analysis": "attempt-05-analysis",
+      "verdict": "pass",
+      "peak": {
+        "name": "peak",
+        "seconds": 300,
+        "target": "peak",
+        "start_seconds": 121,
+        "end_seconds": 421,
+        "assignment": "request start time",
+        "completed": 360,
+        "successful": 360,
+        "failed": 0,
+        "p95_ms": 4534.050000000002,
+        "mean_ms": 2577.358333333333,
+        "failure_categories": {}
+      }
+    },
+    {
+      "order": 6,
+      "repetition": 2,
+      "mode": "fixed-1",
+      "run": "attempt-06-fixed-1-burst",
+      "analysis": "attempt-06-analysis",
+      "verdict": "fail",
+      "peak": {
+        "name": "peak",
+        "seconds": 300,
+        "target": "peak",
+        "start_seconds": 121,
+        "end_seconds": 421,
+        "assignment": "request start time",
+        "completed": 360,
+        "successful": 146,
+        "failed": 214,
+        "p95_ms": 28574.25,
+        "mean_ms": 15724.0,
+        "failure_categories": {
+          "timeout": 214
+        }
+      }
+    }
+  ],
+  "current_run": "attempt-07-fixed-3-burst",
+  "resumptions": [
+    "resume-2026-11-10T221805-048070+0000"
+  ],
+  "error": "attempt-07-fixed-3-burst: launcher exit 1; attempt preserved",
+  "finished_at_utc": "2026-11-10T23:30:41.626203+00:00"
+}

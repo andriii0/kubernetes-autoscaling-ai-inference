@@ -1,0 +1,19 @@
+{
+  "attempt-04-autoscaling-burst": {
+    "b84b0545-6847-417d-920e-72e867704afe": {
+      "cpu_valid_samples": 42,
+      "cpu_mean_cores": 0.45440417496033175,
+      "peak_memory_mib": 485.98046875
+    },
+    "e88e00c4-28e2-4b20-b93c-a123453402a8": {
+      "cpu_valid_samples": 58,
+      "cpu_mean_cores": 0.816767566713884,
+      "peak_memory_mib": 890.1015625
+    },
+    "ee38f8af-8777-45b4-aa55-7b6155c7defd": {
+      "cpu_valid_samples": 86,
+      "cpu_mean_cores": 1.0057801788894665,
+      "peak_memory_mib": 528.921875
+    }
+  }
+}

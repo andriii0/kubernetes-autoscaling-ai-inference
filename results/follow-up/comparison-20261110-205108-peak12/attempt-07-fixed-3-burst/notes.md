@@ -1,0 +1,1 @@
+The load completed with 457 successful requests, but the end-only log snapshot found only 432 server completions. Kubernetes had moved 25 earlier lines into a rotated CRI log file. I preserved this original attempt as a data failure and recovered the missing raw log in a separate copy.

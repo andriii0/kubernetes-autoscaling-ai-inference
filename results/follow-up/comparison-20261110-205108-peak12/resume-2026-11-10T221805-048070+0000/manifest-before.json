@@ -1,0 +1,105 @@
+{
+  "protocol": "peak12-v1",
+  "status": "failed",
+  "started_at_utc": "2026-11-10T20:51:10.522898+00:00",
+  "cells": [
+    {
+      "order": 1,
+      "repetition": 1,
+      "mode": "fixed-1"
+    },
+    {
+      "order": 2,
+      "repetition": 1,
+      "mode": "autoscaling"
+    },
+    {
+      "order": 3,
+      "repetition": 1,
+      "mode": "fixed-3"
+    },
+    {
+      "order": 4,
+      "repetition": 2,
+      "mode": "autoscaling"
+    },
+    {
+      "order": 5,
+      "repetition": 2,
+      "mode": "fixed-3"
+    },
+    {
+      "order": 6,
+      "repetition": 2,
+      "mode": "fixed-1"
+    },
+    {
+      "order": 7,
+      "repetition": 3,
+      "mode": "fixed-3"
+    },
+    {
+      "order": 8,
+      "repetition": 3,
+      "mode": "fixed-1"
+    },
+    {
+      "order": 9,
+      "repetition": 3,
+      "mode": "autoscaling"
+    }
+  ],
+  "completed_runs": [
+    {
+      "order": 1,
+      "repetition": 1,
+      "mode": "fixed-1",
+      "run": "attempt-01-fixed-1-burst",
+      "analysis": "attempt-01-analysis",
+      "verdict": "fail",
+      "peak": {
+        "name": "peak",
+        "seconds": 300,
+        "target": "peak",
+        "start_seconds": 121,
+        "end_seconds": 421,
+        "assignment": "request start time",
+        "completed": 360,
+        "successful": 68,
+        "failed": 292,
+        "p95_ms": 29496.6,
+        "mean_ms": 13311.617647058823,
+        "failure_categories": {
+          "timeout": 292
+        }
+      }
+    },
+    {
+      "order": 2,
+      "repetition": 1,
+      "mode": "autoscaling",
+      "run": "attempt-02-autoscaling-burst",
+      "analysis": "attempt-02-analysis",
+      "verdict": "fail",
+      "peak": {
+        "name": "peak",
+        "seconds": 300,
+        "target": "peak",
+        "start_seconds": 121,
+        "end_seconds": 421,
+        "assignment": "request start time",
+        "completed": 360,
+        "successful": 313,
+        "failed": 47,
+        "p95_ms": 29801.2,
+        "mean_ms": 14382.654952076677,
+        "failure_categories": {
+          "timeout": 47
+        }
+      }
+    }
+  ],
+  "current_run": "attempt-03-fixed-3-burst",
+  "error": "Incomplete or not-assessable comparison evidence",
+  "finished_at_utc": "2026-11-10T21:47:01.959506+00:00"
+}

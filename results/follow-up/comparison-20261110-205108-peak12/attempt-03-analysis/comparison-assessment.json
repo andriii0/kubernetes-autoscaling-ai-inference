@@ -1,0 +1,42 @@
+{
+  "protocol_version": "peak12-v1",
+  "data_valid": true,
+  "duration_complete": true,
+  "unfinished": 0,
+  "dropped": 0,
+  "primary": {
+    "name": "peak",
+    "seconds": 300,
+    "target": "peak",
+    "start_seconds": 121,
+    "end_seconds": 421,
+    "assignment": "request start time",
+    "completed": 360,
+    "successful": 360,
+    "failed": 0,
+    "p95_ms": 5116.45,
+    "mean_ms": 2870.6916666666666,
+    "failure_categories": {}
+  },
+  "primary_p95_pass": false,
+  "primary_errors_pass": true,
+  "whole_run_errors_pass": true,
+  "scaling_observed": "not_applicable",
+  "overall": "fail",
+  "sensitivity_p95_pass": true,
+  "system_outcomes": [
+    {
+      "pod_uid": "ee38f8af-8777-45b4-aa55-7b6155c7defd",
+      "restart_count": 2,
+      "termination": {
+        "containerID": "containerd://2fa5afebead7c74cdb54df413ea1ac9788359c0e1ad4a3893ea9f4e2ac6146b1",
+        "exitCode": 255,
+        "finishedAt": "2026-11-10T19:19:27Z",
+        "reason": "Unknown",
+        "startedAt": "2026-10-28T18:12:06Z"
+      }
+    }
+  ],
+  "limitations": [],
+  "server_drain_verified": false
+}
