@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "valid": false,
+  "errors": [
+    "launcher reported errors",
+    "load/collection processes did not finish normally",
+    "run evidence: 'load_process_started_at_utc'",
+    "request evidence: [Errno 2] No such file or directory: 'C:\\\\Users\\\\matvi\\\\PycharmProjects\\\\kubernetes-autoscaling-ai-inference\\\\results\\\\follow-up\\\\comparison-20261110-192050-peak12\\\\attempt-03-fixed-3-burst\\\\request-events.jsonl'",
+    "Service distribution: 'load_process_started_at_utc'"
+  ],
+  "warnings": [],
+  "counts": {},
+  "load_window": null,
+  "events_read": {
+    "started": 0,
+    "completed": 0
+  },
+  "observation": {
+    "samples": 60,
+    "collection_errors": 0,
+    "max_gap_seconds": 5.029807090759277
+  }
+}

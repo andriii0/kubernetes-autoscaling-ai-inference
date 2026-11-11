@@ -1,0 +1,1 @@
+No measured load started in this attempt. All three copies warmed successfully, but older kubelet CPU timestamps kept resetting the quiet-state progress. The 180-second preparation limit expired. This is a preparation failure, not a performance result.

@@ -1,0 +1,1 @@
+This was the first controlled peak-12 comparison attempt. Fixed-one and HPA completed and missed the target. Fixed-three stopped before measured load because delayed CPU readings kept resetting the quiet-state check. I preserved this incomplete series and started a new one after fixing the check.

@@ -1,0 +1,105 @@
+{
+  "protocol": "peak12-v1",
+  "status": "failed",
+  "started_at_utc": "2026-11-10T19:20:53.362254+00:00",
+  "cells": [
+    {
+      "order": 1,
+      "repetition": 1,
+      "mode": "fixed-1"
+    },
+    {
+      "order": 2,
+      "repetition": 1,
+      "mode": "autoscaling"
+    },
+    {
+      "order": 3,
+      "repetition": 1,
+      "mode": "fixed-3"
+    },
+    {
+      "order": 4,
+      "repetition": 2,
+      "mode": "autoscaling"
+    },
+    {
+      "order": 5,
+      "repetition": 2,
+      "mode": "fixed-3"
+    },
+    {
+      "order": 6,
+      "repetition": 2,
+      "mode": "fixed-1"
+    },
+    {
+      "order": 7,
+      "repetition": 3,
+      "mode": "fixed-3"
+    },
+    {
+      "order": 8,
+      "repetition": 3,
+      "mode": "fixed-1"
+    },
+    {
+      "order": 9,
+      "repetition": 3,
+      "mode": "autoscaling"
+    }
+  ],
+  "completed_runs": [
+    {
+      "order": 1,
+      "repetition": 1,
+      "mode": "fixed-1",
+      "run": "attempt-01-fixed-1-burst",
+      "analysis": "attempt-01-analysis",
+      "verdict": "fail",
+      "peak": {
+        "name": "peak",
+        "seconds": 300,
+        "target": "peak",
+        "start_seconds": 121,
+        "end_seconds": 421,
+        "assignment": "request start time",
+        "completed": 360,
+        "successful": 152,
+        "failed": 208,
+        "p95_ms": 28854.949999999997,
+        "mean_ms": 16843.901315789473,
+        "failure_categories": {
+          "timeout": 208
+        }
+      }
+    },
+    {
+      "order": 2,
+      "repetition": 1,
+      "mode": "autoscaling",
+      "run": "attempt-02-autoscaling-burst",
+      "analysis": "attempt-02-analysis",
+      "verdict": "fail",
+      "peak": {
+        "name": "peak",
+        "seconds": 300,
+        "target": "peak",
+        "start_seconds": 121,
+        "end_seconds": 421,
+        "assignment": "request start time",
+        "completed": 360,
+        "successful": 305,
+        "failed": 55,
+        "p95_ms": 28837.600000000002,
+        "mean_ms": 15407.35737704918,
+        "failure_categories": {
+          "timeout": 55
+        }
+      }
+    }
+  ],
+  "current_run": "attempt-03-fixed-3-burst",
+  "error": "attempt-03-fixed-3-burst: launcher exit 1; preserved attempt",
+  "finished_at_utc": "2026-11-10T20:05:33.855405+00:00"
+}
