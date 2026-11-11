@@ -1,0 +1,1 @@
+I started this fresh one-copy search because the old rate-8 pilot did not match the later runs. Rates 2, 8 and 10 completed and stayed below the latency target. The process stopped before the rate-12 load started, so this pilot is incomplete and I did not use it to select the final rates.

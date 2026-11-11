@@ -1,0 +1,1 @@
+This complete one-copy search selected 2 requests per 10 seconds as the low rate and 12 as the peak. Rate 8 stayed fast. Both long rate-12 checks missed the target, but the severity varied and one run had 153 timeouts. This pilot selects rates; it does not compare fixed replicas with HPA.

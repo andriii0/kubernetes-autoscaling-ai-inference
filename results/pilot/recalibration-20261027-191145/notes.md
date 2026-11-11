@@ -1,0 +1,1 @@
+I repeated the full one-copy search with the same settings. It again selected 2 requests per 10 seconds as low and 12 as peak. Both long rate-12 checks were slow and had many timeouts, while rate 8 stayed fast. This confirmed the rate choice, not the maximum capacity of one copy.
