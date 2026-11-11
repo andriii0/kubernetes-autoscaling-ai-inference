@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inference Lab</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/runs.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <svg class="symbols" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="folder" viewBox="0 0 24 24"><path d="M3 7V5a1 1 0 0 1 1-1h5l2 3h9a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1Z"/></symbol>
+    <symbol id="file" viewBox="0 0 24 24"><path d="M14 3H5v18h14V8Zm0 0v5h5M8 12h8M8 16h6"/></symbol>
+    <symbol id="play" viewBox="0 0 24 24"><path d="m8 4 12 8-12 8Z"/></symbol>
+    <symbol id="arrow" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="m14 5-7 7 7 7M7 12h14"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 10a8 8 0 1 0-1 8M20 4v6h-6"/></symbol>
+    <symbol id="chart" viewBox="0 0 24 24"><path d="M4 3v17h17M8 15l4-6 4 3 5-8"/></symbol>
+    <symbol id="pulse" viewBox="0 0 24 24"><path d="M2 12h5l3-8 4 16 3-8h5"/></symbol>
+    <symbol id="layers" viewBox="0 0 24 24"><path d="m3 7 9-5 9 5-9 5Zm0 5 9 5 9-5M3 17l9 5 9-5"/></symbol>
+    <symbol id="computer" viewBox="0 0 24 24"><path d="M4 3h16v14H4ZM2 21h20"/></symbol>
+  </svg>
+  <header class="toolbar">
+    <div class="brand"><span class="brand-mark"><svg><use href="#chart"/></svg></span><div><h1>Inference Lab</h1><span class="subtitle">Kubernetes · AI inference</span></div></div>
+    <nav class="page-tabs" aria-label="Workspace pages"><button id="runs-tab" aria-controls="runs-page" aria-pressed="true">Runs</button><button id="results-tab" aria-controls="results-page" aria-pressed="false">Results</button></nav>
+    <div class="workspace-label"><svg><use href="#computer"/></svg><span>Local workspace</span><span id="connection" class="connection" title="Saved files connection">Reading local files…</span></div>
+  </header>
+  <section id="activity-bar" aria-label="Launch progress" hidden>
+    <span class="pulse"></span><strong id="phase"></strong><span id="run-number"></span>
+    <button id="view-active" hidden>View run</button>
+    <details id="output"><summary>Command output</summary><pre id="command-output"></pre></details>
+  </section>
+  <div id="notice" role="alert" hidden></div>
+  <section id="runs-page" class="runs-page" aria-labelledby="runs-title">
+    <div class="runs-content">
+      <div class="runs-heading"><h2 id="runs-title">Runs</h2><p>Choose an experiment to run.</p></div>
+      <div class="run-cards">
+        <article class="run-card">
+          <span class="run-mark"><svg><use href="#pulse"/></svg></span>
+          <h3>Pilot run</h3><p class="card-description">Try a small workload before running a comparison.</p>
+          <div class="card-settings"><div class="chips"><span>Load check</span><span>1 run</span></div><p id="pilot-preset">Steady · fixed 1 · 2 req / 10 s · 120 s</p></div>
+          <button class="pilot-action" id="pilot"><svg><use href="#play"/></svg>Run pilot</button>
+        </article>
+        <article class="run-card">
+          <span class="run-mark"><svg><use href="#layers"/></svg></span>
+          <h3>Main series</h3><p class="card-description">Compare fixed replicas and autoscaling. Continue a saved v1.1 series.</p>
+          <div class="card-settings"><div class="chips"><span>3 modes</span><span>18 planned runs</span></div><p>Steady + burst · peak 8 req / 10 s · 3 repeats</p></div>
+          <button class="primary" id="series"><svg><use href="#play"/></svg>Continue series</button>
+        </article>
+      </div>
+      <div class="run-options">
+        <label class="dry-switch"><input id="dry" type="checkbox" checked>Dry run</label>
+        <details id="settings"><summary>Series settings</summary><div class="settings-panel">
+          <label>Continue main series<select id="series-path"></select></label>
+          <label>Other host activity<input id="activity" placeholder="Describe activity, or enter none" maxlength="1000"></label>
+          <p>Each mode has 3 repeats per profile: steady at 8 requests/10 s, burst at 2 → 8 → 2 requests/10 s.</p>
+          <p><strong>Continuation only.</strong> This checks archived inputs and runs pending cells in order. A new series command is not available.</p>
+          <p>Minimal extension: add <code>--new-series</code> to the existing driver, create a new folder, then reuse its matrix and stop rules.</p>
+        </div></details>
+        <span id="pending"></span>
+      </div>
+      <p class="runs-foot"><svg><use href="#folder"/></svg>Run files are saved locally.<span>Dry run checks settings without sending requests.</span></p>
+    </div>
+  </section>
+  <main id="results-page" hidden>
+    <div class="results-heading"><h2>Results <span id="total"></span></h2><div><span class="saved-label">Saved on this computer</span><button id="refresh" class="icon-button" aria-label="Refresh results" title="Refresh results"><svg><use href="#i-refresh"/></svg></button></div></div>
+    <div class="columns">
+      <aside aria-label="Result groups"><div class="column-label">LIBRARY</div><nav id="groups"></nav><div class="sidebar-foot"><span class="local-dot"></span>Local workspace<span>Read from results/</span></div></aside>
+      <section class="browser" aria-label="Series and runs"><div class="browser-heading"><button id="back" class="icon-button" aria-label="Back to series" hidden><svg><use href="#i-back"/></svg></button><div><strong id="list-title">Main series</strong><span id="list-count"></span></div></div><div id="entries" class="entries" aria-label="Results list"></div></section>
+      <section class="preview" id="preview" aria-label="Result preview"><div class="empty">Select a series or run to preview its saved results.</div></section>
+    </div>
+    <footer><span id="breadcrumb">results /</span><span>Times in UTC <span class="footer-separator">·</span> Missing values shown as —</span></footer>
+  </main>
+  <dialog id="pilot-dialog" aria-labelledby="pilot-title" aria-describedby="pilot-description">
+    <form id="pilot-form">
+      <div class="dialog-heading"><span class="run-mark"><svg><use href="#pulse"/></svg></span><div><h2 id="pilot-title">Configure pilot</h2><p id="pilot-description">One prepared run. Results stay on this computer.</p></div><button type="button" id="close-pilot" class="icon-button" aria-label="Close pilot settings">✕</button></div>
+      <div class="pilot-fields">
+        <label>Mode<select id="pilot-mode" name="mode"><option value="fixed-1">Fixed 1 replica</option><option value="fixed-3">Fixed 3 replicas</option><option value="autoscaling">HPA · 1–3 replicas</option></select></label>
+        <label>Profile<select id="pilot-profile" name="profile"><option value="steady">Steady</option><option value="burst">Burst</option></select></label>
+        <label><span id="rate-label">Request rate</span><span class="input-unit"><input id="pilot-rate" name="rate" type="number" min="1" step="1" value="2" required><span>req / 10 s</span></span></label>
+        <label id="low-rate-field" hidden>Low rate<span class="input-unit"><input id="pilot-low-rate" name="low_rate" type="number" min="1" step="1" value="2" required><span>req / 10 s</span></span></label>
+        <label id="duration-field">Load duration<span class="input-unit"><input id="pilot-duration" name="duration_seconds" type="number" min="1" step="1" value="120" required><span>seconds</span></span></label>
+        <label>p95 target<span class="input-unit"><input id="pilot-target" name="slo_ms" type="number" min="0.001" step="any" value="5000" required><span>ms</span></span></label>
+      </div>
+      <p id="burst-note" class="field-note" hidden></p>
+      <p class="field-note">Preparation and warmup run before load. One repetition. The Service tunnel opens automatically.</p>
+      <label class="host-field">Other host activity<input id="pilot-activity" placeholder="Describe activity, or enter none" maxlength="1000"></label>
+      <div class="pilot-summary" id="pilot-summary"></div>
+      <p id="pilot-error" class="dialog-error" role="alert" hidden></p>
+      <div class="dialog-actions"><label class="dry-switch"><input id="pilot-dry" type="checkbox" checked>Dry run</label><button type="button" id="cancel-pilot">Cancel</button><button type="submit" id="start-pilot" class="primary"><svg><use href="#play"/></svg><span>Check pilot</span></button></div>
+    </form>
+  </dialog>
+</body>
+</html>

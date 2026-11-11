@@ -18,6 +18,7 @@ venv/
 .vscode/
 .DS_Store
 Thumbs.db
+/.inference-lab/
 
 # Outer terminal captures; k6 and pod logs remain inside each attempt.
 /results/main/*/attempt-*-console.txt
