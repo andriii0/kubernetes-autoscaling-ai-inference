@@ -1,6 +1,26 @@
 # Project status
 
-Updated: 2026-11-06. The 18-run main v1.1 series at peak 8 requests/10 s is complete, with all 5,189 requests successful. The later rate-selection pilots and fixed-three/HPA checks at peak 12 are separate evidence. I saved the [findings](https://app.notion.com/p/40fc7c697bfd81bbb00fcf67a8c3d00c) for step 23 and the [experiment log](https://app.notion.com/p/40fc7c697bfd812c86b9fb9cad9ee986) as linked Notion pages. I updated Research v0.8 with the measured answer to SQ4 and aligned the PDP and README with its practical scope. The reproduction review (step 24) is next.
+Updated: 2026-11-07. The 18-run main v1.1 series at peak 8 requests/10 s is complete, with all 5,189 requests successful. The later rate-selection pilots and fixed-three/HPA checks at peak 12 are separate evidence. I saved the [findings](https://app.notion.com/p/40fc7c697bfd81bbb00fcf67a8c3d00c) for step 23 and the [experiment log](https://app.notion.com/p/40fc7c697bfd812c86b9fb9cad9ee986) as linked Notion pages. I updated Research v0.8 with the measured answer to SQ4 and aligned the PDP and README with its practical scope. The [step 24 reproduction check](../results/reproduction/check-2026-11-06/README.md) passed in a fresh setup on the same Windows host.
+
+## Active controlled peak-12 comparison
+
+I completed all nine cells of `comparison-20261110-205108-peak12`; the manifest records completion on 11 November 2026. The [combined analysis](../results/follow-up/comparison-20261110-205108-peak12/combined-analysis/README.md) contains all nine runs. Attempt 07 initially failed because an end-only log snapshot missed rotated records. I recovered those records into a separate derived attempt, preserving the failed original. The [recovery report](../results/follow-up/comparison-20261110-205108-peak12/LOG_RECOVERY.md) records validation and the explicit collector source-version boundary. Comparative interpretation remains to be written; the [continuation plan](plans/peak12-resume.md) records the procedure.
+
+My [first peak-12 comparison](../results/follow-up/comparison-20261110-192050-peak12/manifest.json) stopped after two valid target misses. Attempt 03 warmed three copies, but the CPU quiet check timed out before load. Older CPU readings from the same containers kept resetting the check. I kept the first attempt and all saved measurements.
+
+I started the [full retry](../results/follow-up/comparison-20261110-205108-peak12/manifest.json) on 10 November 2026 at 20:51:10 UTC, with the same nine-run order and workload. This time attempt 03 passed preparation and completed the load. The series stopped before attempt 04 because the driver sent a preliminary collection report to the comparison assessment without its expected replica activity flag.
+
+I fixed the [comparison driver](../bench/run_peak12_comparison.py) and reviewed the initial three runs from saved data. The first two assessments matched their saved outputs. The [third assessment](../results/follow-up/comparison-20261110-205108-peak12/attempt-03-analysis/README.md) was a valid target miss. Each continuation archives its previous manifest in a `resume-*` folder. See the [plan](plans/scaling-experiment.md#controlled-peak-12-burst-comparison) for the original verification.
+
+## Inference Lab local UI
+
+I added editable Notes for saved runs and series, stored in their own `notes.md`. All 24 UI tests passed. Browser checks with temporary results verified save/reload, Unicode, literal HTML text and draft preservation across tabs and refresh. Existing experiment evidence was not edited for this check.
+
+I grouped the main and follow-up comparisons together under Series, with separate Main/Follow-up and saved peak-rate labels. Pilots and Checks & diagnostics remain separate. I checked both saved comparisons and the failed third follow-up attempt in the catalog; all 23 UI tests passed.
+
+I added a separate Runs tab and configurable pilot dialog. Custom steady and HPA burst dry runs passed, and browser checks confirmed that switching tabs preserves the Results selection and metrics. The [UI revision checks](plans/inference-lab.md#runs-tab-and-pilot-settings) include screenshots and limits.
+
+I implemented the saved-results browser and connected the existing pilot and v1.1 continuation commands on 2026-11-10. Saved-data checks and dry-run verification passed for the UI; the series driver correctly rejects the current executable/archive mismatch. I verified single-job controls and the Windows single-server lock. Live launch through the UI remains unverified. The [UI plan](plans/inference-lab.md#verification-results) records checks and limits, and the [setup guide](GETTING_STARTED.md#inference-lab) gives the command. The controlled peak-12 comparison above remains the active experiment procedure.
 
 ## Benchmark validation fixes
 
@@ -139,14 +159,14 @@ Documentation review (2026-10-27): current Markdown and the four related Notion 
 
 - The short local HPA fixture remains sensitive to scheduling pauses: one self-review suite run exceeded its 100-ms maximum poll gap; a sequential full rerun passed all 130 tests. The fixture and validity threshold were unchanged.
 
-- Step 18 is complete as a preliminary three-copy check. Step 20 supplies locally verified code and instructions. Steps 21 and 22 are complete with reviewed records and reproducible tables and plots. Step 23 has a separate findings page. All six main HPA runs meet the agreed latency and error targets. An HPA advantage remains unestablished, and the full reproduction review in step 24 remains open.
+- Step 18 is complete as a preliminary three-copy check. Step 20 supplies locally verified code and instructions. Steps 21 and 22 are complete with reviewed records and reproducible tables and plots. Step 23 has a separate findings page. All six main HPA runs meet the agreed latency and error targets. An HPA advantage remains unestablished. Step 24 passed with a fresh setup on the same host.
 - Main mode separates fixed-three traffic evidence from client outcomes after timeouts. An idle pod leaves the demonstrated three-copy comparison not_assessable; its observations remain saved. Workload OOM/restarts remain system outcomes even when collection stops. Missing state/log evidence and resource gaps are reported separately.
 - CPU totals remain unavailable without full coverage of every expected instance; newly created/deleted instances may have unknown boundaries. Native logs cannot establish per-pod semantic success or normal server drain. All replicas share one computer; measurements do not establish Windows-wide energy or cost savings.
 - Research v0.8 and its PDF include the measured answer to SQ4. The historical C4 and course exports predate protocol v1.1. See [docs/README.md](../docs/README.md) for the current sources and exports. Portflow submission still needs confirmation.
 
 ## Next action
 
-Check reproduction for step 24. The saved analysis has already been regenerated from the recorded runs. The remaining review covers prerequisites, setup, the documented run procedure and analysis in a fresh environment.
+All 24 roadmap steps are complete. The evidence is ready for handover and portfolio review. Portflow submission is tracked separately.
 
 The findings distinguish the 18 main v1.1 runs from the later peak-12 checks. A separate overload comparison is optional. Its proposed scope is one common 2 -> 12 -> 2 burst, with fixed one, fixed three and HPA repeated three times each. That study would require its own agreed settings, order and stop rules before load.
 

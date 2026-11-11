@@ -22,6 +22,7 @@ The cluster is the existing Docker-backed Minikube profile `ai-lab`, configured 
 | Workload settings | `bench/workload.json` | Share the exact request payload and k6 execution settings between warmup and measured load |
 | Pilot launcher | `bench/run_pilot.py` | Exclusively create a run folder; validate fixed one/three-copy state or use the autoscaling lifecycle; orchestrate idle observation, warmup, k6, post-load observation and reconciliation; retain partial failures |
 | Main-series continuation | `bench/run_series.py` | Replay and skip completed attempts; manage a Service tunnel and call the existing launcher/analyzer sequentially; stop for incomplete data without automatic replacements |
+| Local experiment UI | `lab/server.py`, `lab/results.py`, `lab/jobs.py`, `lab/launch.py`, `lab/static/` | Browse saved results, show scoped metrics and plots, serialize UI jobs and adapt existing pilot/continuation commands |
 | Warmup-wait diagnostic | `bench/run_wait_pair.py` | Run the separately authorized two-run preparation check through the existing launcher; archive order/settings and host snapshots; keep diagnostic evidence outside the main matrix |
 | Shared runtime | `bench/runtime.py` | Run child processes, own the Service tunnel and record pre-launch host state for the scenario drivers |
 | Protocol preparation | `bench/main_protocol.py` | Define the matrix and frozen argument checks; prepare replicas, check runtime configuration and wait for quiet state |
@@ -36,7 +37,13 @@ The cluster is the existing Docker-backed Minikube profile `ai-lab`, configured 
 | Offline verification | Scripts saved in result directories | Recalculate and validate the completed observation/overhead checks |
 | Evidence | `results/<run>/` | Keep configurations, raw measurements, summaries, snapshots and console output together |
 
-Ollama and k6 are the active inference and load-generation runtime; unused Python scaffolding has been removed. `bench/analyze.py` supports fixed-one and preliminary fixed-three runs, including per-pod resource plots. Preliminary autoscaling analysis includes phase results, HPA/Ready timelines and resources for all observed UIDs. The main comparison has saved tables, plots and findings. The fresh-environment reproduction review remains open.
+Ollama and k6 are the active inference and load-generation runtime; unused Python scaffolding has been removed. `bench/analyze.py` supports fixed-one and preliminary fixed-three runs, including per-pod resource plots. Preliminary autoscaling analysis includes phase results, HPA/Ready timelines and resources for all observed UIDs. The main comparison has saved tables, plots and findings. The [reproduction check](../results/reproduction/check-2026-11-06/README.md) verified setup and analysis on the same Windows host.
+
+## Local UI flow
+
+I added Inference Lab on 2026-11-10. I run it with `python -B -m lab`. A standard-library HTTP server binds to Windows loopback and serves plain HTML/CSS/JavaScript. The browser requests a catalog and selected details from `lab/results.py`. That reader uses saved metadata, collection checks, phase assessments, request events and PNGs. It retains missing metrics and distinguishes collection failures from target misses. Reading results does not invoke the analyzer or modify evidence.
+
+`lab/jobs.py` owns one active UI job and streams its output into ignored `.inference-lab/` files. A Windows file lock excludes a second UI server. A process check blocks live starts while another experiment is detected. The pilot adapter owns the existing runtime Service tunnel and calls `bench/run_pilot.py`, then CSV/JSON analysis. Series jobs call `bench/run_series.py` directly and retain its continuation, archive and stop rules. Pilot dry run validates real launcher arguments; series dry run uses the driver's saved-evidence replay. The UI plan records [verification and limits](plans/inference-lab.md).
 
 ## Measurement flow
 
