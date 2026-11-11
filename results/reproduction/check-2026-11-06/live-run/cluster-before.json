@@ -1,0 +1,1106 @@
+{
+  "schema_version": 1,
+  "time": "2026-11-06T20:03:20.762707+00:00",
+  "context": "ai-lab-repro24",
+  "namespace": "inference",
+  "selector": "app=ollama",
+  "sources": {
+    "pods": {
+      "started_at": "2026-11-06T20:03:20.762707+00:00",
+      "finished_at": "2026-11-06T20:03:20.932699+00:00"
+    },
+    "deployments": {
+      "started_at": "2026-11-06T20:03:20.932699+00:00",
+      "finished_at": "2026-11-06T20:03:21.115171+00:00"
+    },
+    "hpa": {
+      "started_at": "2026-11-06T20:03:21.115171+00:00",
+      "finished_at": "2026-11-06T20:03:21.285909+00:00"
+    },
+    "nodes": {
+      "started_at": "2026-11-06T20:03:21.285909+00:00",
+      "finished_at": "2026-11-06T20:03:21.456277+00:00"
+    },
+    "metrics_server": {
+      "started_at": "2026-11-06T20:03:21.456277+00:00",
+      "finished_at": "2026-11-06T20:03:21.625406+00:00"
+    },
+    "kubelet/ai-lab-repro24": {
+      "started_at": "2026-11-06T20:03:21.625406+00:00",
+      "finished_at": "2026-11-06T20:03:21.804482+00:00"
+    }
+  },
+  "errors": [],
+  "kubelet": {
+    "ai-lab-repro24": {
+      "raw": "# HELP container_cpu_usage_seconds_total [STABLE] Cumulative cpu time consumed by the container in core-seconds\n# TYPE container_cpu_usage_seconds_total counter\ncontainer_cpu_usage_seconds_total{container=\"coredns\",namespace=\"kube-system\",pod=\"coredns-559f6c778d-2zs74\"} 0.5985238 1793995394754\ncontainer_cpu_usage_seconds_total{container=\"etcd\",namespace=\"kube-system\",pod=\"etcd-ai-lab-repro24\"} 7.9424394 1793995397425\ncontainer_cpu_usage_seconds_total{container=\"kindnet-cni\",namespace=\"kube-system\",pod=\"kindnet-nstdn\"} 0.1561088 1793995391177\ncontainer_cpu_usage_seconds_total{container=\"kube-apiserver\",namespace=\"kube-system\",pod=\"kube-apiserver-ai-lab-repro24\"} 4.8796195 1793995388888\ncontainer_cpu_usage_seconds_total{container=\"kube-controller-manager\",namespace=\"kube-system\",pod=\"kube-controller-manager-ai-lab-repro24\"} 5.9781542 1793995393977\ncontainer_cpu_usage_seconds_total{container=\"kube-proxy\",namespace=\"kube-system\",pod=\"kube-proxy-x9qqw\"} 0.3405122 1793995385147\ncontainer_cpu_usage_seconds_total{container=\"kube-scheduler\",namespace=\"kube-system\",pod=\"kube-scheduler-ai-lab-repro24\"} 2.2739832 1793995396717\ncontainer_cpu_usage_seconds_total{container=\"metrics-server\",namespace=\"kube-system\",pod=\"metrics-server-768f9f6999-777p5\"} 1.0995817 1793995391304\ncontainer_cpu_usage_seconds_total{container=\"ollama\",namespace=\"inference\",pod=\"ollama-7db4f544df-k4kcx\"} 19.6633592 1793995397489\ncontainer_cpu_usage_seconds_total{container=\"storage-provisioner\",namespace=\"kube-system\",pod=\"storage-provisioner\"} 0.133015 1793995392554\n# HELP container_memory_working_set_bytes [STABLE] Current working set of the container in bytes\n# TYPE container_memory_working_set_bytes gauge\ncontainer_memory_working_set_bytes{container=\"coredns\",namespace=\"kube-system\",pod=\"coredns-559f6c778d-2zs74\"} 2.3404544e+07 1793995394754\ncontainer_memory_working_set_bytes{container=\"etcd\",namespace=\"kube-system\",pod=\"etcd-ai-lab-repro24\"} 4.919296e+07 1793995397425\ncontainer_memory_working_set_bytes{container=\"kindnet-cni\",namespace=\"kube-system\",pod=\"kindnet-nstdn\"} 1.20832e+07 1793995391177\ncontainer_memory_working_set_bytes{container=\"kube-apiserver\",namespace=\"kube-system\",pod=\"kube-apiserver-ai-lab-repro24\"} 2.31272448e+08 1793995388888\ncontainer_memory_working_set_bytes{container=\"kube-controller-manager\",namespace=\"kube-system\",pod=\"kube-controller-manager-ai-lab-repro24\"} 7.9753216e+07 1793995393977\ncontainer_memory_working_set_bytes{container=\"kube-proxy\",namespace=\"kube-system\",pod=\"kube-proxy-x9qqw\"} 2.3486464e+07 1793995385147\ncontainer_memory_working_set_bytes{container=\"kube-scheduler\",namespace=\"kube-system\",pod=\"kube-scheduler-ai-lab-repro24\"} 3.31776e+07 1793995396717\ncontainer_memory_working_set_bytes{container=\"metrics-server\",namespace=\"kube-system\",pod=\"metrics-server-768f9f6999-777p5\"} 2.934784e+07 1793995391304\ncontainer_memory_working_set_bytes{container=\"ollama\",namespace=\"inference\",pod=\"ollama-7db4f544df-k4kcx\"} 4.91732992e+08 1793995397489\ncontainer_memory_working_set_bytes{container=\"storage-provisioner\",namespace=\"kube-system\",pod=\"storage-provisioner\"} 9.33888e+06 1793995392554\n# HELP container_start_time_seconds [STABLE] Start time of the container since unix epoch in seconds\n# TYPE container_start_time_seconds gauge\ncontainer_start_time_seconds{container=\"coredns\",namespace=\"kube-system\",pod=\"coredns-559f6c778d-2zs74\"} 1.7939949752745416e+09\ncontainer_start_time_seconds{container=\"etcd\",namespace=\"kube-system\",pod=\"etcd-ai-lab-repro24\"} 1.7939949484149063e+09\ncontainer_start_time_seconds{container=\"kindnet-cni\",namespace=\"kube-system\",pod=\"kindnet-nstdn\"} 1.7939949640718935e+09\ncontainer_start_time_seconds{container=\"kube-apiserver\",namespace=\"kube-system\",pod=\"kube-apiserver-ai-lab-repro24\"} 1.793995276123831e+09\ncontainer_start_time_seconds{container=\"kube-controller-manager\",namespace=\"kube-system\",pod=\"kube-controller-manager-ai-lab-repro24\"} 1.7939949484822433e+09\ncontainer_start_time_seconds{container=\"kube-proxy\",namespace=\"kube-system\",pod=\"kube-proxy-x9qqw\"} 1.793994958862869e+09\ncontainer_start_time_seconds{container=\"kube-scheduler\",namespace=\"kube-system\",pod=\"kube-scheduler-ai-lab-repro24\"} 1.7939949484753199e+09\ncontainer_start_time_seconds{container=\"metrics-server\",namespace=\"kube-system\",pod=\"metrics-server-768f9f6999-777p5\"} 1.7939949803028085e+09\ncontainer_start_time_seconds{container=\"ollama\",namespace=\"inference\",pod=\"ollama-7db4f544df-k4kcx\"} 1.7939953531435802e+09\ncontainer_start_time_seconds{container=\"storage-provisioner\",namespace=\"kube-system\",pod=\"storage-provisioner\"} 1.7939952989689023e+09\n# HELP container_swap_limit_bytes [ALPHA] Current amount of the container swap limit in bytes. Reported only on non-windows systems\n# TYPE container_swap_limit_bytes gauge\ncontainer_swap_limit_bytes{container=\"coredns\",namespace=\"kube-system\",pod=\"coredns-559f6c778d-2zs74\"} 1.7825792e+08 1793995394754\ncontainer_swap_limit_bytes{container=\"kindnet-cni\",namespace=\"kube-system\",pod=\"kindnet-nstdn\"} 5.24288e+07 1793995391177\ncontainer_swap_limit_bytes{container=\"ollama\",namespace=\"inference\",pod=\"ollama-7db4f544df-k4kcx\"} 2.147483648e+09 1793995397489\n# HELP container_swap_usage_bytes [ALPHA] Current amount of the container swap usage in bytes. Reported only on non-windows systems\n# TYPE container_swap_usage_bytes gauge\ncontainer_swap_usage_bytes{container=\"coredns\",namespace=\"kube-system\",pod=\"coredns-559f6c778d-2zs74\"} 0 1793995394754\ncontainer_swap_usage_bytes{container=\"etcd\",namespace=\"kube-system\",pod=\"etcd-ai-lab-repro24\"} 0 1793995397425\ncontainer_swap_usage_bytes{container=\"kindnet-cni\",namespace=\"kube-system\",pod=\"kindnet-nstdn\"} 0 1793995391177\ncontainer_swap_usage_bytes{container=\"kube-apiserver\",namespace=\"kube-system\",pod=\"kube-apiserver-ai-lab-repro24\"} 0 1793995388888\ncontainer_swap_usage_bytes{container=\"kube-controller-manager\",namespace=\"kube-system\",pod=\"kube-controller-manager-ai-lab-repro24\"} 0 1793995393977\ncontainer_swap_usage_bytes{container=\"kube-proxy\",namespace=\"kube-system\",pod=\"kube-proxy-x9qqw\"} 0 1793995385147\ncontainer_swap_usage_bytes{container=\"kube-scheduler\",namespace=\"kube-system\",pod=\"kube-scheduler-ai-lab-repro24\"} 0 1793995396717\ncontainer_swap_usage_bytes{container=\"metrics-server\",namespace=\"kube-system\",pod=\"metrics-server-768f9f6999-777p5\"} 0 1793995391304\ncontainer_swap_usage_bytes{container=\"ollama\",namespace=\"inference\",pod=\"ollama-7db4f544df-k4kcx\"} 0 1793995397489\ncontainer_swap_usage_bytes{container=\"storage-provisioner\",namespace=\"kube-system\",pod=\"storage-provisioner\"} 0 1793995392554\n# HELP node_cpu_usage_seconds_total [STABLE] Cumulative cpu time consumed by the node in core-seconds\n# TYPE node_cpu_usage_seconds_total counter\nnode_cpu_usage_seconds_total 211.1135462 1793995399687\n# HELP node_memory_working_set_bytes [STABLE] Current working set of the node in bytes\n# TYPE node_memory_working_set_bytes gauge\nnode_memory_working_set_bytes 1.913532416e+09 1793995399687\n# HELP node_swap_usage_bytes [ALPHA] Current swap usage of the node in bytes. Reported only on non-windows systems\n# TYPE node_swap_usage_bytes gauge\nnode_swap_usage_bytes 0 1793995399687\n# HELP pod_cpu_usage_seconds_total [STABLE] Cumulative cpu time consumed by the pod in core-seconds\n# TYPE pod_cpu_usage_seconds_total counter\npod_cpu_usage_seconds_total{namespace=\"inference\",pod=\"ollama-7db4f544df-k4kcx\"} 0.2261511 1793995386433\npod_cpu_usage_seconds_total{namespace=\"kube-system\",pod=\"coredns-559f6c778d-2zs74\"} 0.6257807 1793995400039\npod_cpu_usage_seconds_total{namespace=\"kube-system\",pod=\"etcd-ai-lab-repro24\"} 7.8733575 1793995390665\npod_cpu_usage_seconds_total{namespace=\"kube-system\",pod=\"kindnet-nstdn\"} 0.1773866 1793995385294\npod_cpu_usage_seconds_total{namespace=\"kube-system\",pod=\"kube-apiserver-ai-lab-repro24\"} 17.5538627 1793995395886\npod_cpu_usage_seconds_total{namespace=\"kube-system\",pod=\"kube-controller-manager-ai-lab-repro24\"} 6.0558208 1793995399547\npod_cpu_usage_seconds_total{namespace=\"kube-system\",pod=\"kube-proxy-x9qqw\"} 0.3499252 1793995388697\npod_cpu_usage_seconds_total{namespace=\"kube-system\",pod=\"kube-scheduler-ai-lab-repro24\"} 2.2802485 1793995392577\npod_cpu_usage_seconds_total{namespace=\"kube-system\",pod=\"metrics-server-768f9f6999-777p5\"} 1.1426446 1793995400961\npod_cpu_usage_seconds_total{namespace=\"kube-system\",pod=\"storage-provisioner\"} 0.5199385 1793995395405\n# HELP pod_memory_working_set_bytes [STABLE] Current working set of the pod in bytes\n# TYPE pod_memory_working_set_bytes gauge\npod_memory_working_set_bytes{namespace=\"inference\",pod=\"ollama-7db4f544df-k4kcx\"} 1.6207872e+07 1793995386433\npod_memory_working_set_bytes{namespace=\"kube-system\",pod=\"coredns-559f6c778d-2zs74\"} 2.3494656e+07 1793995400039\npod_memory_working_set_bytes{namespace=\"kube-system\",pod=\"etcd-ai-lab-repro24\"} 4.9913856e+07 1793995390665\npod_memory_working_set_bytes{namespace=\"kube-system\",pod=\"kindnet-nstdn\"} 1.2439552e+07 1793995385294\npod_memory_working_set_bytes{namespace=\"kube-system\",pod=\"kube-apiserver-ai-lab-repro24\"} 2.3199744e+08 1793995395886\npod_memory_working_set_bytes{namespace=\"kube-system\",pod=\"kube-controller-manager-ai-lab-repro24\"} 8.0367616e+07 1793995399547\npod_memory_working_set_bytes{namespace=\"kube-system\",pod=\"kube-proxy-x9qqw\"} 2.381824e+07 1793995388697\npod_memory_working_set_bytes{namespace=\"kube-system\",pod=\"kube-scheduler-ai-lab-repro24\"} 3.364864e+07 1793995392577\npod_memory_working_set_bytes{namespace=\"kube-system\",pod=\"metrics-server-768f9f6999-777p5\"} 2.9200384e+07 1793995400961\npod_memory_working_set_bytes{namespace=\"kube-system\",pod=\"storage-provisioner\"} 9.732096e+06 1793995395405\n# HELP pod_swap_usage_bytes [ALPHA] Current amount of the pod swap usage in bytes. Reported only on non-windows systems\n# TYPE pod_swap_usage_bytes gauge\npod_swap_usage_bytes{namespace=\"inference\",pod=\"ollama-7db4f544df-k4kcx\"} 0 1793995386433\npod_swap_usage_bytes{namespace=\"kube-system\",pod=\"coredns-559f6c778d-2zs74\"} 0 1793995400039\npod_swap_usage_bytes{namespace=\"kube-system\",pod=\"etcd-ai-lab-repro24\"} 0 1793995390665\npod_swap_usage_bytes{namespace=\"kube-system\",pod=\"kindnet-nstdn\"} 0 1793995385294\npod_swap_usage_bytes{namespace=\"kube-system\",pod=\"kube-apiserver-ai-lab-repro24\"} 0 1793995395886\npod_swap_usage_bytes{namespace=\"kube-system\",pod=\"kube-controller-manager-ai-lab-repro24\"} 0 1793995399547\npod_swap_usage_bytes{namespace=\"kube-system\",pod=\"kube-proxy-x9qqw\"} 0 1793995388697\npod_swap_usage_bytes{namespace=\"kube-system\",pod=\"kube-scheduler-ai-lab-repro24\"} 0 1793995392577\npod_swap_usage_bytes{namespace=\"kube-system\",pod=\"metrics-server-768f9f6999-777p5\"} 0 1793995400961\npod_swap_usage_bytes{namespace=\"kube-system\",pod=\"storage-provisioner\"} 0 1793995395405\n# HELP resource_scrape_error [STABLE] 1 if there was an error while getting container metrics, 0 otherwise\n# TYPE resource_scrape_error gauge\nresource_scrape_error 0\n",
+      "metrics": [
+        {
+          "name": "container_cpu_usage_seconds_total",
+          "labels": {
+            "container": "coredns",
+            "namespace": "kube-system",
+            "pod": "coredns-559f6c778d-2zs74"
+          },
+          "value": 0.5985238,
+          "timestamp_ms": 1793995394754
+        },
+        {
+          "name": "container_cpu_usage_seconds_total",
+          "labels": {
+            "container": "etcd",
+            "namespace": "kube-system",
+            "pod": "etcd-ai-lab-repro24"
+          },
+          "value": 7.9424394,
+          "timestamp_ms": 1793995397425
+        },
+        {
+          "name": "container_cpu_usage_seconds_total",
+          "labels": {
+            "container": "kindnet-cni",
+            "namespace": "kube-system",
+            "pod": "kindnet-nstdn"
+          },
+          "value": 0.1561088,
+          "timestamp_ms": 1793995391177
+        },
+        {
+          "name": "container_cpu_usage_seconds_total",
+          "labels": {
+            "container": "kube-apiserver",
+            "namespace": "kube-system",
+            "pod": "kube-apiserver-ai-lab-repro24"
+          },
+          "value": 4.8796195,
+          "timestamp_ms": 1793995388888
+        },
+        {
+          "name": "container_cpu_usage_seconds_total",
+          "labels": {
+            "container": "kube-controller-manager",
+            "namespace": "kube-system",
+            "pod": "kube-controller-manager-ai-lab-repro24"
+          },
+          "value": 5.9781542,
+          "timestamp_ms": 1793995393977
+        },
+        {
+          "name": "container_cpu_usage_seconds_total",
+          "labels": {
+            "container": "kube-proxy",
+            "namespace": "kube-system",
+            "pod": "kube-proxy-x9qqw"
+          },
+          "value": 0.3405122,
+          "timestamp_ms": 1793995385147
+        },
+        {
+          "name": "container_cpu_usage_seconds_total",
+          "labels": {
+            "container": "kube-scheduler",
+            "namespace": "kube-system",
+            "pod": "kube-scheduler-ai-lab-repro24"
+          },
+          "value": 2.2739832,
+          "timestamp_ms": 1793995396717
+        },
+        {
+          "name": "container_cpu_usage_seconds_total",
+          "labels": {
+            "container": "metrics-server",
+            "namespace": "kube-system",
+            "pod": "metrics-server-768f9f6999-777p5"
+          },
+          "value": 1.0995817,
+          "timestamp_ms": 1793995391304
+        },
+        {
+          "name": "container_cpu_usage_seconds_total",
+          "labels": {
+            "container": "ollama",
+            "namespace": "inference",
+            "pod": "ollama-7db4f544df-k4kcx"
+          },
+          "value": 19.6633592,
+          "timestamp_ms": 1793995397489
+        },
+        {
+          "name": "container_cpu_usage_seconds_total",
+          "labels": {
+            "container": "storage-provisioner",
+            "namespace": "kube-system",
+            "pod": "storage-provisioner"
+          },
+          "value": 0.133015,
+          "timestamp_ms": 1793995392554
+        },
+        {
+          "name": "container_memory_working_set_bytes",
+          "labels": {
+            "container": "coredns",
+            "namespace": "kube-system",
+            "pod": "coredns-559f6c778d-2zs74"
+          },
+          "value": 23404544.0,
+          "timestamp_ms": 1793995394754
+        },
+        {
+          "name": "container_memory_working_set_bytes",
+          "labels": {
+            "container": "etcd",
+            "namespace": "kube-system",
+            "pod": "etcd-ai-lab-repro24"
+          },
+          "value": 49192960.0,
+          "timestamp_ms": 1793995397425
+        },
+        {
+          "name": "container_memory_working_set_bytes",
+          "labels": {
+            "container": "kindnet-cni",
+            "namespace": "kube-system",
+            "pod": "kindnet-nstdn"
+          },
+          "value": 12083200.0,
+          "timestamp_ms": 1793995391177
+        },
+        {
+          "name": "container_memory_working_set_bytes",
+          "labels": {
+            "container": "kube-apiserver",
+            "namespace": "kube-system",
+            "pod": "kube-apiserver-ai-lab-repro24"
+          },
+          "value": 231272448.0,
+          "timestamp_ms": 1793995388888
+        },
+        {
+          "name": "container_memory_working_set_bytes",
+          "labels": {
+            "container": "kube-controller-manager",
+            "namespace": "kube-system",
+            "pod": "kube-controller-manager-ai-lab-repro24"
+          },
+          "value": 79753216.0,
+          "timestamp_ms": 1793995393977
+        },
+        {
+          "name": "container_memory_working_set_bytes",
+          "labels": {
+            "container": "kube-proxy",
+            "namespace": "kube-system",
+            "pod": "kube-proxy-x9qqw"
+          },
+          "value": 23486464.0,
+          "timestamp_ms": 1793995385147
+        },
+        {
+          "name": "container_memory_working_set_bytes",
+          "labels": {
+            "container": "kube-scheduler",
+            "namespace": "kube-system",
+            "pod": "kube-scheduler-ai-lab-repro24"
+          },
+          "value": 33177600.0,
+          "timestamp_ms": 1793995396717
+        },
+        {
+          "name": "container_memory_working_set_bytes",
+          "labels": {
+            "container": "metrics-server",
+            "namespace": "kube-system",
+            "pod": "metrics-server-768f9f6999-777p5"
+          },
+          "value": 29347840.0,
+          "timestamp_ms": 1793995391304
+        },
+        {
+          "name": "container_memory_working_set_bytes",
+          "labels": {
+            "container": "ollama",
+            "namespace": "inference",
+            "pod": "ollama-7db4f544df-k4kcx"
+          },
+          "value": 491732992.0,
+          "timestamp_ms": 1793995397489
+        },
+        {
+          "name": "container_memory_working_set_bytes",
+          "labels": {
+            "container": "storage-provisioner",
+            "namespace": "kube-system",
+            "pod": "storage-provisioner"
+          },
+          "value": 9338880.0,
+          "timestamp_ms": 1793995392554
+        },
+        {
+          "name": "container_start_time_seconds",
+          "labels": {
+            "container": "coredns",
+            "namespace": "kube-system",
+            "pod": "coredns-559f6c778d-2zs74"
+          },
+          "value": 1793994975.2745416,
+          "timestamp_ms": null
+        },
+        {
+          "name": "container_start_time_seconds",
+          "labels": {
+            "container": "etcd",
+            "namespace": "kube-system",
+            "pod": "etcd-ai-lab-repro24"
+          },
+          "value": 1793994948.4149063,
+          "timestamp_ms": null
+        },
+        {
+          "name": "container_start_time_seconds",
+          "labels": {
+            "container": "kindnet-cni",
+            "namespace": "kube-system",
+            "pod": "kindnet-nstdn"
+          },
+          "value": 1793994964.0718935,
+          "timestamp_ms": null
+        },
+        {
+          "name": "container_start_time_seconds",
+          "labels": {
+            "container": "kube-apiserver",
+            "namespace": "kube-system",
+            "pod": "kube-apiserver-ai-lab-repro24"
+          },
+          "value": 1793995276.123831,
+          "timestamp_ms": null
+        },
+        {
+          "name": "container_start_time_seconds",
+          "labels": {
+            "container": "kube-controller-manager",
+            "namespace": "kube-system",
+            "pod": "kube-controller-manager-ai-lab-repro24"
+          },
+          "value": 1793994948.4822433,
+          "timestamp_ms": null
+        },
+        {
+          "name": "container_start_time_seconds",
+          "labels": {
+            "container": "kube-proxy",
+            "namespace": "kube-system",
+            "pod": "kube-proxy-x9qqw"
+          },
+          "value": 1793994958.862869,
+          "timestamp_ms": null
+        },
+        {
+          "name": "container_start_time_seconds",
+          "labels": {
+            "container": "kube-scheduler",
+            "namespace": "kube-system",
+            "pod": "kube-scheduler-ai-lab-repro24"
+          },
+          "value": 1793994948.4753199,
+          "timestamp_ms": null
+        },
+        {
+          "name": "container_start_time_seconds",
+          "labels": {
+            "container": "metrics-server",
+            "namespace": "kube-system",
+            "pod": "metrics-server-768f9f6999-777p5"
+          },
+          "value": 1793994980.3028085,
+          "timestamp_ms": null
+        },
+        {
+          "name": "container_start_time_seconds",
+          "labels": {
+            "container": "ollama",
+            "namespace": "inference",
+            "pod": "ollama-7db4f544df-k4kcx"
+          },
+          "value": 1793995353.1435802,
+          "timestamp_ms": null
+        },
+        {
+          "name": "container_start_time_seconds",
+          "labels": {
+            "container": "storage-provisioner",
+            "namespace": "kube-system",
+            "pod": "storage-provisioner"
+          },
+          "value": 1793995298.9689023,
+          "timestamp_ms": null
+        },
+        {
+          "name": "node_cpu_usage_seconds_total",
+          "labels": {},
+          "value": 211.1135462,
+          "timestamp_ms": 1793995399687
+        },
+        {
+          "name": "node_memory_working_set_bytes",
+          "labels": {},
+          "value": 1913532416.0,
+          "timestamp_ms": 1793995399687
+        },
+        {
+          "name": "resource_scrape_error",
+          "labels": {},
+          "value": 0.0,
+          "timestamp_ms": null
+        }
+      ]
+    }
+  },
+  "resource_usage": [
+    {
+      "node": "ai-lab-repro24",
+      "scope": "container",
+      "namespace": "inference",
+      "pod": "ollama-7db4f544df-k4kcx",
+      "pod_uid": "b996e39d-4ccd-431f-8d45-ecac38b01d62",
+      "container": "ollama",
+      "restart_count": 0,
+      "container_start_time_seconds": 1793995353.1435802,
+      "cpu_usage_seconds_total": 19.6633592,
+      "cpu_timestamp_ms": 1793995397489,
+      "cpu_clock": "source",
+      "cpu_cores": null,
+      "memory_working_set_bytes": 491732992.0,
+      "memory_timestamp_ms": 1793995397489
+    },
+    {
+      "node": "ai-lab-repro24",
+      "scope": "node",
+      "namespace": null,
+      "pod": null,
+      "pod_uid": null,
+      "container": null,
+      "restart_count": null,
+      "container_start_time_seconds": null,
+      "cpu_usage_seconds_total": 211.1135462,
+      "cpu_timestamp_ms": 1793995399687,
+      "cpu_clock": "source",
+      "cpu_cores": null,
+      "memory_working_set_bytes": 1913532416.0,
+      "memory_timestamp_ms": 1793995399687
+    }
+  ],
+  "pods": {
+    "apiVersion": "v1",
+    "items": [
+      {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "metadata": {
+          "creationTimestamp": "2026-11-06T20:01:41Z",
+          "generateName": "ollama-7db4f544df-",
+          "generation": 1,
+          "labels": {
+            "app": "ollama",
+            "pod-template-hash": "7db4f544df"
+          },
+          "name": "ollama-7db4f544df-k4kcx",
+          "namespace": "inference",
+          "ownerReferences": [
+            {
+              "apiVersion": "apps/v1",
+              "blockOwnerDeletion": true,
+              "controller": true,
+              "kind": "ReplicaSet",
+              "name": "ollama-7db4f544df",
+              "uid": "23669ba2-1b90-40c5-89c9-315c1d0f6082"
+            }
+          ],
+          "resourceVersion": "825",
+          "uid": "b996e39d-4ccd-431f-8d45-ecac38b01d62"
+        },
+        "spec": {
+          "containers": [
+            {
+              "env": [
+                {
+                  "name": "OLLAMA_HOST",
+                  "value": "0.0.0.0:11434"
+                },
+                {
+                  "name": "OLLAMA_NUM_PARALLEL",
+                  "value": "1"
+                },
+                {
+                  "name": "OLLAMA_CONTEXT_LENGTH",
+                  "value": "1024"
+                },
+                {
+                  "name": "OLLAMA_KEEP_ALIVE",
+                  "value": "-1"
+                }
+              ],
+              "image": "ai-inference:0.1",
+              "imagePullPolicy": "Never",
+              "lifecycle": {
+                "preStop": {
+                  "exec": {
+                    "command": [
+                      "/bin/sleep",
+                      "35"
+                    ]
+                  }
+                }
+              },
+              "name": "ollama",
+              "ports": [
+                {
+                  "containerPort": 11434,
+                  "protocol": "TCP"
+                }
+              ],
+              "readinessProbe": {
+                "failureThreshold": 3,
+                "httpGet": {
+                  "path": "/api/tags",
+                  "port": 11434,
+                  "scheme": "HTTP"
+                },
+                "periodSeconds": 5,
+                "successThreshold": 1,
+                "timeoutSeconds": 5
+              },
+              "resources": {
+                "limits": {
+                  "cpu": "2",
+                  "memory": "2Gi"
+                },
+                "requests": {
+                  "cpu": "2",
+                  "memory": "1Gi"
+                }
+              },
+              "terminationMessagePath": "/dev/termination-log",
+              "terminationMessagePolicy": "File",
+              "volumeMounts": [
+                {
+                  "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                  "name": "kube-api-access-2nv6z",
+                  "readOnly": true
+                }
+              ]
+            }
+          ],
+          "dnsPolicy": "ClusterFirst",
+          "enableServiceLinks": true,
+          "nodeName": "ai-lab-repro24",
+          "preemptionPolicy": "PreemptLowerPriority",
+          "priority": 0,
+          "restartPolicy": "Always",
+          "schedulerName": "default-scheduler",
+          "securityContext": {},
+          "serviceAccount": "default",
+          "serviceAccountName": "default",
+          "terminationGracePeriodSeconds": 60,
+          "tolerations": [
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/not-ready",
+              "operator": "Exists",
+              "tolerationSeconds": 300
+            },
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/unreachable",
+              "operator": "Exists",
+              "tolerationSeconds": 300
+            }
+          ],
+          "volumes": [
+            {
+              "name": "kube-api-access-2nv6z",
+              "projected": {
+                "defaultMode": 420,
+                "sources": [
+                  {
+                    "serviceAccountToken": {
+                      "expirationSeconds": 3607,
+                      "path": "token"
+                    }
+                  },
+                  {
+                    "configMap": {
+                      "items": [
+                        {
+                          "key": "ca.crt",
+                          "path": "ca.crt"
+                        }
+                      ],
+                      "name": "kube-root-ca.crt"
+                    }
+                  },
+                  {
+                    "downwardAPI": {
+                      "items": [
+                        {
+                          "fieldRef": {
+                            "apiVersion": "v1",
+                            "fieldPath": "metadata.namespace"
+                          },
+                          "path": "namespace"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "status": {
+          "allocatedResources": {
+            "cpu": "2",
+            "memory": "1Gi"
+          },
+          "conditions": [
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-06T20:01:42Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "PodReadyToStartContainers"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-06T20:01:41Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "Initialized"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-06T20:02:33Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "Ready"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-06T20:02:33Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "ContainersReady"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-06T20:01:41Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "PodScheduled"
+            }
+          ],
+          "containerStatuses": [
+            {
+              "allocatedResources": {
+                "cpu": "2",
+                "memory": "1Gi"
+              },
+              "containerID": "containerd://f9ae7465fcf012fd2587bc666fcca13023495da1aca091288c04c80c73875258",
+              "image": "docker.io/library/ai-inference:0.1",
+              "imageID": "sha256:7afaba776be2a7256ac0470ab06af3d437ab4920d87ce2998ccb24b1585707ce",
+              "lastState": {},
+              "name": "ollama",
+              "ready": true,
+              "resources": {
+                "limits": {
+                  "cpu": "2",
+                  "memory": "2Gi"
+                },
+                "requests": {
+                  "cpu": "2",
+                  "memory": "1Gi"
+                }
+              },
+              "restartCount": 0,
+              "started": true,
+              "state": {
+                "running": {
+                  "startedAt": "2026-11-06T20:02:33Z"
+                }
+              },
+              "user": {
+                "linux": {
+                  "gid": 0,
+                  "supplementalGroups": [
+                    0
+                  ],
+                  "uid": 0
+                }
+              },
+              "volumeMounts": [
+                {
+                  "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                  "name": "kube-api-access-2nv6z",
+                  "readOnly": true,
+                  "recursiveReadOnly": "Disabled"
+                }
+              ]
+            }
+          ],
+          "hostIP": "192.168.58.2",
+          "hostIPs": [
+            {
+              "ip": "192.168.58.2"
+            }
+          ],
+          "observedGeneration": 1,
+          "phase": "Running",
+          "podIP": "10.244.0.4",
+          "podIPs": [
+            {
+              "ip": "10.244.0.4"
+            }
+          ],
+          "qosClass": "Burstable",
+          "resources": {
+            "limits": {
+              "cpu": "2",
+              "memory": "2Gi"
+            },
+            "requests": {
+              "cpu": "2",
+              "memory": "1Gi"
+            }
+          },
+          "startTime": "2026-11-06T20:01:41Z"
+        }
+      }
+    ],
+    "kind": "List",
+    "metadata": {
+      "resourceVersion": ""
+    }
+  },
+  "deployments": {
+    "apiVersion": "v1",
+    "items": [
+      {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "metadata": {
+          "annotations": {
+            "deployment.kubernetes.io/revision": "1",
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"apps/v1\",\"kind\":\"Deployment\",\"metadata\":{\"annotations\":{},\"name\":\"ollama\",\"namespace\":\"inference\"},\"spec\":{\"replicas\":1,\"selector\":{\"matchLabels\":{\"app\":\"ollama\"}},\"strategy\":{\"rollingUpdate\":{\"maxSurge\":0,\"maxUnavailable\":1},\"type\":\"RollingUpdate\"},\"template\":{\"metadata\":{\"labels\":{\"app\":\"ollama\"}},\"spec\":{\"containers\":[{\"env\":[{\"name\":\"OLLAMA_HOST\",\"value\":\"0.0.0.0:11434\"},{\"name\":\"OLLAMA_NUM_PARALLEL\",\"value\":\"1\"},{\"name\":\"OLLAMA_CONTEXT_LENGTH\",\"value\":\"1024\"},{\"name\":\"OLLAMA_KEEP_ALIVE\",\"value\":\"-1\"}],\"image\":\"ai-inference:0.1\",\"imagePullPolicy\":\"Never\",\"lifecycle\":{\"preStop\":{\"exec\":{\"command\":[\"/bin/sleep\",\"35\"]}}},\"name\":\"ollama\",\"ports\":[{\"containerPort\":11434}],\"readinessProbe\":{\"httpGet\":{\"path\":\"/api/tags\",\"port\":11434},\"periodSeconds\":5,\"timeoutSeconds\":5},\"resources\":{\"limits\":{\"cpu\":\"2\",\"memory\":\"2Gi\"},\"requests\":{\"cpu\":\"2\",\"memory\":\"1Gi\"}}}],\"terminationGracePeriodSeconds\":60}}}}\n"
+          },
+          "creationTimestamp": "2026-11-06T20:01:41Z",
+          "generation": 1,
+          "name": "ollama",
+          "namespace": "inference",
+          "resourceVersion": "829",
+          "uid": "24159a59-0681-438f-b3fb-d1d2c78d5049"
+        },
+        "spec": {
+          "progressDeadlineSeconds": 600,
+          "replicas": 1,
+          "revisionHistoryLimit": 10,
+          "selector": {
+            "matchLabels": {
+              "app": "ollama"
+            }
+          },
+          "strategy": {
+            "rollingUpdate": {
+              "maxSurge": 0,
+              "maxUnavailable": 1
+            },
+            "type": "RollingUpdate"
+          },
+          "template": {
+            "metadata": {
+              "labels": {
+                "app": "ollama"
+              }
+            },
+            "spec": {
+              "containers": [
+                {
+                  "env": [
+                    {
+                      "name": "OLLAMA_HOST",
+                      "value": "0.0.0.0:11434"
+                    },
+                    {
+                      "name": "OLLAMA_NUM_PARALLEL",
+                      "value": "1"
+                    },
+                    {
+                      "name": "OLLAMA_CONTEXT_LENGTH",
+                      "value": "1024"
+                    },
+                    {
+                      "name": "OLLAMA_KEEP_ALIVE",
+                      "value": "-1"
+                    }
+                  ],
+                  "image": "ai-inference:0.1",
+                  "imagePullPolicy": "Never",
+                  "lifecycle": {
+                    "preStop": {
+                      "exec": {
+                        "command": [
+                          "/bin/sleep",
+                          "35"
+                        ]
+                      }
+                    }
+                  },
+                  "name": "ollama",
+                  "ports": [
+                    {
+                      "containerPort": 11434,
+                      "protocol": "TCP"
+                    }
+                  ],
+                  "readinessProbe": {
+                    "failureThreshold": 3,
+                    "httpGet": {
+                      "path": "/api/tags",
+                      "port": 11434,
+                      "scheme": "HTTP"
+                    },
+                    "periodSeconds": 5,
+                    "successThreshold": 1,
+                    "timeoutSeconds": 5
+                  },
+                  "resources": {
+                    "limits": {
+                      "cpu": "2",
+                      "memory": "2Gi"
+                    },
+                    "requests": {
+                      "cpu": "2",
+                      "memory": "1Gi"
+                    }
+                  },
+                  "terminationMessagePath": "/dev/termination-log",
+                  "terminationMessagePolicy": "File"
+                }
+              ],
+              "dnsPolicy": "ClusterFirst",
+              "restartPolicy": "Always",
+              "schedulerName": "default-scheduler",
+              "securityContext": {},
+              "terminationGracePeriodSeconds": 60
+            }
+          }
+        },
+        "status": {
+          "availableReplicas": 1,
+          "conditions": [
+            {
+              "lastTransitionTime": "2026-11-06T20:01:41Z",
+              "lastUpdateTime": "2026-11-06T20:01:41Z",
+              "message": "Deployment has minimum availability.",
+              "reason": "MinimumReplicasAvailable",
+              "status": "True",
+              "type": "Available"
+            },
+            {
+              "lastTransitionTime": "2026-11-06T20:01:41Z",
+              "lastUpdateTime": "2026-11-06T20:02:33Z",
+              "message": "ReplicaSet \"ollama-7db4f544df\" has successfully progressed.",
+              "reason": "NewReplicaSetAvailable",
+              "status": "True",
+              "type": "Progressing"
+            }
+          ],
+          "observedGeneration": 1,
+          "readyReplicas": 1,
+          "replicas": 1,
+          "terminatingReplicas": 0,
+          "updatedReplicas": 1
+        }
+      }
+    ],
+    "kind": "List",
+    "metadata": {
+      "resourceVersion": ""
+    }
+  },
+  "hpa": {
+    "apiVersion": "v1",
+    "items": [],
+    "kind": "List",
+    "metadata": {
+      "resourceVersion": ""
+    }
+  },
+  "nodes": {
+    "apiVersion": "v1",
+    "items": [
+      {
+        "apiVersion": "v1",
+        "kind": "Node",
+        "metadata": {
+          "annotations": {
+            "node.alpha.kubernetes.io/ttl": "0",
+            "volumes.kubernetes.io/controller-managed-attach-detach": "true"
+          },
+          "creationTimestamp": "2026-11-06T19:55:49Z",
+          "labels": {
+            "beta.kubernetes.io/arch": "amd64",
+            "beta.kubernetes.io/os": "linux",
+            "kubernetes.io/arch": "amd64",
+            "kubernetes.io/hostname": "ai-lab-repro24",
+            "kubernetes.io/os": "linux",
+            "minikube.k8s.io/commit": "7a9f6a841470a207de8cf4bafcccee0969d8ba10",
+            "minikube.k8s.io/name": "ai-lab-repro24",
+            "minikube.k8s.io/primary": "true",
+            "minikube.k8s.io/updated_at": "2026_11_06T20_55_52_0700",
+            "minikube.k8s.io/version": "v1.39.0",
+            "node-role.kubernetes.io/control-plane": "",
+            "node.kubernetes.io/exclude-from-external-load-balancers": ""
+          },
+          "name": "ai-lab-repro24",
+          "resourceVersion": "855",
+          "uid": "bf53fc38-76e4-4729-ae30-d1cd80727176"
+        },
+        "spec": {
+          "podCIDR": "10.244.0.0/24",
+          "podCIDRs": [
+            "10.244.0.0/24"
+          ]
+        },
+        "status": {
+          "addresses": [
+            {
+              "address": "192.168.58.2",
+              "type": "InternalIP"
+            },
+            {
+              "address": "ai-lab-repro24",
+              "type": "Hostname"
+            }
+          ],
+          "allocatable": {
+            "cpu": "24",
+            "ephemeral-storage": "1081101176832",
+            "hugepages-1Gi": "0",
+            "hugepages-2Mi": "0",
+            "memory": "32742912Ki",
+            "pods": "110"
+          },
+          "capacity": {
+            "cpu": "24",
+            "ephemeral-storage": "1081101176832",
+            "hugepages-1Gi": "0",
+            "hugepages-2Mi": "0",
+            "memory": "32742912Ki",
+            "pods": "110"
+          },
+          "conditions": [
+            {
+              "lastHeartbeatTime": "2026-11-06T20:03:01Z",
+              "lastTransitionTime": "2026-11-06T19:55:49Z",
+              "message": "kubelet has sufficient memory available",
+              "reason": "KubeletHasSufficientMemory",
+              "status": "False",
+              "type": "MemoryPressure"
+            },
+            {
+              "lastHeartbeatTime": "2026-11-06T20:03:01Z",
+              "lastTransitionTime": "2026-11-06T19:55:49Z",
+              "message": "kubelet has no disk pressure",
+              "reason": "KubeletHasNoDiskPressure",
+              "status": "False",
+              "type": "DiskPressure"
+            },
+            {
+              "lastHeartbeatTime": "2026-11-06T20:03:01Z",
+              "lastTransitionTime": "2026-11-06T19:55:49Z",
+              "message": "kubelet has sufficient PID available",
+              "reason": "KubeletHasSufficientPID",
+              "status": "False",
+              "type": "PIDPressure"
+            },
+            {
+              "lastHeartbeatTime": "2026-11-06T20:03:01Z",
+              "lastTransitionTime": "2026-11-06T19:56:14Z",
+              "message": "kubelet is posting ready status",
+              "reason": "KubeletReady",
+              "status": "True",
+              "type": "Ready"
+            }
+          ],
+          "daemonEndpoints": {
+            "kubeletEndpoint": {
+              "Port": 10250
+            }
+          },
+          "declaredFeatures": [
+            "ExtendWebSocketsToKubelet",
+            "InPlacePodLevelResourcesVerticalScaling",
+            "InPlacePodVerticalScalingInitContainers",
+            "RestartAllContainersOnContainerExits"
+          ],
+          "features": {
+            "supplementalGroupsPolicy": true
+          },
+          "images": [
+            {
+              "names": [
+                "docker.io/library/ai-inference:0.1",
+                "docker.io/library/ai-inference:repro24"
+              ],
+              "sizeBytes": 4135581192
+            },
+            {
+              "names": [
+                "docker.io/kindest/kindnetd@sha256:07a4b3fe0077a0ae606cc0a200fc25a28fa64dcc30b8d311b461089969449f9a",
+                "docker.io/kindest/kindnetd:v20250512-df8de77b"
+              ],
+              "sizeBytes": 44375501
+            },
+            {
+              "names": [
+                "docker.io/kindest/kindnetd@sha256:526969f0a1a7a788a7a96f53a4ad3b51607bde7bb2841edf52a02916e8d52650",
+                "docker.io/kindest/kindnetd:v20260820-69b56db7"
+              ],
+              "sizeBytes": 39744255
+            },
+            {
+              "names": [
+                "registry.k8s.io/kube-apiserver@sha256:d1045e5c6d2f016797d22143eba7502e1bb712a4681836a7c35763a9c192dd70",
+                "registry.k8s.io/kube-apiserver:v1.37.0"
+              ],
+              "sizeBytes": 31171933
+            },
+            {
+              "names": [
+                "registry.k8s.io/kube-proxy@sha256:77bf2b08ff8ac1a4a446cffaa85e79e87379c8cb54fcf60f2cb6c62c966829c8",
+                "registry.k8s.io/kube-proxy:v1.37.0"
+              ],
+              "sizeBytes": 30200433
+            },
+            {
+              "names": [
+                "registry.k8s.io/kube-controller-manager@sha256:997c997924eb8574f63f204a0b0af133aaf33c10df84009c32d34037f4e0e077",
+                "registry.k8s.io/kube-controller-manager:v1.37.0"
+              ],
+              "sizeBytes": 27291057
+            },
+            {
+              "names": [
+                "registry.k8s.io/coredns/coredns@sha256:900f9c109f7a33545d3c811516e8376df9019147b750f5ce3e254468769176ea",
+                "registry.k8s.io/coredns/coredns:v1.14.6"
+              ],
+              "sizeBytes": 23758055
+            },
+            {
+              "names": [
+                "registry.k8s.io/metrics-server/metrics-server@sha256:d9862115e7c7881280d3d75ca26bda8ffc0fc213315979575bf23ce9826205c0"
+              ],
+              "sizeBytes": 23258428
+            },
+            {
+              "names": [
+                "registry.k8s.io/etcd@sha256:6ecefbe2510c4a30573a62a4d6dd175acf881ca67003fcd91849a16df7a724d5",
+                "registry.k8s.io/etcd:3.7.0-0"
+              ],
+              "sizeBytes": 22342384
+            },
+            {
+              "names": [
+                "registry.k8s.io/kube-scheduler@sha256:a27622f132aa09cf2461ba077894a070c0186ec607366d14e805912d4804d11f",
+                "registry.k8s.io/kube-scheduler:v1.37.0"
+              ],
+              "sizeBytes": 20845306
+            },
+            {
+              "names": [
+                "gcr.io/k8s-minikube/storage-provisioner@sha256:18eb69d1418e854ad5a19e399310e52808a8321e4c441c1dddad8977a0d7a944",
+                "gcr.io/k8s-minikube/storage-provisioner:v5"
+              ],
+              "sizeBytes": 9058936
+            },
+            {
+              "names": [
+                "registry.k8s.io/pause@sha256:f548e0e8e3dc1896ca956272154dde3314e8cc4fde0a57577ee9fa1c63f5baf4",
+                "registry.k8s.io/pause:3.10.2"
+              ],
+              "sizeBytes": 320805
+            }
+          ],
+          "nodeInfo": {
+            "architecture": "amd64",
+            "bootID": "b37dc154-fc6a-430d-8b6d-e7bc012c76fa",
+            "containerRuntimeVersion": "containerd://2.3.4",
+            "kernelVersion": "5.15.167.4-microsoft-standard-WSL2",
+            "kubeProxyVersion": "",
+            "kubeletVersion": "v1.37.0",
+            "machineID": "b7566eefbea02b7ce85821e86a97158b",
+            "operatingSystem": "linux",
+            "osImage": "Debian GNU/Linux 12 (bookworm)",
+            "runningInUserNamespace": false,
+            "swap": {
+              "capacity": 8589934592
+            },
+            "systemUUID": "b7566eefbea02b7ce85821e86a97158b"
+          },
+          "runtimeHandlers": [
+            {
+              "features": {
+                "recursiveReadOnlyMounts": true,
+                "userNamespaces": true
+              },
+              "name": ""
+            },
+            {
+              "features": {
+                "recursiveReadOnlyMounts": true,
+                "userNamespaces": true
+              },
+              "name": "runc"
+            }
+          ]
+        }
+      }
+    ],
+    "kind": "List",
+    "metadata": {
+      "resourceVersion": ""
+    }
+  },
+  "resources": {
+    "kind": "PodMetricsList",
+    "apiVersion": "metrics.k8s.io/v1beta1",
+    "metadata": {},
+    "items": [
+      {
+        "metadata": {
+          "name": "ollama-7db4f544df-k4kcx",
+          "namespace": "inference",
+          "creationTimestamp": "2026-11-06T20:03:21Z",
+          "labels": {
+            "app": "ollama",
+            "pod-template-hash": "7db4f544df"
+          }
+        },
+        "timestamp": "2026-11-06T20:03:17Z",
+        "window": "44.34541984s",
+        "containers": [
+          {
+            "name": "ollama",
+            "usage": {
+              "cpu": "443413531n",
+              "memory": "480208Ki"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "collection_finished_at": "2026-11-06T20:03:21.805020+00:00",
+  "collection_duration_seconds": 1.0469999999986612,
+  "overrun_seconds": 0
+}

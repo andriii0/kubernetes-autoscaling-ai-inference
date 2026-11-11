@@ -1,0 +1,625 @@
+{
+  "schema_version": 2,
+  "source_archive_version": 2,
+  "run_id": "66f3a396d3e3489a8f01deda154f09d6",
+  "status": "finished",
+  "phase": "validation",
+  "started_at_utc": "2026-11-06T20:03:19.937683+00:00",
+  "finished_at_utc": "2026-11-06T20:05:36.628500+00:00",
+  "base_url": "http://127.0.0.1:56471",
+  "profile": "steady",
+  "low_rate": 2,
+  "burst_stages": null,
+  "rate": 2,
+  "time_unit": "10s",
+  "duration": "1m",
+  "duration_seconds": 60.0,
+  "slo_ms": null,
+  "context": "ai-lab-repro24",
+  "namespace": "inference",
+  "selector": "app=ollama",
+  "deployment": "ollama",
+  "container": "ollama",
+  "observer_interval_seconds": 5,
+  "idle_seconds": 60,
+  "post_seconds": 10,
+  "warmup_timeout_seconds": 120,
+  "activity_note": "Not recorded",
+  "k6_exit_code": 0,
+  "collector_exit_code": 0,
+  "collection_valid": true,
+  "server_drain_verified": false,
+  "phases": [
+    {
+      "phase": "idle",
+      "started_at_utc": "2026-11-06T20:03:21.807592+00:00",
+      "finished_at_utc": "2026-11-06T20:04:21.821387+00:00"
+    },
+    {
+      "phase": "warmup",
+      "started_at_utc": "2026-11-06T20:04:21.821387+00:00",
+      "finished_at_utc": "2026-11-06T20:04:24.091737+00:00"
+    },
+    {
+      "phase": "load",
+      "started_at_utc": "2026-11-06T20:04:24.091737+00:00",
+      "finished_at_utc": "2026-11-06T20:05:25.530908+00:00"
+    },
+    {
+      "phase": "post_load",
+      "started_at_utc": "2026-11-06T20:05:25.530908+00:00",
+      "finished_at_utc": "2026-11-06T20:05:36.619817+00:00"
+    },
+    {
+      "phase": "validation",
+      "started_at_utc": "2026-11-06T20:05:36.620332+00:00",
+      "finished_at_utc": "2026-11-06T20:05:36.628500+00:00"
+    }
+  ],
+  "errors": [],
+  "warnings": [],
+  "expected_replicas": 1,
+  "mode": "fixed-1",
+  "purpose": "pilot",
+  "source_sha256": {
+    "inference.js": "885d27570a056e290aedf8765df0b9b3232c1873da6402e58cf9c7889e4f8131",
+    "workload.json": "135ec5e42c747eec62fa3019cac1bf3bb5ad8a1735b92b600f2817ce51f0a6f7",
+    "run_pilot.py": "ab8a2c4b40189aff70fe8c4d1c906ca1b4cbc4f5f8c621957f42860f212942b9",
+    "observe.py": "2e6236612270aa972f891318c45813bb6ec521fab4e02ebb18615856d1e6a578",
+    "pilot_records.py": "dabced021dfd60f7865bbd72f989500abc8a3433dbef079eb86a645628ab9b50",
+    "records.py": "2c72ba816509e6176cafc1691671fea830470a7da692be77d2f962d9effe3549"
+  },
+  "script_sha256": "885D27570A056E290AEDF8765DF0B9B3232C1873DA6402E58CF9C7889E4F8131",
+  "workload": {
+    "request": {
+      "model": "qwen2.5:0.5b",
+      "prompt": "Explain what a container is in three short sentences.",
+      "stream": false,
+      "keep_alive": -1,
+      "options": {
+        "num_predict": 64,
+        "num_ctx": 1024,
+        "num_thread": 2,
+        "temperature": 0,
+        "seed": 42
+      }
+    },
+    "timeout_seconds": 30,
+    "graceful_stop_seconds": 35,
+    "time_unit_seconds": 10,
+    "preallocated_vus": 50,
+    "max_vus": 100,
+    "burst_stages": [
+      {
+        "name": "low-before",
+        "seconds": 120,
+        "target": "low"
+      },
+      {
+        "name": "rise",
+        "seconds": 1,
+        "target": "peak"
+      },
+      {
+        "name": "peak",
+        "seconds": 300,
+        "target": "peak"
+      },
+      {
+        "name": "fall",
+        "seconds": 1,
+        "target": "low"
+      },
+      {
+        "name": "low-after",
+        "seconds": 360,
+        "target": "low"
+      }
+    ],
+    "thresholds": {
+      "error_rate": 0.01,
+      "dropped_starts": 0
+    },
+    "main_protocol": {
+      "version": "1.1",
+      "primary_p95_ms": 5000,
+      "sensitivity_p95_ms": 10000,
+      "low_rate": 2,
+      "peak_rate": 8,
+      "steady_seconds": 300,
+      "observer_interval_seconds": 5,
+      "idle_seconds": 60,
+      "warmup_timeout_seconds": 120,
+      "fixed_post_seconds": 10,
+      "hpa_post_seconds": 300
+    }
+  },
+  "versions": {
+    "python": {
+      "value": "3.12.0 (tags/v3.12.0:0fb18b0, Oct  2 2023, 13:03:39) [MSC v.1935 64 bit (AMD64)]"
+    },
+    "platform": {
+      "value": "Windows-11-10.0.26200-SP0"
+    },
+    "k6": {
+      "exit_code": 0,
+      "stdout": "k6.EXE v2.2.0 (commit/00a9a1b7f5, go1.26.5, windows/amd64)",
+      "stderr": ""
+    },
+    "kubectl": {
+      "exit_code": 0,
+      "stdout": "{\n  \"clientVersion\": {\n    \"major\": \"1\",\n    \"minor\": \"36\",\n    \"gitVersion\": \"v1.36.1\",\n    \"gitCommit\": \"756939600b9a7180fc2df6550a4585b638875e67\",\n    \"gitTreeState\": \"clean\",\n    \"buildDate\": \"2026-05-12T09:54:35Z\",\n    \"goVersion\": \"go1.26.2\",\n    \"compiler\": \"gc\",\n    \"platform\": \"windows/amd64\"\n  },\n  \"kustomizeVersion\": \"v5.8.1\",\n  \"serverVersion\": {\n    \"major\": \"1\",\n    \"minor\": \"37\",\n    \"emulationMajor\": \"1\",\n    \"emulationMinor\": \"37\",\n    \"minCompatibilityMajor\": \"1\",\n    \"minCompatibilityMinor\": \"36\",\n    \"gitVersion\": \"v1.37.0\",\n    \"gitCommit\": \"f54c212e3a2f75d674b717a9b29052b20b60aefc\",\n    \"gitTreeState\": \"clean\",\n    \"buildDate\": \"2026-08-26T10:44:25Z\",\n    \"goVersion\": \"go1.26.6\",\n    \"compiler\": \"gc\",\n    \"platform\": \"linux/amd64\"\n  }\n}",
+      "stderr": ""
+    },
+    "minikube": {
+      "exit_code": 0,
+      "stdout": "{\"commit\":\"7a9f6a841470a207de8cf4bafcccee0969d8ba10\",\"minikubeVersion\":\"v1.39.0\"}",
+      "stderr": ""
+    },
+    "docker": {
+      "exit_code": 0,
+      "stdout": "{\"Client\":{\"Version\":\"29.8.2\",\"ApiVersion\":\"1.56\",\"DefaultAPIVersion\":\"1.56\",\"GitCommit\":\"7fc2dff\",\"GoVersion\":\"go1.26.8\",\"Os\":\"windows\",\"Arch\":\"amd64\",\"BuildTime\":\"Wed Sep 30 19:35:42 2026\",\"Context\":\"desktop-linux\"},\"Server\":{\"Platform\":{\"Name\":\"Docker Desktop 4.95.0 (242831)\"},\"Version\":\"29.8.2\",\"ApiVersion\":\"1.56\",\"MinAPIVersion\":\"1.40\",\"Os\":\"linux\",\"Arch\":\"amd64\",\"Components\":[{\"Name\":\"Engine\",\"Version\":\"29.8.2\",\"Details\":{\"ApiVersion\":\"1.56\",\"Arch\":\"amd64\",\"BuildTime\":\"Wed Sep 30 19:32:25 2026\",\"Experimental\":\"false\",\"GitCommit\":\"8af9fe3\",\"GoVersion\":\"go1.26.8\",\"KernelVersion\":\"5.15.167.4-microsoft-standard-WSL2\",\"MinAPIVersion\":\"1.40\",\"Module\":\"github.com/moby/moby/v2\",\"ModuleVersion\":\"v2.0.0+unknown\",\"Os\":\"linux\"}},{\"Name\":\"containerd\",\"Version\":\"v2.3.6\",\"Details\":{\"GitCommit\":\"ee2735368117d2eb259779949d5e75cdafec9761\"}},{\"Name\":\"runc\",\"Version\":\"1.5.1\",\"Details\":{\"GitCommit\":\"v1.5.1-0-g8f2685a4\"}},{\"Name\":\"docker-init\",\"Version\":\"0.19.0\",\"Details\":{\"GitCommit\":\"de40ad0\"}}],\"GitCommit\":\"8af9fe3\",\"GoVersion\":\"go1.26.8\",\"KernelVersion\":\"5.15.167.4-microsoft-standard-WSL2\",\"BuildTime\":\"2026-09-30T19:32:25.000000000+00:00\"}}",
+      "stderr": ""
+    }
+  },
+  "k6_version": "k6.EXE v2.2.0 (commit/00a9a1b7f5, go1.26.5, windows/amd64)",
+  "initial_identity": {
+    "pod_uid": "b996e39d-4ccd-431f-8d45-ecac38b01d62",
+    "container_id": "containerd://f9ae7465fcf012fd2587bc666fcca13023495da1aca091288c04c80c73875258",
+    "restart_count": 0,
+    "image_id": "sha256:7afaba776be2a7256ac0470ab06af3d437ab4920d87ce2998ccb24b1585707ce"
+  },
+  "deployment_snapshot": {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": {
+      "annotations": {
+        "deployment.kubernetes.io/revision": "1",
+        "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"apps/v1\",\"kind\":\"Deployment\",\"metadata\":{\"annotations\":{},\"name\":\"ollama\",\"namespace\":\"inference\"},\"spec\":{\"replicas\":1,\"selector\":{\"matchLabels\":{\"app\":\"ollama\"}},\"strategy\":{\"rollingUpdate\":{\"maxSurge\":0,\"maxUnavailable\":1},\"type\":\"RollingUpdate\"},\"template\":{\"metadata\":{\"labels\":{\"app\":\"ollama\"}},\"spec\":{\"containers\":[{\"env\":[{\"name\":\"OLLAMA_HOST\",\"value\":\"0.0.0.0:11434\"},{\"name\":\"OLLAMA_NUM_PARALLEL\",\"value\":\"1\"},{\"name\":\"OLLAMA_CONTEXT_LENGTH\",\"value\":\"1024\"},{\"name\":\"OLLAMA_KEEP_ALIVE\",\"value\":\"-1\"}],\"image\":\"ai-inference:0.1\",\"imagePullPolicy\":\"Never\",\"lifecycle\":{\"preStop\":{\"exec\":{\"command\":[\"/bin/sleep\",\"35\"]}}},\"name\":\"ollama\",\"ports\":[{\"containerPort\":11434}],\"readinessProbe\":{\"httpGet\":{\"path\":\"/api/tags\",\"port\":11434},\"periodSeconds\":5,\"timeoutSeconds\":5},\"resources\":{\"limits\":{\"cpu\":\"2\",\"memory\":\"2Gi\"},\"requests\":{\"cpu\":\"2\",\"memory\":\"1Gi\"}}}],\"terminationGracePeriodSeconds\":60}}}}\n"
+      },
+      "creationTimestamp": "2026-11-06T20:01:41Z",
+      "generation": 1,
+      "name": "ollama",
+      "namespace": "inference",
+      "resourceVersion": "829",
+      "uid": "24159a59-0681-438f-b3fb-d1d2c78d5049"
+    },
+    "spec": {
+      "progressDeadlineSeconds": 600,
+      "replicas": 1,
+      "revisionHistoryLimit": 10,
+      "selector": {
+        "matchLabels": {
+          "app": "ollama"
+        }
+      },
+      "strategy": {
+        "rollingUpdate": {
+          "maxSurge": 0,
+          "maxUnavailable": 1
+        },
+        "type": "RollingUpdate"
+      },
+      "template": {
+        "metadata": {
+          "labels": {
+            "app": "ollama"
+          }
+        },
+        "spec": {
+          "containers": [
+            {
+              "env": [
+                {
+                  "name": "OLLAMA_HOST",
+                  "value": "0.0.0.0:11434"
+                },
+                {
+                  "name": "OLLAMA_NUM_PARALLEL",
+                  "value": "1"
+                },
+                {
+                  "name": "OLLAMA_CONTEXT_LENGTH",
+                  "value": "1024"
+                },
+                {
+                  "name": "OLLAMA_KEEP_ALIVE",
+                  "value": "-1"
+                }
+              ],
+              "image": "ai-inference:0.1",
+              "imagePullPolicy": "Never",
+              "lifecycle": {
+                "preStop": {
+                  "exec": {
+                    "command": [
+                      "/bin/sleep",
+                      "35"
+                    ]
+                  }
+                }
+              },
+              "name": "ollama",
+              "ports": [
+                {
+                  "containerPort": 11434,
+                  "protocol": "TCP"
+                }
+              ],
+              "readinessProbe": {
+                "failureThreshold": 3,
+                "httpGet": {
+                  "path": "/api/tags",
+                  "port": 11434,
+                  "scheme": "HTTP"
+                },
+                "periodSeconds": 5,
+                "successThreshold": 1,
+                "timeoutSeconds": 5
+              },
+              "resources": {
+                "limits": {
+                  "cpu": "2",
+                  "memory": "2Gi"
+                },
+                "requests": {
+                  "cpu": "2",
+                  "memory": "1Gi"
+                }
+              },
+              "terminationMessagePath": "/dev/termination-log",
+              "terminationMessagePolicy": "File"
+            }
+          ],
+          "dnsPolicy": "ClusterFirst",
+          "restartPolicy": "Always",
+          "schedulerName": "default-scheduler",
+          "securityContext": {},
+          "terminationGracePeriodSeconds": 60
+        }
+      }
+    },
+    "status": {
+      "availableReplicas": 1,
+      "conditions": [
+        {
+          "lastTransitionTime": "2026-11-06T20:01:41Z",
+          "lastUpdateTime": "2026-11-06T20:01:41Z",
+          "message": "Deployment has minimum availability.",
+          "reason": "MinimumReplicasAvailable",
+          "status": "True",
+          "type": "Available"
+        },
+        {
+          "lastTransitionTime": "2026-11-06T20:01:41Z",
+          "lastUpdateTime": "2026-11-06T20:02:33Z",
+          "message": "ReplicaSet \"ollama-7db4f544df\" has successfully progressed.",
+          "reason": "NewReplicaSetAvailable",
+          "status": "True",
+          "type": "Progressing"
+        }
+      ],
+      "observedGeneration": 1,
+      "readyReplicas": 1,
+      "replicas": 1,
+      "terminatingReplicas": 0,
+      "updatedReplicas": 1
+    }
+  },
+  "pod_snapshot": {
+    "apiVersion": "v1",
+    "kind": "Pod",
+    "metadata": {
+      "creationTimestamp": "2026-11-06T20:01:41Z",
+      "generateName": "ollama-7db4f544df-",
+      "generation": 1,
+      "labels": {
+        "app": "ollama",
+        "pod-template-hash": "7db4f544df"
+      },
+      "name": "ollama-7db4f544df-k4kcx",
+      "namespace": "inference",
+      "ownerReferences": [
+        {
+          "apiVersion": "apps/v1",
+          "blockOwnerDeletion": true,
+          "controller": true,
+          "kind": "ReplicaSet",
+          "name": "ollama-7db4f544df",
+          "uid": "23669ba2-1b90-40c5-89c9-315c1d0f6082"
+        }
+      ],
+      "resourceVersion": "825",
+      "uid": "b996e39d-4ccd-431f-8d45-ecac38b01d62"
+    },
+    "spec": {
+      "containers": [
+        {
+          "env": [
+            {
+              "name": "OLLAMA_HOST",
+              "value": "0.0.0.0:11434"
+            },
+            {
+              "name": "OLLAMA_NUM_PARALLEL",
+              "value": "1"
+            },
+            {
+              "name": "OLLAMA_CONTEXT_LENGTH",
+              "value": "1024"
+            },
+            {
+              "name": "OLLAMA_KEEP_ALIVE",
+              "value": "-1"
+            }
+          ],
+          "image": "ai-inference:0.1",
+          "imagePullPolicy": "Never",
+          "lifecycle": {
+            "preStop": {
+              "exec": {
+                "command": [
+                  "/bin/sleep",
+                  "35"
+                ]
+              }
+            }
+          },
+          "name": "ollama",
+          "ports": [
+            {
+              "containerPort": 11434,
+              "protocol": "TCP"
+            }
+          ],
+          "readinessProbe": {
+            "failureThreshold": 3,
+            "httpGet": {
+              "path": "/api/tags",
+              "port": 11434,
+              "scheme": "HTTP"
+            },
+            "periodSeconds": 5,
+            "successThreshold": 1,
+            "timeoutSeconds": 5
+          },
+          "resources": {
+            "limits": {
+              "cpu": "2",
+              "memory": "2Gi"
+            },
+            "requests": {
+              "cpu": "2",
+              "memory": "1Gi"
+            }
+          },
+          "terminationMessagePath": "/dev/termination-log",
+          "terminationMessagePolicy": "File",
+          "volumeMounts": [
+            {
+              "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+              "name": "kube-api-access-2nv6z",
+              "readOnly": true
+            }
+          ]
+        }
+      ],
+      "dnsPolicy": "ClusterFirst",
+      "enableServiceLinks": true,
+      "nodeName": "ai-lab-repro24",
+      "preemptionPolicy": "PreemptLowerPriority",
+      "priority": 0,
+      "restartPolicy": "Always",
+      "schedulerName": "default-scheduler",
+      "securityContext": {},
+      "serviceAccount": "default",
+      "serviceAccountName": "default",
+      "terminationGracePeriodSeconds": 60,
+      "tolerations": [
+        {
+          "effect": "NoExecute",
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "tolerationSeconds": 300
+        },
+        {
+          "effect": "NoExecute",
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "tolerationSeconds": 300
+        }
+      ],
+      "volumes": [
+        {
+          "name": "kube-api-access-2nv6z",
+          "projected": {
+            "defaultMode": 420,
+            "sources": [
+              {
+                "serviceAccountToken": {
+                  "expirationSeconds": 3607,
+                  "path": "token"
+                }
+              },
+              {
+                "configMap": {
+                  "items": [
+                    {
+                      "key": "ca.crt",
+                      "path": "ca.crt"
+                    }
+                  ],
+                  "name": "kube-root-ca.crt"
+                }
+              },
+              {
+                "downwardAPI": {
+                  "items": [
+                    {
+                      "fieldRef": {
+                        "apiVersion": "v1",
+                        "fieldPath": "metadata.namespace"
+                      },
+                      "path": "namespace"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "status": {
+      "allocatedResources": {
+        "cpu": "2",
+        "memory": "1Gi"
+      },
+      "conditions": [
+        {
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-11-06T20:01:42Z",
+          "observedGeneration": 1,
+          "status": "True",
+          "type": "PodReadyToStartContainers"
+        },
+        {
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-11-06T20:01:41Z",
+          "observedGeneration": 1,
+          "status": "True",
+          "type": "Initialized"
+        },
+        {
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-11-06T20:02:33Z",
+          "observedGeneration": 1,
+          "status": "True",
+          "type": "Ready"
+        },
+        {
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-11-06T20:02:33Z",
+          "observedGeneration": 1,
+          "status": "True",
+          "type": "ContainersReady"
+        },
+        {
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-11-06T20:01:41Z",
+          "observedGeneration": 1,
+          "status": "True",
+          "type": "PodScheduled"
+        }
+      ],
+      "containerStatuses": [
+        {
+          "allocatedResources": {
+            "cpu": "2",
+            "memory": "1Gi"
+          },
+          "containerID": "containerd://f9ae7465fcf012fd2587bc666fcca13023495da1aca091288c04c80c73875258",
+          "image": "docker.io/library/ai-inference:0.1",
+          "imageID": "sha256:7afaba776be2a7256ac0470ab06af3d437ab4920d87ce2998ccb24b1585707ce",
+          "lastState": {},
+          "name": "ollama",
+          "ready": true,
+          "resources": {
+            "limits": {
+              "cpu": "2",
+              "memory": "2Gi"
+            },
+            "requests": {
+              "cpu": "2",
+              "memory": "1Gi"
+            }
+          },
+          "restartCount": 0,
+          "started": true,
+          "state": {
+            "running": {
+              "startedAt": "2026-11-06T20:02:33Z"
+            }
+          },
+          "user": {
+            "linux": {
+              "gid": 0,
+              "supplementalGroups": [
+                0
+              ],
+              "uid": 0
+            }
+          },
+          "volumeMounts": [
+            {
+              "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+              "name": "kube-api-access-2nv6z",
+              "readOnly": true,
+              "recursiveReadOnly": "Disabled"
+            }
+          ]
+        }
+      ],
+      "hostIP": "192.168.58.2",
+      "hostIPs": [
+        {
+          "ip": "192.168.58.2"
+        }
+      ],
+      "observedGeneration": 1,
+      "phase": "Running",
+      "podIP": "10.244.0.4",
+      "podIPs": [
+        {
+          "ip": "10.244.0.4"
+        }
+      ],
+      "qosClass": "Burstable",
+      "resources": {
+        "limits": {
+          "cpu": "2",
+          "memory": "2Gi"
+        },
+        "requests": {
+          "cpu": "2",
+          "memory": "1Gi"
+        }
+      },
+      "startTime": "2026-11-06T20:01:41Z"
+    }
+  },
+  "k6_command": [
+    "C:\\Program Files\\k6\\k6.EXE",
+    "run",
+    "--config",
+    "C:\\Users\\matvi\\Documents\\ChatGPT\\Kubernetes Autoscaling for AI Inference\\tmp\\repro24\\live-run\\inputs\\k6-config.json",
+    "--no-usage-report",
+    "--no-color",
+    "--log-format",
+    "raw",
+    "--console-output",
+    "C:\\Users\\matvi\\Documents\\ChatGPT\\Kubernetes Autoscaling for AI Inference\\tmp\\repro24\\live-run\\request-events.jsonl",
+    "--out",
+    "json=C:\\Users\\matvi\\Documents\\ChatGPT\\Kubernetes Autoscaling for AI Inference\\tmp\\repro24\\live-run\\requests.json",
+    "--summary-export",
+    "C:\\Users\\matvi\\Documents\\ChatGPT\\Kubernetes Autoscaling for AI Inference\\tmp\\repro24\\live-run\\summary.json",
+    "C:\\Users\\matvi\\Documents\\ChatGPT\\Kubernetes Autoscaling for AI Inference\\tmp\\repro24\\live-run\\inputs\\inference.js"
+  ],
+  "load_process_started_at_utc": "2026-11-06T20:04:24.092763+00:00",
+  "load_process_finished_at_utc": "2026-11-06T20:05:25.530908+00:00",
+  "counts": {
+    "started": 13,
+    "completed": 13,
+    "successful": 13,
+    "failed": 0,
+    "unfinished": 0,
+    "dropped": 0
+  },
+  "load_window": {
+    "started_at_utc": "2026-11-06T20:04:24.239000+00:00",
+    "scheduled_end_at_utc": "2026-11-06T20:05:24.239000+00:00",
+    "client_drain_end_at_utc": "2026-11-06T20:05:25.450000+00:00",
+    "request_start_tolerance_ms": 1
+  },
+  "exit_code": 0
+}

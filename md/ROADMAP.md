@@ -1,12 +1,12 @@
 # Project Roadmap
 
-Updated: 2026-11-06. Step 23 findings are saved in Notion. The latest preliminary HPA check was recorded on 2026-10-28 UTC at peak 12.
+Updated: 2026-11-07. Step 24 passed in a fresh setup on the same Windows host. The latest preliminary HPA check was recorded on 2026-10-28 UTC at peak 12.
 
 ## Goal and current position
 
 Evaluate how automatic scaling of AI inference handles changing request load while keeping response time acceptable. Compare one fixed replica, three fixed replicas, and automatic scaling between one and three replicas. A replica is one running copy of the model server.
 
-The local prototype, short load check, and continuous cluster/resource observer are complete. Direct kubelet resource measurements were verified with saved data on 2026-10-16. Technology decisions are documented. Request-level records and integrated collection now have offline tests and a saved live low-load check on 2026-10-18. Minimal pilot analysis and the increasing-load pilot are complete, including two five-minute repetitions per selected rate. I agreed [main experiment protocol v1.1](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd) on 2026-10-21. Step-20 code and run instructions have local verification. The 18-run main matrix and reproducible comparative tables and plots are complete. A [preliminary HPA check](../results/autoscaling/check-2026-10-20-series1/README.md) verifies growth and reduction. The [main findings](https://app.notion.com/p/40fc7c697bfd81bbb00fcf67a8c3d00c) are saved. The reproduction review remains open. [STATUS.md](STATUS.md) records verification and limits.
+The local prototype, short load check, and continuous cluster/resource observer are complete. Direct kubelet resource measurements were verified with saved data on 2026-10-16. Technology decisions are documented. Request-level records and integrated collection now have offline tests and a saved live low-load check on 2026-10-18. Minimal pilot analysis and the increasing-load pilot are complete, including two five-minute repetitions per selected rate. I agreed [main experiment protocol v1.1](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd) on 2026-10-21. Step-20 code and run instructions have local verification. The 18-run main matrix and reproducible comparative tables and plots are complete. A [preliminary HPA check](../results/autoscaling/check-2026-10-20-series1/README.md) verifies growth and reduction. The [main findings](https://app.notion.com/p/40fc7c697bfd81bbb00fcf67a8c3d00c) are saved. The [step 24 reproduction check](../results/reproduction/check-2026-11-06/README.md) passed. [STATUS.md](STATUS.md) records verification and limits.
 
 Completed steps refer to saved evidence, not a claim that the cluster is running today. All replicas use the CPU of one physical computer. Setup commands are in [GETTING_STARTED.md](GETTING_STARTED.md). Detailed pilot and scaling procedures live in the linked task plans; guide section numbers are topic references, not the order of project work.
 
@@ -39,7 +39,7 @@ The [later preliminary HPA burst](../results/autoscaling/check-20261028-181713-p
 - [x] 21. Execute and save the main experiment series.
 - [x] 22. Process the measurements and build tables and charts.
 - [x] 23. Write the findings, limitations, and recommendations.
-- [ ] 24. Check that another person can repeat the experiment.
+- [x] 24. Check that another person can repeat the experiment.
 
 ## Step descriptions
 
@@ -254,3 +254,5 @@ Write a separate findings document in Notion and link to the supporting runs. Co
 Check the documented setup, image preparation, configuration, scenario commands, result locations, and analysis commands. Include required versions and explain which values are machine-specific. Resolve missing steps and broken evidence links.
 
 **Done when:** the instructions provide a complete path from prerequisites to regenerated results, and the report clearly distinguishes saved evidence from unverified runtime state.
+
+**Completion evidence:** I used a clean clone and a new Minikube profile on the same Windows host. The short live check and the main analysis replay passed. See the [reproduction report](../results/reproduction/check-2026-11-06/README.md).
