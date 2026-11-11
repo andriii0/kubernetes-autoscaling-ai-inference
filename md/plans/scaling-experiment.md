@@ -412,3 +412,36 @@ The findings should answer when one replica exceeded the target, what changed wi
 - Use offline fixtures and focused checks while implementing recording/analysis. Run live load tests only when the active task calls for them; document their actual environment and results.
 
 No scaling result, capacity claim or HPA benefit has been established by writing this plan. All replicas share the same computer, and adding replicas also changes the total allowed CPU budget. Follow the accepted [decisions and limits](../DECISIONS.md) when interpreting results.
+
+## Step 24 reproduction check
+
+I will check the handover path from a fresh checkout of GitHub main and a separate Minikube profile on Windows. I will record the checkout commit, tool versions, resource settings and any setup steps missing from the guide.
+
+1. Create a fresh Python 3.12 environment. Replay the saved main series into a new folder and compare the regenerated CSV/JSON files with the saved analysis.
+2. Create a separate Minikube profile and use a separate kubeconfig. Prepare the pinned Ollama image with Qwen2.5 0.5B, deploy one copy and verify a response through the Service tunnel.
+3. Run the documented one-minute check at 2 requests per 10 seconds. Verify the collection, request counts and analysis in a separate output directory. Keep this check separate from the 18 main runs.
+4. Update the guide with any steps I had to add. Record the saved evidence and the scope of this Windows check before changing the roadmap.
+
+The check passes when the fresh setup produces a valid live run and its analysis, and the saved main analysis can be regenerated. I will record any blocked step. The fresh profile shares this physical host and does not test installation on another person's computer.
+
+Completed check: I used a clean clone, Python environment and separate Minikube profile on the same Windows host. All 13 requests in the one-minute run succeeded and the analysis replay matched all 13 saved CSV/JSON files. I updated the guide for checkout paths, Python setup, metrics startup and image tags. See the [reproduction report](../../results/reproduction/check-2026-11-06/README.md).
+
+## Controlled peak-12 burst comparison
+
+I requested a separate nine-run comparison on 10 November 2026. The same burst runs under fixed one, fixed three and HPA, with three repetitions per mode. The peak-8 main series remains the original baseline.
+
+The planned order is fixed one, HPA, fixed three in block 1; HPA, fixed three, fixed one in block 2; fixed three, fixed one, HPA in block 3. Each mode takes each slot within a block once. The existing workload runs for 782 seconds: 120 seconds at 2 requests per 10 seconds, one-second rise, 300 seconds at 12, one-second fall and 360 seconds at 2. I use the same model, per-copy resources, request settings, 60-second idle window, and recovery and CPU quiet gates. HPA starts from one warmed copy and uses the existing 60% CPU target and one-to-three replica bounds. Observation continues for 10 seconds in fixed modes and 300 seconds in HPA after client drain. The comparable resource window ends with the scheduled load.
+
+I use the existing peak p95 target of 5 seconds and error reference of 1% in the peak and whole run. Record timeouts separately and compare only runs with valid, full load. Keep valid service target misses. Stop on failed preparation, collection, HPA cleanup, an unexpected warning, a dropped or unfinished request, or a change in common inputs or runtime identity. Keep any failed attempt. Record all phase counts, successful p95, replica behavior and CPU coverage under a new follow-up path.
+
+Before launch, verify prepared fixed burst arguments and the affected tests, confirm the original cluster and model identity, and save the order, runner and host snapshot. Start the series in a separate process and take the three requested snapshots at 30, 60 and 90 minutes.
+
+Launch verification: the nine command lines passed a dry run, all 72 affected tests passed, and the earlier peak-12 HPA run reproduced its saved collection and peak assessment. Docker, one Ready Ollama copy, the Service tunnel and node/pod CPU metrics were available. The new series reached the first recovery gate at launch. See [STATUS.md](../STATUS.md#active-controlled-peak-12-comparison).
+
+The first series stopped at attempt 03 before load. The three warmups succeeded, but the kubelet returned older CPU readings and the quiet check kept resetting. I now ignore a delayed reading only when it belongs to the same container instance and its CPU counter is no higher than the last accepted reading. It does not count as a new interval. The 180-second timeout, CPU limit and two fresh intervals per copy stay the same.
+
+The corrected check passed the saved attempt 03 trace after 35.87 seconds. All 31 main protocol tests and the nine-run dry run passed before I launched a full retry in a new folder with the same driver, settings and order.
+
+The retry completed load in attempt 03 but stopped before attempt 04. The preliminary collection report verifies per-pod traffic but does not contain the flag that the comparison assessment expects. The [driver](../../bench/run_peak12_comparison.py) now sets that flag in the assessment input only after verifying that the exact three starting pods each completed measured requests. I keep the saved collection report unchanged. A future validation stop records the attempt and the failed condition in the manifest.
+
+Nine focused tests and the corrected driver's dry run passed. I replayed the three saved attempts: the first two assessments matched, and the [third](../../results/follow-up/comparison-20261110-205108-peak12/attempt-03-analysis/README.md) is a valid target miss. The original retry manifest remains a record of the stop; no further measured run started.

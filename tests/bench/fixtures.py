@@ -335,7 +335,19 @@ class FixedLauncherFixture(unittest.TestCase):
                 return destination
             return original_copy(source, destination, *a, **kw)
         versions = {k: {"exit_code": 0} for k in ("k6", "kubectl", "minikube", "docker")}
+        class FixedLogs:
+            def __init__(self, observer, folder, container):
+                self.folder = folder
+                (folder / 'pod-logs').mkdir()
+            def update(self, sample):
+                for pod in sample['pods']['items']:
+                    uid = pod['metadata']['uid']
+                    (self.folder / 'pod-logs' / (uid + '.log')).write_text(''.join(logs[uid]), encoding='utf-8')
+            def stop(self):
+                for uid in list(logs)[:replicas]:
+                    (self.folder / 'pod-logs' / (uid + '.log')).write_text(''.join(logs[uid]), encoding='utf-8')
         with patch.object(run_pilot, "Observer", Observer), patch.object(run_pilot, "versions", return_value=versions), \
+                patch('autoscaling.Logs', FixedLogs), \
                 patch.object(fixed_replicas.subprocess, "run", side_effect=pod_proxy), \
                 patch('main_protocol.source_revision', return_value={'commit': 'local-test-fixture', 'dirty': False}), \
                 patch('main_protocol.recover', return_value={'test_stub': True}), \

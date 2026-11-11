@@ -100,6 +100,8 @@ class Collection:
                     self.identity = identity
                 elif identity != self.identity:
                     raise ValueError("pilot container identity or restart count changed")
+            if getattr(self, 'fixed_logs', None):
+                self.fixed_logs.update(sample)
             return sample
 
     def start(self):
@@ -236,7 +238,7 @@ def parse_arguments(argv):
     parser.add_argument("--diagnostic-warmup-wait", choices=("immediate", "quiet"),
                         help="Fixed-one steady diagnostic; vary only post-warmup settling, outside the main protocol")
     parser.add_argument("--pilot-preparation", action="store_true",
-                        help="Use recovery and quiet-state gates for fixed steady or autoscaling burst checks")
+                        help="Use recovery and quiet-state gates for fixed-mode or autoscaling burst checks")
     parser.add_argument("--base-url", required=True)
     parser.add_argument("--rate", type=int, required=True, help="Requests per 10 seconds")
     parser.add_argument("--duration")
@@ -271,10 +273,9 @@ def parse_arguments(argv):
     args.replicas = int(args.mode[-1]) if args.mode.startswith("fixed-") else 1
     if args.diagnostic_warmup_wait and (args.protocol_version or args.mode != "fixed-1" or args.profile != "steady"):
         parser.error("--diagnostic-warmup-wait requires fixed-1/steady without --protocol-version")
-    pilot_mode = (args.mode in ("fixed-1", "fixed-3") and args.profile == "steady" or
-                  args.mode == "autoscaling" and args.profile == "burst")
+    pilot_mode = args.mode != "autoscaling" or args.profile == "burst"
     if args.pilot_preparation and (args.protocol_version or args.diagnostic_warmup_wait or not pilot_mode):
-        parser.error("--pilot-preparation requires fixed/steady or autoscaling/burst without protocol or diagnostic options")
+        parser.error("--pilot-preparation requires a fixed mode or autoscaling/burst without protocol or diagnostic options")
     prepared = bool(args.protocol_version or args.diagnostic_warmup_wait or args.pilot_preparation)
     args.post_seconds = args.post_seconds if args.post_seconds is not None else (300 if args.mode == "autoscaling" else 10)
     workload = json.loads((Path(__file__).parent / "workload.json").read_text(encoding="utf-8"))
@@ -408,6 +409,11 @@ def execute_load(args, metadata, collection, inputs, k6, environment, pods, prep
                "--summary-export", str(args.run_dir / "summary.json"), str(inputs / "inference.js")]
     metadata["k6_command"] = command
     metadata["load_process_started_at_utc"] = utc_now()
+    if (args.replicas == 3 or prepared) and not session:
+        from autoscaling import Logs
+        with collection.lock:
+            collection.fixed_logs = Logs(observer, args.run_dir, args.container)
+            collection.fixed_logs.update(collection.last)
     save_json(args.run_dir / "metadata.json", metadata)
     result = run_load(command, environment, args.run_dir, collection, metadata)
     if result not in (0, 99):
@@ -417,7 +423,7 @@ def execute_load(args, metadata, collection, inputs, k6, environment, pods, prep
         finish_scheduled_window(collection, args.run_dir, metadata)
     phase("post_load_no_new_requests" if session else "post_load")
     collection.wait(args.post_seconds)
-    if args.replicas == 3 or prepared and not session:
+    if (args.replicas == 3 or prepared and not session) and not getattr(collection, 'fixed_logs', None):
         from fixed_replicas import capture_logs
         capture_logs(observer, pods, args.container, args.run_dir, metadata["load_process_started_at_utc"])
     return result
@@ -442,6 +448,11 @@ def finalize_run(args, metadata, collection, session, pods, prepared, phase, exi
         except (OSError, RuntimeError, subprocess.SubprocessError) as error:
             metadata["errors"].append(f"log shutdown: {error}")
         metadata["recovery"] = session.restore()
+    if collection is not None and getattr(collection, 'fixed_logs', None):
+        try:
+            collection.fixed_logs.stop()
+        except (OSError, RuntimeError, subprocess.SubprocessError) as error:
+            metadata["errors"].append(f"fixed-mode log shutdown: {error}")
     if prepared and not session and metadata.get("load_process_started_at_utc") and not (args.run_dir / "pod-logs").exists():
         try:
             from fixed_replicas import capture_logs

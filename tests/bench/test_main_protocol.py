@@ -145,6 +145,16 @@ class PreparationTests(unittest.TestCase):
             self.assertFalse(gate.accept(p))
         self.assertEqual(gate.consecutive, 0)
 
+    def test_delayed_point_keeps_progress_without_counting_as_fresh(self):
+        gate = self.gate()
+        readings = ((0, 0, 10), (5, 5, 10.25), (10, 2, 10.10), (15, 10, 10.50))
+        for collected, source, counter in readings:
+            with self.subTest(collected=collected):
+                p = point(source, counter)
+                p['time'] = records.iso_time(START + collected)
+                self.assertEqual(gate.accept(p), collected == 15)
+                self.assertEqual(gate.consecutive, (0, 1, 1, 2)[collected // 5])
+
     def test_conflicting_or_backward_source_point_cannot_seed_a_quiet_interval(self):
         for bad_source in (10, 5):
             with self.subTest(bad_source=bad_source):

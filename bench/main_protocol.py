@@ -129,10 +129,13 @@ class QuietState:
                 self.low_intervals[uid] = 0
                 continue
             if old and point[0] <= old[0]:
+                # A delayed point from the same container cannot add a fresh interval.
+                if point[0] < old[0] and point[2:] == old[2:] and point[1] <= old[1]:
+                    continue
                 if point != old:
                     self.previous.pop(uid, None)
                     self.low_intervals[uid] = 0
-                continue  # Only an unchanged cached point preserves progress.
+                continue
             self.previous[uid] = point
             low = bool(old and point[0] > old[0] and point[2:] == old[2:] and point[1] >= old[1]
                        and old[0] / 1000 >= self.after

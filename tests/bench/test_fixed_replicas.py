@@ -202,7 +202,7 @@ class FixedLauncherTests(FixedLauncherFixture):
 
     def test_fresh_pilot_rejects_conflicting_options_before_creating_output(self):
         for extra in (['--protocol-version', '1.1'], ['--diagnostic-warmup-wait', 'quiet'],
-                      ['--mode', 'autoscaling'], ['--profile', 'burst']):
+                      ['--mode', 'autoscaling']):
             with tempfile.TemporaryDirectory() as temporary, self.subTest(extra=extra):
                 folder = Path(temporary) / 'run'
                 with patch.object(run_pilot, 'Observer') as observer, self.assertRaises(SystemExit):
