@@ -19,4 +19,14 @@ I confirmed rotation on the node: the second pod's `2.log.20261110-232000` conta
 
 I added `bench/resume_peak12.py`, reusing the existing corrected `comparison_input` and `require_assessable` functions in `bench/run_peak12_comparison.py`. The original saved driver still owns arguments, source checks, environment comparison and execution helpers. Two focused tests passed: saved attempts 1–3 replay successfully and missing expected replica evidence stops before assessment. The read-only dry run lists cells 4–9 as pending.
 
-The first continuation preflight queried the default namespace and stopped before load or manifest changes. I corrected the query to the observer's `inference` namespace and launched continuation again. Each launch keeps its host snapshot and source in a separate `resume-*` folder. The successful continuation archives the previous failed manifest and records the pause. Completion remains unverified until the driver finishes.
+The first continuation preflight queried the default namespace and stopped before load or manifest changes. I corrected the query to the observer's `inference` namespace and launched continuation again. Each launch keeps its host snapshot and source in a separate `resume-*` folder. The successful continuation archives the previous failed manifest and records the pause.
+
+## Final result
+
+The comparison is complete. All nine planned cells have valid full-load evidence. Fixed one missed the latency and error targets in all three repetitions. HPA reduced peak failures from 698 across the three fixed-one runs to 89, but missed the five-second p95 target in every repetition. Fixed three completed all 1,080 peak requests without an error, passed the p95 target twice and missed once at 5.116 seconds.
+
+Attempt 07 was recovered from a rotated node log. The recovered directory contains the 25 records that were absent from the end-only snapshot, while the original failed attempt remains unchanged. The collector version changed before the last fixed-mode runs, so the final report must disclose that source boundary. It does not change the client measurements or workload settings.
+
+No more load is needed for this comparison. I published the interpretation in the findings, Research v0.9 and the project summaries. The final offline verification is recorded with the documentation update.
+
+Verification (2026-11-11): all 167 local tests passed. The historical verifier preserved 120 protected evidence files, reproduced the saved aggregates and resolved 301 local links. Research v0.9 rendered to 13 pages and every page was checked. No live load or cluster change was used for this documentation update.

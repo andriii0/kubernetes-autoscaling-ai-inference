@@ -436,7 +436,7 @@ I use the existing peak p95 target of 5 seconds and error reference of 1% in the
 
 Before launch, verify prepared fixed burst arguments and the affected tests, confirm the original cluster and model identity, and save the order, runner and host snapshot. Start the series in a separate process and take the three requested snapshots at 30, 60 and 90 minutes.
 
-Launch verification: the nine command lines passed a dry run, all 72 affected tests passed, and the earlier peak-12 HPA run reproduced its saved collection and peak assessment. Docker, one Ready Ollama copy, the Service tunnel and node/pod CPU metrics were available. The new series reached the first recovery gate at launch. See [STATUS.md](../STATUS.md#active-controlled-peak-12-comparison).
+Launch verification: the nine command lines passed a dry run, all 72 affected tests passed, and the earlier peak-12 HPA run reproduced its saved collection and peak assessment. Docker, one Ready Ollama copy, the Service tunnel and node/pod CPU metrics were available. The new series reached the first recovery gate at launch. See [STATUS.md](../STATUS.md#completed-controlled-peak-12-comparison).
 
 The first series stopped at attempt 03 before load. The three warmups succeeded, but the kubelet returned older CPU readings and the quiet check kept resetting. I now ignore a delayed reading only when it belongs to the same container instance and its CPU counter is no higher than the last accepted reading. It does not count as a new interval. The 180-second timeout, CPU limit and two fresh intervals per copy stay the same.
 
@@ -444,4 +444,8 @@ The corrected check passed the saved attempt 03 trace after 35.87 seconds. All 3
 
 The retry completed load in attempt 03 but stopped before attempt 04. The preliminary collection report verifies per-pod traffic but does not contain the flag that the comparison assessment expects. The [driver](../../bench/run_peak12_comparison.py) now sets that flag in the assessment input only after verifying that the exact three starting pods each completed measured requests. I keep the saved collection report unchanged. A future validation stop records the attempt and the failed condition in the manifest.
 
-Nine focused tests and the corrected driver's dry run passed. I replayed the three saved attempts: the first two assessments matched, and the [third](../../results/follow-up/comparison-20261110-205108-peak12/attempt-03-analysis/README.md) is a valid target miss. The original retry manifest remains a record of the stop; no further measured run started.
+Nine focused tests and the corrected driver's dry run passed. I replayed the three saved attempts: the first two assessments matched, and the [third](../../results/follow-up/comparison-20261110-205108-peak12/attempt-03-analysis/README.md) is a valid target miss. The original retry manifest remains a record of the stop.
+
+The resumed series completed all nine cells. Attempt 07 initially failed collection after an end-only pod-log snapshot missed 25 records that had moved into a rotated node log. I preserved the failed attempt, recovered those exact records into a separate directory and changed later fixed-mode runs to continuous log collection. The [recovery report](../../results/follow-up/comparison-20261110-205108-peak12/LOG_RECOVERY.md) records hashes, validation and the collector source boundary.
+
+The [final report](../../results/follow-up/comparison-20261110-205108-peak12/README.md) compares the three repetitions per mode. Fixed one passed 0/3 and had 698 peak failures. HPA passed 0/3 and reduced peak failures to 89. Fixed three passed 2/3, completed all 1,080 peak requests and missed once at 5.116 seconds. No more load is needed for this comparison.

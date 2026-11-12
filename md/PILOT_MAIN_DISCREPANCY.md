@@ -96,6 +96,12 @@ On 2026-10-28 I completed the separately authorized [prepared HPA burst](../resu
 
 This demonstrates scaling under the new burst, not acceptable latency or an isolated HPA benefit. The earlier fixed-three run is steady and at another time; one observation per configuration cannot establish a controlled repeated comparison. Neither check explains the historical rate-8 discrepancy or revises main v1.1. I retained the earlier 181350 wrapper failure before measured-run creation, its logs/state and empty host snapshot. No repeat, tuning or new matrix followed this review.
 
+### Controlled comparison at rate 12
+
+I later ran the same `2 -> 12 -> 2` burst three times in fixed one, fixed three and HPA. The [completed comparison](../results/follow-up/comparison-20261110-205108-peak12/README.md) closes the traffic-profile gap between the preliminary checks. Fixed one missed every target and had 698 peak failures. HPA reduced peak failures to 89 but missed the five-second p95 target in all three repetitions. Fixed three completed all 1,080 peak requests, passed twice and missed once at 5.116 seconds.
+
+This follow-up supports the rate-12 overload comparison. It does not explain why the historical pilot was slow at rate 8, and it does not change the main v1.1 results.
+
 - [Pilot report](../results/pilot/discovery-2026-10-18-series1/README.md).
 - [Main-series run table](../results/main/series-2026-10-25-v1.1/analysis-main-2026-10-26/main-runs.csv).
 - [Detailed discrepancy review and reproduction command](../results/main/series-2026-10-25-v1.1/pilot-gap-review-2026-10-26/README.md).
