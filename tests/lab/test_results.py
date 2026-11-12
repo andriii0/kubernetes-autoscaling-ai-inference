@@ -100,6 +100,23 @@ class ResultTests(unittest.TestCase):
             with self.subTest(name=name), self.assertRaises(ValueError):
                 self.results.path(name)
 
+    def test_followup_uses_manifest_assessment_and_preserves_original(self):
+        saved = Results(Path(__file__).resolve().parents[2] / 'results')
+        series = 'follow-up/comparison-20261110-205108-peak12'
+        third = saved.detail(series + '/attempt-03-fixed-3-burst')
+        self.assertEqual((third['status'], third['p95_scope']), ('Target missed', 'Peak'))
+        self.assertAlmostEqual(third['p95_ms'], 5116.45)
+        overview = saved.detail(series)
+        self.assertEqual((overview['completed'], overview['total'], overview['status']), (9, 9, 'Complete'))
+        self.assertEqual((overview['target_met'], overview['target_assessed']), (2, 9))
+        self.assertEqual(overview['preserved_originals'], 1)
+        original = saved.detail(series + '/attempt-07-fixed-3-burst')
+        self.assertEqual(original['status'], 'Data failure')
+        self.assertTrue(original['name'].endswith('original'))
+        recovered = saved.detail(series + '/attempt-07-fixed-3-burst-recovered')
+        self.assertEqual(recovered['status'], 'Passed')
+        self.assertAlmostEqual(recovered['p95_ms'], 4001.2)
+
     def test_real_saved_main_run_and_plot(self):
         saved = Results(Path(__file__).resolve().parents[2] / 'results')
         data = saved.detail('main/series-2026-10-25-v1.1/attempt-06-autoscaling-burst')

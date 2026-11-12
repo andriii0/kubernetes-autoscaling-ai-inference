@@ -2,6 +2,10 @@
 
 ## Objective
 
+### Completion and saved plots
+
+I separate series completion from target attainment. The completed peak-12 series has nine accepted runs and two passing assessments; the preserved failed original remains visible. Completed main-series cards open results. I generate follow-up plots from the manifest's accepted runs with `bench/plot_peak12.py`, preserving all original assessments and the 5-second target. Individual charts use whole-run latency; the overview uses peak latency. Verification uses saved data and browser checks only.
+
 I maintain a local Windows browser UI for saved results and existing experiment commands. I keep English UI text, the existing evidence format and missing measurements. The active experiment procedure remains in `scaling-experiment.md`.
 
 ## Steps
@@ -29,6 +33,10 @@ I use Python's standard-library HTTP server on loopback and plain HTML/CSS/JavaS
 - Check the rendered page at desktop and narrower sizes, keyboard focus, loading/error/empty states, and save a screenshot. Live cluster execution is outside this UI verification.
 
 ## Progress
+
+### Evidence and navigation review
+
+I checked the ten saved notes against saved outcomes and recovery records. The third follow-up note was correct; the reader had ignored its separate comparison assessment. I now read that assessment through the manifest's exact run-to-analysis mapping and distinguish recovered evidence from its preserved original. I removed the completed series note's obsolete UI-status explanation. Series selection stays in the middle column; selecting a child run still opens its sibling list. The main v1.1 card opens results when no cells are pending, with an explicit peak-8 scope. All 25 reader/control tests and browser checks for navigation, notes, peak metrics and the completed-series button passed. No new load was launched.
 
 ### Result notes
 

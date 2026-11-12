@@ -120,7 +120,9 @@ async function select(id, enter=false) {
     const heading = `<div class="eyebrow">${icon(data.kind === 'series' ? 'folder' : 'file')}${escape(data.group)}<span>/</span>${data.kind === 'series' ? 'Series overview' : 'Run preview'}</div><div class="preview-title"><h3>${escape(data.name)}</h3>${badge(data)}</div><p class="preview-subtitle">${escape(mode(data.mode))} · ${date(data.date)}${data.profile ? ` · ${escape(data.profile)}` : ''}</p>`;
     const issues = [...(data.issues || []), ...(data.errors || [])].map(e => `<p class="issue">${escape(e)}</p>`).join('');
     if (data.kind === 'series') {
+      const targetSummary = data.target_assessed ? `<p class="saved-state">Target met: ${data.target_met} / ${data.target_assessed} assessed runs. Completion and target attainment are separate.</p>` : '';
       $('preview').innerHTML = heading + `<div class="series-summary"><strong>${data.completed} / ${data.total}</strong><span>runs completed</span></div>${data.saved_status === 'running' ? '<p class="saved-state">The manifest says “running”. Live activity is checked separately above.</p>' : ''}${issues}<div class="attempt-heading"><strong>Attempts</strong><span>${data.children.length} saved</span></div><div class="attempt-list">${data.children.map(child => `<button class="attempt" data-id="${escape(child.id)}">${icon('file')}<span class="attempt-name">${escape(child.name)}<small>${escape(mode(child.mode))} · ${escape(child.profile)}</small></span>${badge(child)}${icon('arrow')}</button>`).join('') || '<p class="saved-state">No attempt files yet.</p>'}</div>${data.plot ? `<br>${plot(data)}` : ''}${folderBar(data)}`;
+      $('preview').querySelector('.series-summary').insertAdjacentHTML('afterend', targetSummary);
     } else {
       const rate = data.rate == null ? '—' : data.profile === 'burst' ? `${data.low_rate ?? '—'} → ${data.rate} → ${data.low_rate ?? '—'}` : String(data.rate);
       const collection = data.collection_valid === true ? {tone:'good',status:'Valid collection'} : data.collection_valid === false ? {tone:'bad',status:'Invalid collection'} : {tone:'muted',status:'Collection not verified'};
@@ -180,7 +182,9 @@ function updateButtons() {
   $('pending').textContent = series ? `${Math.max(0,series.total-series.completed)} pending · ${series.completed}/${series.total} saved` : 'No existing series';
   const blocked = state.launching || state.status.job?.active || (!$('dry').checked && (state.status.external || state.status.scan_error));
   $('pilot').disabled = $('start-pilot').disabled = !!blocked || !state.token || !state.pilot;
-  $('series').disabled = !!blocked || !state.token || !$('series-path').value;
+  const complete = series && series.completed >= series.total;
+  $('series').disabled = !series || (!complete && (!!blocked || !state.token));
+  $('series').textContent = complete ? 'View results' : 'Resume main v1.1';
   $('pilot').title = $('series').title = blocked ? 'Wait for the active experiment, or use dry run.' : '';
   $('pilot-dry').checked = $('dry').checked;
   $('pilot-dry').disabled = $('dry').disabled;
@@ -264,7 +268,7 @@ $('groups').onclick = (event) => {
   if (first) select(first.id);
   else { state.selected = null; ++state.detailRequest; $('preview').innerHTML = '<div class="empty">No saved results in this group yet.</div>'; }
 };
-$('entries').onclick = (event) => { const button = event.target.closest('[data-id]'); if (button) select(button.dataset.id, true); };
+$('entries').onclick = (event) => { const button = event.target.closest('[data-id]'); if (button) select(button.dataset.id); };
 $('entries').onkeydown = (event) => {
   const buttons = [...$('entries').querySelectorAll('button')], index = buttons.indexOf(document.activeElement);
   if (event.key === 'ArrowDown' || event.key === 'ArrowUp') { event.preventDefault(); buttons[Math.max(0,Math.min(buttons.length-1,index+(event.key === 'ArrowDown' ? 1 : -1)))]?.focus(); }
@@ -283,7 +287,11 @@ $('close-pilot').onclick = $('cancel-pilot').onclick = () => $('pilot-dialog').c
 $('pilot-dry').onchange = () => { $('dry').checked = $('pilot-dry').checked; updateButtons(); };
 $('runs-tab').onclick = () => showPage('runs');
 $('results-tab').onclick = () => showPage('results');
-$('series').onclick = () => launch('series');
+$('series').onclick = () => {
+  const series = state.entries.find(e => e.id === $('series-path').value);
+  if (series && series.completed >= series.total) { showPage('results'); select(series.id); }
+  else launch('series');
+};
 window.onhashchange = () => {
   try {
     const id = decodeURIComponent(location.hash.slice(1));

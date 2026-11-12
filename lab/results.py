@@ -56,7 +56,7 @@ def group_for(relative):
 def short_name(name):
     match = re.match(r'attempt-(\d+)-', name)
     if match:
-        return f'Attempt {match[1]}'
+        return f'Attempt {match[1]}' + (' · recovered' if name.endswith('-recovered') else '')
     return name.replace('series-', '').replace('recalibration-', 'Pilot · ').replace('comparison-', 'Comparison · ')
 
 
@@ -95,7 +95,7 @@ class Results:
         issues = []
         metadata = read_json(folder / 'metadata.json', issues)
         check = read_json(folder / 'collection-check.json', issues)
-        assessment = read_json(folder / 'assessment.json', issues)
+        assessment = self.assessment(folder, issues)
         status, tone = outcome(metadata, check, assessment, issues)
         relative = folder.relative_to(self.root)
         return dict(id=relative.as_posix(), kind='run', group=group_for(relative), name=short_name(folder.name),
@@ -103,6 +103,22 @@ class Results:
                     date=metadata.get('started_at_utc') or metadata.get('load_started_at_utc'), status=status, tone=tone,
                     complete=bool(metadata.get('finished_at_utc') or metadata.get('load_finished_at_utc')) and metadata.get('exit_code', metadata.get('load_exit_code')) in (0, 99),
                     phase=metadata.get('phase'), profile=metadata.get('profile'), rate=number(metadata.get('rate')), issues=issues)
+
+    def assessment(self, folder, issues):
+        manifest = read_json(folder.parent / 'manifest.json', issues)
+        if manifest.get('protocol') == 'peak12-v1':
+            for row in manifest.get('completed_runs', []):
+                if row.get('run') == folder.name:
+                    analysis = row.get('analysis')
+                    if not isinstance(analysis, str) or Path(analysis).name != analysis:
+                        issues.append('Invalid comparison analysis path')
+                        return {}
+                    path = folder.parent / analysis / 'comparison-assessment.json'
+                    if not path.resolve().is_relative_to(self.root) or not path.is_file():
+                        issues.append('Comparison assessment is missing or outside results')
+                        return {}
+                    return read_json(path, issues)
+        return read_json(folder / 'assessment.json', issues)
 
     def catalog(self):
         runs = {}
@@ -122,18 +138,26 @@ class Results:
             issues = []
             manifest = read_json(parent / 'manifest.json', issues)
             review = read_json(parent / 'review.json', issues)
+            recovery = object_field(read_json(parent / 'log-recovery.json', issues), 'runs', issues)
+            accepted = {row.get('run') for row in list_field(manifest, 'completed_runs', issues) if isinstance(row, dict)} if manifest.get('protocol') == 'peak12-v1' else set()
+            preserved = []
+            by_name = {Path(r['id']).name: r for r in children}
+            for original, recovered in recovery.items():
+                source, replacement = by_name.get(original), by_name.get(recovered)
+                if source and replacement and recovered in accepted and replacement['complete'] and replacement['tone'] != 'bad':
+                    source['name'] += ' · original'
+                    preserved.append(source)
+            assessed = [r for r in children if r not in preserved]
             completed = sum(run['complete'] for run in children)
             relative = parent.relative_to(self.root)
             planned = len(manifest['cells']) if isinstance(manifest.get('cells'), list) else None
             if relative.parts[0] == 'main':
                 planned = 18
-            status, tone = ('Complete', 'good') if children and completed == len(children) else ('Incomplete', 'muted')
+            status, tone = ('Complete', 'good') if assessed and all(r['complete'] for r in assessed) else ('Incomplete', 'muted')
             if planned and completed < planned:
                 status, tone = 'Incomplete', 'muted'
-            if any(run['tone'] == 'bad' for run in children) or issues:
+            if any(run['tone'] == 'bad' for run in assessed) or issues:
                 status, tone = 'Needs review', 'bad'
-            elif any(run['tone'] == 'warn' for run in children) and status == 'Complete':
-                status, tone = 'Target missed', 'warn'
             if review.get('observed_status') == 'interrupted_process_missing':
                 status, tone = 'Interrupted', 'bad'
             dates = [run['date'] for run in children if run['date']]
@@ -148,7 +172,9 @@ class Results:
                                 date=manifest.get('started_at_utc') or (min(dates) if dates else None),
                                 status=status, tone=tone, completed=completed, total=planned or len(children),
                                 attempts=[run['id'] for run in sorted(children, key=lambda row: row['id'])],
-                                saved_status=manifest.get('status'), issues=issues))
+                                saved_status=manifest.get('status'), preserved_originals=len(preserved),
+                                target_met=sum(r['status'] == 'Passed' for r in assessed),
+                                target_assessed=sum(r['status'] in ('Passed', 'Target missed') for r in assessed), issues=issues))
             for run in children:
                 run['parent'] = relative.as_posix()
         return sorted(entries, key=lambda row: (row.get('date') or '', row['id']), reverse=True)
@@ -176,7 +202,7 @@ class Results:
         issues = entry['issues']
         metadata = read_json(folder / 'metadata.json', issues)
         check = read_json(folder / 'collection-check.json', issues)
-        assessment = read_json(folder / 'assessment.json', issues)
+        assessment = self.assessment(folder, issues)
         summary = read_json(folder / 'summary.json', issues)
         primary = object_field(assessment, 'primary', issues)
         metrics = object_field(summary, 'metrics', issues)
