@@ -36,9 +36,9 @@ Accepted provisionally for the pilot, which has now completed, based on the chec
 
 ## 8. Compare three capacity policies on the same host
 
-Selected: fixed one replica, fixed three replicas and CPU-based HPA bounded to 1-3, all on one physical computer. The [fixed-three check](../results/fixed-replicas/check-2026-10-20-series1/README.md) and [HPA mechanism check](../results/autoscaling/check-2026-10-20-series1/README.md) have saved preliminary evidence. The repeated main comparison is saved in the series analysis; it does not establish an HPA advantage for this workload.
+Selected: fixed one replica, fixed three replicas and CPU-based HPA bounded to 1-3, all on one physical computer. The main peak-8 series did not establish an HPA advantage because one fixed copy also met the targets. In the later [controlled peak-12 follow-up](../results/follow-up/comparison-20261110-205108-peak12/README.md), fixed one was overloaded, HPA reduced failures but missed the latency target in all three runs, and fixed three handled the burst best.
 
-Use [deploy/hpa.yaml](../deploy/hpa.yaml) for the policy retained in main protocol v1.1: CPU utilization target 60% of requests and a 300-second downscale stabilization window. Default scale-up behavior is retained. These are starting settings, not measured optima. The [scaling plan](plans/scaling-experiment.md#2-hpa-setup-and-checks) owns execution; detailed alternatives remain in [Notion section 5](https://app.notion.com/p/3fdc7c697bfd81baaaa7f197548b7c5a). The first run verifies reactions but does not establish an autoscaling advantage. The main protocol is implemented; [STATUS.md](STATUS.md) records current execution progress.
+Use [deploy/hpa.yaml](../deploy/hpa.yaml) for the policy retained in main protocol v1.1: CPU utilization target 60% of requests and a 300-second downscale stabilization window. Default scale-up behavior is retained. These are starting settings, not measured optima. The peak-12 result shows the tradeoff: HPA can improve completion while extra copies start, but its CPU reaction was too slow to keep this short burst within five seconds. This does not rank other HPA policies or scaling signals.
 
 ## 9. Keep one project documentation tree
 

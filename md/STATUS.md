@@ -1,10 +1,14 @@
 # Project status
 
-Updated: 2026-11-07. The 18-run main v1.1 series at peak 8 requests/10 s is complete, with all 5,189 requests successful. The later rate-selection pilots and fixed-three/HPA checks at peak 12 are separate evidence. I saved the [findings](https://app.notion.com/p/40fc7c697bfd81bbb00fcf67a8c3d00c) for step 23 and the [experiment log](https://app.notion.com/p/40fc7c697bfd812c86b9fb9cad9ee986) as linked Notion pages. I updated Research v0.8 with the measured answer to SQ4 and aligned the PDP and README with its practical scope. The [step 24 reproduction check](../results/reproduction/check-2026-11-06/README.md) passed in a fresh setup on the same Windows host.
+Updated: 2026-11-11. The 18-run main v1.1 series at peak 8 requests/10 s and the separate nine-run controlled peak-12 follow-up are complete. The main series has 5,189 successful requests and shows that one fixed copy was enough at peak 8. The follow-up shows that fixed three handled the overload best; HPA reduced failures compared with fixed one but missed the five-second p95 target in all three repetitions. I updated the findings, experiment log, pilot results and Research v0.9 with this result. The [step 24 reproduction check](../results/reproduction/check-2026-11-06/README.md) passed in a fresh setup on the same Windows host.
 
-## Active controlled peak-12 comparison
+## Completed controlled peak-12 comparison
 
-I completed all nine cells of `comparison-20261110-205108-peak12`; the manifest records completion on 11 November 2026. The [combined analysis](../results/follow-up/comparison-20261110-205108-peak12/combined-analysis/README.md) contains all nine runs. Attempt 07 initially failed because an end-only log snapshot missed rotated records. I recovered those records into a separate derived attempt, preserving the failed original. The [recovery report](../results/follow-up/comparison-20261110-205108-peak12/LOG_RECOVERY.md) records validation and the explicit collector source-version boundary. Comparative interpretation remains to be written; the [continuation plan](plans/peak12-resume.md) records the procedure.
+I completed all nine cells of `comparison-20261110-205108-peak12`. The [series report](../results/follow-up/comparison-20261110-205108-peak12/README.md) and combined analysis contain all nine accepted runs. Fixed one passed 0/3 peak assessments and had 698 failures among 1,080 peak requests. HPA passed 0/3, reduced peak failures to 89 and completed all peak requests in its third repetition. Fixed three passed 2/3, missed once at 5.116 seconds and completed all 1,080 peak requests without an error.
+
+All HPA runs grew from one to three copies and later reduced capacity. The first extra running copy appeared 50-111 seconds into the peak, while three running copies appeared 171-231 seconds into the peak. HPA therefore improved completion but reacted too slowly to meet the five-second target for this burst.
+
+Attempt 07 initially failed because an end-only log snapshot missed rotated records. I recovered the exact 25 missing records into a separate derived attempt and kept the failed original. The [recovery report](../results/follow-up/comparison-20261110-205108-peak12/LOG_RECOVERY.md) records validation and the collector source-version boundary. No more load is planned for this comparison.
 
 My [first peak-12 comparison](../results/follow-up/comparison-20261110-192050-peak12/manifest.json) stopped after two valid target misses. Attempt 03 warmed three copies, but the CPU quiet check timed out before load. Older CPU readings from the same containers kept resetting the check. I kept the first attempt and all saved measurements.
 
@@ -13,6 +17,10 @@ I started the [full retry](../results/follow-up/comparison-20261110-205108-peak1
 I fixed the [comparison driver](../bench/run_peak12_comparison.py) and reviewed the initial three runs from saved data. The first two assessments matched their saved outputs. The [third assessment](../results/follow-up/comparison-20261110-205108-peak12/attempt-03-analysis/README.md) was a valid target miss. Each continuation archives its previous manifest in a `resume-*` folder. See the [plan](plans/scaling-experiment.md#controlled-peak-12-burst-comparison) for the original verification.
 
 ## Inference Lab local UI
+
+I separated completed-series status from target attainment and added saved-data plots for the completed peak-12 comparison. The Runs card opens results when the selected main series is complete. The original 5-second target remains unchanged; raising it to 10 seconds would not make any of the three saved peak-12 HPA p95 results pass.
+
+I reviewed the saved run notes and corrected the follow-up reader to use the manifest's exact comparison-assessment mapping. Attempt 03 now shows its peak target miss, and the recovered seventh run is distinct from its preserved failed original. The completed comparison reports completion and target attainment separately rather than an unresolved collection failure. All 25 UI tests passed; browser checks passed for series selection without middle-column drilldown, run/back navigation, saved notes and the completed-series View results action.
 
 I added editable Notes for saved runs and series, stored in their own `notes.md`. All 24 UI tests passed. Browser checks with temporary results verified save/reload, Unicode, literal HTML text and draft preservation across tabs and refresh. Existing experiment evidence was not edited for this check.
 
@@ -162,13 +170,13 @@ Documentation review (2026-10-27): current Markdown and the four related Notion 
 - Step 18 is complete as a preliminary three-copy check. Step 20 supplies locally verified code and instructions. Steps 21 and 22 are complete with reviewed records and reproducible tables and plots. Step 23 has a separate findings page. All six main HPA runs meet the agreed latency and error targets. An HPA advantage remains unestablished. Step 24 passed with a fresh setup on the same host.
 - Main mode separates fixed-three traffic evidence from client outcomes after timeouts. An idle pod leaves the demonstrated three-copy comparison not_assessable; its observations remain saved. Workload OOM/restarts remain system outcomes even when collection stops. Missing state/log evidence and resource gaps are reported separately.
 - CPU totals remain unavailable without full coverage of every expected instance; newly created/deleted instances may have unknown boundaries. Native logs cannot establish per-pod semantic success or normal server drain. All replicas share one computer; measurements do not establish Windows-wide energy or cost savings.
-- Research v0.8 and its PDF include the measured answer to SQ4. The historical C4 and course exports predate protocol v1.1. See [docs/README.md](../docs/README.md) for the current sources and exports. Portflow submission still needs confirmation.
+- Research v0.9 and its PDF include the measured answer to SQ4 and the controlled peak-12 comparison. The historical C4 and course exports predate protocol v1.1. See [docs/README.md](../docs/README.md) for the current sources and exports. Portflow submission still needs confirmation.
 
 ## Next action
 
 All 24 roadmap steps are complete. The evidence is ready for handover and portfolio review. Portflow submission is tracked separately.
 
-The findings distinguish the 18 main v1.1 runs from the later peak-12 checks. A separate overload comparison is optional. Its proposed scope is one common 2 -> 12 -> 2 burst, with fixed one, fixed three and HPA repeated three times each. That study would require its own agreed settings, order and stop rules before load.
+The findings distinguish the 18 main v1.1 runs from the separate nine-run peak-12 comparison. The controlled overload comparison is complete, and no additional load is currently needed.
 
 Main execution started on 2026-10-25. Runtime state must be rechecked after any interruption; the existing launcher handles recovery and mode preparation before each attempt. Preserve historical reports, inputs and verdicts.
 

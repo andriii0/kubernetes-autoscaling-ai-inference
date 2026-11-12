@@ -4,7 +4,7 @@ This guide explains how to prepare and use the local CPU prototype on Windows. C
 
 The section numbers group topics. They are not the project schedule. Check [STATUS.md](STATUS.md) for the current state and active plan, and [ROADMAP.md](ROADMAP.md) for the order of work. Set up observation before collecting pilot results, even though its reference section appears later in this guide.
 
-Saved checks do not prove that Docker or the cluster is running today. The preliminary HPA check, 18-run main comparison and comparative analysis have saved evidence. The findings are complete. The [step 24 reproduction check](../results/reproduction/check-2026-11-06/README.md) records the tested versions and the fresh Windows setup. See [STATUS.md](STATUS.md).
+Saved checks do not prove that Docker or the cluster is running today. The 18-run main comparison, nine-run controlled peak-12 follow-up and their analyses have saved evidence. The findings use both comparisons. The [step 24 reproduction check](../results/reproduction/check-2026-11-06/README.md) records the tested versions and the fresh Windows setup. See [STATUS.md](STATUS.md).
 
 ## What the project will do
 
@@ -13,6 +13,8 @@ The experiment will compare fixed capacity with automatic scaling for a small te
 See [ARCHITECTURE.md](ARCHITECTURE.md) for the system flow and [DECISIONS.md](DECISIONS.md) for accepted choices. Detailed technology research is maintained in [Notion](https://app.notion.com/p/3fdc7c697bfd81baaaa7f197548b7c5a).
 
 ## Inference Lab
+
+Selecting a series shows its overview on the right without replacing the middle list. Selecting a run from that overview opens its sibling runs. The main-series card resumes only pending peak-8 v1.1 cells; it offers **View results** when none remain. It does not resume the separate peak-12 follow-up. Follow-up verdicts and peak p95 come from the manifest-linked comparison assessments; preserved original and recovered attempts remain separately visible.
 
 In Results, I can expand **Notes** below a run or series preview, describe problems or observations, and click **Save notes**. The text is stored in that result's `notes.md`, separately from measurements. Drafts survive navigation and refresh inside the page; I save before closing the browser. If another editor changes the file, saving reports a conflict instead of replacing it.
 
@@ -293,7 +295,7 @@ The [pilot plan](plans/measurements-and-pilot.md#1-measurement-design) defines h
 
 ## 12. Run the same tests in each mode
 
-The 18-run main matrix is complete; see [STATUS.md](STATUS.md) for verified results and remaining work. No additional load is currently needed. [Main run procedure](plans/scaling-experiment.md#3-main-run-procedure) owns the manual 18-row checklist and the single-run command. Step-20 preparation has local verification for all six mode/profile combinations, preparation gates, phase assessment and resource calculations. Main mode requires --protocol-version 1.1 and explicit repetition/order fields. It handles recovery before selecting the initial count, separate warmup/settling and HPA application. Recheck actual runtime state before approved load. Both autoscaling profiles include the initial reaction from one copy; no initial segment is removed.
+The 18-run main matrix and the separate nine-run peak-12 follow-up are complete. No additional load is currently needed. [Main run procedure](plans/scaling-experiment.md#3-main-run-procedure) owns the original v1.1 matrix, while the [controlled follow-up procedure](plans/scaling-experiment.md#controlled-peak-12-burst-comparison) records the overload comparison. Main mode requires --protocol-version 1.1 and explicit repetition/order fields. It handles recovery before selecting the initial count, separate warmup/settling and HPA application. Both autoscaling profiles include the initial reaction from one copy; no initial segment is removed.
 
 For an unfinished existing series, [the one-command continuation](plans/scaling-experiment.md#one-command-continuation) uses bench/run_series.py to skip completed attempts, manage the Service tunnel, and run the remaining cells with CSV/JSON analysis. Open Docker Desktop and close other load generators first. The command prompts for background activity and stops for a data/preparation problem; it does not automatically replace attempts. --dry-run only checks saved data and lists remaining cells.
 
@@ -325,6 +327,8 @@ Run `python -m unittest discover -s tests -t .` from the project root. Numeric a
 Outside main mode, optional `--slo-ms VALUE` checks whole-run successful p95 and is saved as slo_ms; omission leaves this optional latency threshold unset. The launcher removes ambient SLO_MS, MAIN_PROTOCOL and K6_* overrides. Shared bench/workload.json owns error/drop thresholds and main targets. Main mode applies the agreed p95 and error targets to steady or the burst peak, plus the whole-run error target. Zero drops is a complete offered-load condition. assessment.json records the combined result independently of collection validity; a service-target failure remains usable evidence. Do not use a preliminary command or whole-run --slo-ms alone to certify the main burst peak.
 
 The completed main matrix can be reproduced offline with bench/summarize_main.py. See [the combined analysis](../results/main/series-2026-10-25-v1.1/analysis-main-2026-10-26/README.md) for a command that uses a new output directory. It replays all runs, checks input/model identities and exports primary-window comparisons without generating load. --no-plots requires only the Python standard library; plotting uses the existing optional analysis dependency.
+
+The [controlled peak-12 report](../results/follow-up/comparison-20261110-205108-peak12/README.md) summarizes the nine follow-up runs. Its `combined-analysis/` directory contains the accepted run summaries and HPA timelines. Attempt 07 uses a recovered copy of a rotated node log; the report links the recovery record and keeps the original failed attempt.
 
 ## Troubleshooting
 

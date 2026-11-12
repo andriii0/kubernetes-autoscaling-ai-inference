@@ -1,6 +1,6 @@
 # Project Roadmap
 
-Updated: 2026-11-07. Step 24 passed in a fresh setup on the same Windows host. The latest preliminary HPA check was recorded on 2026-10-28 UTC at peak 12.
+Updated: 2026-11-11. Steps 1-24 are complete. A separate controlled peak-12 follow-up now compares fixed one, fixed three and HPA under the same burst, with three repetitions per mode.
 
 ## Goal and current position
 
@@ -10,7 +10,7 @@ The local prototype, short load check, and continuous cluster/resource observer 
 
 Completed steps refer to saved evidence, not a claim that the cluster is running today. All replicas use the CPU of one physical computer. Setup commands are in [GETTING_STARTED.md](GETTING_STARTED.md). Detailed pilot and scaling procedures live in the linked task plans; guide section numbers are topic references, not the order of project work.
 
-The [later preliminary HPA burst](../results/autoscaling/check-20261028-181713-peak12/README.md) shows 1 -> 2 -> 3 -> 1 scaling at 2 -> 12 -> 2 requests/10 s, with valid collection and a latency target miss. The findings report it separately from the completed main matrix.
+The [controlled peak-12 follow-up](../results/follow-up/comparison-20261110-205108-peak12/README.md) keeps the main v1.1 baseline unchanged and closes the later overload-comparison gap. Fixed three handled the burst best. HPA reduced failures compared with fixed one but missed the five-second p95 target in every repetition.
 
 ## All steps
 
@@ -245,7 +245,7 @@ Write a separate findings document in Notion and link to the supporting runs. Co
 
 **Done when:** conclusions link to the supporting runs and state when autoscaling helps, does not help, or cannot be judged from the evidence. The project does not require a positive result for autoscaling.
 
-**Completion evidence (2026-11-06):** the [findings in Notion](https://app.notion.com/p/40fc7c697bfd81bbb00fcf67a8c3d00c) answer the research question and subquestions, compare the three modes and explain the resource and workload limits. The separate [experiment log](https://app.notion.com/p/40fc7c697bfd812c86b9fb9cad9ee986) records the workflow, follow-up checks and fixes.
+**Completion evidence (updated 2026-11-11):** the [findings in Notion](https://app.notion.com/p/40fc7c697bfd81bbb00fcf67a8c3d00c) answer the research question and subquestions using the main series and controlled overload follow-up. The separate [experiment log](https://app.notion.com/p/40fc7c697bfd812c86b9fb9cad9ee986) records the workflow and recovery work. The [peak-12 report](../results/follow-up/comparison-20261110-205108-peak12/README.md) links the nine accepted runs and their limits.
 
 ### 24. Check that another person can repeat the experiment
 
