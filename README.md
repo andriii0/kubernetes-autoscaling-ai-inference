@@ -42,9 +42,9 @@ Start with [current status](md/STATUS.md) for progress, the [setup guide](md/GET
 
 The [Findings](https://app.notion.com/p/40fc7c697bfd81bbb00fcf67a8c3d00c) answer SQ4 using the saved main series and the controlled peak-12 follow-up.
 
-## Planned workflow
+## Research workflow
 
-Define one inference workload and two load profiles. Compare suitable orchestration platforms against the stated criteria and document the choice. Build the local environment, run a pilot, and lock the model, request format, resource limits, and latency target. Repeat the fixed-capacity and autoscaling scenarios with the same settings. Keep raw data and configuration for each run so the findings can be checked and reproduced.
+I defined one inference workload and two load profiles, compared suitable orchestration platforms and documented the choice. I then built the local environment, ran a pilot and fixed the model, request format, resource limits and latency target before the main series. The saved raw data and configuration let me replay the analysis and check the findings.
 
 ## Current state
 

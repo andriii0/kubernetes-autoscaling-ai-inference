@@ -1,0 +1,1 @@
+I started a fresh six-run CPU/request HPA comparison after fixing the clock check. The collector now allows a clock difference of up to one second while still rejecting old or missing measurements. I kept the earlier stopped attempt separately. The request target remains one active request per replica, and both policies use the same workload and gateway.

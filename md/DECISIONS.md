@@ -1,6 +1,6 @@
 # Decisions
 
-Updated: 2026-10-29. Local implementation summary for contributors and agents. [Technology Decisions in Notion](https://app.notion.com/p/3fdc7c697bfd81baaaa7f197548b7c5a) owns the detailed technology research; the Word research and its PDF own the orchestration-platform comparison. Accepted choices do not imply measured superiority. Numeric main settings are agreed in [main experiment protocol v1.1](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd); implementation preparation has local verification; the main matrix and its comparative analysis are complete; [STATUS.md](STATUS.md) owns current progress.
+Updated: 2026-11-12. Local implementation summary for contributors and agents. [Technology Decisions in Notion](https://app.notion.com/p/3fdc7c697bfd81baaaa7f197548b7c5a) owns the detailed technology research; the Word research and its PDF own the orchestration-platform comparison. Accepted choices do not imply measured superiority. Numeric main settings are agreed in [main experiment methodology v1.1](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd); the main matrix and controlled peak-12 follow-up are complete; [STATUS.md](STATUS.md) owns current progress.
 
 ## 1. Use one Kubernetes prototype after comparing alternatives
 
@@ -36,7 +36,7 @@ Accepted provisionally for the pilot, which has now completed, based on the chec
 
 ## 8. Compare three capacity policies on the same host
 
-Selected: fixed one replica, fixed three replicas and CPU-based HPA bounded to 1-3, all on one physical computer. The main peak-8 series did not establish an HPA advantage because one fixed copy also met the targets. In the later [controlled peak-12 follow-up](../results/follow-up/comparison-20261110-205108-peak12/README.md), fixed one was overloaded, HPA reduced failures but missed the latency target in all three runs, and fixed three handled the burst best.
+Selected: fixed one replica, fixed three replicas and CPU-based HPA bounded to 1-3, all on one physical computer. Each copy has a 2-CPU limit, so fixed one can use up to 2 CPU while fixed three can use up to 6 CPU on the same node. This compares capacity policies, not equal total CPU budgets. The main peak-8 series did not establish an HPA advantage because one fixed copy also met the targets. In the later [controlled peak-12 follow-up](../results/follow-up/comparison-20261110-205108-peak12/README.md), fixed one was overloaded, HPA reduced failures but missed the latency target in all three runs, and fixed three handled the burst best.
 
 Use [deploy/hpa.yaml](../deploy/hpa.yaml) for the policy retained in main protocol v1.1: CPU utilization target 60% of requests and a 300-second downscale stabilization window. Default scale-up behavior is retained. These are starting settings, not measured optima. The peak-12 result shows the tradeoff: HPA can improve completion while extra copies start, but its CPU reaction was too slow to keep this short burst within five seconds. This does not rank other HPA policies or scaling signals.
 
@@ -63,3 +63,9 @@ Version 1.1 clarifies the 1.0 agreement before any main run (affected main runs:
 I chose Python's standard-library loopback server and plain HTML/CSS/JavaScript for Inference Lab on 2026-11-10. This reuses the existing Python environment and browser. A packaged desktop framework would add installation and runtime dependencies for this single-screen utility. The UI reads the existing evidence format and calls the existing launchers; it does not introduce another measurement format or assessment algorithm.
 
 I expose Run series as v1.1 continuation. The existing driver cannot initialize a new series, and its executable-hash checks remain authoritative. A future explicit `--new-series` option could exclusively create a directory and reuse the existing matrix/execution rules. That extension is proposed, not implemented. The [UI plan](plans/inference-lab.md) owns the preset, verification and remaining limits.
+
+## 13. Keep the request-metric extension on native HPA
+
+I chose an Envoy active-request gauge, Prometheus and Prometheus Adapter for the optional extension. Both policy arms will use the same gateway and metrics infrastructure. This retains the existing HPA controller and model server while changing the scaling signal. KEDA or Knative would add another controller or serving lifecycle to this comparison. I do not use p95 or TTFT as its control signal; the gateway measures active client-facing requests, not Ollama's internal queue or compute left after a disconnect.
+
+The [extension plan](plans/custom-metric-hpa.md) owns the research, candidate versions, freshness rules, preparation and acceptance criteria. The current code renders configuration and checks signals locally; it does not yet run the extension. Historical policies and evidence retain their original meaning.

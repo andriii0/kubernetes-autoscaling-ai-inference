@@ -28,6 +28,7 @@ I switched later fixed-mode runs to continuous log collection. The collector sou
 
 - [Manifest and per-run verdicts](manifest.json)
 - [Combined CSV and JSON analysis](combined-analysis/README.md)
+- [Saved-data plots](plots/README.md)
 - [Log recovery report](LOG_RECOVERY.md)
 - [Comparison procedure](../../../md/plans/scaling-experiment.md#controlled-peak-12-burst-comparison)
 

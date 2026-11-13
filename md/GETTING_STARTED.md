@@ -2,13 +2,13 @@
 
 This guide explains how to prepare and use the local CPU prototype on Windows. Clone the project and run the commands in PowerShell from the root of your checkout. Code and configuration files already exist in this project; open them through the links below.
 
-The section numbers group topics. They are not the project schedule. Check [STATUS.md](STATUS.md) for the current state and active plan, and [ROADMAP.md](ROADMAP.md) for the order of work. Set up observation before collecting pilot results, even though its reference section appears later in this guide.
+The section numbers group topics. They are not the project schedule. Check [STATUS.md](STATUS.md) for the current state and [ROADMAP.md](ROADMAP.md) for completed milestones and remaining delivery work. Set up observation before collecting a new pilot, even though its reference section appears later in this guide.
 
 Saved checks do not prove that Docker or the cluster is running today. The 18-run main comparison, nine-run controlled peak-12 follow-up and their analyses have saved evidence. The findings use both comparisons. The [step 24 reproduction check](../results/reproduction/check-2026-11-06/README.md) records the tested versions and the fresh Windows setup. See [STATUS.md](STATUS.md).
 
-## What the project will do
+## What the project does
 
-The experiment will compare fixed capacity with automatic scaling for a small text-generation service. Docker Desktop runs containers, Minikube runs the local Kubernetes cluster, Ollama runs the model, and k6 sends test requests. The first experiment uses CPU execution.
+The experiment compares fixed capacity with automatic scaling for a small text-generation service. Docker Desktop runs containers, Minikube runs the local Kubernetes cluster, Ollama runs the model, and k6 sends test requests. The measured prototype uses CPU execution.
 
 See [ARCHITECTURE.md](ARCHITECTURE.md) for the system flow and [DECISIONS.md](DECISIONS.md) for accepted choices. Detailed technology research is maintained in [Notion](https://app.notion.com/p/3fdc7c697bfd81baaaa7f197548b7c5a).
 
@@ -285,7 +285,7 @@ python .\bench\run_pilot.py --base-url "$env:BASE_URL" --mode autoscaling --prof
 
 The launcher resets to one copy, observes idle for 60 seconds, warms that initial model, applies HPA and waits for two numeric CPU/ScalingActive samples at one ready copy. It then runs the shared 782-second burst and records another 300 seconds without new requests. New copies are not separately warmed. Per-pod logs stream to disk before a pod can disappear. At completion or failure, it stops collection, removes this HPA and restores one copy; `recovery.json` records that restoration separately.
 
-Omit `--duration` and `--replicas` in this mode. A failed response threshold can still have valid measurements. Missing log coverage, an API failure, a restart or changed configuration stops the run and retains partial data. Follow the [active plan](plans/scaling-experiment.md#2-preliminary-hpa-implementation-and-check) for acceptance criteria. The [saved preliminary check](../results/autoscaling/check-2026-10-20-series1/README.md) verifies growth and reduction; the repeated main comparison remains separate.
+Omit `--duration` and `--replicas` in this mode. A failed response threshold can still have valid measurements. Missing log coverage, an API failure, a restart or changed configuration stops the run and retains partial data. The [historical HPA procedure](plans/scaling-experiment.md#2-preliminary-hpa-implementation-and-check) records its acceptance criteria. The [saved preliminary check](../results/autoscaling/check-2026-10-20-series1/README.md) verifies growth and reduction; the repeated main comparison and controlled overload follow-up are complete.
 
 ## 11. Save cluster observations
 
@@ -322,7 +322,9 @@ python .\bench\analyze.py "$runDir" --output-dir "$analysisDir"
 
 Add `--no-plots` when only CSV/JSON is required. The analysis commands read saved data; they do not generate a new load test.
 
-Run `python -m unittest discover -s tests -t .` from the project root. Numeric and lifecycle analysis tests do not require Matplotlib. Dedicated plot tests report a skip when this optional dependency is absent; install the version above to include it. Tests that execute real k6 report a skip when k6 is missing from PATH; collection and error-handling unit tests still run. The verified project-environment command is `.\.venv\Scripts\python.exe -m unittest discover -s tests -t .`. If that environment has no pip, install the plot dependency from a Python with pip using `python -m pip --python .venv install "matplotlib>=3.10,<4"`. These tests use temporary files and local HTTP fixtures, not the live cluster.
+Run `python -m unittest discover -s tests -t .` from the project root. This includes the benchmark tests and the local UI backend tests in `tests/lab`; it does not launch a browser. Numeric and lifecycle analysis tests do not require Matplotlib. Dedicated plot tests report a skip when this optional dependency is absent; install the version above to include it. Tests that execute real k6 report a skip when k6 is missing from PATH; collection and error-handling unit tests still run. The verified project-environment command is `.\.venv\Scripts\python.exe -B -m unittest discover -s tests -t .`. If that environment has no pip, install the plot dependency from a Python with pip using `python -m pip --python .venv install "matplotlib>=3.10,<4"`. These tests use temporary files and local HTTP fixtures, not the live cluster.
+
+The optional [browser checks](../tests/ui/README.md) cover the actual page, note editing, navigation and launch errors. They use one browser without a visible window, temporary results and simulated jobs. Run them separately when changing the UI; no model or cluster is needed. The [coverage review](plans/test-coverage.md) records the checked scenarios and limits.
 
 Outside main mode, optional `--slo-ms VALUE` checks whole-run successful p95 and is saved as slo_ms; omission leaves this optional latency threshold unset. The launcher removes ambient SLO_MS, MAIN_PROTOCOL and K6_* overrides. Shared bench/workload.json owns error/drop thresholds and main targets. Main mode applies the agreed p95 and error targets to steady or the burst peak, plus the whole-run error target. Zero drops is a complete offered-load condition. assessment.json records the combined result independently of collection validity; a service-target failure remains usable evidence. Do not use a preliminary command or whole-run --slo-ms alone to certify the main burst peak.
 

@@ -6,7 +6,7 @@
 
 I separate series completion from target attainment. The completed peak-12 series has nine accepted runs and two passing assessments; the preserved failed original remains visible. Completed main-series cards open results. I generate follow-up plots from the manifest's accepted runs with `bench/plot_peak12.py`, preserving all original assessments and the 5-second target. Individual charts use whole-run latency; the overview uses peak latency. Verification uses saved data and browser checks only.
 
-I maintain a local Windows browser UI for saved results and existing experiment commands. I keep English UI text, the existing evidence format and missing measurements. The active experiment procedure remains in `scaling-experiment.md`.
+I maintain a local Windows browser UI for saved results and existing experiment commands. I keep English UI text, the existing evidence format and missing measurements. Completed experiment procedures remain in `scaling-experiment.md` for reproduction.
 
 ## Steps
 

@@ -1,6 +1,6 @@
 # Architecture
 
-Updated: 2026-10-29. This describes the implemented local prototype. Preliminary checks, the 18-run main matrix and comparative analysis have saved evidence; this is not a check of current runtime availability.
+Updated: 2026-11-12. This describes the implemented local prototype. Preliminary checks, the 18-run main matrix and controlled peak-12 comparison have saved evidence; this is not a check of current runtime availability.
 
 ## Runtime flow
 
@@ -22,12 +22,14 @@ The cluster is the existing Docker-backed Minikube profile `ai-lab`, configured 
 | Workload settings | `bench/workload.json` | Share the exact request payload and k6 execution settings between warmup and measured load |
 | Pilot launcher | `bench/run_pilot.py` | Exclusively create a run folder; validate fixed one/three-copy state or use the autoscaling lifecycle; orchestrate idle observation, warmup, k6, post-load observation and reconciliation; retain partial failures |
 | Main-series continuation | `bench/run_series.py` | Replay and skip completed attempts; manage a Service tunnel and call the existing launcher/analyzer sequentially; stop for incomplete data without automatic replacements |
+| Peak-12 comparison | `bench/run_peak12_comparison.py` and `bench/resume_peak12.py` | Run the fixed comparison order, assess saved cells, retain failed attempts and continue only an accepted consecutive prefix |
+| Peak-12 plots | `bench/plot_peak12.py` | Build saved-data plots from the accepted manifest entries without rerunning load or changing assessments |
 | Local experiment UI | `lab/server.py`, `lab/results.py`, `lab/jobs.py`, `lab/launch.py`, `lab/static/` | Browse saved results, show scoped metrics and plots, serialize UI jobs and adapt existing pilot/continuation commands |
 | Warmup-wait diagnostic | `bench/run_wait_pair.py` | Run the separately authorized two-run preparation check through the existing launcher; archive order/settings and host snapshots; keep diagnostic evidence outside the main matrix |
 | Shared runtime | `bench/runtime.py` | Run child processes, own the Service tunnel and record pre-launch host state for the scenario drivers |
 | Protocol preparation | `bench/main_protocol.py` | Define the matrix and frozen argument checks; prepare replicas, check runtime configuration and wait for quiet state |
 | Autoscaling lifecycle | `bench/autoscaling.py` and `deploy/hpa.yaml` | Reset/warm the initial copy, attach HPA, validate dynamic state, stream logs by UID, and restore one copy |
-| Fixed replica preparation | `bench/fixed_replicas.py` | Warm each selected pod through the API proxy; verify Service endpoints and aggregate per-pod access-log counts |
+| Fixed replica preparation | `bench/fixed_replicas.py` | Warm each selected pod through the API proxy; verify Service endpoints, stream prepared-run logs and aggregate per-pod completion counts |
 | Collection validator | `bench/pilot_records.py` | Check request counters and observation coverage/stability; report archive issues as warnings without modifying raw evidence |
 | Shared records | `bench/records.py` | Read JSONL, interpret timestamps and percentiles, and validate fixed replica identities without importing lifecycle modules |
 | Observer | `bench/observe.py` | Read Kubernetes and kubelet through `kubectl`; save raw state, source timings, CPU/memory and errors as JSONL |
@@ -72,3 +74,9 @@ Server/API readiness and model warmup are separate states. Initial replicas must
 I updated the [C1 and C2 FigJam views](https://www.figma.com/board/KaoXEMPbKjCy1gOwdFdrUE/Kubernetes-PE) on 2026-10-28 to describe the implemented local prototype. C2 shows the experiment runner, k6, Service, Ollama, observer, local results and analysis, with Kubernetes as the supporting platform. The Service is a Kubernetes network object, not a separate application process. HPA and analysis are implemented; the diagram does not certify current runtime availability or an HPA performance benefit. This file owns the implementation detail and STATUS.md owns verified progress.
 
 The [C3 view](https://www.figma.com/board/KaoXEMPbKjCy1gOwdFdrUE/Kubernetes-PE?node-id=30-56) expands the C2 experiment runner. It groups the existing functions and helpers into run control, settings/archive, preparation, observation, load control and final checks/cleanup. These components run within the Python launcher; k6 is a child process, and Kubernetes and run files are external dependencies. Mode preparation uses `main_protocol.py`, `fixed_replicas.py` and `autoscaling.py`; main-run assessment uses `analyze.py`. Arrows show responsibilities and calls, not execution order or a new code structure.
+
+## Optional request-metric extension
+
+`bench/custom_metric_stack.py` renders isolated Envoy/Prometheus/Adapter resources and separate CPU/Object HPA manifests into a new directory. `bench/custom_metrics.py` checks source freshness, identity, gateway request IDs and Object-metric readiness. `bench/check_custom_metric.py` performs one read-only check of the installed signal path and saves failure evidence. These three tools do not apply resources or launch measurements.
+
+The installed chain exposes active client requests at Envoy through Kubernetes Custom Metrics API. The opt-in `bench/custom_metric_run.py` integration routes both policies through the same gateway, continuously collects the signal and gateway logs, and restores one copy after each run. `bench/prepare_custom_metric.py` owns threshold preparation; `bench/run_custom_comparison.py` runs the separate six-cell CPU/request comparison, and `bench/analyze_custom_comparison.py` assesses saved outcomes. The original CPU experiment remains available without the extension options. The [active plan](plans/custom-metric-hpa.md) records verification and remaining work.
