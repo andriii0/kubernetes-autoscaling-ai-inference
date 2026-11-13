@@ -70,6 +70,48 @@ class JobTests(unittest.TestCase):
         self.assertTrue(Path(launched['log']).is_file())
         self.assertEqual(list(self.results.root.iterdir()), [])
 
+    def test_launch_failure_releases_slot_for_retry(self):
+        jobs = Jobs(self.results)
+        with patch('lab.jobs.ROOT', Path(self.temp.name)), \
+                patch('lab.jobs.subprocess.Popen', side_effect=OSError('cannot start')) as popen:
+            with self.assertRaisesRegex(OSError, 'cannot start'):
+                jobs.start('pilot', True, '', 'test')
+            self.assertIsNone(jobs.current)
+            self.assertIsNone(jobs.process)
+            popen.side_effect = None
+            popen.return_value.stdout = io.StringIO('ok\n')
+            popen.return_value.wait.return_value = 0
+            with patch('lab.jobs.threading.Thread') as thread:
+                jobs.start('pilot', True, '', 'test')
+                args = thread.call_args.kwargs['args']
+            jobs._watch(*args)
+        self.assertEqual(jobs.current['exit_code'], 0)
+        self.assertEqual(list(self.results.root.iterdir()), [])
+
+    def test_watcher_keeps_full_log_bounded_tail_and_distinct_exit_outcomes(self):
+        for code, phase in ((0, 'Finished'), (99, 'Target missed'), (1, 'Launch stopped')):
+            with self.subTest(code=code), patch('lab.jobs.ROOT', Path(self.temp.name)), \
+                    patch('lab.jobs.external_runs', return_value=[]), \
+                    patch('lab.jobs.subprocess.Popen') as popen:
+                jobs = Jobs(self.results)
+                lines = [f'line {i}\n' for i in range(80)]
+                lines += ['Result: results/pilot/example\n', 'Run 1/1: measured_load\n']
+                popen.return_value.stdout = io.StringIO(''.join(lines))
+                popen.return_value.wait.return_value = code
+                with patch('lab.jobs.threading.Thread') as thread:
+                    launched = jobs.start('pilot', False, '', 'local test')
+                    args = thread.call_args.kwargs['args']
+                jobs._watch(*args)
+                self.assertEqual(jobs.current['phase'], phase)
+                self.assertFalse(jobs.current['active'])
+                self.assertEqual(jobs.current['result'], 'pilot/example')
+                self.assertEqual(jobs.current['lines'], [line.strip() for line in lines[-50:]])
+                self.assertEqual(Path(launched['log']).read_text(), ''.join(lines))
+                saved = json.loads(args[2].read_text())
+                self.assertEqual(saved['exit_code'], code)
+                self.assertFalse(saved['active'])
+                self.assertTrue(popen.return_value.stdout.closed)
+
 
 class ServerTests(unittest.TestCase):
     def setUp(self):
@@ -138,6 +180,38 @@ class ServerTests(unittest.TestCase):
         process.assert_not_called()
         self.assertIsNone(self.server.jobs.current)
         self.assertEqual(list(Path(self.temp.name).iterdir()), [])
+
+    def test_notes_http_roundtrip_conflict_and_invalid_payload(self):
+        folder = Path(self.temp.name) / 'pilot/example'
+        folder.mkdir(parents=True)
+        (folder / 'metadata.json').write_text('{}')
+        with urlopen(self.url + '/api/notes?id=pilot/example') as response:
+            original = json.load(response)
+
+        def save(body):
+            return urlopen(Request(self.url + '/api/notes', data=json.dumps(body).encode(),
+                                   headers={'X-Lab-Token': self.server.token}))
+
+        payload = dict(id='pilot/example', text='saved note', revision=original['revision'])
+        with save(payload) as response:
+            self.assertEqual(json.load(response)['text'], 'saved note')
+        for invalid in ({**payload, 'text': 'stale'}, {**payload, 'text': None}, [], None):
+            with self.subTest(invalid=invalid), self.assertRaises(HTTPError) as error:
+                save(invalid)
+            self.assertEqual(error.exception.code, 400)
+        self.assertEqual((folder / 'notes.md').read_text(), 'saved note')
+
+    def test_foreign_host_and_malformed_json_are_rejected(self):
+        for path in ('/', '/api/status'):
+            with self.subTest(path=path), self.assertRaises(HTTPError) as error:
+                urlopen(Request(self.url + path, headers={'Host': 'other.example'}))
+            self.assertEqual(error.exception.code, 403)
+        request = Request(self.url + '/api/launch', data=b'{',
+                          headers={'X-Lab-Token': self.server.token})
+        with patch('lab.jobs.subprocess.Popen') as popen, self.assertRaises(HTTPError) as error:
+            urlopen(request)
+        self.assertEqual(error.exception.code, 400)
+        popen.assert_not_called()
 
 
 if __name__ == '__main__':
