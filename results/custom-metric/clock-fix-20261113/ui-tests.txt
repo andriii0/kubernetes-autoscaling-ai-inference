@@ -1,0 +1,46 @@
+TAP version 13
+# Subtest: custom metrics folder shows its description and preserved failed attempt
+ok 1 - custom metrics folder shows its description and preserved failed attempt
+  ---
+  duration_ms: 1141.7953
+  type: 'test'
+  ...
+# Subtest: completed series opens results; target miss differs from data failure
+ok 2 - completed series opens results; target miss differs from data failure
+  ---
+  duration_ms: 602.2093
+  type: 'test'
+  ...
+# Subtest: notes save literal text, retain drafts, and preserve disk content after a conflict
+ok 3 - notes save literal text, retain drafts, and preserve disk content after a conflict
+  ---
+  duration_ms: 790.8939
+  type: 'test'
+  ...
+# Subtest: pilot form rejects invalid rates, displays launch failure and allows a dry retry
+ok 4 - pilot form rejects invalid rates, displays launch failure and allows a dry retry
+  ---
+  duration_ms: 368.9385
+  type: 'test'
+  ...
+# Subtest: late detail response cannot replace the newly selected run
+ok 5 - late detail response cannot replace the newly selected run
+  ---
+  duration_ms: 430.7007
+  type: 'test'
+  ...
+# Subtest: lost status connection disables launch and shows a readable error
+ok 6 - lost status connection disables launch and shows a readable error
+  ---
+  duration_ms: 271.0103
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4413.4578

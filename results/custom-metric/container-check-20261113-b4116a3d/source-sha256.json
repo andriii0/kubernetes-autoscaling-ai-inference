@@ -1,0 +1,5 @@
+{
+  "tests/check_custom_metric_containers.py": "f89657b00e5c22d68eceb2739c3eeab502d6d6dd1bac2dc6a2f1884d3892ab0b",
+  "bench/custom_metric_stack.py": "e4455b75847911bc2e621d8835a3d8284198d4cbc248c28f919c2fd8e926eff9",
+  "bench/custom_metrics.py": "9b85120b9fd475ef4a487263e1a0fb1530a90768a1403d6bb1b5f761070a06fb"
+}

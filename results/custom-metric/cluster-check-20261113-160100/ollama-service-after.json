@@ -1,0 +1,17 @@
+{
+  "command": [
+    "kubectl",
+    "--context",
+    "ai-lab",
+    "-n",
+    "inference",
+    "get",
+    "service",
+    "ollama",
+    "-o",
+    "json"
+  ],
+  "exit_code": 0,
+  "stdout": "{\n    \"apiVersion\": \"v1\",\n    \"kind\": \"Service\",\n    \"metadata\": {\n        \"annotations\": {\n            \"kubectl.kubernetes.io/last-applied-configuration\": \"{\\\"apiVersion\\\":\\\"v1\\\",\\\"kind\\\":\\\"Service\\\",\\\"metadata\\\":{\\\"annotations\\\":{},\\\"name\\\":\\\"ollama\\\",\\\"namespace\\\":\\\"inference\\\"},\\\"spec\\\":{\\\"ports\\\":[{\\\"nodePort\\\":30080,\\\"port\\\":11434,\\\"targetPort\\\":11434}],\\\"selector\\\":{\\\"app\\\":\\\"ollama\\\"},\\\"type\\\":\\\"NodePort\\\"}}\\n\"\n        },\n        \"creationTimestamp\": \"2026-10-04T18:08:42Z\",\n        \"name\": \"ollama\",\n        \"namespace\": \"inference\",\n        \"resourceVersion\": \"19833\",\n        \"uid\": \"376e26c3-593a-40be-aa81-1b3f40195192\"\n    },\n    \"spec\": {\n        \"clusterIP\": \"10.101.196.71\",\n        \"clusterIPs\": [\n            \"10.101.196.71\"\n        ],\n        \"externalTrafficPolicy\": \"Cluster\",\n        \"internalTrafficPolicy\": \"Cluster\",\n        \"ipFamilies\": [\n            \"IPv4\"\n        ],\n        \"ipFamilyPolicy\": \"SingleStack\",\n        \"ports\": [\n            {\n                \"nodePort\": 30080,\n                \"port\": 11434,\n                \"protocol\": \"TCP\",\n                \"targetPort\": 11434\n            }\n        ],\n        \"selector\": {\n            \"app\": \"ollama\"\n        },\n        \"sessionAffinity\": \"None\",\n        \"type\": \"NodePort\"\n    },\n    \"status\": {\n        \"loadBalancer\": {}\n    }\n}\n",
+  "stderr": ""
+}

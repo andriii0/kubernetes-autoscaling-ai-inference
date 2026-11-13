@@ -1,0 +1,13 @@
+{
+  "command": [
+    "kubectl",
+    "--context",
+    "ai-lab",
+    "create",
+    "-f",
+    "results\\custom-metric\\cluster-check-20261113-160100\\bundle\\stack.json"
+  ],
+  "exit_code": 0,
+  "stdout": "serviceaccount/inference-gateway created\nconfigmap/inference-gateway created\nserviceaccount/inference-prometheus created\nconfigmap/inference-prometheus created\nserviceaccount/inference-metrics-adapter created\nconfigmap/inference-metrics-adapter created\ndeployment.apps/inference-gateway created\ndeployment.apps/inference-prometheus created\ndeployment.apps/inference-metrics-adapter created\nservice/inference-gateway created\nservice/inference-prometheus created\nservice/inference-metrics-adapter created\nrole.rbac.authorization.k8s.io/inference-prometheus created\nrolebinding.rbac.authorization.k8s.io/inference-prometheus created\nclusterrole.rbac.authorization.k8s.io/inference-metrics-adapter created\nclusterrolebinding.rbac.authorization.k8s.io/inference-metrics-adapter created\nclusterrolebinding.rbac.authorization.k8s.io/inference-metrics-auth created\nrolebinding.rbac.authorization.k8s.io/inference-metrics-auth-reader created\nclusterrole.rbac.authorization.k8s.io/inference-custom-metric-reader created\nclusterrolebinding.rbac.authorization.k8s.io/inference-hpa-metric-reader created\napiservice.apiregistration.k8s.io/v1beta1.custom.metrics.k8s.io created\n",
+  "stderr": ""
+}

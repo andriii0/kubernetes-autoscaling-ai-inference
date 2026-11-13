@@ -1,0 +1,22 @@
+[
+  {
+    "ProcessId": 34576,
+    "ParentProcessId": 37184,
+    "CommandLine": "\"C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\.venv\\Scripts\\python.exe\" -B bench/prepare_custom_metric.py --output-dir results/custom-metric/preparation-20261113-165340 --execute"
+  },
+  {
+    "ProcessId": 45792,
+    "ParentProcessId": 34576,
+    "CommandLine": "\"C:\\Users\\matvi\\AppData\\Local\\Programs\\Python\\Python312\\python.exe\" -B bench/prepare_custom_metric.py --output-dir results/custom-metric/preparation-20261113-165340 --execute"
+  },
+  {
+    "ProcessId": 35968,
+    "ParentProcessId": 45792,
+    "CommandLine": "C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\.venv\\Scripts\\python.exe -B C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\bench\\run_pilot.py --pilot-preparation --custom-metric-policy active-1 --mode autoscaling --profile burst --rate 12 --low-rate 2 --slo-ms 5000 --base-url http://127.0.0.1:59252 --run-dir C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\results\\custom-metric\\preparation-20261113-165340\\target-1 --activity-note \"Separate active-request threshold preparation; host snapshot saved by driver.\""
+  },
+  {
+    "ProcessId": 41168,
+    "ParentProcessId": 35968,
+    "CommandLine": "\"C:\\Users\\matvi\\AppData\\Local\\Programs\\Python\\Python312\\python.exe\" -B C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\bench\\run_pilot.py --pilot-preparation --custom-metric-policy active-1 --mode autoscaling --profile burst --rate 12 --low-rate 2 --slo-ms 5000 --base-url http://127.0.0.1:59252 --run-dir C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\results\\custom-metric\\preparation-20261113-165340\\target-1 --activity-note \"Separate active-request threshold preparation; host snapshot saved by driver.\""
+  }
+]

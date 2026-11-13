@@ -1,0 +1,43 @@
+{
+  "current": {
+    "query": "sum by (namespace,service) ((envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"} >= 0 and envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"} < +Inf) and (time() - timestamp(envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"}) >= 0) and (time() - timestamp(envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"}) <= 10) and on (namespace,service,pod_uid,instance) (up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"} == 1 and (time() - timestamp(up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"}) >= 0) and (time() - timestamp(up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"}) <= 10))) and on (namespace,service) (count by (namespace,service) (envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"}) == 1) and on (namespace,service) (count by (namespace,service) (up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"}) == 1)",
+    "response": {
+      "status": "success",
+      "data": {
+        "resultType": "vector",
+        "result": [
+          {
+            "metric": {
+              "namespace": "inference",
+              "service": "inference-gateway"
+            },
+            "value": [
+              1794587509.524,
+              "0"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "stale-source": {
+    "query": "sum by (namespace,service) ((envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"} @ 1794587479.370 >= 0 and envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"} @ 1794587479.370 < +Inf) and (time() - timestamp(envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"} @ 1794587479.370) >= 0) and (time() - timestamp(envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"} @ 1794587479.370) <= 10) and on (namespace,service,pod_uid,instance) (up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"} == 1 and (time() - timestamp(up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"}) >= 0) and (time() - timestamp(up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"}) <= 10))) and on (namespace,service) (count by (namespace,service) (envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"} @ 1794587479.370) == 1) and on (namespace,service) (count by (namespace,service) (up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"}) == 1)",
+    "response": {
+      "status": "success",
+      "data": {
+        "resultType": "vector",
+        "result": []
+      }
+    }
+  },
+  "missing-source": {
+    "query": "sum by (namespace,service) ((envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\",pod_uid=\"absent-functional-check\"} >= 0 and envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\",pod_uid=\"absent-functional-check\"} < +Inf) and (time() - timestamp(envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\",pod_uid=\"absent-functional-check\"}) >= 0) and (time() - timestamp(envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\",pod_uid=\"absent-functional-check\"}) <= 10) and on (namespace,service,pod_uid,instance) (up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\",pod_uid=\"absent-functional-check\"} == 1 and (time() - timestamp(up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\",pod_uid=\"absent-functional-check\"}) >= 0) and (time() - timestamp(up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\",pod_uid=\"absent-functional-check\"}) <= 10))) and on (namespace,service) (count by (namespace,service) (envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\",pod_uid=\"absent-functional-check\"}) == 1) and on (namespace,service) (count by (namespace,service) (up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\",pod_uid=\"absent-functional-check\"}) == 1)",
+    "response": {
+      "status": "success",
+      "data": {
+        "resultType": "vector",
+        "result": []
+      }
+    }
+  }
+}

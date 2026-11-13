@@ -1,0 +1,658 @@
+{
+  "apiVersion": "v1",
+  "items": [
+    {
+      "apiVersion": "v1",
+      "kind": "ServiceAccount",
+      "metadata": {
+        "labels": {
+          "experiment": "custom-metric-hpa"
+        },
+        "name": "inference-gateway",
+        "namespace": "inference"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "data": {
+        "envoy.json": "{\n  \"admin\": {\n    \"address\": {\n      \"socket_address\": {\n        \"address\": \"0.0.0.0\",\n        \"port_value\": 9901\n      }\n    }\n  },\n  \"stats_config\": {\n    \"use_all_default_tags\": false,\n    \"stats_tags\": [\n      {\n        \"tag_name\": \"inference_listener\",\n        \"regex\": \"^http\\\\.((inference)\\\\.)\"\n      }\n    ]\n  },\n  \"static_resources\": {\n    \"listeners\": [\n      {\n        \"name\": \"generation\",\n        \"address\": {\n          \"socket_address\": {\n            \"address\": \"0.0.0.0\",\n            \"port_value\": 8080\n          }\n        },\n        \"filter_chains\": [\n          {\n            \"filters\": [\n              {\n                \"name\": \"envoy.filters.network.http_connection_manager\",\n                \"typed_config\": {\n                  \"@type\": \"type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager\",\n                  \"stat_prefix\": \"inference\",\n                  \"codec_type\": \"HTTP1\",\n                  \"generate_request_id\": false,\n                  \"stream_idle_timeout\": \"0s\",\n                  \"request_timeout\": \"0s\",\n                  \"route_config\": {\n                    \"name\": \"inference\",\n                    \"virtual_hosts\": [\n                      {\n                        \"name\": \"inference\",\n                        \"domains\": [\n                          \"*\"\n                        ],\n                        \"routes\": [\n                          {\n                            \"match\": {\n                              \"path\": \"/api/generate\",\n                              \"headers\": [\n                                {\n                                  \"name\": \":method\",\n                                  \"string_match\": {\n                                    \"exact\": \"POST\"\n                                  }\n                                }\n                              ]\n                            },\n                            \"route\": {\n                              \"cluster\": \"ollama\",\n                              \"timeout\": \"0s\",\n                              \"idle_timeout\": \"0s\"\n                            }\n                          }\n                        ]\n                      }\n                    ]\n                  },\n                  \"http_filters\": [\n                    {\n                      \"name\": \"envoy.filters.http.router\",\n                      \"typed_config\": {\n                        \"@type\": \"type.googleapis.com/envoy.extensions.filters.http.router.v3.Router\"\n                      }\n                    }\n                  ],\n                  \"access_log\": [\n                    {\n                      \"name\": \"envoy.access_loggers.stdout\",\n                      \"typed_config\": {\n                        \"@type\": \"type.googleapis.com/envoy.extensions.access_loggers.stream.v3.StdoutAccessLog\",\n                        \"log_format\": {\n                          \"json_format\": {\n                            \"started_at\": \"%START_TIME%\",\n                            \"request_id\": \"%REQ(X-INFERENCE-REQUEST-ID)%\",\n                            \"method\": \"%REQ(:METHOD)%\",\n                            \"path\": \"%REQ(:PATH)%\",\n                            \"status\": \"%RESPONSE_CODE%\",\n                            \"duration_ms\": \"%DURATION%\",\n                            \"flags\": \"%RESPONSE_FLAGS%\",\n                            \"details\": \"%RESPONSE_CODE_DETAILS%\",\n                            \"upstream_cluster\": \"%UPSTREAM_CLUSTER%\",\n                            \"upstream_host\": \"%UPSTREAM_HOST%\",\n                            \"attempts\": \"%UPSTREAM_REQUEST_ATTEMPT_COUNT%\",\n                            \"transport_failure\": \"%UPSTREAM_TRANSPORT_FAILURE_REASON%\"\n                          }\n                        }\n                      }\n                    }\n                  ]\n                }\n              }\n            ]\n          }\n        ]\n      }\n    ],\n    \"clusters\": [\n      {\n        \"name\": \"ollama\",\n        \"type\": \"STRICT_DNS\",\n        \"connect_timeout\": \"30s\",\n        \"load_assignment\": {\n          \"cluster_name\": \"ollama\",\n          \"endpoints\": [\n            {\n              \"lb_endpoints\": [\n                {\n                  \"endpoint\": {\n                    \"address\": {\n                      \"socket_address\": {\n                        \"address\": \"ollama.inference.svc.cluster.local\",\n                        \"port_value\": 11434\n                      }\n                    }\n                  }\n                }\n              ]\n            }\n          ]\n        },\n        \"typed_extension_protocol_options\": {\n          \"envoy.extensions.upstreams.http.v3.HttpProtocolOptions\": {\n            \"@type\": \"type.googleapis.com/envoy.extensions.upstreams.http.v3.HttpProtocolOptions\",\n            \"common_http_protocol_options\": {\n              \"max_requests_per_connection\": 1\n            },\n            \"explicit_http_config\": {\n              \"http_protocol_options\": {}\n            }\n          }\n        }\n      }\n    ]\n  }\n}\n"
+      },
+      "kind": "ConfigMap",
+      "metadata": {
+        "labels": {
+          "experiment": "custom-metric-hpa"
+        },
+        "name": "inference-gateway",
+        "namespace": "inference"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "ServiceAccount",
+      "metadata": {
+        "labels": {
+          "experiment": "custom-metric-hpa"
+        },
+        "name": "inference-prometheus",
+        "namespace": "inference"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "data": {
+        "prometheus.json": "{\n  \"global\": {\n    \"scrape_interval\": \"5s\",\n    \"scrape_timeout\": \"4s\",\n    \"evaluation_interval\": \"5s\"\n  },\n  \"scrape_configs\": [\n    {\n      \"job_name\": \"inference-gateway\",\n      \"metrics_path\": \"/stats/prometheus\",\n      \"kubernetes_sd_configs\": [\n        {\n          \"role\": \"pod\",\n          \"namespaces\": {\n            \"names\": [\n              \"inference\"\n            ]\n          }\n        }\n      ],\n      \"relabel_configs\": [\n        {\n          \"source_labels\": [\n            \"__meta_kubernetes_pod_label_app\"\n          ],\n          \"regex\": \"inference-gateway\",\n          \"action\": \"keep\"\n        },\n        {\n          \"source_labels\": [\n            \"__meta_kubernetes_pod_container_port_name\"\n          ],\n          \"regex\": \"admin\",\n          \"action\": \"keep\"\n        },\n        {\n          \"source_labels\": [\n            \"__meta_kubernetes_pod_phase\"\n          ],\n          \"regex\": \"Running\",\n          \"action\": \"keep\"\n        },\n        {\n          \"source_labels\": [\n            \"__meta_kubernetes_namespace\"\n          ],\n          \"target_label\": \"namespace\"\n        },\n        {\n          \"source_labels\": [\n            \"__meta_kubernetes_pod_uid\"\n          ],\n          \"target_label\": \"pod_uid\"\n        },\n        {\n          \"target_label\": \"service\",\n          \"replacement\": \"inference-gateway\"\n        }\n      ]\n    }\n  ]\n}\n"
+      },
+      "kind": "ConfigMap",
+      "metadata": {
+        "labels": {
+          "experiment": "custom-metric-hpa"
+        },
+        "name": "inference-prometheus",
+        "namespace": "inference"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "ServiceAccount",
+      "metadata": {
+        "labels": {
+          "experiment": "custom-metric-hpa"
+        },
+        "name": "inference-metrics-adapter",
+        "namespace": "inference"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "data": {
+        "adapter.json": "{\n  \"rules\": [\n    {\n      \"seriesQuery\": \"envoy_http_downstream_rq_active{job=\\\"inference-gateway\\\",inference_listener=\\\"inference\\\",namespace=\\\"inference\\\",service=\\\"inference-gateway\\\"}\",\n      \"resources\": {\n        \"overrides\": {\n          \"namespace\": {\n            \"resource\": \"namespace\"\n          },\n          \"service\": {\n            \"resource\": \"service\"\n          }\n        }\n      },\n      \"name\": {\n        \"matches\": \"^envoy_http_downstream_rq_active$\",\n        \"as\": \"inference_gateway_active_requests\"\n      },\n      \"metricsQuery\": \"sum by (namespace,service) ((envoy_http_downstream_rq_active{job=\\\"inference-gateway\\\",inference_listener=\\\"inference\\\",<<.LabelMatchers>>} >= 0 and envoy_http_downstream_rq_active{job=\\\"inference-gateway\\\",inference_listener=\\\"inference\\\",<<.LabelMatchers>>} < +Inf) and (time() - timestamp(envoy_http_downstream_rq_active{job=\\\"inference-gateway\\\",inference_listener=\\\"inference\\\",<<.LabelMatchers>>}) >= 0) and (time() - timestamp(envoy_http_downstream_rq_active{job=\\\"inference-gateway\\\",inference_listener=\\\"inference\\\",<<.LabelMatchers>>}) <= 10) and on (namespace,service,pod_uid,instance) (up{job=\\\"inference-gateway\\\",<<.LabelMatchers>>} == 1 and (time() - timestamp(up{job=\\\"inference-gateway\\\",<<.LabelMatchers>>}) >= 0) and (time() - timestamp(up{job=\\\"inference-gateway\\\",<<.LabelMatchers>>}) <= 10))) and on (namespace,service) (count by (namespace,service) (envoy_http_downstream_rq_active{job=\\\"inference-gateway\\\",inference_listener=\\\"inference\\\",<<.LabelMatchers>>}) == 1) and on (namespace,service) (count by (namespace,service) (up{job=\\\"inference-gateway\\\",<<.LabelMatchers>>}) == 1)\"\n    }\n  ]\n}\n"
+      },
+      "kind": "ConfigMap",
+      "metadata": {
+        "labels": {
+          "experiment": "custom-metric-hpa"
+        },
+        "name": "inference-metrics-adapter",
+        "namespace": "inference"
+      }
+    },
+    {
+      "apiVersion": "apps/v1",
+      "kind": "Deployment",
+      "metadata": {
+        "labels": {
+          "experiment": "custom-metric-hpa"
+        },
+        "name": "inference-gateway",
+        "namespace": "inference"
+      },
+      "spec": {
+        "replicas": 1,
+        "selector": {
+          "matchLabels": {
+            "app": "inference-gateway"
+          }
+        },
+        "strategy": {
+          "type": "Recreate"
+        },
+        "template": {
+          "metadata": {
+            "labels": {
+              "app": "inference-gateway",
+              "experiment": "custom-metric-hpa"
+            }
+          },
+          "spec": {
+            "automountServiceAccountToken": false,
+            "containers": [
+              {
+                "args": [
+                  "-c",
+                  "/etc/inference/envoy.json",
+                  "--concurrency",
+                  "1"
+                ],
+                "image": "envoyproxy/envoy:v1.35.0",
+                "imagePullPolicy": "IfNotPresent",
+                "name": "inference-gateway",
+                "ports": [
+                  {
+                    "containerPort": 8080,
+                    "name": "http"
+                  },
+                  {
+                    "containerPort": 9901,
+                    "name": "admin"
+                  }
+                ],
+                "readinessProbe": {
+                  "periodSeconds": 5,
+                  "tcpSocket": {
+                    "port": "http"
+                  }
+                },
+                "resources": {
+                  "limits": {
+                    "cpu": "500m",
+                    "memory": "256Mi"
+                  },
+                  "requests": {
+                    "cpu": "100m",
+                    "memory": "64Mi"
+                  }
+                },
+                "volumeMounts": [
+                  {
+                    "mountPath": "/etc/inference",
+                    "name": "config",
+                    "readOnly": true
+                  }
+                ]
+              }
+            ],
+            "serviceAccountName": "inference-gateway",
+            "volumes": [
+              {
+                "configMap": {
+                  "items": [
+                    {
+                      "key": "envoy.json",
+                      "path": "envoy.json"
+                    }
+                  ],
+                  "name": "inference-gateway"
+                },
+                "name": "config"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "apps/v1",
+      "kind": "Deployment",
+      "metadata": {
+        "labels": {
+          "experiment": "custom-metric-hpa"
+        },
+        "name": "inference-prometheus",
+        "namespace": "inference"
+      },
+      "spec": {
+        "replicas": 1,
+        "selector": {
+          "matchLabels": {
+            "app": "inference-prometheus"
+          }
+        },
+        "strategy": {
+          "type": "Recreate"
+        },
+        "template": {
+          "metadata": {
+            "labels": {
+              "app": "inference-prometheus",
+              "experiment": "custom-metric-hpa"
+            }
+          },
+          "spec": {
+            "automountServiceAccountToken": true,
+            "containers": [
+              {
+                "args": [
+                  "--config.file=/etc/inference/prometheus.json",
+                  "--storage.tsdb.path=/prometheus",
+                  "--storage.tsdb.retention.time=6h",
+                  "--storage.tsdb.retention.size=128MB"
+                ],
+                "image": "prom/prometheus:v3.5.0",
+                "imagePullPolicy": "IfNotPresent",
+                "name": "inference-prometheus",
+                "ports": [
+                  {
+                    "containerPort": 9090,
+                    "name": "http"
+                  }
+                ],
+                "readinessProbe": {
+                  "httpGet": {
+                    "path": "/-/ready",
+                    "port": "http"
+                  },
+                  "periodSeconds": 5
+                },
+                "resources": {
+                  "limits": {
+                    "cpu": "500m",
+                    "memory": "512Mi"
+                  },
+                  "requests": {
+                    "cpu": "100m",
+                    "memory": "128Mi"
+                  }
+                },
+                "volumeMounts": [
+                  {
+                    "mountPath": "/etc/inference",
+                    "name": "config",
+                    "readOnly": true
+                  },
+                  {
+                    "mountPath": "/prometheus",
+                    "name": "data"
+                  }
+                ]
+              }
+            ],
+            "serviceAccountName": "inference-prometheus",
+            "volumes": [
+              {
+                "configMap": {
+                  "items": [
+                    {
+                      "key": "prometheus.json",
+                      "path": "prometheus.json"
+                    }
+                  ],
+                  "name": "inference-prometheus"
+                },
+                "name": "config"
+              },
+              {
+                "emptyDir": {
+                  "sizeLimit": "256Mi"
+                },
+                "name": "data"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "apps/v1",
+      "kind": "Deployment",
+      "metadata": {
+        "labels": {
+          "experiment": "custom-metric-hpa"
+        },
+        "name": "inference-metrics-adapter",
+        "namespace": "inference"
+      },
+      "spec": {
+        "replicas": 1,
+        "selector": {
+          "matchLabels": {
+            "app": "inference-metrics-adapter"
+          }
+        },
+        "strategy": {
+          "type": "Recreate"
+        },
+        "template": {
+          "metadata": {
+            "labels": {
+              "app": "inference-metrics-adapter",
+              "experiment": "custom-metric-hpa"
+            }
+          },
+          "spec": {
+            "automountServiceAccountToken": true,
+            "containers": [
+              {
+                "args": [
+                  "--config=/etc/inference/adapter.json",
+                  "--cert-dir=/var/run/serving-cert",
+                  "--secure-port=6443",
+                  "--prometheus-url=http://inference-prometheus.inference.svc:9090",
+                  "--metrics-relist-interval=5s",
+                  "--metrics-max-age=30s"
+                ],
+                "image": "registry.k8s.io/prometheus-adapter/prometheus-adapter:v0.12.0",
+                "imagePullPolicy": "IfNotPresent",
+                "name": "inference-metrics-adapter",
+                "ports": [
+                  {
+                    "containerPort": 6443,
+                    "name": "https"
+                  }
+                ],
+                "readinessProbe": {
+                  "httpGet": {
+                    "path": "/readyz",
+                    "port": "https",
+                    "scheme": "HTTPS"
+                  },
+                  "periodSeconds": 5
+                },
+                "resources": {
+                  "limits": {
+                    "cpu": "500m",
+                    "memory": "256Mi"
+                  },
+                  "requests": {
+                    "cpu": "100m",
+                    "memory": "128Mi"
+                  }
+                },
+                "volumeMounts": [
+                  {
+                    "mountPath": "/etc/inference",
+                    "name": "config",
+                    "readOnly": true
+                  },
+                  {
+                    "mountPath": "/var/run/serving-cert",
+                    "name": "data"
+                  }
+                ]
+              }
+            ],
+            "serviceAccountName": "inference-metrics-adapter",
+            "volumes": [
+              {
+                "configMap": {
+                  "items": [
+                    {
+                      "key": "adapter.json",
+                      "path": "adapter.json"
+                    }
+                  ],
+                  "name": "inference-metrics-adapter"
+                },
+                "name": "config"
+              },
+              {
+                "emptyDir": {
+                  "sizeLimit": "16Mi"
+                },
+                "name": "data"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "labels": {
+          "experiment": "custom-metric-hpa"
+        },
+        "name": "inference-gateway",
+        "namespace": "inference"
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "http",
+            "port": 8080,
+            "targetPort": "http"
+          }
+        ],
+        "selector": {
+          "app": "inference-gateway"
+        },
+        "type": "NodePort"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "labels": {
+          "experiment": "custom-metric-hpa"
+        },
+        "name": "inference-prometheus",
+        "namespace": "inference"
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "http",
+            "port": 9090,
+            "targetPort": "http"
+          }
+        ],
+        "selector": {
+          "app": "inference-prometheus"
+        }
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "labels": {
+          "experiment": "custom-metric-hpa"
+        },
+        "name": "inference-metrics-adapter",
+        "namespace": "inference"
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "https",
+            "port": 443,
+            "targetPort": "https"
+          }
+        ],
+        "selector": {
+          "app": "inference-metrics-adapter"
+        }
+      }
+    },
+    {
+      "apiVersion": "rbac.authorization.k8s.io/v1",
+      "kind": "Role",
+      "metadata": {
+        "labels": {
+          "experiment": "custom-metric-hpa"
+        },
+        "name": "inference-prometheus",
+        "namespace": "inference"
+      },
+      "rules": [
+        {
+          "apiGroups": [
+            ""
+          ],
+          "resources": [
+            "pods"
+          ],
+          "verbs": [
+            "get",
+            "list",
+            "watch"
+          ]
+        }
+      ]
+    },
+    {
+      "apiVersion": "rbac.authorization.k8s.io/v1",
+      "kind": "RoleBinding",
+      "metadata": {
+        "labels": {
+          "experiment": "custom-metric-hpa"
+        },
+        "name": "inference-prometheus",
+        "namespace": "inference"
+      },
+      "roleRef": {
+        "apiGroup": "rbac.authorization.k8s.io",
+        "kind": "Role",
+        "name": "inference-prometheus"
+      },
+      "subjects": [
+        {
+          "kind": "ServiceAccount",
+          "name": "inference-prometheus",
+          "namespace": "inference"
+        }
+      ]
+    },
+    {
+      "apiVersion": "rbac.authorization.k8s.io/v1",
+      "kind": "ClusterRole",
+      "metadata": {
+        "labels": {
+          "experiment": "custom-metric-hpa"
+        },
+        "name": "inference-metrics-adapter"
+      },
+      "rules": [
+        {
+          "apiGroups": [
+            ""
+          ],
+          "resources": [
+            "namespaces",
+            "services"
+          ],
+          "verbs": [
+            "get",
+            "list",
+            "watch"
+          ]
+        }
+      ]
+    },
+    {
+      "apiVersion": "rbac.authorization.k8s.io/v1",
+      "kind": "ClusterRoleBinding",
+      "metadata": {
+        "labels": {
+          "experiment": "custom-metric-hpa"
+        },
+        "name": "inference-metrics-adapter"
+      },
+      "roleRef": {
+        "apiGroup": "rbac.authorization.k8s.io",
+        "kind": "ClusterRole",
+        "name": "inference-metrics-adapter"
+      },
+      "subjects": [
+        {
+          "kind": "ServiceAccount",
+          "name": "inference-metrics-adapter",
+          "namespace": "inference"
+        }
+      ]
+    },
+    {
+      "apiVersion": "rbac.authorization.k8s.io/v1",
+      "kind": "ClusterRoleBinding",
+      "metadata": {
+        "labels": {
+          "experiment": "custom-metric-hpa"
+        },
+        "name": "inference-metrics-auth"
+      },
+      "roleRef": {
+        "apiGroup": "rbac.authorization.k8s.io",
+        "kind": "ClusterRole",
+        "name": "system:auth-delegator"
+      },
+      "subjects": [
+        {
+          "kind": "ServiceAccount",
+          "name": "inference-metrics-adapter",
+          "namespace": "inference"
+        }
+      ]
+    },
+    {
+      "apiVersion": "rbac.authorization.k8s.io/v1",
+      "kind": "RoleBinding",
+      "metadata": {
+        "labels": {
+          "experiment": "custom-metric-hpa"
+        },
+        "name": "inference-metrics-auth-reader",
+        "namespace": "kube-system"
+      },
+      "roleRef": {
+        "apiGroup": "rbac.authorization.k8s.io",
+        "kind": "Role",
+        "name": "extension-apiserver-authentication-reader"
+      },
+      "subjects": [
+        {
+          "kind": "ServiceAccount",
+          "name": "inference-metrics-adapter",
+          "namespace": "inference"
+        }
+      ]
+    },
+    {
+      "apiVersion": "rbac.authorization.k8s.io/v1",
+      "kind": "ClusterRole",
+      "metadata": {
+        "labels": {
+          "experiment": "custom-metric-hpa"
+        },
+        "name": "inference-custom-metric-reader"
+      },
+      "rules": [
+        {
+          "apiGroups": [
+            "custom.metrics.k8s.io"
+          ],
+          "resources": [
+            "services/inference_gateway_active_requests"
+          ],
+          "verbs": [
+            "get"
+          ]
+        }
+      ]
+    },
+    {
+      "apiVersion": "rbac.authorization.k8s.io/v1",
+      "kind": "ClusterRoleBinding",
+      "metadata": {
+        "labels": {
+          "experiment": "custom-metric-hpa"
+        },
+        "name": "inference-hpa-metric-reader"
+      },
+      "roleRef": {
+        "apiGroup": "rbac.authorization.k8s.io",
+        "kind": "ClusterRole",
+        "name": "inference-custom-metric-reader"
+      },
+      "subjects": [
+        {
+          "kind": "ServiceAccount",
+          "name": "horizontal-pod-autoscaler",
+          "namespace": "kube-system"
+        }
+      ]
+    },
+    {
+      "apiVersion": "apiregistration.k8s.io/v1",
+      "kind": "APIService",
+      "metadata": {
+        "labels": {
+          "experiment": "custom-metric-hpa"
+        },
+        "name": "v1beta1.custom.metrics.k8s.io"
+      },
+      "spec": {
+        "group": "custom.metrics.k8s.io",
+        "groupPriorityMinimum": 100,
+        "insecureSkipTLSVerify": true,
+        "service": {
+          "name": "inference-metrics-adapter",
+          "namespace": "inference"
+        },
+        "version": "v1beta1",
+        "versionPriority": 100
+      }
+    }
+  ],
+  "kind": "List"
+}

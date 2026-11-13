@@ -1,0 +1,17 @@
+{
+  "command": [
+    "kubectl",
+    "--context",
+    "ai-lab",
+    "-n",
+    "inference",
+    "exec",
+    "deployment/ollama",
+    "--",
+    "ollama",
+    "list"
+  ],
+  "exit_code": 0,
+  "stdout": "NAME            ID              SIZE      MODIFIED    \nqwen2.5:0.5b    a8b0c5157701    397 MB    6 weeks ago    \n",
+  "stderr": ""
+}

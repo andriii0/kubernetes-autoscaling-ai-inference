@@ -1,0 +1,15 @@
+{
+  "command": [
+    "kubectl",
+    "--context",
+    "ai-lab",
+    "-n",
+    "inference",
+    "logs",
+    "deployment/inference-metrics-adapter",
+    "--timestamps=true"
+  ],
+  "exit_code": 0,
+  "stdout": "2026-11-13T16:02:06.771894542Z I1113 16:02:06.771707       1 adapter.go:113] successfully using in-cluster auth\n2026-11-13T16:02:07.252758102Z I1113 16:02:07.252562       1 serving.go:374] Generated self-signed cert (/var/run/serving-cert/apiserver.crt, /var/run/serving-cert/apiserver.key)\n2026-11-13T16:02:07.858986818Z I1113 16:02:07.858717       1 requestheader_controller.go:169] Starting RequestHeaderAuthRequestController\n2026-11-13T16:02:07.859001987Z I1113 16:02:07.858761       1 shared_informer.go:313] Waiting for caches to sync for RequestHeaderAuthRequestController\n2026-11-13T16:02:07.859003460Z I1113 16:02:07.858748       1 configmap_cafile_content.go:202] \"Starting controller\" name=\"client-ca::kube-system::extension-apiserver-authentication::client-ca-file\"\n2026-11-13T16:02:07.859004668Z I1113 16:02:07.858771       1 shared_informer.go:313] Waiting for caches to sync for client-ca::kube-system::extension-apiserver-authentication::client-ca-file\n2026-11-13T16:02:07.859005811Z I1113 16:02:07.858798       1 configmap_cafile_content.go:202] \"Starting controller\" name=\"client-ca::kube-system::extension-apiserver-authentication::requestheader-client-ca-file\"\n2026-11-13T16:02:07.859006578Z I1113 16:02:07.858807       1 shared_informer.go:313] Waiting for caches to sync for client-ca::kube-system::extension-apiserver-authentication::requestheader-client-ca-file\n2026-11-13T16:02:07.859007858Z I1113 16:02:07.858817       1 secure_serving.go:213] Serving securely on [::]:6443\n2026-11-13T16:02:07.859008660Z I1113 16:02:07.858837       1 dynamic_serving_content.go:132] \"Starting controller\" name=\"serving-cert::/var/run/serving-cert/apiserver.crt::/var/run/serving-cert/apiserver.key\"\n2026-11-13T16:02:07.859009458Z I1113 16:02:07.858883       1 tlsconfig.go:240] \"Starting DynamicServingCertificateController\"\n2026-11-13T16:02:07.959133007Z I1113 16:02:07.958958       1 shared_informer.go:320] Caches are synced for client-ca::kube-system::extension-apiserver-authentication::requestheader-client-ca-file\n2026-11-13T16:02:07.959156087Z I1113 16:02:07.959002       1 shared_informer.go:320] Caches are synced for RequestHeaderAuthRequestController\n2026-11-13T16:02:07.959157597Z I1113 16:02:07.958973       1 shared_informer.go:320] Caches are synced for client-ca::kube-system::extension-apiserver-authentication::client-ca-file\n",
+  "stderr": ""
+}

@@ -1,0 +1,53 @@
+{
+  "status": "passed",
+  "purpose": "three-request-functional-check",
+  "hpa_enabled": false,
+  "comparative_run": false,
+  "errors": [],
+  "initial_quiet": {
+    "started_at_utc": "2026-11-13T16:28:36.454410+00:00",
+    "passed_at_utc": "2026-11-13T16:29:12.246441+00:00",
+    "identity": [
+      {
+        "pod_uid": "ee38f8af-8777-45b4-aa55-7b6155c7defd",
+        "container_id": "containerd://44994821a853ff6bbfb3b3c0007d159dcb578b151260e56944ea22f2c8a74889",
+        "restart_count": 3
+      }
+    ]
+  },
+  "final_zero": {
+    "active_requests": 0.0,
+    "source_at": 1794587394.282,
+    "health_at": 1794587394.282,
+    "evaluated_at": 1794587398.286,
+    "received_at": 1794587398.6923263,
+    "adapter_at": 1794587398.0,
+    "gateway_uid": "1c04e708-8f7f-439b-8b52-c9347286ba84",
+    "instance": "10.244.0.8:9901"
+  },
+  "final_quiet": {
+    "started_at_utc": "2026-11-13T16:29:58.785022+00:00",
+    "passed_at_utc": "2026-11-13T16:30:43.084731+00:00",
+    "identity": [
+      {
+        "pod_uid": "ee38f8af-8777-45b4-aa55-7b6155c7defd",
+        "container_id": "containerd://44994821a853ff6bbfb3b3c0007d159dcb578b151260e56944ea22f2c8a74889",
+        "restart_count": 3
+      }
+    ]
+  },
+  "gateway_reconciliation": {
+    "matched": 3,
+    "complete": true,
+    "scope": "Gateway routing only; native Ollama reconciliation is still required"
+  },
+  "values": [
+    0.0,
+    3.0,
+    3.0,
+    2.0,
+    1.0,
+    1.0
+  ],
+  "sample_errors": []
+}

@@ -1,0 +1,15 @@
+{
+  "pid": 5292,
+  "command": [
+    "kubectl",
+    "--context",
+    "ai-lab",
+    "-n",
+    "inference",
+    "port-forward",
+    "--address=127.0.0.1",
+    "service/inference-gateway",
+    ":8080"
+  ],
+  "started_at": "2026-11-13T17:21:04.898375+00:00"
+}

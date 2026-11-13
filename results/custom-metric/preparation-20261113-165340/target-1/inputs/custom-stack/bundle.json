@@ -1,0 +1,22 @@
+{
+  "status": "rendered-unverified",
+  "live_validation": false,
+  "images": {
+    "inference-gateway": "envoyproxy/envoy:v1.35.0",
+    "inference-prometheus": "prom/prometheus:v3.5.0",
+    "inference-metrics-adapter": "registry.k8s.io/prometheus-adapter/prometheus-adapter:v0.12.0"
+  },
+  "sha256": {
+    "stack.json": "2aa9729b49efc7c7ae961b78b10e3352c7ed90e2fd42963456f5f382cadb5ca1",
+    "hpa-cpu.json": "36406633efe45308dfb4d847fc208092f50e461185a6fd516e20292eb90496db",
+    "hpa-active-1.json": "2fcdd027119c7fa629fbe3005c51994b74b4c0919e2bb34b8e7efc2129f3225d",
+    "hpa-active-2.json": "1c050aeff866c92052b2b35e37af5ff20f37c5ba150e93333090788e84006a3f",
+    "envoy.json": "c57d1769c7fc6e039ec0e2ed75a8cfce80a73252ff853d0bdd9e7f87e3e6599d",
+    "prometheus.json": "7de04da2caa7c62162e5a1fcb73a3302a5a97282d865e58f019e8e66a7a75d57",
+    "adapter.json": "eb3663a56d8927552161af84bd66b7d12649762a9ad42d9252a7daa614153263"
+  },
+  "source_sha256": {
+    "custom_metric_stack.py": "e4455b75847911bc2e621d8835a3d8284198d4cbc248c28f919c2fd8e926eff9",
+    "custom_metrics.py": "b147717312c384051ae7be33a2b68fec3e8fc7a0e552a1e2a0b5a9e934dd9c38"
+  }
+}

@@ -1,0 +1,230 @@
+{
+  "rule_files": [],
+  "evaluation_interval": "5s",
+  "tests": [
+    {
+      "name": "three",
+      "interval": "5s",
+      "input_series": [
+        {
+          "series": "envoy_http_downstream_rq_active{namespace=\"inference\",service=\"inference-gateway\",job=\"inference-gateway\",pod_uid=\"uid\",instance=\"host:9901\",inference_listener=\"inference\"}",
+          "values": "3+0x3"
+        },
+        {
+          "series": "up{namespace=\"inference\",service=\"inference-gateway\",job=\"inference-gateway\",pod_uid=\"uid\",instance=\"host:9901\"}",
+          "values": "1+0x3"
+        }
+      ],
+      "promql_expr_test": [
+        {
+          "expr": "sum by (namespace,service) ((envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"} >= 0 and envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"} < +Inf) and (time() - timestamp(envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"}) >= 0) and (time() - timestamp(envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"}) <= 10) and on (namespace,service,pod_uid,instance) (up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"} == 1 and (time() - timestamp(up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"}) >= 0) and (time() - timestamp(up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"}) <= 10))) and on (namespace,service) (count by (namespace,service) (envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"}) == 1) and on (namespace,service) (count by (namespace,service) (up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"}) == 1)",
+          "eval_time": "15s",
+          "exp_samples": [
+            {
+              "labels": "{namespace=\"inference\",service=\"inference-gateway\"}",
+              "value": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "zero",
+      "interval": "5s",
+      "input_series": [
+        {
+          "series": "envoy_http_downstream_rq_active{namespace=\"inference\",service=\"inference-gateway\",job=\"inference-gateway\",pod_uid=\"uid\",instance=\"host:9901\",inference_listener=\"inference\"}",
+          "values": "0+0x3"
+        },
+        {
+          "series": "up{namespace=\"inference\",service=\"inference-gateway\",job=\"inference-gateway\",pod_uid=\"uid\",instance=\"host:9901\"}",
+          "values": "1+0x3"
+        }
+      ],
+      "promql_expr_test": [
+        {
+          "expr": "sum by (namespace,service) ((envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"} >= 0 and envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"} < +Inf) and (time() - timestamp(envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"}) >= 0) and (time() - timestamp(envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"}) <= 10) and on (namespace,service,pod_uid,instance) (up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"} == 1 and (time() - timestamp(up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"}) >= 0) and (time() - timestamp(up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"}) <= 10))) and on (namespace,service) (count by (namespace,service) (envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"}) == 1) and on (namespace,service) (count by (namespace,service) (up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"}) == 1)",
+          "eval_time": "15s",
+          "exp_samples": [
+            {
+              "labels": "{namespace=\"inference\",service=\"inference-gateway\"}",
+              "value": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "stale",
+      "interval": "5s",
+      "input_series": [
+        {
+          "series": "envoy_http_downstream_rq_active{namespace=\"inference\",service=\"inference-gateway\",job=\"inference-gateway\",pod_uid=\"uid\",instance=\"host:9901\",inference_listener=\"inference\"}",
+          "values": "3 _ _ _"
+        },
+        {
+          "series": "up{namespace=\"inference\",service=\"inference-gateway\",job=\"inference-gateway\",pod_uid=\"uid\",instance=\"host:9901\"}",
+          "values": "1+0x3"
+        }
+      ],
+      "promql_expr_test": [
+        {
+          "expr": "sum by (namespace,service) ((envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"} >= 0 and envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"} < +Inf) and (time() - timestamp(envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"}) >= 0) and (time() - timestamp(envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"}) <= 10) and on (namespace,service,pod_uid,instance) (up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"} == 1 and (time() - timestamp(up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"}) >= 0) and (time() - timestamp(up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"}) <= 10))) and on (namespace,service) (count by (namespace,service) (envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"}) == 1) and on (namespace,service) (count by (namespace,service) (up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"}) == 1)",
+          "eval_time": "15s",
+          "exp_samples": []
+        }
+      ]
+    },
+    {
+      "name": "negative",
+      "interval": "5s",
+      "input_series": [
+        {
+          "series": "envoy_http_downstream_rq_active{namespace=\"inference\",service=\"inference-gateway\",job=\"inference-gateway\",pod_uid=\"uid\",instance=\"host:9901\",inference_listener=\"inference\"}",
+          "values": "-1+0x3"
+        },
+        {
+          "series": "up{namespace=\"inference\",service=\"inference-gateway\",job=\"inference-gateway\",pod_uid=\"uid\",instance=\"host:9901\"}",
+          "values": "1+0x3"
+        }
+      ],
+      "promql_expr_test": [
+        {
+          "expr": "sum by (namespace,service) ((envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"} >= 0 and envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"} < +Inf) and (time() - timestamp(envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"}) >= 0) and (time() - timestamp(envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"}) <= 10) and on (namespace,service,pod_uid,instance) (up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"} == 1 and (time() - timestamp(up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"}) >= 0) and (time() - timestamp(up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"}) <= 10))) and on (namespace,service) (count by (namespace,service) (envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"}) == 1) and on (namespace,service) (count by (namespace,service) (up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"}) == 1)",
+          "eval_time": "15s",
+          "exp_samples": []
+        }
+      ]
+    },
+    {
+      "name": "infinite",
+      "interval": "5s",
+      "input_series": [
+        {
+          "series": "envoy_http_downstream_rq_active{namespace=\"inference\",service=\"inference-gateway\",job=\"inference-gateway\",pod_uid=\"uid\",instance=\"host:9901\",inference_listener=\"inference\"}",
+          "values": "+Inf +Inf +Inf +Inf"
+        },
+        {
+          "series": "up{namespace=\"inference\",service=\"inference-gateway\",job=\"inference-gateway\",pod_uid=\"uid\",instance=\"host:9901\"}",
+          "values": "1+0x3"
+        }
+      ],
+      "promql_expr_test": [
+        {
+          "expr": "sum by (namespace,service) ((envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"} >= 0 and envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"} < +Inf) and (time() - timestamp(envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"}) >= 0) and (time() - timestamp(envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"}) <= 10) and on (namespace,service,pod_uid,instance) (up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"} == 1 and (time() - timestamp(up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"}) >= 0) and (time() - timestamp(up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"}) <= 10))) and on (namespace,service) (count by (namespace,service) (envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"}) == 1) and on (namespace,service) (count by (namespace,service) (up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"}) == 1)",
+          "eval_time": "15s",
+          "exp_samples": []
+        }
+      ]
+    },
+    {
+      "name": "nan",
+      "interval": "5s",
+      "input_series": [
+        {
+          "series": "envoy_http_downstream_rq_active{namespace=\"inference\",service=\"inference-gateway\",job=\"inference-gateway\",pod_uid=\"uid\",instance=\"host:9901\",inference_listener=\"inference\"}",
+          "values": "NaN NaN NaN NaN"
+        },
+        {
+          "series": "up{namespace=\"inference\",service=\"inference-gateway\",job=\"inference-gateway\",pod_uid=\"uid\",instance=\"host:9901\"}",
+          "values": "1+0x3"
+        }
+      ],
+      "promql_expr_test": [
+        {
+          "expr": "sum by (namespace,service) ((envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"} >= 0 and envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"} < +Inf) and (time() - timestamp(envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"}) >= 0) and (time() - timestamp(envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"}) <= 10) and on (namespace,service,pod_uid,instance) (up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"} == 1 and (time() - timestamp(up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"}) >= 0) and (time() - timestamp(up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"}) <= 10))) and on (namespace,service) (count by (namespace,service) (envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"}) == 1) and on (namespace,service) (count by (namespace,service) (up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"}) == 1)",
+          "eval_time": "15s",
+          "exp_samples": []
+        }
+      ]
+    },
+    {
+      "name": "down",
+      "interval": "5s",
+      "input_series": [
+        {
+          "series": "envoy_http_downstream_rq_active{namespace=\"inference\",service=\"inference-gateway\",job=\"inference-gateway\",pod_uid=\"uid\",instance=\"host:9901\",inference_listener=\"inference\"}",
+          "values": "3+0x3"
+        },
+        {
+          "series": "up{namespace=\"inference\",service=\"inference-gateway\",job=\"inference-gateway\",pod_uid=\"uid\",instance=\"host:9901\"}",
+          "values": "0+0x3"
+        }
+      ],
+      "promql_expr_test": [
+        {
+          "expr": "sum by (namespace,service) ((envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"} >= 0 and envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"} < +Inf) and (time() - timestamp(envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"}) >= 0) and (time() - timestamp(envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"}) <= 10) and on (namespace,service,pod_uid,instance) (up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"} == 1 and (time() - timestamp(up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"}) >= 0) and (time() - timestamp(up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"}) <= 10))) and on (namespace,service) (count by (namespace,service) (envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"}) == 1) and on (namespace,service) (count by (namespace,service) (up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"}) == 1)",
+          "eval_time": "15s",
+          "exp_samples": []
+        }
+      ]
+    },
+    {
+      "name": "old-health",
+      "interval": "5s",
+      "input_series": [
+        {
+          "series": "envoy_http_downstream_rq_active{namespace=\"inference\",service=\"inference-gateway\",job=\"inference-gateway\",pod_uid=\"uid\",instance=\"host:9901\",inference_listener=\"inference\"}",
+          "values": "3+0x3"
+        },
+        {
+          "series": "up{namespace=\"inference\",service=\"inference-gateway\",job=\"inference-gateway\",pod_uid=\"uid\",instance=\"host:9901\"}",
+          "values": "1 _ _ _"
+        }
+      ],
+      "promql_expr_test": [
+        {
+          "expr": "sum by (namespace,service) ((envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"} >= 0 and envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"} < +Inf) and (time() - timestamp(envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"}) >= 0) and (time() - timestamp(envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"}) <= 10) and on (namespace,service,pod_uid,instance) (up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"} == 1 and (time() - timestamp(up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"}) >= 0) and (time() - timestamp(up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"}) <= 10))) and on (namespace,service) (count by (namespace,service) (envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"}) == 1) and on (namespace,service) (count by (namespace,service) (up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"}) == 1)",
+          "eval_time": "15s",
+          "exp_samples": []
+        }
+      ]
+    },
+    {
+      "name": "duplicate",
+      "interval": "5s",
+      "input_series": [
+        {
+          "series": "envoy_http_downstream_rq_active{namespace=\"inference\",service=\"inference-gateway\",job=\"inference-gateway\",pod_uid=\"uid\",instance=\"host:9901\",inference_listener=\"inference\"}",
+          "values": "3+0x3"
+        },
+        {
+          "series": "up{namespace=\"inference\",service=\"inference-gateway\",job=\"inference-gateway\",pod_uid=\"uid\",instance=\"host:9901\"}",
+          "values": "1+0x3"
+        },
+        {
+          "series": "envoy_http_downstream_rq_active{namespace=\"inference\",service=\"inference-gateway\",job=\"inference-gateway\",pod_uid=\"uid\",instance=\"host:9901\",inference_listener=\"inference\",extra=\"duplicate\"}",
+          "values": "2+0x3"
+        }
+      ],
+      "promql_expr_test": [
+        {
+          "expr": "sum by (namespace,service) ((envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"} >= 0 and envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"} < +Inf) and (time() - timestamp(envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"}) >= 0) and (time() - timestamp(envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"}) <= 10) and on (namespace,service,pod_uid,instance) (up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"} == 1 and (time() - timestamp(up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"}) >= 0) and (time() - timestamp(up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"}) <= 10))) and on (namespace,service) (count by (namespace,service) (envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"}) == 1) and on (namespace,service) (count by (namespace,service) (up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"}) == 1)",
+          "eval_time": "15s",
+          "exp_samples": []
+        }
+      ]
+    },
+    {
+      "name": "missing",
+      "interval": "5s",
+      "input_series": [
+        {
+          "series": "envoy_http_downstream_rq_active{namespace=\"inference\",service=\"inference-gateway\",job=\"inference-gateway\",pod_uid=\"uid\",instance=\"host:9901\",inference_listener=\"inference\"}",
+          "values": "_ _ _ _"
+        },
+        {
+          "series": "up{namespace=\"inference\",service=\"inference-gateway\",job=\"inference-gateway\",pod_uid=\"uid\",instance=\"host:9901\"}",
+          "values": "1+0x3"
+        }
+      ],
+      "promql_expr_test": [
+        {
+          "expr": "sum by (namespace,service) ((envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"} >= 0 and envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"} < +Inf) and (time() - timestamp(envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"}) >= 0) and (time() - timestamp(envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"}) <= 10) and on (namespace,service,pod_uid,instance) (up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"} == 1 and (time() - timestamp(up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"}) >= 0) and (time() - timestamp(up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"}) <= 10))) and on (namespace,service) (count by (namespace,service) (envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"}) == 1) and on (namespace,service) (count by (namespace,service) (up{job=\"inference-gateway\",namespace=\"inference\",service=\"inference-gateway\"}) == 1)",
+          "eval_time": "15s",
+          "exp_samples": []
+        }
+      ]
+    }
+  ]
+}

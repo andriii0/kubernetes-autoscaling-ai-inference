@@ -1,0 +1,14 @@
+{
+  "successful": true,
+  "after": 1794593464.5319762,
+  "last_signal": {
+    "active_requests": 0.0,
+    "source_at": 1794593473.998,
+    "health_at": 1794593473.998,
+    "evaluated_at": 1794593477.005,
+    "received_at": 1794593477.0098274,
+    "gateway_uid": "1c04e708-8f7f-439b-8b52-c9347286ba84",
+    "instance": "10.244.0.8:9901",
+    "adapter_at": 1794593476.0
+  }
+}

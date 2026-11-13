@@ -1,0 +1,3 @@
+Checking /etc/inference/prometheus.json
+ SUCCESS: /etc/inference/prometheus.json is valid prometheus config file syntax
+

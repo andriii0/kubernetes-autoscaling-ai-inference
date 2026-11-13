@@ -1,0 +1,15 @@
+{
+  "command": [
+    "kubectl",
+    "--context",
+    "ai-lab",
+    "get",
+    "hpa",
+    "-A",
+    "-o",
+    "json"
+  ],
+  "exit_code": 0,
+  "stdout": "{\n    \"apiVersion\": \"v1\",\n    \"items\": [],\n    \"kind\": \"List\",\n    \"metadata\": {\n        \"resourceVersion\": \"\"\n    }\n}\n",
+  "stderr": ""
+}

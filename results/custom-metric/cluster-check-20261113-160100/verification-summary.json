@@ -1,0 +1,16 @@
+{
+  "status": "passed",
+  "hpa_installed": false,
+  "comparative_series_started": false,
+  "requests": 3,
+  "successful_requests": 3,
+  "gateway_request_ids_matched": 3,
+  "ollama_spec_unchanged": true,
+  "ollama_service_unchanged": true,
+  "ollama_pod_and_container_unchanged": true,
+  "component_restarts": 0,
+  "fresh_zero_after_requests": true,
+  "backend_quiet_after_requests": true,
+  "stale_and_missing_query_return_empty": true,
+  "scope": "Installed signal chain only; no HPA behavior or comparison readiness claim"
+}

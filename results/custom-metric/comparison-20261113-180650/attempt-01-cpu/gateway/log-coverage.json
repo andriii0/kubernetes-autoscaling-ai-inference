@@ -1,0 +1,23 @@
+{
+  "1c04e708-8f7f-439b-8b52-c9347286ba84": {
+    "pod_name": "inference-gateway-7d9d5bdc78-sq6lb",
+    "attached_at_utc": "2026-11-13T18:07:23.774020+00:00",
+    "command": [
+      "kubectl",
+      "--context",
+      "ai-lab",
+      "-n",
+      "inference",
+      "logs",
+      "inference-gateway-7d9d5bdc78-sq6lb",
+      "-c",
+      "inference-gateway",
+      "--follow=true",
+      "--timestamps=true"
+    ],
+    "deleted": false,
+    "exit_code": 1,
+    "complete": true,
+    "stopped_by_collector": true
+  }
+}

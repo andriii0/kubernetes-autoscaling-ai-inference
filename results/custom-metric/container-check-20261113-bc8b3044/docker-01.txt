@@ -1,0 +1,38 @@
+configuration '/etc/inference/envoy.json' OK
+Unable to find image 'envoyproxy/envoy:v1.35.0' locally
+v1.35.0: Pulling from envoyproxy/envoy
+1d387567261e: Pulling fs layer
+1eff9e82fc22: Pulling fs layer
+37dd4c8f8a28: Pulling fs layer
+7a14e3fc50f7: Pulling fs layer
+9198d102afa8: Pulling fs layer
+73be5d5d0c64: Pulling fs layer
+353b8b2d32fc: Pulling fs layer
+4f4fb700ef54: Pulling fs layer
+59bb7e29f626: Pulling fs layer
+1eff9e82fc22: Download complete
+59bb7e29f626: Download complete
+7a14e3fc50f7: Download complete
+37dd4c8f8a28: Download complete
+9198d102afa8: Download complete
+73be5d5d0c64: Download complete
+4f4fb700ef54: Download complete
+1d387567261e: Download complete
+353b8b2d32fc: Download complete
+7a14e3fc50f7: Pull complete
+9198d102afa8: Pull complete
+1d387567261e: Pull complete
+59bb7e29f626: Pull complete
+73be5d5d0c64: Pull complete
+1eff9e82fc22: Pull complete
+37dd4c8f8a28: Pull complete
+4f4fb700ef54: Pull complete
+353b8b2d32fc: Pull complete
+Digest: sha256:cfe1c570e72aa4207853a37bd1c32c808a0036a351b16f73732dcfd0e5775175
+Status: Downloaded newer image for envoyproxy/envoy:v1.35.0
+[2026-11-13 15:37:03.381][1][info][main] [source/server/server.cc:932] runtime: {}
+[2026-11-13 15:37:03.381][1][info][config] [source/server/configuration_impl.cc:173] loading tracing configuration
+[2026-11-13 15:37:03.381][1][info][config] [source/server/configuration_impl.cc:124] loading 0 static secret(s)
+[2026-11-13 15:37:03.381][1][info][config] [source/server/configuration_impl.cc:130] loading 1 cluster(s)
+[2026-11-13 15:37:03.382][1][info][config] [source/server/configuration_impl.cc:140] loading 1 listener(s)
+[2026-11-13 15:37:03.385][1][info][config] [source/server/configuration_impl.cc:156] loading stats configuration

@@ -1,0 +1,14 @@
+{
+  "command": [
+    "kubectl",
+    "--context",
+    "ai-lab",
+    "top",
+    "pods",
+    "-n",
+    "inference"
+  ],
+  "exit_code": 0,
+  "stdout": "NAME                                        CPU(cores)   MEMORY(bytes)   \ninference-gateway-7d9d5bdc78-sq6lb          2m           21Mi            \ninference-metrics-adapter-8994f5d7d-2vgp7   2m           29Mi            \ninference-prometheus-7845b76fcd-rvgm7       1m           39Mi            \nollama-7db4f544df-s6xhv                     1m           512Mi           \n",
+  "stderr": ""
+}

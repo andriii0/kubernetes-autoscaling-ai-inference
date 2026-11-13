@@ -1,0 +1,110 @@
+{
+  "service": {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": {
+      "annotations": {
+        "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"Service\",\"metadata\":{\"annotations\":{},\"name\":\"ollama\",\"namespace\":\"inference\"},\"spec\":{\"ports\":[{\"nodePort\":30080,\"port\":11434,\"targetPort\":11434}],\"selector\":{\"app\":\"ollama\"},\"type\":\"NodePort\"}}\n"
+      },
+      "creationTimestamp": "2026-10-04T18:08:42Z",
+      "name": "ollama",
+      "namespace": "inference",
+      "resourceVersion": "19833",
+      "uid": "376e26c3-593a-40be-aa81-1b3f40195192"
+    },
+    "spec": {
+      "clusterIP": "10.101.196.71",
+      "clusterIPs": [
+        "10.101.196.71"
+      ],
+      "externalTrafficPolicy": "Cluster",
+      "internalTrafficPolicy": "Cluster",
+      "ipFamilies": [
+        "IPv4"
+      ],
+      "ipFamilyPolicy": "SingleStack",
+      "ports": [
+        {
+          "nodePort": 30080,
+          "port": 11434,
+          "protocol": "TCP",
+          "targetPort": 11434
+        }
+      ],
+      "selector": {
+        "app": "ollama"
+      },
+      "sessionAffinity": "None",
+      "type": "NodePort"
+    },
+    "status": {
+      "loadBalancer": {}
+    }
+  },
+  "endpoint_slices": {
+    "apiVersion": "v1",
+    "items": [
+      {
+        "addressType": "IPv4",
+        "apiVersion": "discovery.k8s.io/v1",
+        "endpoints": [
+          {
+            "addresses": [
+              "10.244.0.6"
+            ],
+            "conditions": {
+              "ready": true,
+              "serving": true,
+              "terminating": false
+            },
+            "nodeName": "ai-lab",
+            "targetRef": {
+              "kind": "Pod",
+              "name": "ollama-7db4f544df-s6xhv",
+              "namespace": "inference",
+              "uid": "ee38f8af-8777-45b4-aa55-7b6155c7defd"
+            }
+          }
+        ],
+        "kind": "EndpointSlice",
+        "metadata": {
+          "annotations": {
+            "endpoints.kubernetes.io/last-change-trigger-time": "2026-10-04T18:08:42Z"
+          },
+          "creationTimestamp": "2026-10-04T18:08:42Z",
+          "generateName": "ollama-",
+          "generation": 170,
+          "labels": {
+            "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+            "kubernetes.io/service-name": "ollama"
+          },
+          "name": "ollama-bgn2q",
+          "namespace": "inference",
+          "ownerReferences": [
+            {
+              "apiVersion": "v1",
+              "blockOwnerDeletion": true,
+              "controller": true,
+              "kind": "Service",
+              "name": "ollama",
+              "uid": "376e26c3-593a-40be-aa81-1b3f40195192"
+            }
+          ],
+          "resourceVersion": "227390",
+          "uid": "9f53d452-afc2-43c8-a294-c017f79ee299"
+        },
+        "ports": [
+          {
+            "name": "",
+            "port": 11434,
+            "protocol": "TCP"
+          }
+        ]
+      }
+    ],
+    "kind": "List",
+    "metadata": {
+      "resourceVersion": ""
+    }
+  }
+}

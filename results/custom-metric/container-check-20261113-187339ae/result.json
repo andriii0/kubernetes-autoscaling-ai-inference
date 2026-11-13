@@ -1,0 +1,20 @@
+{
+  "status": "failed",
+  "checks": [
+    "Envoy config accepted by pinned binary",
+    "Prometheus config and ten PromQL success/failure cases passed",
+    "Real downstream gauge: 0 -> 3 -> 2 -> 0",
+    "503, client timeout and cancellation clear the gauge; late backend work stays separate",
+    "Admin health excluded, one backend attempt per request, separate HTTP/1.1 upstream connections",
+    "Every client start reconciled with exactly one gateway access record"
+  ],
+  "images": {
+    "inference-gateway": "envoyproxy/envoy:v1.35.0",
+    "inference-prometheus": "prom/prometheus:v3.5.0",
+    "inference-metrics-adapter": "registry.k8s.io/prometheus-adapter/prometheus-adapter:v0.12.0"
+  },
+  "errors": [
+    "AssertionError: Timed out: zero after gateway restart; last error: <urlopen error timed out>"
+  ],
+  "envoy_image_id": "sha256:cfe1c570e72aa4207853a37bd1c32c808a0036a351b16f73732dcfd0e5775175"
+}

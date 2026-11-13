@@ -1,0 +1,7 @@
+Both archived preparations replayed.
+Installed sample: active=0.0, observer offset=0.
+Installed sample: active=0.0, observer offset=0.
+Installed sample: active=0.0, observer offset=-0.8.
+Installed sample: active=0.0, observer offset=-0.8.
+Installed sample: active=0.0, observer offset=-0.8.
+Verified clock boundary and cleanup; 245 protected files unchanged.

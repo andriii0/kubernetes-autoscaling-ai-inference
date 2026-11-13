@@ -1,0 +1,19 @@
+{
+  "request": {
+    "model": "qwen2.5:0.5b",
+    "prompt": "Write a numbered list of 200 short facts about computers. Continue the list without an introduction or conclusion.",
+    "stream": false,
+    "keep_alive": -1,
+    "options": {
+      "num_predict": 512,
+      "num_ctx": 1024,
+      "num_thread": 2,
+      "temperature": 0,
+      "seed": 42
+    }
+  },
+  "concurrency": 3,
+  "client_timeout_seconds": 90,
+  "reason": "Longer diagnostic answers make a five-second scrape observable",
+  "gateway_url": "http://127.0.0.1:55903"
+}

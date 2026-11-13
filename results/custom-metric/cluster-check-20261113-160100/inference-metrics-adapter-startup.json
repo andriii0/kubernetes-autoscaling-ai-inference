@@ -1,0 +1,5 @@
+{
+  "exit_code": 0,
+  "stdout": "Waiting for deployment \"inference-metrics-adapter\" rollout to finish: 0 of 1 updated replicas are available...\ndeployment \"inference-metrics-adapter\" successfully rolled out\n",
+  "stderr": ""
+}

@@ -1,0 +1,297 @@
+{
+  "status": "finished",
+  "protocol": "active-requests-preparation-v1",
+  "pid": 27184,
+  "started_at": "2026-11-13T16:53:13.814292+00:00",
+  "targets": [
+    1,
+    2
+  ],
+  "completed": [
+    {
+      "target": 1,
+      "run": "target-1",
+      "qualification": {
+        "qualifies": true,
+        "initial_low_one_copy": true,
+        "peak_desired_two_at_seconds": 128.10551404953003,
+        "peak_ready_two_at_seconds": 128.10551404953003,
+        "scope": "Sampled at 5s; gaps over 10s invalidate qualification. Latency is not a selection criterion."
+      },
+      "assessment": {
+        "protocol_version": "active-requests-preparation-v1",
+        "data_valid": true,
+        "duration_complete": true,
+        "unfinished": 0,
+        "dropped": 0,
+        "primary": {
+          "name": "peak",
+          "seconds": 300,
+          "target": "peak",
+          "start_seconds": 121,
+          "end_seconds": 421,
+          "assignment": "request start time",
+          "completed": 360,
+          "successful": 358,
+          "failed": 2,
+          "p95_ms": 26347.449999999997,
+          "mean_ms": 14260.460893854748,
+          "failure_categories": {
+            "timeout": 2
+          }
+        },
+        "primary_p95_pass": false,
+        "primary_errors_pass": true,
+        "whole_run_errors_pass": true,
+        "scaling_observed": "growth+reduction",
+        "overall": "fail",
+        "sensitivity_p95_pass": false,
+        "system_outcomes": [
+          {
+            "pod_uid": "ee38f8af-8777-45b4-aa55-7b6155c7defd",
+            "restart_count": 3,
+            "termination": {
+              "containerID": "containerd://acc8502bfb79a5347ddefb52a177b2b4bc9c6d3d1b163fdb9b80f9a0e215ef05",
+              "exitCode": 255,
+              "finishedAt": "2026-11-13T15:31:24Z",
+              "reason": "Unknown",
+              "startedAt": "2026-11-10T19:19:36Z"
+            }
+          }
+        ],
+        "limitations": [],
+        "server_drain_verified": false
+      },
+      "phases": [
+        {
+          "name": "low-before",
+          "seconds": 120,
+          "target": "low",
+          "start_seconds": 0,
+          "end_seconds": 120,
+          "assignment": "request start time",
+          "completed": 23,
+          "successful": 23,
+          "failed": 0,
+          "p95_ms": 1579.7,
+          "mean_ms": 1247.5217391304348,
+          "failure_categories": {}
+        },
+        {
+          "name": "rise",
+          "seconds": 1,
+          "target": "peak",
+          "start_seconds": 120,
+          "end_seconds": 121,
+          "assignment": "request start time",
+          "completed": 1,
+          "successful": 1,
+          "failed": 0,
+          "p95_ms": 1194.0,
+          "mean_ms": 1194.0,
+          "failure_categories": {}
+        },
+        {
+          "name": "peak",
+          "seconds": 300,
+          "target": "peak",
+          "start_seconds": 121,
+          "end_seconds": 421,
+          "assignment": "request start time",
+          "completed": 360,
+          "successful": 358,
+          "failed": 2,
+          "p95_ms": 26347.449999999997,
+          "mean_ms": 14260.460893854748,
+          "failure_categories": {
+            "timeout": 2
+          }
+        },
+        {
+          "name": "fall",
+          "seconds": 1,
+          "target": "low",
+          "start_seconds": 421,
+          "end_seconds": 422,
+          "assignment": "request start time",
+          "completed": 1,
+          "successful": 1,
+          "failed": 0,
+          "p95_ms": 15760.0,
+          "mean_ms": 15760.0,
+          "failure_categories": {}
+        },
+        {
+          "name": "low-after",
+          "seconds": 360,
+          "target": "low",
+          "start_seconds": 422,
+          "end_seconds": 782,
+          "assignment": "request start time",
+          "completed": 72,
+          "successful": 72,
+          "failed": 0,
+          "p95_ms": 1433.6500000000005,
+          "mean_ms": 1408.513888888889,
+          "failure_categories": {}
+        }
+      ],
+      "custom_metric_check": {
+        "valid": true,
+        "observations": 158,
+        "gateway": {
+          "matched": 457,
+          "complete": true,
+          "scope": "Gateway routing only; native Ollama reconciliation is still required"
+        },
+        "max_source_age_seconds": 5.003434181213379
+      }
+    },
+    {
+      "target": 2,
+      "run": "target-2",
+      "qualification": {
+        "qualifies": true,
+        "initial_low_one_copy": true,
+        "peak_desired_two_at_seconds": 141.0613570213318,
+        "peak_ready_two_at_seconds": 146.07059907913208,
+        "scope": "Sampled at 5s; gaps over 10s invalidate qualification. Latency is not a selection criterion."
+      },
+      "assessment": {
+        "protocol_version": "active-requests-preparation-v1",
+        "data_valid": true,
+        "duration_complete": true,
+        "unfinished": 0,
+        "dropped": 0,
+        "primary": {
+          "name": "peak",
+          "seconds": 300,
+          "target": "peak",
+          "start_seconds": 121,
+          "end_seconds": 421,
+          "assignment": "request start time",
+          "completed": 360,
+          "successful": 360,
+          "failed": 0,
+          "p95_ms": 3600.1,
+          "mean_ms": 1972.775,
+          "failure_categories": {}
+        },
+        "primary_p95_pass": true,
+        "primary_errors_pass": true,
+        "whole_run_errors_pass": true,
+        "scaling_observed": "growth+reduction",
+        "overall": "pass",
+        "sensitivity_p95_pass": true,
+        "system_outcomes": [
+          {
+            "pod_uid": "ee38f8af-8777-45b4-aa55-7b6155c7defd",
+            "restart_count": 3,
+            "termination": {
+              "containerID": "containerd://acc8502bfb79a5347ddefb52a177b2b4bc9c6d3d1b163fdb9b80f9a0e215ef05",
+              "exitCode": 255,
+              "finishedAt": "2026-11-13T15:31:24Z",
+              "reason": "Unknown",
+              "startedAt": "2026-11-10T19:19:36Z"
+            }
+          }
+        ],
+        "limitations": [],
+        "server_drain_verified": false
+      },
+      "phases": [
+        {
+          "name": "low-before",
+          "seconds": 120,
+          "target": "low",
+          "start_seconds": 0,
+          "end_seconds": 120,
+          "assignment": "request start time",
+          "completed": 23,
+          "successful": 23,
+          "failed": 0,
+          "p95_ms": 939.9,
+          "mean_ms": 905.8695652173913,
+          "failure_categories": {}
+        },
+        {
+          "name": "rise",
+          "seconds": 1,
+          "target": "peak",
+          "start_seconds": 120,
+          "end_seconds": 121,
+          "assignment": "request start time",
+          "completed": 1,
+          "successful": 1,
+          "failed": 0,
+          "p95_ms": 891.0,
+          "mean_ms": 891.0,
+          "failure_categories": {}
+        },
+        {
+          "name": "peak",
+          "seconds": 300,
+          "target": "peak",
+          "start_seconds": 121,
+          "end_seconds": 421,
+          "assignment": "request start time",
+          "completed": 360,
+          "successful": 360,
+          "failed": 0,
+          "p95_ms": 3600.1,
+          "mean_ms": 1972.775,
+          "failure_categories": {}
+        },
+        {
+          "name": "fall",
+          "seconds": 1,
+          "target": "low",
+          "start_seconds": 421,
+          "end_seconds": 422,
+          "assignment": "request start time",
+          "completed": 1,
+          "successful": 1,
+          "failed": 0,
+          "p95_ms": 1561.0,
+          "mean_ms": 1561.0,
+          "failure_categories": {}
+        },
+        {
+          "name": "low-after",
+          "seconds": 360,
+          "target": "low",
+          "start_seconds": 422,
+          "end_seconds": 782,
+          "assignment": "request start time",
+          "completed": 72,
+          "successful": 72,
+          "failed": 0,
+          "p95_ms": 1178.15,
+          "mean_ms": 974.6805555555555,
+          "failure_categories": {}
+        }
+      ],
+      "custom_metric_check": {
+        "valid": true,
+        "observations": 158,
+        "gateway": {
+          "matched": 457,
+          "complete": true,
+          "scope": "Gateway routing only; native Ollama reconciliation is still required"
+        },
+        "max_source_age_seconds": 5.008002281188965
+      }
+    }
+  ],
+  "current": "target-2",
+  "comparison_started": false,
+  "errors": [],
+  "finished_at": "2026-11-13T17:44:18.679033+00:00",
+  "resumed_at": "2026-11-13T17:21:02.591828+00:00",
+  "driver_versions": [
+    "4bb70ed6955f424c6560f37209bbe92ac597d9075cddec89faf02fa07df4948d",
+    "d228d66a1cd4cedd476453c0c18c7643bbc231a853953732c71b36854c3c1ba4"
+  ],
+  "continuation_reason": "Derived assessor version label fixed; target-1 load is retained without repetition.",
+  "selected_target": 1
+}

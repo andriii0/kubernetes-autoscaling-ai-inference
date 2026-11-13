@@ -1,0 +1,46 @@
+{
+  "status": "stopped",
+  "protocol": "active-requests-comparison-v1",
+  "pid": 48160,
+  "started_at": "2026-11-13T18:06:51.984639+00:00",
+  "preparation_dir": "C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\results\\custom-metric\\preparation-20261113-165340",
+  "selected_target": 1,
+  "cells": [
+    {
+      "order": 1,
+      "pair": 1,
+      "policy": "cpu"
+    },
+    {
+      "order": 2,
+      "pair": 1,
+      "policy": "active-1"
+    },
+    {
+      "order": 3,
+      "pair": 2,
+      "policy": "active-1"
+    },
+    {
+      "order": 4,
+      "pair": 2,
+      "policy": "cpu"
+    },
+    {
+      "order": 5,
+      "pair": 3,
+      "policy": "cpu"
+    },
+    {
+      "order": 6,
+      "pair": 3,
+      "policy": "active-1"
+    }
+  ],
+  "completed": [],
+  "current": "attempt-01-cpu",
+  "errors": [
+    "invalid preparation or cleanup: cluster observation failed: query evaluation is stale or ahead of the observation clock; query evaluation is stale or ahead of the observation clock; query evaluation is stale or ahead of the observation clock; custom-metric cleanup failed; see recovery.json; launcher reported errors; load/collection processes did not finish normally; 29 requests have no completion (server-side drain is unproven); request evidence: [Errno 2] No such file or directory: 'C:\\\\Users\\\\matvi\\\\PycharmProjects\\\\kubernetes-autoscaling-ai-inference\\\\results\\\\custom-metric\\\\comparison-20261113-180650\\\\attempt-01-cpu\\\\summary.json'"
+  ],
+  "finished_at": "2026-11-13T18:19:24.916994+00:00"
+}

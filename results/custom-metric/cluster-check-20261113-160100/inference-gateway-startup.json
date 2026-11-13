@@ -1,0 +1,5 @@
+{
+  "exit_code": 0,
+  "stdout": "Waiting for deployment \"inference-gateway\" rollout to finish: 0 of 1 updated replicas are available...\ndeployment \"inference-gateway\" successfully rolled out\n",
+  "stderr": ""
+}

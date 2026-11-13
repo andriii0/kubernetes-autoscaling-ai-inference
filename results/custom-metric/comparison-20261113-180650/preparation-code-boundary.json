@@ -1,0 +1,13 @@
+{
+  "changes": {
+    "run_pilot.py": {
+      "prepared": "c900803ecd2f348836d15b69329ca8931f550354cc6627b35e6d7972d0afbccf",
+      "comparison": "08d9908944101c7e5a85454c652a6f6e544342d8413b1481b1c5e3916a6d5b7f"
+    },
+    "prepare_custom_metric.py": {
+      "prepared": "d228d66a1cd4cedd476453c0c18c7643bbc231a853953732c71b36854c3c1ba4",
+      "comparison": "637a8bab5bc863758d1103f768e1239feefd2305adf75f31ede7df95dff596c1"
+    }
+  },
+  "reason": "Explicit comparison metadata/archive and shared review branch only; workload and collector unchanged."
+}

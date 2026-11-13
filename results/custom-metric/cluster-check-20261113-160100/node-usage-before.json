@@ -1,0 +1,12 @@
+{
+  "command": [
+    "kubectl",
+    "--context",
+    "ai-lab",
+    "top",
+    "nodes"
+  ],
+  "exit_code": 0,
+  "stdout": "NAME     CPU(cores)   CPU(%)   MEMORY(bytes)   MEMORY(%)   \nai-lab   109m         0%       921Mi           2%          \n",
+  "stderr": ""
+}

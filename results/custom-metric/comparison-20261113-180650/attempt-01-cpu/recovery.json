@@ -1,0 +1,18 @@
+{
+  "attempted": true,
+  "successful": false,
+  "errors": [
+    "query evaluation is stale or ahead of the observation clock"
+  ],
+  "backend_quiet": {
+    "started_at_utc": "2026-11-13T18:18:54.591473+00:00",
+    "passed_at_utc": "2026-11-13T18:19:22.610494+00:00",
+    "identity": [
+      {
+        "pod_uid": "ee38f8af-8777-45b4-aa55-7b6155c7defd",
+        "container_id": "containerd://44994821a853ff6bbfb3b3c0007d159dcb578b151260e56944ea22f2c8a74889",
+        "restart_count": 3
+      }
+    ]
+  }
+}

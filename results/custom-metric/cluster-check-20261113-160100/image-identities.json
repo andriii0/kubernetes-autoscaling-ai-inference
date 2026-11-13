@@ -1,0 +1,160 @@
+{
+  "inference-gateway": {
+    "allocatedResources": {
+      "cpu": "100m",
+      "memory": "64Mi"
+    },
+    "containerID": "containerd://a432e727344ebd4b20e56dfa83018a005b2a8c07feccb9b8a87cc98aec5ee095",
+    "image": "docker.io/envoyproxy/envoy:v1.35.0",
+    "imageID": "docker.io/envoyproxy/envoy@sha256:cfe1c570e72aa4207853a37bd1c32c808a0036a351b16f73732dcfd0e5775175",
+    "lastState": {},
+    "name": "inference-gateway",
+    "ready": true,
+    "resources": {
+      "limits": {
+        "cpu": "500m",
+        "memory": "256Mi"
+      },
+      "requests": {
+        "cpu": "100m",
+        "memory": "64Mi"
+      }
+    },
+    "restartCount": 0,
+    "started": true,
+    "state": {
+      "running": {
+        "startedAt": "2026-11-13T16:02:02Z"
+      }
+    },
+    "user": {
+      "linux": {
+        "gid": 0,
+        "supplementalGroups": [
+          0
+        ],
+        "uid": 0
+      }
+    },
+    "volumeMounts": [
+      {
+        "mountPath": "/etc/inference",
+        "name": "config",
+        "readOnly": true,
+        "recursiveReadOnly": "Disabled"
+      }
+    ]
+  },
+  "inference-metrics-adapter": {
+    "allocatedResources": {
+      "cpu": "100m",
+      "memory": "128Mi"
+    },
+    "containerID": "containerd://6907f5fa97180d2ebeec5570e74d40100663e67f751eeee48bf262834cec0f95",
+    "image": "registry.k8s.io/prometheus-adapter/prometheus-adapter:v0.12.0",
+    "imageID": "registry.k8s.io/prometheus-adapter/prometheus-adapter@sha256:932eae60e2bcf9c4660d6442da066ef1a79b4ea7cc232c61c7303069216ca006",
+    "lastState": {},
+    "name": "inference-metrics-adapter",
+    "ready": true,
+    "resources": {
+      "limits": {
+        "cpu": "500m",
+        "memory": "256Mi"
+      },
+      "requests": {
+        "cpu": "100m",
+        "memory": "128Mi"
+      }
+    },
+    "restartCount": 0,
+    "started": true,
+    "state": {
+      "running": {
+        "startedAt": "2026-11-13T16:02:06Z"
+      }
+    },
+    "user": {
+      "linux": {
+        "gid": 65534,
+        "supplementalGroups": [
+          65534
+        ],
+        "uid": 65534
+      }
+    },
+    "volumeMounts": [
+      {
+        "mountPath": "/etc/inference",
+        "name": "config",
+        "readOnly": true,
+        "recursiveReadOnly": "Disabled"
+      },
+      {
+        "mountPath": "/var/run/serving-cert",
+        "name": "data"
+      },
+      {
+        "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+        "name": "kube-api-access-gpxm8",
+        "readOnly": true,
+        "recursiveReadOnly": "Disabled"
+      }
+    ]
+  },
+  "inference-prometheus": {
+    "allocatedResources": {
+      "cpu": "100m",
+      "memory": "128Mi"
+    },
+    "containerID": "containerd://4d31caa7b1db01c8ad4c74149152cdbc567dd85343bac280a23c6d2df5f7ea4e",
+    "image": "docker.io/prom/prometheus:v3.5.0",
+    "imageID": "docker.io/prom/prometheus@sha256:63805ebb8d2b3920190daf1cb14a60871b16fd38bed42b857a3182bc621f4996",
+    "lastState": {},
+    "name": "inference-prometheus",
+    "ready": true,
+    "resources": {
+      "limits": {
+        "cpu": "500m",
+        "memory": "512Mi"
+      },
+      "requests": {
+        "cpu": "100m",
+        "memory": "128Mi"
+      }
+    },
+    "restartCount": 0,
+    "started": true,
+    "state": {
+      "running": {
+        "startedAt": "2026-11-13T16:01:55Z"
+      }
+    },
+    "user": {
+      "linux": {
+        "gid": 65534,
+        "supplementalGroups": [
+          65534
+        ],
+        "uid": 65534
+      }
+    },
+    "volumeMounts": [
+      {
+        "mountPath": "/etc/inference",
+        "name": "config",
+        "readOnly": true,
+        "recursiveReadOnly": "Disabled"
+      },
+      {
+        "mountPath": "/prometheus",
+        "name": "data"
+      },
+      {
+        "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+        "name": "kube-api-access-hbfwh",
+        "readOnly": true,
+        "recursiveReadOnly": "Disabled"
+      }
+    ]
+  }
+}

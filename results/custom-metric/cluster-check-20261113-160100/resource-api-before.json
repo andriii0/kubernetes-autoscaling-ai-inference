@@ -1,0 +1,13 @@
+{
+  "command": [
+    "kubectl",
+    "--context",
+    "ai-lab",
+    "get",
+    "--raw",
+    "/apis/metrics.k8s.io/v1beta1/nodes"
+  ],
+  "exit_code": 0,
+  "stdout": "{\"kind\":\"NodeMetricsList\",\"apiVersion\":\"metrics.k8s.io/v1beta1\",\"metadata\":{},\"items\":[{\"metadata\":{\"name\":\"ai-lab\",\"creationTimestamp\":\"2026-11-13T16:00:58Z\",\"labels\":{\"beta.kubernetes.io/arch\":\"amd64\",\"beta.kubernetes.io/os\":\"linux\",\"kubernetes.io/arch\":\"amd64\",\"kubernetes.io/hostname\":\"ai-lab\",\"kubernetes.io/os\":\"linux\",\"minikube.k8s.io/commit\":\"7a9f6a841470a207de8cf4bafcccee0969d8ba10\",\"minikube.k8s.io/name\":\"ai-lab\",\"minikube.k8s.io/primary\":\"true\",\"minikube.k8s.io/updated_at\":\"2026_10_01T11_59_50_0700\",\"minikube.k8s.io/version\":\"v1.39.0\",\"node-role.kubernetes.io/control-plane\":\"\",\"node.kubernetes.io/exclude-from-external-load-balancers\":\"\"}},\"timestamp\":\"2026-11-13T15:59:51Z\",\"window\":\"1m0.024s\",\"usage\":{\"cpu\":\"108615772n\",\"memory\":\"943452Ki\"}}]}\n",
+  "stderr": ""
+}

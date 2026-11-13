@@ -1,0 +1,5 @@
+{
+  "exit_code": 0,
+  "stdout": "deployment \"inference-prometheus\" successfully rolled out\n",
+  "stderr": ""
+}

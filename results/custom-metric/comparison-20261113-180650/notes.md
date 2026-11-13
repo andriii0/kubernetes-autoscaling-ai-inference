@@ -1,0 +1,1 @@
+The first comparison stopped during the CPU run. Prometheus time was about 0.78 seconds ahead of Windows, and my collector rejected it as a future timestamp. The source measurements were fresh. The collector stopped the load, so no complete run was accepted. I kept this attempt and will use a separate folder for the corrected comparison.

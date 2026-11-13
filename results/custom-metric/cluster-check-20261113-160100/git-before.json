@@ -1,0 +1,10 @@
+{
+  "command": [
+    "git",
+    "status",
+    "--short"
+  ],
+  "exit_code": 0,
+  "stdout": " M README.md\n M bench/autoscaling.py\n M bench/inference.js\n M bench/run_pilot.py\n M \"docs/PDP Research document.docx\"\n M \"docs/PDP Research document.pdf\"\n M docs/README.md\n M md/ARCHITECTURE.md\n M md/DECISIONS.md\n M md/GETTING_STARTED.md\n M md/OBSERVATION.md\n M md/STATUS.md\n M md/plans/inference-lab.md\n M md/plans/notion-evidence.md\n M md/plans/peak12-resume.md\n M results/follow-up/comparison-20261110-205108-peak12/README.md\n M tests/bench/test_inference.py\n M tests/bench/test_resume_peak12.py\n M tests/bench/test_run_peak12_comparison.py\n M tests/bench/test_run_pilot.py\n M tests/lab/test_jobs.py\n M tests/lab/test_notes.py\n?? bench/check_custom_metric.py\n?? bench/custom_metric_stack.py\n?? bench/custom_metrics.py\n?? md/plans/custom-metric-hpa.md\n?? md/plans/test-coverage.md\n?? results/custom-metric/\n?? tests/bench/test_custom_metrics.py\n?? tests/bench/test_recover_peak12_logs.py\n?? tests/check_custom_metric_containers.py\n?? tests/lab/__init__.py\n?? tests/ui/\n",
+  "stderr": ""
+}

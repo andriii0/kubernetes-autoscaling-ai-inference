@@ -1,0 +1,19 @@
+{
+  "target-2": {
+    "0cec7ccd-66fb-483c-8cbb-915de181bc19": {
+      "cpu_valid_samples": 25,
+      "cpu_mean_cores": 1.097600201753944,
+      "peak_memory_mib": 483.9921875
+    },
+    "72678d4e-d794-4683-a5dd-3b9b29f55546": {
+      "cpu_valid_samples": 42,
+      "cpu_mean_cores": 0.8876165578133273,
+      "peak_memory_mib": 891.2421875
+    },
+    "ee38f8af-8777-45b4-aa55-7b6155c7defd": {
+      "cpu_valid_samples": 51,
+      "cpu_mean_cores": 0.6598267306864364,
+      "peak_memory_mib": 530.97265625
+    }
+  }
+}

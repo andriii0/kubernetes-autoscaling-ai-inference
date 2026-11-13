@@ -1,0 +1,13 @@
+{
+  "command": [
+    "kubectl",
+    "--context",
+    "ai-lab",
+    "get",
+    "--raw",
+    "/apis/custom.metrics.k8s.io/v1beta1/namespaces/inference/services/inference-gateway/inference_gateway_active_requests"
+  ],
+  "exit_code": 0,
+  "stdout": "{\"kind\":\"MetricValueList\",\"apiVersion\":\"custom.metrics.k8s.io/v1beta1\",\"metadata\":{},\"items\":[{\"describedObject\":{\"kind\":\"Service\",\"namespace\":\"inference\",\"name\":\"inference-gateway\",\"apiVersion\":\"/v1\"},\"metricName\":\"inference_gateway_active_requests\",\"timestamp\":\"2026-11-13T16:31:44Z\",\"value\":\"0\",\"selector\":null}]}\n",
+  "stderr": ""
+}

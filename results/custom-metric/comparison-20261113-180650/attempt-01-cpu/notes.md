@@ -1,0 +1,1 @@
+This run stopped after 404 of the planned 782 seconds. The metric checker rejected a small difference between Prometheus and Windows clocks. It also rejected the final zero during cleanup, although HPA was removed and one copy was restored. Of 364 started requests, 335 completed and 29 had no client result. This is an incomplete run, not a completed HPA comparison.
