@@ -250,13 +250,16 @@ class Session:
             if sample['time'] == previous:
                 continue
             previous = sample['time']
-            if hpa_ready(sample, self.deployment):
+            if self.is_ready(sample):
                 consecutive += 1
                 if consecutive == 2:
                     return
             else:
                 consecutive = 0
         raise RuntimeError('HPA did not reach two numeric, ScalingActive one-copy samples within 300 seconds')
+
+    def is_ready(self, sample):
+        return hpa_ready(sample, self.deployment)
 
     def restore(self):
         result = {'attempted': self.mutated, 'successful': False, 'errors': []}
@@ -279,15 +282,19 @@ class Session:
         return result
 
 
-def hpa_ready(sample, deployment):
+def hpa_ready(sample, deployment, *, active_target=None, signal=None):
     hpa = target_hpa(sample, deployment)
     pods = sample['pods']['items']
     if not hpa or len(pods) != 1 or not ready(pods[0]):
         return False
     status = hpa.get('status', {})
-    numeric = any(m.get('type') == 'Resource' and m.get('resource', {}).get('name') == 'cpu'
-                  and isinstance(m['resource'].get('current', {}).get('averageUtilization'), (int, float))
-                  for m in status.get('currentMetrics', []))
+    if active_target is None:
+        numeric = any(m.get('type') == 'Resource' and m.get('resource', {}).get('name') == 'cpu'
+                      and isinstance(m['resource'].get('current', {}).get('averageUtilization'), (int, float))
+                      for m in status.get('currentMetrics', []))
+    else:
+        from custom_metrics import object_metric_ready
+        numeric = object_metric_ready(hpa, active_target, signal, timestamp(sample['time']))
     return numeric and status.get('currentReplicas') == 1 and status.get('desiredReplicas') == 1 and any(
         c['type'] == 'ScalingActive' and c['status'] == 'True' for c in status.get('conditions', []))
 

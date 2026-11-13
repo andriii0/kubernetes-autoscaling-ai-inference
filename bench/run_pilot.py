@@ -51,12 +51,15 @@ def load_environment(args, run_id):
     # CLI/config environment overrides must not silently change or export a local experiment.
     environment = {key: value for key, value in os.environ.items()
                    if not key.upper().startswith("K6_") and key not in
-                   {"BASE_URL", "PROFILE", "RATE", "LOW_RATE", "DURATION", "SLO_MS", "RUN_ID", "REQUEST_EVENTS", "MAIN_PROTOCOL"}}
+                   {"BASE_URL", "PROFILE", "RATE", "LOW_RATE", "DURATION", "SLO_MS", "RUN_ID", "REQUEST_EVENTS", "MAIN_PROTOCOL",
+                    "GATEWAY_REQUEST_IDS"}}
     environment.update(BASE_URL=args.base_url, PROFILE=getattr(args, "profile", "steady"), RATE=str(args.rate),
                        LOW_RATE=str(getattr(args, "low_rate", 2)),
                        DURATION=args.duration, RUN_ID=run_id, REQUEST_EVENTS="1")
     if getattr(args, 'protocol_version', None):
         environment['MAIN_PROTOCOL'] = args.protocol_version
+    if getattr(args, 'custom_metric_policy', None):
+        environment['GATEWAY_REQUEST_IDS'] = '1'
     if args.slo_ms is not None:
         environment['SLO_MS'] = str(args.slo_ms)
     return environment
@@ -239,6 +242,10 @@ def parse_arguments(argv):
                         help="Fixed-one steady diagnostic; vary only post-warmup settling, outside the main protocol")
     parser.add_argument("--pilot-preparation", action="store_true",
                         help="Use recovery and quiet-state gates for fixed-mode or autoscaling burst checks")
+    parser.add_argument("--custom-metric-policy", choices=("cpu", "active-1", "active-2"),
+                        help="Separate prepared extension through the installed inference gateway")
+    parser.add_argument("--custom-metric-comparison", action="store_true",
+                        help="Label the separately authorized comparison; retains all extension checks")
     parser.add_argument("--base-url", required=True)
     parser.add_argument("--rate", type=int, required=True, help="Requests per 10 seconds")
     parser.add_argument("--duration")
@@ -261,6 +268,8 @@ def parse_arguments(argv):
     parser.add_argument("--warmup-timeout", type=positive_number, default=120)
     parser.add_argument("--activity-note", default="Not recorded", help="Other heavy activity on this computer")
     args = parser.parse_args(argv)
+    if args.custom_metric_comparison and args.custom_metric_policy not in ("cpu", "active-1"):
+        parser.error("comparison requires cpu or the selected active-1 policy")
     if args.rate <= 0 or args.low_rate <= 0:
         parser.error("rates must be positive")
     if args.mode == "autoscaling" and args.replicas is not None:
@@ -278,6 +287,14 @@ def parse_arguments(argv):
         parser.error("--pilot-preparation requires a fixed mode or autoscaling/burst without protocol or diagnostic options")
     prepared = bool(args.protocol_version or args.diagnostic_warmup_wait or args.pilot_preparation)
     args.post_seconds = args.post_seconds if args.post_seconds is not None else (300 if args.mode == "autoscaling" else 10)
+    if args.custom_metric_policy and (
+            not args.pilot_preparation or args.mode != "autoscaling" or args.profile != "burst"
+            or args.rate != 12 or args.low_rate != 2 or args.post_seconds != 300
+            or args.observer_interval != 5 or args.idle_seconds != 60
+            or args.slo_ms != 5000 or args.protocol_version or args.diagnostic_warmup_wait
+            or (args.context, args.namespace, args.deployment, args.service, args.selector, args.container)
+            != ("ai-lab", "inference", "ollama", "ollama", "app=ollama", "ollama")):
+        parser.error("custom-metric policy requires the separate prepared ai-lab autoscaling burst: 2/12, 5s observer, 60s idle, 300s post, 5000ms target")
     workload = json.loads((Path(__file__).parent / "workload.json").read_text(encoding="utf-8"))
     stages = workload["burst_stages"]
     if args.profile == "burst":
@@ -324,6 +341,11 @@ def create_metadata(args, workload, seconds):
         metadata.update(purpose="main-series", workload=workload, protocol_version=args.protocol_version, repetition=args.repetition,
                         planned_order=args.planned_order, actual_order=args.actual_order,
                         replaces_run=args.replaces_run, replacement_reason=args.replacement_reason)
+    if args.custom_metric_policy:
+        metadata.update(purpose="custom-metric-preparation", custom_metric_policy=args.custom_metric_policy,
+                        extension_version="active-requests-preparation-v1")
+    if args.custom_metric_comparison:
+        metadata.update(purpose="custom-metric-comparison", extension_version="active-requests-comparison-v2")
     return metadata
 
 
@@ -342,6 +364,11 @@ def archive_inputs(args, metadata, prepared):
         names.append("fixed_replicas.py")
     if args.mode == "autoscaling":
         names.append("autoscaling.py")
+    if args.custom_metric_policy:
+        names.extend(["custom_metric_stack.py", "custom_metrics.py", "check_custom_metric.py",
+                      "custom_metric_run.py", "prepare_custom_metric.py", "runtime.py"])
+    if args.custom_metric_comparison:
+        names.extend(["run_custom_comparison.py", "analyze_custom_comparison.py"])
     for name in names:
         shutil.copyfile(source / name, inputs / name)
         metadata["source_sha256"][name] = hashlib.sha256((inputs / name).read_bytes()).hexdigest()
@@ -448,6 +475,13 @@ def finalize_run(args, metadata, collection, session, pods, prepared, phase, exi
         except (OSError, RuntimeError, subprocess.SubprocessError) as error:
             metadata["errors"].append(f"log shutdown: {error}")
         metadata["recovery"] = session.restore()
+        if getattr(args, "custom_metric_policy", None):
+            if not metadata["recovery"].get("successful"):
+                metadata["errors"].append("custom-metric cleanup failed; see recovery.json")
+            try:
+                metadata["gateway_check"] = session.verify_gateway()
+            except (OSError, ValueError, RuntimeError, KeyError) as error:
+                metadata["errors"].append(f"gateway validation: {error}")
     if collection is not None and getattr(collection, 'fixed_logs', None):
         try:
             collection.fixed_logs.stop()
@@ -524,9 +558,16 @@ def main(argv=None):
             metadata["initial_recovery"] = recover(observer, args.run_dir, args.container)
         if args.mode == "autoscaling":
             from autoscaling import Session
-            manifest = inputs / "hpa.yaml"
-            shutil.copyfile(Path(__file__).resolve().parent.parent / "deploy/hpa.yaml", manifest)
-            metadata["source_sha256"]["hpa.yaml"] = hashlib.sha256(manifest.read_bytes()).hexdigest()
+            if args.custom_metric_policy:
+                from custom_metric_run import CustomSession as Session
+                from custom_metric_stack import render
+                render(inputs / "custom-stack")
+                manifest = inputs / "custom-stack" / f"hpa-{args.custom_metric_policy}.json"
+                metadata["custom_bundle"] = json.loads((inputs / "custom-stack" / "bundle.json").read_text(encoding="utf-8"))
+            else:
+                manifest = inputs / "hpa.yaml"
+                shutil.copyfile(Path(__file__).resolve().parent.parent / "deploy/hpa.yaml", manifest)
+                metadata["source_sha256"]["hpa.yaml"] = hashlib.sha256(manifest.read_bytes()).hexdigest()
             session = Session(observer, args.run_dir, args.deployment, args.container, args.service, manifest)
             phase("reset")
             session.prepare()

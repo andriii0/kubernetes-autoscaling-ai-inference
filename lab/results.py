@@ -6,7 +6,7 @@ from pathlib import Path
 import re
 
 
-GROUPS = ('Pilots', 'Series', 'Checks & diagnostics')
+GROUPS = ('Pilots', 'Series', 'Checks & diagnostics', 'Custom metrics')
 
 
 def read_json(path, issues=None):
@@ -48,6 +48,8 @@ def list_field(value, key, issues):
 
 
 def group_for(relative):
+    if relative.parts[0] == 'custom-metric':
+        return GROUPS[3]
     if relative.parts[0] == 'follow-up' and len(relative.parts) > 1 and relative.parts[1].startswith('comparison-'):
         return GROUPS[1]
     return {'pilot': GROUPS[0], 'main': GROUPS[1]}.get(relative.parts[0], GROUPS[2])
@@ -106,6 +108,10 @@ class Results:
 
     def assessment(self, folder, issues):
         manifest = read_json(folder.parent / 'manifest.json', issues)
+        if manifest.get('protocol') in ('active-requests-comparison-v1', 'active-requests-comparison-v2'):
+            for row in list_field(manifest, 'completed', issues):
+                if isinstance(row, dict) and row.get('run') == folder.name:
+                    return object_field(row, 'assessment', issues)
         if manifest.get('protocol') == 'peak12-v1':
             for row in manifest.get('completed_runs', []):
                 if row.get('run') == folder.name:
@@ -167,6 +173,8 @@ class Results:
                 rates = sorted({run['rate'] for run in children if run['rate'] is not None})
                 peak = f' · peak {max(rates):g} req / 10 s' if rates else ''
                 name = label + peak
+            elif group_for(relative) == 'Custom metrics' and parent.name.startswith('comparison-'):
+                name = 'CPU vs requests'
             entries.append(dict(id=relative.as_posix(), kind='series', group=group_for(relative),
                                 name=name, mode='Mixed modes' if len({r['mode'] for r in children}) > 1 else (children[0]['mode'] if children else None),
                                 date=manifest.get('started_at_utc') or (min(dates) if dates else None),

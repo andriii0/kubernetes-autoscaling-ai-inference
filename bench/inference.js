@@ -68,7 +68,10 @@ export default function () {
   emit({ ...identity, event: 'started' });
   requestsStarted.add(1);
   const response = http.post(`${baseUrl}/api/generate`, payload, {
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      ...(__ENV.GATEWAY_REQUEST_IDS === '1' ? { 'X-Inference-Request-ID': identity.request_id } : {}),
+    },
     timeout: `${workload.timeout_seconds}s`, redirects: 0,
   });
   const finished = Date.now();

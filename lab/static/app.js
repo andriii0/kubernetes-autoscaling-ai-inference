@@ -1,15 +1,16 @@
 const $ = (id) => document.getElementById(id);
 const state = { entries: [], group: 'Series', parent: null, selected: null, token: '', status: {}, detailRequest: 0, page: location.hash && location.hash !== '#runs' ? 'results' : 'runs', pilot: null, launching: false };
-const groups = ['Series', 'Pilots', 'Checks & diagnostics'];
+const groups = ['Series', 'Pilots', 'Custom metrics', 'Checks & diagnostics'];
 const noteDrafts = new Map();
 window.addEventListener('beforeunload', event => {
   if ([...noteDrafts.values()].some(note => note.text !== note.saved)) { event.preventDefault(); event.returnValue = ''; }
 });
 
-async function renderNotes(id, request) {
+async function renderNotes(id, request, title='Notes') {
   const panel = document.createElement('details');
   panel.className = 'result-notes';
   panel.innerHTML = '<summary>Notes</summary><p class="field-note">Saved in notes.md for this run or series.</p><label>Problems and observations<textarea rows="5" maxlength="20000" placeholder="Describe what happened…"></textarea></label><div><button type="button" disabled>Save notes</button><span role="status">Loading…</span></div>';
+  panel.querySelector('summary').textContent = title;
   $('preview').append(panel);
   const input = panel.querySelector('textarea'), button = panel.querySelector('button'), status = panel.querySelector('[role=status]');
   input.disabled = true;
@@ -41,6 +42,15 @@ async function renderNotes(id, request) {
       } catch(error) { note.saving = false; update(); status.textContent = error.message; }
     };
   } catch(error) { status.textContent = error.message; }
+}
+function showCustomFolder() {
+  state.group = 'Custom metrics'; state.parent = null; state.selected = null;
+  const request = ++state.detailRequest;
+  history.replaceState(null, '', '#custom-metric');
+  renderList();
+  $('breadcrumb').textContent = 'results / custom-metric';
+  $('preview').innerHTML = '<div class="eyebrow">Custom metrics</div><div class="preview-title"><h3>Custom metrics</h3></div><p class="preview-subtitle">Preparation and CPU/request HPA comparisons.</p>';
+  renderNotes('custom-metric', request, 'About this folder');
 }
 const icon = (name) => `<svg aria-hidden="true"><use href="#${name}"/></svg>`;
 const escape = (value) => String(value ?? '—').replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -146,6 +156,12 @@ async function refresh() {
     else if (!state.selected) {
       let id;
       try { id = decodeURIComponent(location.hash.slice(1)); } catch { id = ''; }
+      if (id === 'custom-metric' || state.group === 'Custom metrics') {
+        showCustomFolder();
+        $('connection').textContent = 'Local files connected';
+        updateButtons();
+        return;
+      }
       const initial = state.entries.find(e => e.id === id) || series[0] || state.entries[0];
       if (initial) await select(initial.id);
       else $('preview').innerHTML = '<div class="empty">No saved results yet. Run a pilot to create the first result.</div>';
@@ -264,6 +280,7 @@ $('groups').onclick = (event) => {
   const button = event.target.closest('[data-group]');
   if (!button) return;
   state.group = button.dataset.group; state.parent = null; renderList();
+  if (state.group === 'Custom metrics') { showCustomFolder(); return; }
   const first = state.entries.find(e => e.group === state.group && !e.parent);
   if (first) select(first.id);
   else { state.selected = null; ++state.detailRequest; $('preview').innerHTML = '<div class="empty">No saved results in this group yet.</div>'; }

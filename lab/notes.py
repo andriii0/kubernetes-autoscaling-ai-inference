@@ -12,7 +12,9 @@ class Notes:
         self.lock = threading.Lock()
 
     def path(self, result_id):
-        if not isinstance(result_id, str) or not any(row['id'] == result_id for row in self.results.catalog()):
+        entries = self.results.catalog()
+        custom_folder = result_id == 'custom-metric' and any(row['group'] == 'Custom metrics' for row in entries)
+        if not isinstance(result_id, str) or not (custom_folder or any(row['id'] == result_id for row in entries)):
             raise ValueError('Choose a saved run or series')
         path = self.results.path(result_id) / 'notes.md'
         if path.is_symlink():

@@ -39,10 +39,11 @@ class PilotLauncherTests(PilotLauncherFixture):
 
     def test_explicit_slo_is_passed_and_ambient_overrides_stay_blocked(self):
         args = argparse.Namespace(base_url='http://localhost:1', rate=2, duration='1s', slo_ms=None)
-        with patch.dict(os.environ, {'SLO_MS': '1', 'K6_DURATION': '9h'}):
+        with patch.dict(os.environ, {'SLO_MS': '1', 'K6_DURATION': '9h', 'GATEWAY_REQUEST_IDS': '1'}):
             environment = run_pilot.load_environment(args, 'test-run')
             self.assertNotIn('SLO_MS', environment)
             self.assertNotIn('K6_DURATION', environment)
+            self.assertNotIn('GATEWAY_REQUEST_IDS', environment)
             args.slo_ms = 3000
             self.assertEqual(run_pilot.load_environment(args, 'test-run')['SLO_MS'], '3000')
 

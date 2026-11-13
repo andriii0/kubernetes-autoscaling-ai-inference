@@ -14,9 +14,12 @@ from tests.bench.fixtures import BENCH
 class InferenceMetricTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which('k6'), 'k6 is required for this integration check')
     def test_concurrent_vus_keep_distinct_complete_request_pairs(self):
+        captured_ids = []
+
         class Handler(BaseHTTPRequestHandler):
             def do_POST(self):
                 self.rfile.read(int(self.headers["Content-Length"]))
+                captured_ids.append(self.headers.get("X-Inference-Request-ID"))
                 time.sleep(.02)
                 data = b'{"done":true,"response":"Stub answer"}'
                 self.send_response(200)
@@ -42,7 +45,8 @@ class InferenceMetricTests(unittest.TestCase):
                     [shutil.which("k6"), "run", "--quiet", "--no-usage-report", "--log-format", "raw",
                      "--console-output", str(events), str(wrapper)],
                     env={**{k: v for k, v in os.environ.items() if not k.upper().startswith("K6_")},
-                         "BASE_URL": f"http://127.0.0.1:{server.server_port}", "REQUEST_EVENTS": "1", "RUN_ID": "parallel"},
+                         "BASE_URL": f"http://127.0.0.1:{server.server_port}", "REQUEST_EVENTS": "1", "RUN_ID": "parallel",
+                         "GATEWAY_REQUEST_IDS": "1"},
                     capture_output=True, text=True, timeout=20,
                 )
                 self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
@@ -52,6 +56,7 @@ class InferenceMetricTests(unittest.TestCase):
                 self.assertEqual(len(records), 24)
                 self.assertEqual(len(started), 12)
                 self.assertEqual(started.keys(), completed.keys())
+                self.assertCountEqual(captured_ids, started)
                 self.assertGreater(len({e["vu"] for e in records}), 1)
                 self.assertTrue(all(e["outcome"] == "success" for e in completed.values()))
         finally:

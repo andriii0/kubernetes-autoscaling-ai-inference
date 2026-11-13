@@ -7,6 +7,20 @@ from lab.results import Results
 
 
 class ResultTests(unittest.TestCase):
+    def test_custom_metrics_group_retains_comparison_assessment(self):
+        folder = self.root / 'custom-metric/comparison-example/attempt-01-cpu'
+        folder.mkdir(parents=True)
+        (folder / 'metadata.json').write_text(json.dumps(self.metadata))
+        assessment = {'overall': 'fail', 'data_valid': True, 'primary': {'name': 'peak', 'p95_ms': 7000}}
+        (folder.parent / 'manifest.json').write_text(json.dumps({
+            'protocol': 'active-requests-comparison-v2', 'cells': [1] * 6,
+            'completed': [{'run': folder.name, 'assessment': assessment}]}))
+        run = self.results.detail(folder.relative_to(self.root).as_posix())
+        self.assertEqual((run['group'], run['p95_scope'], run['p95_ms']), ('Custom metrics', 'Peak', 7000))
+        self.assertEqual(run['status'], 'Target missed')
+        series = self.results.detail(folder.parent.relative_to(self.root).as_posix())
+        self.assertEqual((series['name'], series['total']), ('CPU vs requests', 6))
+
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
