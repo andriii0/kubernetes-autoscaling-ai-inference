@@ -1,0 +1,9 @@
+{
+  "task_name": "AI-Inference-Fresh-20261114-150236",
+  "launch_dir": "C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\results\\custom-metric\\launch-20261114-150236",
+  "series_dir": "C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\results\\custom-metric\\series-20261114-150236",
+  "code_commit": "5d504200f246f8fbc3fd484cab5b72389eb74e54",
+  "prepared_at_utc": "2026-11-14T15:02:36.1892804Z",
+  "recurring_triggers": 0,
+  "automatic_retries": 0
+}

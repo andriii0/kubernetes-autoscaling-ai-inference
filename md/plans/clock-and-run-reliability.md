@@ -28,4 +28,4 @@ A real Windows admission probe exposed a false conflict with the driver's own ve
 
 External review was unavailable because OpenCode could not open its log file. I did not switch provider or broaden access after that filesystem failure. The patch was reviewed locally.
 
-The physical clock jump is unresolved. I kept both synchronizers and the existing Hyper-V clocksource unchanged. Commit and fresh live startup remain; passing idle checks do not guarantee that the full load will finish.
+The physical clock jump is unresolved. I kept both synchronizers and the existing Hyper-V clocksource unchanged. The fixes are committed as `5d50420`, and old evidence as `1dd97aa`. I started the [fresh cycle](../../results/custom-metric/series-20261114-150236/README.md) at 16:05:28 Berlin on 14 November through an independent one-time Windows task. Target 1 passed collection, scaling qualification and cleanup; target 2 is preparing. The six new comparison cells remain pending. Passing idle checks and one preparation do not guarantee that the full cycle will finish. The new code and launch are also recorded in Notion.
