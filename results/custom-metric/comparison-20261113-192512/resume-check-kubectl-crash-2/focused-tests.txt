@@ -1,0 +1,9 @@
+Comparison stopped: cleanup failed
+Comparison stopped: new cleanup failed
+failed
+API offline
+...................................................
+----------------------------------------------------------------------
+Ran 51 tests in 0.992s
+
+OK

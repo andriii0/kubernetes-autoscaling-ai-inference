@@ -1,0 +1,21 @@
+{
+  "conflicting_processes": [],
+  "processor_snapshot": [
+    {
+      "Name": "13th Gen Intel(R) Core(TM) i7-13700",
+      "CurrentClockSpeed": 2100,
+      "MaxClockSpeed": 2100,
+      "LoadPercentage": 40
+    }
+  ],
+  "power_scheme_guid": "381b4222-f694-41f0-9685-ff5bb260df2e",
+  "recorded_at_utc": "2026-11-14T11:42:50.819255+00:00",
+  "scope": "Pre-launch snapshot; not a continuous Windows load/frequency measurement",
+  "minikube_container": {
+    "NanoCpus": 8000000000,
+    "CpuQuota": 0,
+    "CpuPeriod": 0,
+    "CpusetCpus": "",
+    "Memory": 12884901888
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "apiVersion": "autoscaling/v2",
+  "kind": "HorizontalPodAutoscaler",
+  "metadata": {
+    "name": "ollama",
+    "namespace": "inference"
+  },
+  "spec": {
+    "behavior": {
+      "scaleDown": {
+        "stabilizationWindowSeconds": 300
+      }
+    },
+    "maxReplicas": 3,
+    "metrics": [
+      {
+        "object": {
+          "describedObject": {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "name": "inference-gateway"
+          },
+          "metric": {
+            "name": "inference_gateway_active_requests"
+          },
+          "target": {
+            "averageValue": "1",
+            "type": "AverageValue"
+          }
+        },
+        "type": "Object"
+      }
+    ],
+    "minReplicas": 1,
+    "scaleTargetRef": {
+      "apiVersion": "apps/v1",
+      "kind": "Deployment",
+      "name": "ollama"
+    }
+  }
+}

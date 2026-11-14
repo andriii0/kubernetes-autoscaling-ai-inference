@@ -1,0 +1,7 @@
+Comparison stopped: cleanup failed
+Comparison stopped: new cleanup failed
+.................
+----------------------------------------------------------------------
+Ran 17 tests in 0.532s
+
+OK

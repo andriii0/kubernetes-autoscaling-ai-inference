@@ -1,0 +1,5 @@
+
+STDERR
+sh: 
+: not found
+sh: set: line 2: illegal option -

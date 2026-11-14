@@ -1,0 +1,16 @@
+{
+  "local_crash_confirmed": true,
+  "exception": "0xc0000409",
+  "failed_source": "nodes",
+  "node_reads_passed": 30,
+  "live_preflight_passed": true,
+  "counts": {
+    "started": 454,
+    "successful": 274,
+    "failed": 180,
+    "unfinished": 0
+  },
+  "summary_present": false,
+  "retry_required": true,
+  "scope": "A local kubectl crash is confirmed. Its internal Windows cause is not established."
+}

@@ -1,0 +1,4 @@
+{
+  "scope": "Read shared WSL chronyd identity and configuration; no clock changes.",
+  "output": "\u001b[?9001h\u001b[?1004h"
+}

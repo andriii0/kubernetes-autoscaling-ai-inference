@@ -1,0 +1,21 @@
+{
+  "changes": {
+    "run_pilot.py": {
+      "prepared": "c900803ecd2f348836d15b69329ca8931f550354cc6627b35e6d7972d0afbccf",
+      "comparison": "b8d8f693c7e57693b6ce5c26115453b30e4570f48b5b9f287ab5a4f56c60d6d1"
+    },
+    "custom_metrics.py": {
+      "prepared": "b147717312c384051ae7be33a2b68fec3e8fc7a0e552a1e2a0b5a9e934dd9c38",
+      "comparison": "c8ade1838cd6739ccaf789d13b588d3aab9b39a460ee8ce858e7da8796b4e967"
+    },
+    "custom_metric_run.py": {
+      "prepared": "29203f194246e9a8ad9d116c05f46d17fa8fadb5e2d093f358941f876e805498",
+      "comparison": "6424ceaa206daba40baf6b65a3a733aac68c3d7765c52ba0934f701238849ca6"
+    },
+    "prepare_custom_metric.py": {
+      "prepared": "d228d66a1cd4cedd476453c0c18c7643bbc231a853953732c71b36854c3c1ba4",
+      "comparison": "146cdbcb2acb8eff128b68e03ac32cf7888da95fe2c661dcd4d0bb0305a48e65"
+    }
+  },
+  "reason": "Comparison v2 records the bounded clock correction; workload, routing and HPA policies are unchanged."
+}

@@ -1,0 +1,7 @@
+{
+  "checked_at_utc": "2026-11-13T23:40:56.7511016Z",
+  "matching_time_change_events": [],
+  "windows_time_service": "Stopped",
+  "clock_settings_changed": false,
+  "note": "No matching event was returned. This does not establish the physical cause. The service being stopped alone does not prove a fault."
+}

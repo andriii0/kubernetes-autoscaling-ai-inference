@@ -1,0 +1,113 @@
+# tracer: nop
+#
+# entries-in-buffer/entries-written: 98/98   #P:24
+#
+#                                _-----=> irqs-off
+#                               / _----=> need-resched
+#                              | / _---=> hardirq/softirq
+#                              || / _--=> preempt-depth
+#                              ||| / _-=> migrate-disable
+#                              |||| /     delay
+#           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
+#              | |         |   |||||     |         |
+         chronyd-289     [022] .....  7765.695285: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=32 frequency=94597850209264
+         chronyd-289     [022] .....  7765.695295: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=-4668149844630308811 frequency=-3539960
+         chronyd-289     [022] .....  7765.695297: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=157 frequency=-3535303
+         chronyd-289     [022] .....  7765.695300: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=4526062117078332265 frequency=94597124757024
+         chronyd-289     [000] .....  7773.704563: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=32 frequency=94597850209264
+         chronyd-289     [000] .....  7773.704573: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=-4665782693825411168 frequency=-3535633
+         chronyd-289     [000] .....  7773.704575: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=149 frequency=-3544852
+         chronyd-289     [000] .....  7773.704578: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=-4693398871982281995 frequency=94597124757024
+           initd-879     [020] .....  7774.648697: settime: (do_settimeofday64+0x0/0x1d0) seconds=1794663171 nanos=632629000
+         chronyd-289     [000] .....  7781.714778: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=32 frequency=94597850209264
+         chronyd-289     [000] .....  7781.714789: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=-4675371517083938431 frequency=-3539888
+         chronyd-289     [000] .....  7781.714792: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=153 frequency=-3528392
+         chronyd-289     [000] .....  7781.714796: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=4535905719059152810 frequency=94597124757024
+         chronyd-289     [000] .....  7789.724865: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=32 frequency=94597850209264
+         chronyd-289     [000] .....  7789.724884: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=4553789383830552523 frequency=-3526530
+         chronyd-289     [000] .....  7789.724888: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=141 frequency=-3517508
+         chronyd-289     [000] .....  7789.724891: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=4531056697675490550 frequency=94597124757024
+         chronyd-289     [000] .....  7797.734853: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=32 frequency=94597850209264
+         chronyd-289     [000] .....  7797.734862: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=-4666821249169547086 frequency=-3521556
+         chronyd-289     [000] .....  7797.734864: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=148 frequency=-3531351
+         chronyd-289     [000] .....  7797.734866: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=-4687846111241200542 frequency=94597124757024
+           initd-474     [009] .....  7804.648506: settime: (do_settimeofday64+0x0/0x1d0) seconds=1794663201 nanos=632365000
+         chronyd-289     [000] .....  7805.745430: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=32 frequency=94597850209264
+         chronyd-289     [000] .....  7805.745441: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=-4674814729526834186 frequency=-3540182
+         chronyd-289     [000] .....  7805.745443: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=137 frequency=-3733166
+         chronyd-289     [000] .....  7805.745446: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=-4680590403926263647 frequency=94597124757024
+         chronyd-289     [022] .....  7813.754819: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=32 frequency=94597850209264
+         chronyd-289     [022] .....  7813.754831: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=4553309654596733122 frequency=-3596587
+         chronyd-289     [022] .....  7813.754833: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=190 frequency=-3458918
+         chronyd-289     [022] .....  7813.754836: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=4544593680185733030 frequency=94597124757024
+         chronyd-289     [000] .....  7821.764685: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=32 frequency=94597850209264
+         chronyd-289     [000] .....  7821.764695: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=4558655383976897023 frequency=-3484749
+         chronyd-289     [000] .....  7821.764697: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=161 frequency=-3383694
+         chronyd-289     [000] .....  7821.764700: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=4536904988733832562 frequency=94597124757024
+         chronyd-289     [000] .....  7829.774060: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=32 frequency=94597850209264
+         chronyd-289     [000] .....  7829.774070: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=-4665474429190656161 frequency=-3473683
+         chronyd-289     [000] .....  7829.774071: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=168 frequency=-3550304
+         chronyd-289     [000] .....  7829.774074: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=-4681311121306494914 frequency=94597124757024
+           initd-442     [006] .....  7834.648865: settime: (do_settimeofday64+0x0/0x1d0) seconds=1794663231 nanos=632666000
+         chronyd-289     [022] .....  7837.784328: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=32 frequency=94597850209264
+         chronyd-289     [022] .....  7837.784338: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=-4673478147136822620 frequency=-3554032
+         chronyd-289     [022] .....  7837.784340: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=132 frequency=-3646670
+         chronyd-289     [022] .....  7837.784343: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=-4685473383411555090 frequency=94597124757024
+         chronyd-289     [000] .....  7845.794040: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=32 frequency=94597850209264
+         chronyd-289     [000] .....  7845.794053: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=4552689895970844603 frequency=-3578546
+         chronyd-289     [000] .....  7845.794055: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=161 frequency=-3511191
+         chronyd-289     [000] .....  7845.794060: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=4541478668706487775 frequency=94597124757024
+         chronyd-289     [000] .....  7853.803556: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=32 frequency=94597850209264
+         chronyd-289     [000] .....  7853.803564: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=4552327504857682036 frequency=-3508470
+         chronyd-289     [000] .....  7853.803565: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=144 frequency=-3440968
+         chronyd-289     [000] .....  7853.803568: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=4536596629246673094 frequency=94597124757024
+         chronyd-289     [000] .....  7861.812856: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=32 frequency=94597850209264
+         chronyd-289     [000] .....  7861.812864: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=-4667565695224888267 frequency=-3492053
+         chronyd-289     [000] .....  7861.812866: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=162 frequency=-3584666
+         chronyd-289     [000] .....  7861.812868: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=-4680493055536978190 frequency=94597124757024
+           initd-443     [016] .....  7864.649615: settime: (do_settimeofday64+0x0/0x1d0) seconds=1794663261 nanos=633447000
+         chronyd-289     [022] .....  7869.823149: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=32 frequency=94597850209264
+         chronyd-289     [022] .....  7869.823158: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=-4691344062792666640 frequency=-3567661
+         chronyd-289     [022] .....  7869.823159: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=156 frequency=-3564721
+         chronyd-289     [022] .....  7869.823162: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=4517029319531131112 frequency=94597124757024
+         chronyd-289     [022] .....  7877.833134: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=32 frequency=94597850209264
+         chronyd-289     [022] .....  7877.833151: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=4555565452081128946 frequency=-3554529
+         chronyd-289     [022] .....  7877.833153: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=157 frequency=-3536666
+         chronyd-289     [022] .....  7877.833156: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=4533346596753531687 frequency=94597124757024
+         chronyd-289     [022] .....  7885.842532: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=32 frequency=94597850209264
+         chronyd-289     [022] .....  7885.842549: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=-4668776725120373780 frequency=-3535431
+         chronyd-289     [022] .....  7885.842551: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=143 frequency=-3534285
+         chronyd-289     [022] .....  7885.842555: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=4522423407419351551 frequency=94597124757024
+         chronyd-289     [000] .....  7893.851896: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=32 frequency=94597850209264
+         chronyd-289     [000] .....  7893.851906: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=-4665049587068796503 frequency=-3536732
+         chronyd-289     [000] .....  7893.851908: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=139 frequency=-3559773
+         chronyd-289     [000] .....  7893.851910: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=-4687781670100863471 frequency=94597124757024
+           initd-490     [008] .....  7894.650271: settime: (do_settimeofday64+0x0/0x1d0) seconds=1794663291 nanos=634181000
+         chronyd-289     [000] .....  7901.862125: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=32 frequency=94597850209264
+         chronyd-289     [000] .....  7901.862138: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=-4672057927353291607 frequency=-3549996
+         chronyd-289     [000] .....  7901.862141: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=155 frequency=-3526289
+         chronyd-289     [000] .....  7901.862144: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=4538643750530346764 frequency=94597124757024
+         chronyd-289     [000] .....  7909.871676: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=32 frequency=94597850209264
+         chronyd-289     [000] .....  7909.871686: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=4550729521926845844 frequency=-3523630
+         chronyd-289     [000] .....  7909.871689: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=141 frequency=-3490605
+         chronyd-289     [000] .....  7909.871693: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=4535158160227450714 frequency=94597124757024
+         chronyd-289     [000] .....  7917.881059: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=32 frequency=94597850209264
+         chronyd-289     [000] .....  7917.881070: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=-4664375330991580391 frequency=-3505280
+         chronyd-289     [000] .....  7917.881071: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=154 frequency=-3530525
+         chronyd-289     [000] .....  7917.881075: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=-4687354773807815763 frequency=94597124757024
+           initd-491     [020] .....  7924.651499: settime: (do_settimeofday64+0x0/0x1d0) seconds=1794663321 nanos=635746000
+         chronyd-289     [000] .....  7925.891255: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=32 frequency=94597850209264
+         chronyd-289     [000] .....  7925.891265: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=-4668940183948540739 frequency=-3540148
+         chronyd-289     [000] .....  7925.891267: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=127 frequency=-3769092
+         chronyd-289     [000] .....  7925.891271: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=-4679166013545218900 frequency=94597124757024
+         chronyd-289     [022] .....  7933.900260: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=32 frequency=94597850209264
+         chronyd-289     [022] .....  7933.900269: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=4542129429849505582 frequency=-3603731
+         chronyd-289     [022] .....  7933.900271: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=187 frequency=-3537598
+         chronyd-289     [022] .....  7933.900273: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=4539514250857616012 frequency=94597124757024
+         chronyd-289     [022] .....  7941.909262: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=32 frequency=94597850209264
+         chronyd-289     [022] .....  7941.909270: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=4555517683263501017 frequency=-3541631
+         chronyd-289     [022] .....  7941.909272: adjust: (do_adjtimex+0x0/0x340) modes=16386 offset=119 frequency=-3644271
+         chronyd-289     [022] .....  7941.909275: adjust: (do_adjtimex+0x0/0x340) modes=28 offset=-4682922417335426249 frequency=94597124757024
+
+STDERR
+Clock trace started

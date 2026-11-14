@@ -1,0 +1,19 @@
+{
+  "status": "passed",
+  "python_tests": 288,
+  "python_seconds": 229.566,
+  "browser_tests": 6,
+  "windows_followup_tests": 20,
+  "legacy_accepted_runs_replayed": 4,
+  "legacy_files_unchanged": 861,
+  "live_gate": {
+    "status": "passed",
+    "samples": 33,
+    "errors": [],
+    "measured_load_started": false
+  },
+  "limits": [
+    "No measured model load in the preflight gate.",
+    "Windows/WSL clock jump cause remains unresolved; no permanent OS clock fix is claimed."
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "samples": 263,
+  "errors": 0,
+  "skew_failures": 0,
+  "max_server_ahead": -0.005727291107177734,
+  "max_server_behind": -0.1573641300201416,
+  "max_observer_step": 0.014952934265238582,
+  "max_step_between_queries": 0.0156716976161988
+}

@@ -1,0 +1,82 @@
+{
+  "observed_at_utc": "2026-11-13T23:02:01.0004053Z",
+  "worker": {
+    "task_name": "AI-Inference-Custom-HPA-Resume-20261113-224228",
+    "started_at_utc": "2026-11-14T00:01:39.578167+01:00",
+    "worker_pid": 51220,
+    "worker_parent_pid": 52528,
+    "series_dir": "C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\results\\custom-metric\\comparison-20261113-192512",
+    "launch_method": "Direct Python action in a manually started Windows task; current account, limited privileges.",
+    "recurring_triggers": 0,
+    "stdout": "C:\\Users\\matvi\\Documents\\ChatGPT\\Kubernetes Autoscaling for AI Inference\\tmp\\series-command\\custom-comparison-task-20261113-224228-process.stdout.log",
+    "stderr": "C:\\Users\\matvi\\Documents\\ChatGPT\\Kubernetes Autoscaling for AI Inference\\tmp\\series-command\\custom-comparison-task-20261113-224228-process.stderr.log",
+    "command": [
+      "C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\.venv\\Scripts\\python.exe",
+      "-B",
+      "bench/run_custom_comparison.py",
+      "--preparation-dir",
+      "results/custom-metric/preparation-20261113-165340",
+      "--output-dir",
+      "C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\results\\custom-metric\\comparison-20261113-192512",
+      "--resume",
+      "--execute"
+    ],
+    "launcher_pid": 31292,
+    "driver_pid": 37352
+  },
+  "processes": [
+    {
+      "ProcessId": 52528,
+      "ParentProcessId": 4020,
+      "Name": "pythonw.exe",
+      "CreationDate": "2026-11-14T00:01:39.308703+01:00",
+      "CommandLine": "\"C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\.venv\\Scripts\\pythonw.exe\" -B \"C:\\Users\\matvi\\Documents\\ChatGPT\\Kubernetes Autoscaling for AI Inference\\tmp\\series-command\\custom-resume-task-worker.py\" --task-name \"AI-Inference-Custom-HPA-Resume-20261113-224228\" --record-path \"C:\\Users\\matvi\\Documents\\ChatGPT\\Kubernetes Autoscaling for AI Inference\\tmp\\series-command\\custom-comparison-task-20261113-224228-process.json\""
+    },
+    {
+      "ProcessId": 51220,
+      "ParentProcessId": 52528,
+      "Name": "pythonw.exe",
+      "CreationDate": "2026-11-14T00:01:39.338777+01:00",
+      "CommandLine": "\"C:\\Users\\matvi\\AppData\\Local\\Programs\\Python\\Python312\\pythonw.exe\" -B \"C:\\Users\\matvi\\Documents\\ChatGPT\\Kubernetes Autoscaling for AI Inference\\tmp\\series-command\\custom-resume-task-worker.py\" --task-name \"AI-Inference-Custom-HPA-Resume-20261113-224228\" --record-path \"C:\\Users\\matvi\\Documents\\ChatGPT\\Kubernetes Autoscaling for AI Inference\\tmp\\series-command\\custom-comparison-task-20261113-224228-process.json\""
+    },
+    {
+      "ProcessId": 31292,
+      "ParentProcessId": 51220,
+      "Name": "python.exe",
+      "CreationDate": "2026-11-14T00:01:39.580651+01:00",
+      "CommandLine": "C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\.venv\\Scripts\\python.exe -B bench/run_custom_comparison.py --preparation-dir results/custom-metric/preparation-20261113-165340 --output-dir C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\results\\custom-metric\\comparison-20261113-192512 --resume --execute"
+    },
+    {
+      "ProcessId": 37352,
+      "ParentProcessId": 31292,
+      "Name": "python.exe",
+      "CreationDate": "2026-11-14T00:01:39.616302+01:00",
+      "CommandLine": "\"C:\\Users\\matvi\\AppData\\Local\\Programs\\Python\\Python312\\python.exe\" -B bench/run_custom_comparison.py --preparation-dir results/custom-metric/preparation-20261113-165340 --output-dir C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\results\\custom-metric\\comparison-20261113-192512 --resume --execute"
+    },
+    {
+      "ProcessId": 51612,
+      "ParentProcessId": 37352,
+      "Name": "python.exe",
+      "CreationDate": "2026-11-14T00:01:52.915225+01:00",
+      "CommandLine": "C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\.venv\\Scripts\\python.exe -B C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\bench\\run_pilot.py --pilot-preparation --custom-metric-policy cpu --mode autoscaling --profile burst --rate 12 --low-rate 2 --slo-ms 5000 --base-url http://127.0.0.1:59297 --run-dir C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\results\\custom-metric\\comparison-20261113-192512\\attempt-05-cpu-retry-02 --activity-note \"Six-cell CPU/request comparison through the same gateway; host snapshot archived.\" --custom-metric-comparison"
+    },
+    {
+      "ProcessId": 45780,
+      "ParentProcessId": 51612,
+      "Name": "python.exe",
+      "CreationDate": "2026-11-14T00:01:52.934254+01:00",
+      "CommandLine": "\"C:\\Users\\matvi\\AppData\\Local\\Programs\\Python\\Python312\\python.exe\" -B C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\bench\\run_pilot.py --pilot-preparation --custom-metric-policy cpu --mode autoscaling --profile burst --rate 12 --low-rate 2 --slo-ms 5000 --base-url http://127.0.0.1:59297 --run-dir C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\results\\custom-metric\\comparison-20261113-192512\\attempt-05-cpu-retry-02 --activity-note \"Six-cell CPU/request comparison through the same gateway; host snapshot archived.\" --custom-metric-comparison"
+    }
+  ],
+  "manifest": {
+    "status": "running",
+    "pid": 37352,
+    "current": "attempt-05-cpu-retry-02",
+    "errors": [],
+    "accepted": 4
+  },
+  "task_state": "Running",
+  "task_result": 267009,
+  "task_action": "C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\.venv\\Scripts\\pythonw.exe",
+  "working_directory": "C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference"
+}

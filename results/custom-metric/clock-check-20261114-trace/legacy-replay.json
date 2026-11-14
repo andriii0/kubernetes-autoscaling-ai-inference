@@ -1,0 +1,30 @@
+{
+  "runs": [
+    {
+      "run": "attempt-01-cpu",
+      "collection_valid": true,
+      "assessment_unchanged": true,
+      "metric_replay_unchanged": true
+    },
+    {
+      "run": "attempt-02-active-1",
+      "collection_valid": true,
+      "assessment_unchanged": true,
+      "metric_replay_unchanged": true
+    },
+    {
+      "run": "attempt-03-active-1",
+      "collection_valid": true,
+      "assessment_unchanged": true,
+      "metric_replay_unchanged": true
+    },
+    {
+      "run": "attempt-04-cpu",
+      "collection_valid": true,
+      "assessment_unchanged": true,
+      "metric_replay_unchanged": true
+    }
+  ],
+  "protected_files": 861,
+  "hashes_unchanged": true
+}

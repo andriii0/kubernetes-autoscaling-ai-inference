@@ -1,0 +1,12 @@
+{
+  "checked_at_utc": "2026-11-13T23:47:28.942016+00:00",
+  "manifest_status": "running",
+  "driver_pid": 40108,
+  "current": "attempt-05-cpu-retry-03",
+  "accepted": 4,
+  "phase": "load",
+  "load_started_at_utc": "2026-11-13T23:46:32.750651+00:00",
+  "requests_started": 11,
+  "requests_completed": 10,
+  "errors": []
+}

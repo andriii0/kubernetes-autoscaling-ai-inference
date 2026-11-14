@@ -1,0 +1,4 @@
+{
+  "available_in_child_shell": false,
+  "stderr": "Get-WinEvent : The 'Get-WinEvent' command was found in the module 'Microsoft.PowerShell.Diagnostics', but the module co\nuld not be loaded. For more information, run 'Import-Module Microsoft.PowerShell.Diagnostics'.\nAt line:4 char:3\n+ @(Get-WinEvent -FilterHashtable @{LogName='Application';StartTime=$st ...\n+   ~~~~~~~~~~~~\n    + CategoryInfo          : ObjectNotFound: (Get-WinEvent:String) [], CommandNotFoundException\n    + FullyQualifiedErrorId : CouldNotAutoloadMatchingModule\n \n"
+}

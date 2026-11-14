@@ -1,0 +1,317 @@
+{
+  "attempt": "attempt-05-cpu-retry-02",
+  "clock_tolerance_seconds": 1,
+  "observations": [
+    {
+      "sent_at_utc": "2026-11-13T23:02:55.216443+00:00",
+      "side": "before",
+      "server_time": 1794610975.309,
+      "sent_at": 1794610975.2164426,
+      "received_at": 1794610975.3166835,
+      "offset_min": -0.007683515548706055,
+      "offset_max": 0.09255743026733398,
+      "error": null
+    },
+    {
+      "sent_at_utc": "2026-11-13T23:02:55.412419+00:00",
+      "side": "after",
+      "server_time": 1794610975.499,
+      "sent_at": 1794610975.4124193,
+      "received_at": 1794610975.5076241,
+      "offset_min": -0.008624076843261719,
+      "offset_max": 0.08658075332641602,
+      "error": null
+    },
+    {
+      "sent_at_utc": "2026-11-13T23:03:00.823840+00:00",
+      "side": "before",
+      "server_time": 1794610980.905,
+      "sent_at": 1794610980.82384,
+      "received_at": 1794610980.911797,
+      "offset_min": -0.006797075271606445,
+      "offset_max": 0.08116006851196289,
+      "error": null
+    },
+    {
+      "sent_at_utc": "2026-11-13T23:03:00.995692+00:00",
+      "side": "after",
+      "server_time": 1794610981.072,
+      "sent_at": 1794610980.995692,
+      "received_at": 1794610981.0791113,
+      "offset_min": -0.007111310958862305,
+      "offset_max": 0.07630801200866699,
+      "error": null
+    },
+    {
+      "sent_at_utc": "2026-11-13T23:03:06.216252+00:00",
+      "side": "before",
+      "server_time": 1794610986.314,
+      "sent_at": 1794610986.2162519,
+      "received_at": 1794610986.3209405,
+      "offset_min": -0.006940603256225586,
+      "offset_max": 0.0977480411529541,
+      "error": null
+    },
+    {
+      "sent_at_utc": "2026-11-13T23:03:06.418541+00:00",
+      "side": "after",
+      "server_time": 1794610986.518,
+      "sent_at": 1794610986.4185407,
+      "received_at": 1794610986.5241253,
+      "offset_min": -0.006125450134277344,
+      "offset_max": 0.09945917129516602,
+      "error": null
+    },
+    {
+      "sent_at_utc": "2026-11-13T23:03:11.093798+00:00",
+      "side": "before",
+      "server_time": 1794610991.189,
+      "sent_at": 1794610991.0937977,
+      "received_at": 1794610991.194542,
+      "offset_min": -0.00554203987121582,
+      "offset_max": 0.09520220756530762,
+      "error": null
+    },
+    {
+      "sent_at_utc": "2026-11-13T23:03:11.291231+00:00",
+      "side": "after",
+      "server_time": 1794610991.385,
+      "sent_at": 1794610991.2912307,
+      "received_at": 1794610991.3910377,
+      "offset_min": -0.006037712097167969,
+      "offset_max": 0.09376931190490723,
+      "error": null
+    },
+    {
+      "sent_at_utc": "2026-11-13T23:03:15.959141+00:00",
+      "side": "before",
+      "server_time": 1794610996.056,
+      "sent_at": 1794610995.9591415,
+      "received_at": 1794610996.060779,
+      "offset_min": -0.00477910041809082,
+      "offset_max": 0.09685850143432617,
+      "error": null
+    },
+    {
+      "sent_at_utc": "2026-11-13T23:03:16.151503+00:00",
+      "side": "after",
+      "server_time": 1794610996.235,
+      "sent_at": 1794610996.151503,
+      "received_at": 1794610996.2398076,
+      "offset_min": -0.004807710647583008,
+      "offset_max": 0.0834968090057373,
+      "error": null
+    },
+    {
+      "sent_at_utc": "2026-11-13T23:03:21.394701+00:00",
+      "side": "before",
+      "server_time": 1794611001.497,
+      "sent_at": 1794611001.3947012,
+      "received_at": 1794611001.5072691,
+      "offset_min": -0.0102691650390625,
+      "offset_max": 0.10229873657226562,
+      "error": null
+    },
+    {
+      "sent_at_utc": "2026-11-13T23:03:21.599963+00:00",
+      "side": "after",
+      "server_time": 1794611001.682,
+      "sent_at": 1794611001.5999632,
+      "received_at": 1794611001.689977,
+      "offset_min": -0.007977008819580078,
+      "offset_max": 0.08203673362731934,
+      "error": null
+    },
+    {
+      "sent_at_utc": "2026-11-13T23:03:25.968512+00:00",
+      "side": "before",
+      "server_time": 1794611006.051,
+      "sent_at": 1794611005.9685118,
+      "received_at": 1794611006.0585072,
+      "offset_min": -0.0075070858001708984,
+      "offset_max": 0.0824882984161377,
+      "error": null
+    },
+    {
+      "sent_at_utc": "2026-11-13T23:03:26.145649+00:00",
+      "side": "after",
+      "server_time": 1794611006.236,
+      "sent_at": 1794611006.145649,
+      "received_at": 1794611006.2430263,
+      "offset_min": -0.007026195526123047,
+      "offset_max": 0.09035110473632812,
+      "error": null
+    },
+    {
+      "sent_at_utc": "2026-11-13T23:03:31.005749+00:00",
+      "side": "before",
+      "server_time": 1794611011.091,
+      "sent_at": 1794611011.0057485,
+      "received_at": 1794611011.0984268,
+      "offset_min": -0.007426738739013672,
+      "offset_max": 0.0852515697479248,
+      "error": null
+    },
+    {
+      "sent_at_utc": "2026-11-13T23:03:31.187234+00:00",
+      "side": "after",
+      "server_time": 1794611011.273,
+      "sent_at": 1794611011.1872344,
+      "received_at": 1794611011.2812414,
+      "offset_min": -0.008241415023803711,
+      "offset_max": 0.08576560020446777,
+      "error": null
+    },
+    {
+      "sent_at_utc": "2026-11-13T23:03:36.366972+00:00",
+      "side": "before",
+      "server_time": 1794611016.456,
+      "sent_at": 1794611016.3669722,
+      "received_at": 1794611016.4610868,
+      "offset_min": -0.005086660385131836,
+      "offset_max": 0.08902788162231445,
+      "error": null
+    },
+    {
+      "sent_at_utc": "2026-11-13T23:03:36.553862+00:00",
+      "side": "after",
+      "server_time": 1794611016.636,
+      "sent_at": 1794611016.5538616,
+      "received_at": 1794611016.6430871,
+      "offset_min": -0.007087230682373047,
+      "offset_max": 0.0821382999420166,
+      "error": null
+    },
+    {
+      "sent_at_utc": "2026-11-13T23:03:40.983969+00:00",
+      "side": "before",
+      "server_time": 1794611021.074,
+      "sent_at": 1794611020.9839692,
+      "received_at": 1794611021.078697,
+      "offset_min": -0.004697084426879883,
+      "offset_max": 0.09003067016601562,
+      "error": null
+    },
+    {
+      "sent_at_utc": "2026-11-13T23:03:41.166165+00:00",
+      "side": "after",
+      "server_time": 1794611021.26,
+      "sent_at": 1794611021.1661646,
+      "received_at": 1794611021.2766669,
+      "offset_min": -0.016666889190673828,
+      "offset_max": 0.09383535385131836,
+      "error": null
+    },
+    {
+      "sent_at_utc": "2026-11-13T23:03:46.053079+00:00",
+      "side": "before",
+      "server_time": 1794611026.137,
+      "sent_at": 1794611026.0530794,
+      "received_at": 1794611026.1416843,
+      "offset_min": -0.0046842098236083984,
+      "offset_max": 0.08392071723937988,
+      "error": null
+    },
+    {
+      "sent_at_utc": "2026-11-13T23:03:46.227819+00:00",
+      "side": "after",
+      "server_time": 1794611026.313,
+      "sent_at": 1794611026.227819,
+      "received_at": 1794611026.3174028,
+      "offset_min": -0.004402875900268555,
+      "offset_max": 0.08518099784851074,
+      "error": null
+    },
+    {
+      "sent_at_utc": "2026-11-13T23:03:51.675223+00:00",
+      "side": "before",
+      "server_time": 1794611031.768,
+      "sent_at": 1794611031.6752234,
+      "received_at": 1794611031.7742262,
+      "offset_min": -0.006226301193237305,
+      "offset_max": 0.09277653694152832,
+      "error": null
+    },
+    {
+      "sent_at_utc": "2026-11-13T23:03:51.859685+00:00",
+      "side": "after",
+      "server_time": 1794611031.944,
+      "sent_at": 1794611031.859685,
+      "received_at": 1794611031.950609,
+      "offset_min": -0.0066089630126953125,
+      "offset_max": 0.08431506156921387,
+      "error": null
+    },
+    {
+      "sent_at_utc": "2026-11-13T23:03:56.052106+00:00",
+      "side": "before",
+      "server_time": 1794611036.126,
+      "sent_at": 1794611036.0521064,
+      "received_at": 1794611036.131253,
+      "offset_min": -0.0052530765533447266,
+      "offset_max": 0.07389354705810547,
+      "error": null
+    },
+    {
+      "sent_at_utc": "2026-11-13T23:03:56.208837+00:00",
+      "side": "after",
+      "server_time": 1794611036.282,
+      "sent_at": 1794611036.2088366,
+      "received_at": 1794611036.2892368,
+      "offset_min": -0.0072367191314697266,
+      "offset_max": 0.07316350936889648,
+      "error": null
+    },
+    {
+      "sent_at_utc": "2026-11-13T23:04:01.256046+00:00",
+      "side": "before",
+      "server_time": 1794611041.347,
+      "sent_at": 1794611041.2560458,
+      "received_at": 1794611041.3537002,
+      "offset_min": -0.006700277328491211,
+      "offset_max": 0.09095406532287598,
+      "error": null
+    },
+    {
+      "sent_at_utc": "2026-11-13T23:04:01.446574+00:00",
+      "side": "after",
+      "server_time": 1794611041.532,
+      "sent_at": 1794611041.446574,
+      "received_at": 1794611041.5392208,
+      "offset_min": -0.007220745086669922,
+      "offset_max": 0.08542609214782715,
+      "error": null
+    },
+    {
+      "sent_at_utc": "2026-11-13T23:04:06.330372+00:00",
+      "side": "before",
+      "server_time": 1794611047.441,
+      "sent_at": 1794611046.3303719,
+      "received_at": 1794611046.42603,
+      "offset_min": 1.014970064163208,
+      "offset_max": 1.1106281280517578,
+      "error": "Prometheus and observer clocks differ by more than one second"
+    },
+    {
+      "sent_at_utc": "2026-11-13T23:04:07.711550+00:00",
+      "side": "before",
+      "server_time": 1794611048.812,
+      "sent_at": 1794611047.7115502,
+      "received_at": 1794611047.7935772,
+      "offset_min": 1.0184228420257568,
+      "offset_max": 1.100449800491333,
+      "error": "Prometheus and observer clocks differ by more than one second"
+    },
+    {
+      "sent_at_utc": "2026-11-13T23:04:54.859929+00:00",
+      "side": "before",
+      "server_time": 1794611095.956,
+      "sent_at": 1794611094.8599286,
+      "received_at": 1794611094.9463866,
+      "offset_min": 1.0096135139465332,
+      "offset_max": 1.096071481704712,
+      "error": "Prometheus and observer clocks differ by more than one second"
+    }
+  ],
+  "conclusion": "Offset changed abruptly between 23:04:01 and 23:04:06 UTC; triggering host/guest mechanism is unproven. Live alignment had recovered before any clock setting was changed."
+}

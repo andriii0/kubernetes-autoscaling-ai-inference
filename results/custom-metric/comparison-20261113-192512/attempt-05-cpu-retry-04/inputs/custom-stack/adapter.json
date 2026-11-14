@@ -1,0 +1,22 @@
+{
+  "rules": [
+    {
+      "metricsQuery": "sum by (namespace,service) ((envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",<<.LabelMatchers>>} >= 0 and envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",<<.LabelMatchers>>} < +Inf) and (time() - timestamp(envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",<<.LabelMatchers>>}) >= 0) and (time() - timestamp(envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",<<.LabelMatchers>>}) <= 10) and on (namespace,service,pod_uid,instance) (up{job=\"inference-gateway\",<<.LabelMatchers>>} == 1 and (time() - timestamp(up{job=\"inference-gateway\",<<.LabelMatchers>>}) >= 0) and (time() - timestamp(up{job=\"inference-gateway\",<<.LabelMatchers>>}) <= 10))) and on (namespace,service) (count by (namespace,service) (envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",<<.LabelMatchers>>}) == 1) and on (namespace,service) (count by (namespace,service) (up{job=\"inference-gateway\",<<.LabelMatchers>>}) == 1)",
+      "name": {
+        "as": "inference_gateway_active_requests",
+        "matches": "^envoy_http_downstream_rq_active$"
+      },
+      "resources": {
+        "overrides": {
+          "namespace": {
+            "resource": "namespace"
+          },
+          "service": {
+            "resource": "service"
+          }
+        }
+      },
+      "seriesQuery": "envoy_http_downstream_rq_active{job=\"inference-gateway\",inference_listener=\"inference\",namespace=\"inference\",service=\"inference-gateway\"}"
+    }
+  ]
+}

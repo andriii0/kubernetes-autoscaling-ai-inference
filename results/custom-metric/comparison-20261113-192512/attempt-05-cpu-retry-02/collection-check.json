@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "valid": false,
+  "errors": [
+    "launcher reported errors",
+    "load/collection processes did not finish normally",
+    "run evidence: [Errno 2] No such file or directory: 'C:\\\\Users\\\\matvi\\\\PycharmProjects\\\\kubernetes-autoscaling-ai-inference\\\\results\\\\custom-metric\\\\comparison-20261113-192512\\\\attempt-05-cpu-retry-02\\\\warmup.json'",
+    "request evidence: [Errno 2] No such file or directory: 'C:\\\\Users\\\\matvi\\\\PycharmProjects\\\\kubernetes-autoscaling-ai-inference\\\\results\\\\custom-metric\\\\comparison-20261113-192512\\\\attempt-05-cpu-retry-02\\\\request-events.jsonl'",
+    "autoscaling evidence: 'load_process_started_at_utc'"
+  ],
+  "warnings": [],
+  "counts": {},
+  "load_window": null,
+  "events_read": {
+    "started": 0,
+    "completed": 0
+  },
+  "observation": {
+    "samples": 16,
+    "collection_errors": 0,
+    "max_gap_seconds": 5.6084980964660645
+  },
+  "resource_gaps": []
+}

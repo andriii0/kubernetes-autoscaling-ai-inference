@@ -1,0 +1,10 @@
+attempt-05-cpu-retry-04: preflight
+attempt-05-cpu-retry-04: recovery_quiet
+attempt-05-cpu-retry-04: reset
+attempt-05-cpu-retry-04: initial_quiet
+attempt-05-cpu-retry-04: idle
+attempt-05-cpu-retry-04: warmup
+attempt-05-cpu-retry-04: post_warmup_quiet
+attempt-05-cpu-retry-04: hpa_readiness
+attempt-05-cpu-retry-04: load
+Comparison stopped: invalid preparation or cleanup: cluster observation failed: Prometheus and observer clocks differ by more than one second; Prometheus and observer clocks differ by more than one second; Prometheus and observer clocks differ by more than one second; missing request evidence: summary.json

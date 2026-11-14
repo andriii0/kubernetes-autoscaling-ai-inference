@@ -1,0 +1,19 @@
+{
+  "attempt-03-active-1": {
+    "7b4d41e7-2604-4cca-8e11-870435721bec": {
+      "cpu_valid_samples": 49,
+      "cpu_mean_cores": 0.9806747302875891,
+      "peak_memory_mib": 857.96875
+    },
+    "bb0410b8-0cee-4e0c-b7a3-44dcc7d3dfae": {
+      "cpu_valid_samples": 47,
+      "cpu_mean_cores": 0.9335803224640762,
+      "peak_memory_mib": 511.09375
+    },
+    "ee38f8af-8777-45b4-aa55-7b6155c7defd": {
+      "cpu_valid_samples": 52,
+      "cpu_mean_cores": 0.9072389468208016,
+      "peak_memory_mib": 536.8203125
+    }
+  }
+}

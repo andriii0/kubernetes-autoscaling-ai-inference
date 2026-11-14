@@ -1,0 +1,11 @@
+﻿& : Не удается загрузить файл C:\Users\matvi\Documents\ChatGPT\Kubernetes Autoscaling for AI Inference\tmp\series-comma
+nd\custom-resume-task-worker.ps1. Файл C:\Users\matvi\Documents\ChatGPT\Kubernetes Autoscaling for AI Inference\tmp\ser
+ies-command\custom-resume-task-worker.ps1 не имеет цифровой подписи. Невозможно выполнить сценарий в указанной системе.
+ Для получения дополнительных сведений о выполнении сценариев и настройке политики выполнения см. about_Execution_Polic
+ies по адресу https:/go.microsoft.com/fwlink/?LinkID=135170.
+строка:1 знак:40
++ ... p'; try { & 'C:\Users\matvi\Documents\ChatGPT\Kubernetes Autoscaling  ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : Ошибка безопасности: (:) [], PSSecurityException
+    + FullyQualifiedErrorId : UnauthorizedAccess
+

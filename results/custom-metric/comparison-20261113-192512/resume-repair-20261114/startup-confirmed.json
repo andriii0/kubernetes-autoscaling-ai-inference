@@ -1,0 +1,62 @@
+{
+  "observed_at_utc": "2026-11-14T12:05:07.884164+00:00",
+  "status": "running",
+  "accepted": 4,
+  "current": "attempt-05-cpu-retry-04",
+  "driver_pid": 636,
+  "phase": "load",
+  "errors": [],
+  "started": 44,
+  "completed": 38,
+  "seconds_since_first_request": 132.296164,
+  "processes": [
+    {
+      "ProcessId": 41468,
+      "ParentProcessId": 4100,
+      "Name": "pythonw.exe",
+      "CommandLine": "\"C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\.venv\\Scripts\\pythonw.exe\" -B \"C:\\Users\\matvi\\Documents\\ChatGPT\\Kubernetes Autoscaling for AI Inference\\tmp\\series-command\\custom-resume-recovered-worker.py\" --task-name \"AI-Inference-Custom-HPA-Resume-20261114-115738\" --record-path \"C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\results\\custom-metric\\comparison-20261113-192512\\resume-repair-20261114\\task-20261114-115738.json\""
+    },
+    {
+      "ProcessId": 5424,
+      "ParentProcessId": 41468,
+      "Name": "pythonw.exe",
+      "CommandLine": "\"C:\\Users\\matvi\\AppData\\Local\\Programs\\Python\\Python312\\pythonw.exe\" -B \"C:\\Users\\matvi\\Documents\\ChatGPT\\Kubernetes Autoscaling for AI Inference\\tmp\\series-command\\custom-resume-recovered-worker.py\" --task-name \"AI-Inference-Custom-HPA-Resume-20261114-115738\" --record-path \"C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\results\\custom-metric\\comparison-20261113-192512\\resume-repair-20261114\\task-20261114-115738.json\""
+    },
+    {
+      "ProcessId": 20616,
+      "ParentProcessId": 5424,
+      "Name": "python.exe",
+      "CommandLine": "C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\.venv\\Scripts\\python.exe -B bench/run_custom_comparison.py --preparation-dir results/custom-metric/preparation-20261113-165340 --output-dir C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\results\\custom-metric\\comparison-20261113-192512 --resume --execute --recovered-infrastructure-record C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\results\\custom-metric\\comparison-20261113-192512\\resume-repair-20261114\\host-recovery\\infrastructure-recovery.json"
+    },
+    {
+      "ProcessId": 42772,
+      "ParentProcessId": 20616,
+      "Name": "conhost.exe",
+      "CommandLine": "\\??\\C:\\WINDOWS\\system32\\conhost.exe 0x4"
+    },
+    {
+      "ProcessId": 636,
+      "ParentProcessId": 20616,
+      "Name": "python.exe",
+      "CommandLine": "\"C:\\Users\\matvi\\AppData\\Local\\Programs\\Python\\Python312\\python.exe\" -B bench/run_custom_comparison.py --preparation-dir results/custom-metric/preparation-20261113-165340 --output-dir C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\results\\custom-metric\\comparison-20261113-192512 --resume --execute --recovered-infrastructure-record C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\results\\custom-metric\\comparison-20261113-192512\\resume-repair-20261114\\host-recovery\\infrastructure-recovery.json"
+    },
+    {
+      "ProcessId": 42260,
+      "ParentProcessId": 636,
+      "Name": "kubectl.exe",
+      "CommandLine": "kubectl --context ai-lab -n inference port-forward --address=127.0.0.1 service/inference-gateway :8080"
+    },
+    {
+      "ProcessId": 43468,
+      "ParentProcessId": 636,
+      "Name": "python.exe",
+      "CommandLine": "C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\.venv\\Scripts\\python.exe -B C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\bench\\run_pilot.py --pilot-preparation --custom-metric-policy cpu --mode autoscaling --profile burst --rate 12 --low-rate 2 --slo-ms 5000 --base-url http://127.0.0.1:52177 --run-dir C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\results\\custom-metric\\comparison-20261113-192512\\attempt-05-cpu-retry-04 --activity-note \"Six-cell CPU/request comparison through the same gateway; host snapshot archived.\" --custom-metric-comparison"
+    },
+    {
+      "ProcessId": 2544,
+      "ParentProcessId": 14088,
+      "Name": "k6.exe",
+      "CommandLine": "\"C:\\Program Files\\k6\\k6.EXE\" run --config C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\results\\custom-metric\\comparison-20261113-192512\\attempt-05-cpu-retry-04\\inputs\\k6-config.json --no-usage-report --no-color --log-format raw --console-output C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\results\\custom-metric\\comparison-20261113-192512\\attempt-05-cpu-retry-04\\request-events.jsonl --out json=C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\results\\custom-metric\\comparison-20261113-192512\\attempt-05-cpu-retry-04\\requests.json --summary-export C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\results\\custom-metric\\comparison-20261113-192512\\attempt-05-cpu-retry-04\\summary.json C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\results\\custom-metric\\comparison-20261113-192512\\attempt-05-cpu-retry-04\\inputs\\inference.js"
+    }
+  ]
+}

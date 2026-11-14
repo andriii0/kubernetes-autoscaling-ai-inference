@@ -1,0 +1,469 @@
+usage: python.exe -m unittest [-h] --output-dir OUTPUT_DIR [--no-plots]
+                              run_dirs [run_dirs ...]
+python.exe -m unittest: error: output directory already exists; choose a new path
+warmup failed; see warmup.json
+usage: python.exe -m unittest [-h] [--protocol-version {1.1}]
+                              [--repetition {1,2,3}]
+                              [--planned-order PLANNED_ORDER]
+                              [--actual-order ACTUAL_ORDER]
+                              [--replaces-run REPLACES_RUN]
+                              [--replacement-reason REPLACEMENT_REASON]
+                              [--diagnostic-warmup-wait {immediate,quiet}]
+                              [--pilot-preparation]
+                              [--custom-metric-policy {cpu,active-1,active-2}]
+                              [--custom-metric-comparison] --base-url BASE_URL
+                              --rate RATE [--duration DURATION]
+                              [--slo-ms SLO_MS]
+                              [--mode {autoscaling,fixed-1,fixed-3}]
+                              [--profile {steady,burst}] [--low-rate LOW_RATE]
+                              --run-dir RUN_DIR [--replicas {1,3}]
+                              [--service SERVICE] [--context CONTEXT]
+                              [--namespace NAMESPACE] [--selector SELECTOR]
+                              [--deployment DEPLOYMENT]
+                              [--container CONTAINER]
+                              [--observer-interval OBSERVER_INTERVAL]
+                              [--idle-seconds IDLE_SECONDS]
+                              [--post-seconds POST_SECONDS]
+                              [--warmup-timeout WARMUP_TIMEOUT]
+                              [--activity-note ACTIVITY_NOTE]
+python.exe -m unittest: error: autoscaling requires no --replicas
+usage: python.exe -m unittest [-h] [--protocol-version {1.1}]
+                              [--repetition {1,2,3}]
+                              [--planned-order PLANNED_ORDER]
+                              [--actual-order ACTUAL_ORDER]
+                              [--replaces-run REPLACES_RUN]
+                              [--replacement-reason REPLACEMENT_REASON]
+                              [--diagnostic-warmup-wait {immediate,quiet}]
+                              [--pilot-preparation]
+                              [--custom-metric-policy {cpu,active-1,active-2}]
+                              [--custom-metric-comparison] --base-url BASE_URL
+                              --rate RATE [--duration DURATION]
+                              [--slo-ms SLO_MS]
+                              [--mode {autoscaling,fixed-1,fixed-3}]
+                              [--profile {steady,burst}] [--low-rate LOW_RATE]
+                              --run-dir RUN_DIR [--replicas {1,3}]
+                              [--service SERVICE] [--context CONTEXT]
+                              [--namespace NAMESPACE] [--selector SELECTOR]
+                              [--deployment DEPLOYMENT]
+                              [--container CONTAINER]
+                              [--observer-interval OBSERVER_INTERVAL]
+                              [--idle-seconds IDLE_SECONDS]
+                              [--post-seconds POST_SECONDS]
+                              [--warmup-timeout WARMUP_TIMEOUT]
+                              [--activity-note ACTIVITY_NOTE]
+python.exe -m unittest: error: autoscaling requires no --replicas
+usage: python.exe -m unittest [-h] [--protocol-version {1.1}]
+                              [--repetition {1,2,3}]
+                              [--planned-order PLANNED_ORDER]
+                              [--actual-order ACTUAL_ORDER]
+                              [--replaces-run REPLACES_RUN]
+                              [--replacement-reason REPLACEMENT_REASON]
+                              [--diagnostic-warmup-wait {immediate,quiet}]
+                              [--pilot-preparation]
+                              [--custom-metric-policy {cpu,active-1,active-2}]
+                              [--custom-metric-comparison] --base-url BASE_URL
+                              --rate RATE [--duration DURATION]
+                              [--slo-ms SLO_MS]
+                              [--mode {autoscaling,fixed-1,fixed-3}]
+                              [--profile {steady,burst}] [--low-rate LOW_RATE]
+                              --run-dir RUN_DIR [--replicas {1,3}]
+                              [--service SERVICE] [--context CONTEXT]
+                              [--namespace NAMESPACE] [--selector SELECTOR]
+                              [--deployment DEPLOYMENT]
+                              [--container CONTAINER]
+                              [--observer-interval OBSERVER_INTERVAL]
+                              [--idle-seconds IDLE_SECONDS]
+                              [--post-seconds POST_SECONDS]
+                              [--warmup-timeout WARMUP_TIMEOUT]
+                              [--activity-note ACTIVITY_NOTE]
+python.exe -m unittest: error: burst duration is defined by workload stages; omit --duration
+usage: python.exe -m unittest [-h] [--protocol-version {1.1}]
+                              [--repetition {1,2,3}]
+                              [--planned-order PLANNED_ORDER]
+                              [--actual-order ACTUAL_ORDER]
+                              [--replaces-run REPLACES_RUN]
+                              [--replacement-reason REPLACEMENT_REASON]
+                              [--diagnostic-warmup-wait {immediate,quiet}]
+                              [--pilot-preparation]
+                              [--custom-metric-policy {cpu,active-1,active-2}]
+                              [--custom-metric-comparison] --base-url BASE_URL
+                              --rate RATE [--duration DURATION]
+                              [--slo-ms SLO_MS]
+                              [--mode {autoscaling,fixed-1,fixed-3}]
+                              [--profile {steady,burst}] [--low-rate LOW_RATE]
+                              --run-dir RUN_DIR [--replicas {1,3}]
+                              [--service SERVICE] [--context CONTEXT]
+                              [--namespace NAMESPACE] [--selector SELECTOR]
+                              [--deployment DEPLOYMENT]
+                              [--container CONTAINER]
+                              [--observer-interval OBSERVER_INTERVAL]
+                              [--idle-seconds IDLE_SECONDS]
+                              [--post-seconds POST_SECONDS]
+                              [--warmup-timeout WARMUP_TIMEOUT]
+                              [--activity-note ACTIVITY_NOTE]
+python.exe -m unittest: error: --mode conflicts with --replicas
+Saved 1 run summaries to C:\Users\matvi\AppData\Local\Temp\tmpq78ew28x\analysis
+Saved 1 run summaries to C:\Users\matvi\AppData\Local\Temp\tmpr4tl12ai\analysis
+Saved 1 run summaries to C:\Users\matvi\AppData\Local\Temp\tmpfhyxr93l\plots
+Saved 2 run summaries to C:\Users\matvi\AppData\Local\Temp\tmplct8xpad\analysis
+Saved 2 run summaries to C:\Users\matvi\AppData\Local\Temp\tmp6tzza_9s\analysis
+Saved 2 run summaries to C:\Users\matvi\AppData\Local\Temp\tmpta249943\analysis
+Saved 1 run summaries to C:\Users\matvi\AppData\Local\Temp\tmphv11csph\plots
+Saved 1 run summaries to C:\Users\matvi\AppData\Local\Temp\tmpt4gxo8ky\run\analysis
+Comparison stopped: cleanup failed
+Comparison stopped: new cleanup failed
+Comparison stopped: next preflight failed
+failed
+API offline
+Fresh preparation did not select target 1; comparison not started
+Comparison stopped; see comparison-new/manifest.json
+Fresh preparation (targets 1, 2), then six CPU/request cells. No files or runtime changed.
+Preparation stopped; see preparation-new/manifest.json
+usage: python.exe -m unittest [-h] [--protocol-version {1.1}]
+                              [--repetition {1,2,3}]
+                              [--planned-order PLANNED_ORDER]
+                              [--actual-order ACTUAL_ORDER]
+                              [--replaces-run REPLACES_RUN]
+                              [--replacement-reason REPLACEMENT_REASON]
+                              [--diagnostic-warmup-wait {immediate,quiet}]
+                              [--pilot-preparation]
+                              [--custom-metric-policy {cpu,active-1,active-2}]
+                              [--custom-metric-comparison] --base-url BASE_URL
+                              --rate RATE [--duration DURATION]
+                              [--slo-ms SLO_MS]
+                              [--mode {autoscaling,fixed-1,fixed-3}]
+                              [--profile {steady,burst}] [--low-rate LOW_RATE]
+                              --run-dir RUN_DIR [--replicas {1,3}]
+                              [--service SERVICE] [--context CONTEXT]
+                              [--namespace NAMESPACE] [--selector SELECTOR]
+                              [--deployment DEPLOYMENT]
+                              [--container CONTAINER]
+                              [--observer-interval OBSERVER_INTERVAL]
+                              [--idle-seconds IDLE_SECONDS]
+                              [--post-seconds POST_SECONDS]
+                              [--warmup-timeout WARMUP_TIMEOUT]
+                              [--activity-note ACTIVITY_NOTE]
+python.exe -m unittest: error: --diagnostic-warmup-wait requires fixed-1/steady without --protocol-version
+usage: python.exe -m unittest [-h] [--protocol-version {1.1}]
+                              [--repetition {1,2,3}]
+                              [--planned-order PLANNED_ORDER]
+                              [--actual-order ACTUAL_ORDER]
+                              [--replaces-run REPLACES_RUN]
+                              [--replacement-reason REPLACEMENT_REASON]
+                              [--diagnostic-warmup-wait {immediate,quiet}]
+                              [--pilot-preparation]
+                              [--custom-metric-policy {cpu,active-1,active-2}]
+                              [--custom-metric-comparison] --base-url BASE_URL
+                              --rate RATE [--duration DURATION]
+                              [--slo-ms SLO_MS]
+                              [--mode {autoscaling,fixed-1,fixed-3}]
+                              [--profile {steady,burst}] [--low-rate LOW_RATE]
+                              --run-dir RUN_DIR [--replicas {1,3}]
+                              [--service SERVICE] [--context CONTEXT]
+                              [--namespace NAMESPACE] [--selector SELECTOR]
+                              [--deployment DEPLOYMENT]
+                              [--container CONTAINER]
+                              [--observer-interval OBSERVER_INTERVAL]
+                              [--idle-seconds IDLE_SECONDS]
+                              [--post-seconds POST_SECONDS]
+                              [--warmup-timeout WARMUP_TIMEOUT]
+                              [--activity-note ACTIVITY_NOTE]
+python.exe -m unittest: error: --diagnostic-warmup-wait requires fixed-1/steady without --protocol-version
+usage: python.exe -m unittest [-h] [--protocol-version {1.1}]
+                              [--repetition {1,2,3}]
+                              [--planned-order PLANNED_ORDER]
+                              [--actual-order ACTUAL_ORDER]
+                              [--replaces-run REPLACES_RUN]
+                              [--replacement-reason REPLACEMENT_REASON]
+                              [--diagnostic-warmup-wait {immediate,quiet}]
+                              [--pilot-preparation]
+                              [--custom-metric-policy {cpu,active-1,active-2}]
+                              [--custom-metric-comparison] --base-url BASE_URL
+                              --rate RATE [--duration DURATION]
+                              [--slo-ms SLO_MS]
+                              [--mode {autoscaling,fixed-1,fixed-3}]
+                              [--profile {steady,burst}] [--low-rate LOW_RATE]
+                              --run-dir RUN_DIR [--replicas {1,3}]
+                              [--service SERVICE] [--context CONTEXT]
+                              [--namespace NAMESPACE] [--selector SELECTOR]
+                              [--deployment DEPLOYMENT]
+                              [--container CONTAINER]
+                              [--observer-interval OBSERVER_INTERVAL]
+                              [--idle-seconds IDLE_SECONDS]
+                              [--post-seconds POST_SECONDS]
+                              [--warmup-timeout WARMUP_TIMEOUT]
+                              [--activity-note ACTIVITY_NOTE]
+python.exe -m unittest: error: --diagnostic-warmup-wait requires fixed-1/steady without --protocol-version
+usage: python.exe -m unittest [-h] [--protocol-version {1.1}]
+                              [--repetition {1,2,3}]
+                              [--planned-order PLANNED_ORDER]
+                              [--actual-order ACTUAL_ORDER]
+                              [--replaces-run REPLACES_RUN]
+                              [--replacement-reason REPLACEMENT_REASON]
+                              [--diagnostic-warmup-wait {immediate,quiet}]
+                              [--pilot-preparation]
+                              [--custom-metric-policy {cpu,active-1,active-2}]
+                              [--custom-metric-comparison] --base-url BASE_URL
+                              --rate RATE [--duration DURATION]
+                              [--slo-ms SLO_MS]
+                              [--mode {autoscaling,fixed-1,fixed-3}]
+                              [--profile {steady,burst}] [--low-rate LOW_RATE]
+                              --run-dir RUN_DIR [--replicas {1,3}]
+                              [--service SERVICE] [--context CONTEXT]
+                              [--namespace NAMESPACE] [--selector SELECTOR]
+                              [--deployment DEPLOYMENT]
+                              [--container CONTAINER]
+                              [--observer-interval OBSERVER_INTERVAL]
+                              [--idle-seconds IDLE_SECONDS]
+                              [--post-seconds POST_SECONDS]
+                              [--warmup-timeout WARMUP_TIMEOUT]
+                              [--activity-note ACTIVITY_NOTE]
+python.exe -m unittest: error: --diagnostic-warmup-wait requires fixed-1/steady without --protocol-version
+usage: python.exe -m unittest [-h] [--protocol-version {1.1}]
+                              [--repetition {1,2,3}]
+                              [--planned-order PLANNED_ORDER]
+                              [--actual-order ACTUAL_ORDER]
+                              [--replaces-run REPLACES_RUN]
+                              [--replacement-reason REPLACEMENT_REASON]
+                              [--diagnostic-warmup-wait {immediate,quiet}]
+                              [--pilot-preparation]
+                              [--custom-metric-policy {cpu,active-1,active-2}]
+                              [--custom-metric-comparison] --base-url BASE_URL
+                              --rate RATE [--duration DURATION]
+                              [--slo-ms SLO_MS]
+                              [--mode {autoscaling,fixed-1,fixed-3}]
+                              [--profile {steady,burst}] [--low-rate LOW_RATE]
+                              --run-dir RUN_DIR [--replicas {1,3}]
+                              [--service SERVICE] [--context CONTEXT]
+                              [--namespace NAMESPACE] [--selector SELECTOR]
+                              [--deployment DEPLOYMENT]
+                              [--container CONTAINER]
+                              [--observer-interval OBSERVER_INTERVAL]
+                              [--idle-seconds IDLE_SECONDS]
+                              [--post-seconds POST_SECONDS]
+                              [--warmup-timeout WARMUP_TIMEOUT]
+                              [--activity-note ACTIVITY_NOTE]
+python.exe -m unittest: error: --pilot-preparation requires a fixed mode or autoscaling/burst without protocol or diagnostic options
+usage: python.exe -m unittest [-h] [--protocol-version {1.1}]
+                              [--repetition {1,2,3}]
+                              [--planned-order PLANNED_ORDER]
+                              [--actual-order ACTUAL_ORDER]
+                              [--replaces-run REPLACES_RUN]
+                              [--replacement-reason REPLACEMENT_REASON]
+                              [--diagnostic-warmup-wait {immediate,quiet}]
+                              [--pilot-preparation]
+                              [--custom-metric-policy {cpu,active-1,active-2}]
+                              [--custom-metric-comparison] --base-url BASE_URL
+                              --rate RATE [--duration DURATION]
+                              [--slo-ms SLO_MS]
+                              [--mode {autoscaling,fixed-1,fixed-3}]
+                              [--profile {steady,burst}] [--low-rate LOW_RATE]
+                              --run-dir RUN_DIR [--replicas {1,3}]
+                              [--service SERVICE] [--context CONTEXT]
+                              [--namespace NAMESPACE] [--selector SELECTOR]
+                              [--deployment DEPLOYMENT]
+                              [--container CONTAINER]
+                              [--observer-interval OBSERVER_INTERVAL]
+                              [--idle-seconds IDLE_SECONDS]
+                              [--post-seconds POST_SECONDS]
+                              [--warmup-timeout WARMUP_TIMEOUT]
+                              [--activity-note ACTIVITY_NOTE]
+python.exe -m unittest: error: --pilot-preparation requires a fixed mode or autoscaling/burst without protocol or diagnostic options
+usage: python.exe -m unittest [-h] [--protocol-version {1.1}]
+                              [--repetition {1,2,3}]
+                              [--planned-order PLANNED_ORDER]
+                              [--actual-order ACTUAL_ORDER]
+                              [--replaces-run REPLACES_RUN]
+                              [--replacement-reason REPLACEMENT_REASON]
+                              [--diagnostic-warmup-wait {immediate,quiet}]
+                              [--pilot-preparation]
+                              [--custom-metric-policy {cpu,active-1,active-2}]
+                              [--custom-metric-comparison] --base-url BASE_URL
+                              --rate RATE [--duration DURATION]
+                              [--slo-ms SLO_MS]
+                              [--mode {autoscaling,fixed-1,fixed-3}]
+                              [--profile {steady,burst}] [--low-rate LOW_RATE]
+                              --run-dir RUN_DIR [--replicas {1,3}]
+                              [--service SERVICE] [--context CONTEXT]
+                              [--namespace NAMESPACE] [--selector SELECTOR]
+                              [--deployment DEPLOYMENT]
+                              [--container CONTAINER]
+                              [--observer-interval OBSERVER_INTERVAL]
+                              [--idle-seconds IDLE_SECONDS]
+                              [--post-seconds POST_SECONDS]
+                              [--warmup-timeout WARMUP_TIMEOUT]
+                              [--activity-note ACTIVITY_NOTE]
+python.exe -m unittest: error: --pilot-preparation requires a fixed mode or autoscaling/burst without protocol or diagnostic options
+simulated load failure
+warmup failed; see warmup.json
+Saved 1 run summaries to C:\Users\matvi\AppData\Local\Temp\tmp7oxo_swt\run\main-analysis
+Saved 1 run summaries to C:\Users\matvi\AppData\Local\Temp\tmp5eznwa7x\run\main-analysis
+Starting 01-discovery-low-rate-2: 120s measured load
+stopped: incomplete delivery
+Starting 01-discovery-low-rate-2: 120s measured load
+Saved 01-discovery-low-rate-2: p95=1200.0 ms, failed=0, target_missed=False
+Starting 02-discovery-peak-rate-8: 120s measured load
+Saved 02-discovery-peak-rate-8: p95=1200.0 ms, failed=0, target_missed=False
+Starting 03-discovery-peak-rate-10: 120s measured load
+Saved 03-discovery-peak-rate-10: p95=6000.0 ms, failed=0, target_missed=True
+Starting 04-low-1-rate-2: 300s measured load
+Saved 04-low-1-rate-2: p95=1200.0 ms, failed=0, target_missed=False
+Starting 05-peak-1-rate-10: 300s measured load
+Saved 05-peak-1-rate-10: p95=6000.0 ms, failed=0, target_missed=True
+Starting 06-low-2-rate-2: 300s measured load
+Saved 06-low-2-rate-2: p95=1200.0 ms, failed=0, target_missed=False
+Starting 07-peak-2-rate-10: 300s measured load
+Saved 07-peak-2-rate-10: p95=6000.0 ms, failed=0, target_missed=True
+finished: Low and peak confirmed twice; no HPA or additional matrix scheduled
+Refusing to overwrite existing run path: C:\Users\matvi\AppData\Local\Temp\tmpw26zkj7c\run
+Refusing to overwrite existing run path: C:\Users\matvi\AppData\Local\Temp\tmpw26zkj7c\run
+Refusing to overwrite existing run path: C:\Users\matvi\AppData\Local\Temp\tmpw26zkj7c\run
+warmup failed; see warmup.json
+cluster collection contains errors
+usage: python.exe -m unittest [-h] [--protocol-version {1.1}]
+                              [--repetition {1,2,3}]
+                              [--planned-order PLANNED_ORDER]
+                              [--actual-order ACTUAL_ORDER]
+                              [--replaces-run REPLACES_RUN]
+                              [--replacement-reason REPLACEMENT_REASON]
+                              [--diagnostic-warmup-wait {immediate,quiet}]
+                              [--pilot-preparation]
+                              [--custom-metric-policy {cpu,active-1,active-2}]
+                              [--custom-metric-comparison] --base-url BASE_URL
+                              --rate RATE [--duration DURATION]
+                              [--slo-ms SLO_MS]
+                              [--mode {autoscaling,fixed-1,fixed-3}]
+                              [--profile {steady,burst}] [--low-rate LOW_RATE]
+                              --run-dir RUN_DIR [--replicas {1,3}]
+                              [--service SERVICE] [--context CONTEXT]
+                              [--namespace NAMESPACE] [--selector SELECTOR]
+                              [--deployment DEPLOYMENT]
+                              [--container CONTAINER]
+                              [--observer-interval OBSERVER_INTERVAL]
+                              [--idle-seconds IDLE_SECONDS]
+                              [--post-seconds POST_SECONDS]
+                              [--warmup-timeout WARMUP_TIMEOUT]
+                              [--activity-note ACTIVITY_NOTE]
+python.exe -m unittest: error: argument --slo-ms: must be a finite number greater than zero
+usage: python.exe -m unittest [-h] [--protocol-version {1.1}]
+                              [--repetition {1,2,3}]
+                              [--planned-order PLANNED_ORDER]
+                              [--actual-order ACTUAL_ORDER]
+                              [--replaces-run REPLACES_RUN]
+                              [--replacement-reason REPLACEMENT_REASON]
+                              [--diagnostic-warmup-wait {immediate,quiet}]
+                              [--pilot-preparation]
+                              [--custom-metric-policy {cpu,active-1,active-2}]
+                              [--custom-metric-comparison] --base-url BASE_URL
+                              --rate RATE [--duration DURATION]
+                              [--slo-ms SLO_MS]
+                              [--mode {autoscaling,fixed-1,fixed-3}]
+                              [--profile {steady,burst}] [--low-rate LOW_RATE]
+                              --run-dir RUN_DIR [--replicas {1,3}]
+                              [--service SERVICE] [--context CONTEXT]
+                              [--namespace NAMESPACE] [--selector SELECTOR]
+                              [--deployment DEPLOYMENT]
+                              [--container CONTAINER]
+                              [--observer-interval OBSERVER_INTERVAL]
+                              [--idle-seconds IDLE_SECONDS]
+                              [--post-seconds POST_SECONDS]
+                              [--warmup-timeout WARMUP_TIMEOUT]
+                              [--activity-note ACTIVITY_NOTE]
+python.exe -m unittest: error: argument --slo-ms: must be a finite number greater than zero
+usage: python.exe -m unittest [-h] [--protocol-version {1.1}]
+                              [--repetition {1,2,3}]
+                              [--planned-order PLANNED_ORDER]
+                              [--actual-order ACTUAL_ORDER]
+                              [--replaces-run REPLACES_RUN]
+                              [--replacement-reason REPLACEMENT_REASON]
+                              [--diagnostic-warmup-wait {immediate,quiet}]
+                              [--pilot-preparation]
+                              [--custom-metric-policy {cpu,active-1,active-2}]
+                              [--custom-metric-comparison] --base-url BASE_URL
+                              --rate RATE [--duration DURATION]
+                              [--slo-ms SLO_MS]
+                              [--mode {autoscaling,fixed-1,fixed-3}]
+                              [--profile {steady,burst}] [--low-rate LOW_RATE]
+                              --run-dir RUN_DIR [--replicas {1,3}]
+                              [--service SERVICE] [--context CONTEXT]
+                              [--namespace NAMESPACE] [--selector SELECTOR]
+                              [--deployment DEPLOYMENT]
+                              [--container CONTAINER]
+                              [--observer-interval OBSERVER_INTERVAL]
+                              [--idle-seconds IDLE_SECONDS]
+                              [--post-seconds POST_SECONDS]
+                              [--warmup-timeout WARMUP_TIMEOUT]
+                              [--activity-note ACTIVITY_NOTE]
+python.exe -m unittest: error: argument --slo-ms: must be a finite number greater than zero
+usage: python.exe -m unittest [-h] [--protocol-version {1.1}]
+                              [--repetition {1,2,3}]
+                              [--planned-order PLANNED_ORDER]
+                              [--actual-order ACTUAL_ORDER]
+                              [--replaces-run REPLACES_RUN]
+                              [--replacement-reason REPLACEMENT_REASON]
+                              [--diagnostic-warmup-wait {immediate,quiet}]
+                              [--pilot-preparation]
+                              [--custom-metric-policy {cpu,active-1,active-2}]
+                              [--custom-metric-comparison] --base-url BASE_URL
+                              --rate RATE [--duration DURATION]
+                              [--slo-ms SLO_MS]
+                              [--mode {autoscaling,fixed-1,fixed-3}]
+                              [--profile {steady,burst}] [--low-rate LOW_RATE]
+                              --run-dir RUN_DIR [--replicas {1,3}]
+                              [--service SERVICE] [--context CONTEXT]
+                              [--namespace NAMESPACE] [--selector SELECTOR]
+                              [--deployment DEPLOYMENT]
+                              [--container CONTAINER]
+                              [--observer-interval OBSERVER_INTERVAL]
+                              [--idle-seconds IDLE_SECONDS]
+                              [--post-seconds POST_SECONDS]
+                              [--warmup-timeout WARMUP_TIMEOUT]
+                              [--activity-note ACTIVITY_NOTE]
+python.exe -m unittest: error: argument --slo-ms: must be a finite number greater than zero
+usage: python.exe -m unittest [-h] [--protocol-version {1.1}]
+                              [--repetition {1,2,3}]
+                              [--planned-order PLANNED_ORDER]
+                              [--actual-order ACTUAL_ORDER]
+                              [--replaces-run REPLACES_RUN]
+                              [--replacement-reason REPLACEMENT_REASON]
+                              [--diagnostic-warmup-wait {immediate,quiet}]
+                              [--pilot-preparation]
+                              [--custom-metric-policy {cpu,active-1,active-2}]
+                              [--custom-metric-comparison] --base-url BASE_URL
+                              --rate RATE [--duration DURATION]
+                              [--slo-ms SLO_MS]
+                              [--mode {autoscaling,fixed-1,fixed-3}]
+                              [--profile {steady,burst}] [--low-rate LOW_RATE]
+                              --run-dir RUN_DIR [--replicas {1,3}]
+                              [--service SERVICE] [--context CONTEXT]
+                              [--namespace NAMESPACE] [--selector SELECTOR]
+                              [--deployment DEPLOYMENT]
+                              [--container CONTAINER]
+                              [--observer-interval OBSERVER_INTERVAL]
+                              [--idle-seconds IDLE_SECONDS]
+                              [--post-seconds POST_SECONDS]
+                              [--warmup-timeout WARMUP_TIMEOUT]
+                              [--activity-note ACTIVITY_NOTE]
+python.exe -m unittest: error: argument --slo-ms: invalid positive_number value: 'text'
+Build the monotonic k6 runtime first
+Recovered {'completed': 457}: C:\Users\matvi\AppData\Local\Temp\tmpeuwq3th4\attempt-07-fixed-3-burst-recovered
+Starting 1/18: fixed-1 / steady
+Starting 1/18: fixed-1 / steady
+Saved attempt-01-fixed-1-steady: fail; analysis: C:\Users\matvi\AppData\Local\Temp\tmpz14ajj1v\attempt-01-analysis
+Starting 2/18: fixed-3 / steady
+Saved attempt-02-fixed-3-steady: fail; analysis: C:\Users\matvi\AppData\Local\Temp\tmpz14ajj1v\attempt-02-analysis
+Service tunnel: http://127.0.0.1:54321
+Keep attempt-01-fixed-1-steady: pass
+tmp4h_7423l: retained the existing 1-ms boundary warning.
+======================================================================
+FAIL: test_real_k6_lifecycle_with_three_pod_warmups_and_service_distribution (tests.bench.test_fixed_replicas.FixedLauncherTests.test_real_k6_lifecycle_with_three_pod_warmups_and_service_distribution)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\matvi\PycharmProjects\kubernetes-autoscaling-ai-inference\tests\bench\test_fixed_replicas.py", line 148, in test_real_k6_lifecycle_with_three_pod_warmups_and_service_distribution
+    self.assertEqual(code, 0, report)
+AssertionError: 1 != 0 : {'schema_version': 1, 'valid': False, 'errors': ['Service distribution: pod access log counts do not match completed client requests'], 'warnings': [], 'counts': {'started': 3, 'completed': 3, 'successful': 3, 'failed': 0, 'unfinished': 0, 'dropped': 0}, 'load_window': {'started_at_utc': '2026-11-14T13:57:41.787000+00:00', 'scheduled_end_at_utc': '2026-11-14T13:57:42.787000+00:00', 'client_drain_end_at_utc': '2026-11-14T13:57:42.787000+00:00', 'request_start_tolerance_ms': 1}, 'events_read': {'started': 3, 'completed': 3}, 'observation': {'samples': 2, 'collection_errors': 0, 'max_gap_seconds': 1.2275428771972656}}
+
+----------------------------------------------------------------------
+Ran 288 tests in 226.727s
+
+FAILED (failures=1)

@@ -1,0 +1,10 @@
+{
+  "task_name": "AI-Inference-Custom-HPA-Resume-20261113-224228",
+  "started_at_utc": "2026-11-13T23:01:39.3057351Z",
+  "action": "C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\.venv\\Scripts\\pythonw.exe",
+  "arguments": "-B \"C:\\Users\\matvi\\Documents\\ChatGPT\\Kubernetes Autoscaling for AI Inference\\tmp\\series-command\\custom-resume-task-worker.py\" --task-name \"AI-Inference-Custom-HPA-Resume-20261113-224228\" --record-path \"C:\\Users\\matvi\\Documents\\ChatGPT\\Kubernetes Autoscaling for AI Inference\\tmp\\series-command\\custom-comparison-task-20261113-224228-process.json\"",
+  "working_directory": "C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference",
+  "run_level": "Limited",
+  "triggers": 0,
+  "hidden": true
+}

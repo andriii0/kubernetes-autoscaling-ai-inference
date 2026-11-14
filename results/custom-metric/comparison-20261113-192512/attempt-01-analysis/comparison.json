@@ -1,0 +1,291 @@
+{
+  "qualification": null,
+  "assessment": {
+    "protocol_version": "active-requests-comparison-v2",
+    "data_valid": true,
+    "duration_complete": true,
+    "unfinished": 0,
+    "dropped": 0,
+    "primary": {
+      "name": "peak",
+      "seconds": 300,
+      "target": "peak",
+      "start_seconds": 121,
+      "end_seconds": 421,
+      "assignment": "request start time",
+      "completed": 360,
+      "successful": 259,
+      "failed": 101,
+      "p95_ms": 29106.6,
+      "mean_ms": 16812.471042471043,
+      "failure_categories": {
+        "timeout": 101
+      }
+    },
+    "primary_p95_pass": false,
+    "primary_errors_pass": false,
+    "whole_run_errors_pass": false,
+    "scaling_observed": "growth+reduction",
+    "overall": "fail",
+    "sensitivity_p95_pass": false,
+    "system_outcomes": [
+      {
+        "pod_uid": "ee38f8af-8777-45b4-aa55-7b6155c7defd",
+        "restart_count": 3,
+        "termination": {
+          "containerID": "containerd://acc8502bfb79a5347ddefb52a177b2b4bc9c6d3d1b163fdb9b80f9a0e215ef05",
+          "exitCode": 255,
+          "finishedAt": "2026-11-13T15:31:24Z",
+          "reason": "Unknown",
+          "startedAt": "2026-11-10T19:19:36Z"
+        }
+      }
+    ],
+    "limitations": [],
+    "server_drain_verified": false
+  },
+  "phases": [
+    {
+      "name": "low-before",
+      "seconds": 120,
+      "target": "low",
+      "start_seconds": 0,
+      "end_seconds": 120,
+      "assignment": "request start time",
+      "completed": 23,
+      "successful": 23,
+      "failed": 0,
+      "p95_ms": 1320.8999999999999,
+      "mean_ms": 1191.2173913043478,
+      "failure_categories": {}
+    },
+    {
+      "name": "rise",
+      "seconds": 1,
+      "target": "peak",
+      "start_seconds": 120,
+      "end_seconds": 121,
+      "assignment": "request start time",
+      "completed": 1,
+      "successful": 1,
+      "failed": 0,
+      "p95_ms": 1173.0,
+      "mean_ms": 1173.0,
+      "failure_categories": {}
+    },
+    {
+      "name": "peak",
+      "seconds": 300,
+      "target": "peak",
+      "start_seconds": 121,
+      "end_seconds": 421,
+      "assignment": "request start time",
+      "completed": 360,
+      "successful": 259,
+      "failed": 101,
+      "p95_ms": 29106.6,
+      "mean_ms": 16812.471042471043,
+      "failure_categories": {
+        "timeout": 101
+      }
+    },
+    {
+      "name": "fall",
+      "seconds": 1,
+      "target": "low",
+      "start_seconds": 421,
+      "end_seconds": 422,
+      "assignment": "request start time",
+      "completed": 1,
+      "successful": 1,
+      "failed": 0,
+      "p95_ms": 23053.0,
+      "mean_ms": 23053.0,
+      "failure_categories": {}
+    },
+    {
+      "name": "low-after",
+      "seconds": 360,
+      "target": "low",
+      "start_seconds": 422,
+      "end_seconds": 782,
+      "assignment": "request start time",
+      "completed": 72,
+      "successful": 72,
+      "failed": 0,
+      "p95_ms": 3236.0500000000034,
+      "mean_ms": 1907.763888888889,
+      "failure_categories": {}
+    }
+  ],
+  "custom_metric_check": {
+    "valid": true,
+    "observations": 158,
+    "gateway": {
+      "matched": 457,
+      "complete": true,
+      "scope": "Gateway routing only; native Ollama reconciliation is still required"
+    },
+    "max_source_age_seconds": 5.00321888923645
+  },
+  "outcomes": {
+    "peak_started": 360,
+    "peak_on_time_successes": 18,
+    "peak_on_time_fraction": 0.05,
+    "peak_error_fraction": 0.28055555555555556,
+    "peak_unfinished": 0,
+    "dropped_starts": 0,
+    "capacity": {
+      "load": {
+        "desired": {
+          "replica_seconds": 1791.3605389595032,
+          "covered_seconds": 782.0,
+          "missing_seconds": 0,
+          "seconds_at_count": {
+            "0": 0.0,
+            "1": 217.2157919406891,
+            "2": 120.20787715911865,
+            "3": 444.57633090019226
+          },
+          "method": "Previous observed count over intervals <=10s, clipped to window; not CPU consumption."
+        },
+        "ready": {
+          "replica_seconds": 1786.3452017307281,
+          "covered_seconds": 782.0,
+          "missing_seconds": 0,
+          "seconds_at_count": {
+            "0": 0.0,
+            "1": 222.2311291694641,
+            "2": 115.19253993034363,
+            "3": 444.57633090019226
+          },
+          "method": "Previous observed count over intervals <=10s, clipped to window; not CPU consumption."
+        }
+      },
+      "post_load": {
+        "desired": {
+          "replica_seconds": 342.2597541809082,
+          "covered_seconds": 300.0,
+          "missing_seconds": 0,
+          "seconds_at_count": {
+            "0": 0.0,
+            "1": 278.8701229095459,
+            "2": 0.0,
+            "3": 21.1298770904541
+          },
+          "method": "Previous observed count over intervals <=10s, clipped to window; not CPU consumption."
+        },
+        "ready": {
+          "replica_seconds": 342.2597541809082,
+          "covered_seconds": 300.0,
+          "missing_seconds": 0,
+          "seconds_at_count": {
+            "0": 0.0,
+            "1": 278.8701229095459,
+            "2": 0.0,
+            "3": 21.1298770904541
+          },
+          "method": "Previous observed count over intervals <=10s, clipped to window; not CPU consumption."
+        }
+      }
+    },
+    "reaction": {
+      "2": {
+        "signal_at_seconds_from_peak": 96.21579194068909,
+        "desired_at_seconds_from_peak": 96.21579194068909,
+        "ready_at_seconds_from_peak": 101.23112916946411
+      },
+      "3": {
+        "signal_at_seconds_from_peak": 111.25416612625122,
+        "desired_at_seconds_from_peak": 216.42366909980774,
+        "ready_at_seconds_from_peak": 216.42366909980774
+      }
+    },
+    "timing_scope": "Observed bounds; CPU demand uses HPA-reported utilization/current replicas, request demand uses total gateway gauge. Controller tolerance/readiness rules can change actual decisions. Ready is not model-warm."
+  },
+  "resources": {
+    "window": {
+      "started_at_utc": "2026-11-13T19:30:30.356000+00:00",
+      "scheduled_end_at_utc": "2026-11-13T19:43:32.356000+00:00",
+      "client_drain_end_at_utc": "2026-11-13T19:43:32.356000+00:00",
+      "request_start_tolerance_ms": 1
+    },
+    "method": "Counter deltas clipped by interval overlap; constant average rate within each source interval.",
+    "instances": [
+      {
+        "scope": "container",
+        "pod_uid": "ee38f8af-8777-45b4-aa55-7b6155c7defd",
+        "restart_count": 3,
+        "container_id": "containerd://44994821a853ff6bbfb3b3c0007d159dcb578b151260e56944ea22f2c8a74889",
+        "active_start_utc": "2026-11-13T15:31:35+00:00",
+        "active_end_utc": "2026-11-13T19:43:32.356000+00:00",
+        "expected_seconds": 782.0,
+        "cpu_covered_seconds": 782.0,
+        "cpu_coverage": 1.0,
+        "cpu_full_coverage": true,
+        "cpu_core_seconds_estimate": 781.60178384514,
+        "observed_peak_memory_mib": 536.046875,
+        "memory_samples": 52,
+        "memory_missing_polls": 1,
+        "memory_first_source_utc": "2026-11-13T19:30:37.267000+00:00",
+        "memory_last_source_utc": "2026-11-13T19:43:15.329000+00:00"
+      },
+      {
+        "scope": "container",
+        "pod_uid": "0f09a4d2-708f-4c59-a4a4-045f40959457",
+        "restart_count": 0,
+        "container_id": "containerd://932c63c3e8f9280f7e181badea721b0a835ddbb1aef1b2352c58e06f294f5f30",
+        "active_start_utc": "2026-11-13T19:34:06+00:00",
+        "active_end_utc": "2026-11-13T19:43:32.356000+00:00",
+        "expected_seconds": 566.3559999465942,
+        "cpu_covered_seconds": 564.0269999504089,
+        "cpu_coverage": 0.9958877455233017,
+        "cpu_full_coverage": false,
+        "cpu_core_seconds_estimate": 490.31576750708325,
+        "observed_peak_memory_mib": 891.30078125,
+        "memory_samples": 44,
+        "memory_missing_polls": 0,
+        "memory_first_source_utc": "2026-11-13T19:34:08.329000+00:00",
+        "memory_last_source_utc": "2026-11-13T19:43:28.187000+00:00"
+      },
+      {
+        "scope": "container",
+        "pod_uid": "b93ed64b-f726-40d6-8b6d-e95b615f854a",
+        "restart_count": 0,
+        "container_id": "containerd://325783c7ffdfde4bb39d58afd822f7bc6970ac78e170305f7a12a492b42bccd6",
+        "active_start_utc": "2026-11-13T19:36:06+00:00",
+        "active_end_utc": "2026-11-13T19:43:32.356000+00:00",
+        "expected_seconds": 446.35599994659424,
+        "cpu_covered_seconds": 443.4319999217987,
+        "cpu_coverage": 0.993449175041569,
+        "cpu_full_coverage": false,
+        "cpu_core_seconds_estimate": 274.081546556343,
+        "observed_peak_memory_mib": 483.52734375,
+        "memory_samples": 37,
+        "memory_missing_polls": 0,
+        "memory_first_source_utc": "2026-11-13T19:36:08.924000+00:00",
+        "memory_last_source_utc": "2026-11-13T19:43:27.519000+00:00"
+      }
+    ],
+    "nodes": [
+      {
+        "scope": "node",
+        "node": "ai-lab",
+        "active_start_utc": "2026-11-13T19:30:30.356000+00:00",
+        "active_end_utc": "2026-11-13T19:43:32.356000+00:00",
+        "expected_seconds": 782.0,
+        "cpu_covered_seconds": 782.0,
+        "cpu_coverage": 1.0,
+        "cpu_full_coverage": true,
+        "cpu_core_seconds_estimate": 1724.8736330896693,
+        "observed_peak_memory_mib": 3184.2734375,
+        "memory_samples": 78,
+        "memory_missing_polls": 2,
+        "memory_first_source_utc": "2026-11-13T19:30:40.164000+00:00",
+        "memory_last_source_utc": "2026-11-13T19:43:31.802000+00:00"
+      }
+    ],
+    "application_cpu_core_seconds_estimate": null,
+    "application_state_complete": true
+  }
+}

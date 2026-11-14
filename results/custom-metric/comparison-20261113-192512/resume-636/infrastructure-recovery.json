@@ -1,0 +1,39 @@
+{
+  "previous_identity": {
+    "inference-gateway": {
+      "uid": "1c04e708-8f7f-439b-8b52-c9347286ba84",
+      "container_id": "containerd://a432e727344ebd4b20e56dfa83018a005b2a8c07feccb9b8a87cc98aec5ee095",
+      "image_id": "docker.io/envoyproxy/envoy@sha256:cfe1c570e72aa4207853a37bd1c32c808a0036a351b16f73732dcfd0e5775175"
+    },
+    "inference-prometheus": {
+      "uid": "c7f64666-d968-4545-85e8-3f6465b2f6ce",
+      "container_id": "containerd://4d31caa7b1db01c8ad4c74149152cdbc567dd85343bac280a23c6d2df5f7ea4e",
+      "image_id": "docker.io/prom/prometheus@sha256:63805ebb8d2b3920190daf1cb14a60871b16fd38bed42b857a3182bc621f4996"
+    },
+    "inference-metrics-adapter": {
+      "uid": "15c1743d-d9e2-4bea-8d7f-1944f9c0021d",
+      "container_id": "containerd://6907f5fa97180d2ebeec5570e74d40100663e67f751eeee48bf262834cec0f95",
+      "image_id": "registry.k8s.io/prometheus-adapter/prometheus-adapter@sha256:932eae60e2bcf9c4660d6442da066ef1a79b4ea7cc232c61c7303069216ca006"
+    }
+  },
+  "identity": {
+    "inference-gateway": {
+      "uid": "6a11ae61-6111-42c7-aeab-832396d4bd4f",
+      "container_id": "containerd://4b25b7a9272f1fb00acaf68a680231b821137238b5625bf304615dfc2bdfa3b7",
+      "image_id": "docker.io/envoyproxy/envoy@sha256:cfe1c570e72aa4207853a37bd1c32c808a0036a351b16f73732dcfd0e5775175"
+    },
+    "inference-prometheus": {
+      "uid": "14454501-9191-4639-a4c4-1a439a2c0d1d",
+      "container_id": "containerd://ab002de8d4cc49781793171708ee6a952c302f521c355464e4046e8b8b109f01",
+      "image_id": "docker.io/prom/prometheus@sha256:63805ebb8d2b3920190daf1cb14a60871b16fd38bed42b857a3182bc621f4996"
+    },
+    "inference-metrics-adapter": {
+      "uid": "2d9f2b03-2163-4ae5-9d1c-f9f53815d38e",
+      "container_id": "containerd://1b9cac8c16a9ad469ce9d230995ed24916ecb82bd9514afb95c87a643fb98317",
+      "image_id": "registry.k8s.io/prometheus-adapter/prometheus-adapter@sha256:932eae60e2bcf9c4660d6442da066ef1a79b4ea7cc232c61c7303069216ca006"
+    }
+  },
+  "reason": "Windows reboot while series was stopped. Restored the same ai-lab container, then renewed metric pods under unchanged Deployment specifications before pair 3.",
+  "recorded_at_utc": "2026-11-14T11:42:57.535150+00:00",
+  "configuration_unchanged": true
+}

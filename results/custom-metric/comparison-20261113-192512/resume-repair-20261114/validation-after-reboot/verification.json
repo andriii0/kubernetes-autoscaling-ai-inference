@@ -1,0 +1,9 @@
+{
+  "status": "passed",
+  "samples": 60,
+  "duration_seconds": 300,
+  "cleanup_passed": true,
+  "protected_files": 737,
+  "clock_tolerance_seconds": 1,
+  "collector_changed": false
+}

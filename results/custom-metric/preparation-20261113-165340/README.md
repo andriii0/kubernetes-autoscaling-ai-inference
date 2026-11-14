@@ -11,7 +11,7 @@ I checked targets 1 and 2 active requests per replica in that order. Both comple
 
 I selected **target 1** because the predeclared rule chooses the smaller qualifying threshold. It does not choose the lowest observed latency. Target 2 performed much better in this single preparation, but these two ordered runs are not repeated comparisons of thresholds. I retain both results and will not silently change the rule or call target 1 the better-performing threshold.
 
-Both runs kept one desired/Ready copy during the initial low phase, grew to three and later reduced to one. No requests were dropped or left unfinished. The infrastructure identities, configurations and workload source hashes matched across runs, with the review-driver version exception recorded below. The six-run CPU/custom comparison has not started.
+Both runs kept one desired/Ready copy during the initial low phase, grew to three and later reduced to one. No requests were dropped or left unfinished. The infrastructure identities, configurations and workload source hashes matched across runs, with the review-driver version exception recorded below. The six-run CPU/custom comparison had not started at this preparation checkpoint. Its later progress is recorded in [the comparison report](../comparison-20261113-192512/README.md).
 
 ## Target 1
 

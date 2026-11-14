@@ -1,0 +1,298 @@
+{
+  "qualification": null,
+  "assessment": {
+    "protocol_version": "active-requests-comparison-v2",
+    "data_valid": true,
+    "duration_complete": true,
+    "unfinished": 0,
+    "dropped": 0,
+    "primary": {
+      "name": "peak",
+      "seconds": 300,
+      "target": "peak",
+      "start_seconds": 121,
+      "end_seconds": 421,
+      "assignment": "request start time",
+      "completed": 360,
+      "successful": 360,
+      "failed": 0,
+      "p95_ms": 3401.35,
+      "mean_ms": 2071.2277777777776,
+      "failure_categories": {}
+    },
+    "primary_p95_pass": true,
+    "primary_errors_pass": true,
+    "whole_run_errors_pass": true,
+    "scaling_observed": "growth+reduction",
+    "overall": "pass",
+    "sensitivity_p95_pass": true,
+    "system_outcomes": [
+      {
+        "pod_uid": "ee38f8af-8777-45b4-aa55-7b6155c7defd",
+        "restart_count": 3,
+        "termination": {
+          "containerID": "containerd://acc8502bfb79a5347ddefb52a177b2b4bc9c6d3d1b163fdb9b80f9a0e215ef05",
+          "exitCode": 255,
+          "finishedAt": "2026-11-13T15:31:24Z",
+          "reason": "Unknown",
+          "startedAt": "2026-11-10T19:19:36Z"
+        }
+      },
+      {
+        "pod_uid": "99ce2691-0673-4a18-ae8b-34eaf7300f6f",
+        "restart_count": 0,
+        "termination": {
+          "containerID": "containerd://0266ec8e7d91029b9ee835b7cdc24fc2d25b9ea1a9c7515fbc553c82d014688b",
+          "exitCode": 0,
+          "finishedAt": "2026-11-13T20:05:56Z",
+          "reason": "Completed",
+          "startedAt": "2026-11-13T19:56:51Z"
+        }
+      }
+    ],
+    "limitations": [],
+    "server_drain_verified": false
+  },
+  "phases": [
+    {
+      "name": "low-before",
+      "seconds": 120,
+      "target": "low",
+      "start_seconds": 0,
+      "end_seconds": 120,
+      "assignment": "request start time",
+      "completed": 23,
+      "successful": 23,
+      "failed": 0,
+      "p95_ms": 1231.6,
+      "mean_ms": 1148.7391304347825,
+      "failure_categories": {}
+    },
+    {
+      "name": "rise",
+      "seconds": 1,
+      "target": "peak",
+      "start_seconds": 120,
+      "end_seconds": 121,
+      "assignment": "request start time",
+      "completed": 1,
+      "successful": 1,
+      "failed": 0,
+      "p95_ms": 1104.0,
+      "mean_ms": 1104.0,
+      "failure_categories": {}
+    },
+    {
+      "name": "peak",
+      "seconds": 300,
+      "target": "peak",
+      "start_seconds": 121,
+      "end_seconds": 421,
+      "assignment": "request start time",
+      "completed": 360,
+      "successful": 360,
+      "failed": 0,
+      "p95_ms": 3401.35,
+      "mean_ms": 2071.2277777777776,
+      "failure_categories": {}
+    },
+    {
+      "name": "fall",
+      "seconds": 1,
+      "target": "low",
+      "start_seconds": 421,
+      "end_seconds": 422,
+      "assignment": "request start time",
+      "completed": 1,
+      "successful": 1,
+      "failed": 0,
+      "p95_ms": 1679.0,
+      "mean_ms": 1679.0,
+      "failure_categories": {}
+    },
+    {
+      "name": "low-after",
+      "seconds": 360,
+      "target": "low",
+      "start_seconds": 422,
+      "end_seconds": 782,
+      "assignment": "request start time",
+      "completed": 72,
+      "successful": 72,
+      "failed": 0,
+      "p95_ms": 1423.15,
+      "mean_ms": 1181.5694444444443,
+      "failure_categories": {}
+    }
+  ],
+  "custom_metric_check": {
+    "valid": true,
+    "observations": 158,
+    "gateway": {
+      "matched": 457,
+      "complete": true,
+      "scope": "Gateway routing only; native Ollama reconciliation is still required"
+    },
+    "max_source_age_seconds": 5.008849382400513
+  },
+  "outcomes": {
+    "peak_started": 360,
+    "peak_on_time_successes": 359,
+    "peak_on_time_fraction": 0.9972222222222222,
+    "peak_error_fraction": 0.0,
+    "peak_unfinished": 0,
+    "dropped_starts": 0,
+    "capacity": {
+      "load": {
+        "desired": {
+          "replica_seconds": 1668.2689790725708,
+          "covered_seconds": 782.0,
+          "missing_seconds": 0,
+          "seconds_at_count": {
+            "0": 0.0,
+            "1": 256.23925495147705,
+            "2": 165.2525110244751,
+            "3": 360.50823402404785
+          },
+          "method": "Previous observed count over intervals <=10s, clipped to window; not CPU consumption."
+        },
+        "ready": {
+          "replica_seconds": 1658.2461230754852,
+          "covered_seconds": 782.0,
+          "missing_seconds": 0,
+          "seconds_at_count": {
+            "0": 0.0,
+            "1": 261.2455279827118,
+            "2": 165.2628209590912,
+            "3": 355.491651058197
+          },
+          "method": "Previous observed count over intervals <=10s, clipped to window; not CPU consumption."
+        }
+      },
+      "post_load": {
+        "desired": {
+          "replica_seconds": 300.0,
+          "covered_seconds": 300.0,
+          "missing_seconds": 0,
+          "seconds_at_count": {
+            "0": 0.0,
+            "1": 300.0,
+            "2": 0.0,
+            "3": 0.0
+          },
+          "method": "Previous observed count over intervals <=10s, clipped to window; not CPU consumption."
+        },
+        "ready": {
+          "replica_seconds": 300.0,
+          "covered_seconds": 300.0,
+          "missing_seconds": 0,
+          "seconds_at_count": {
+            "0": 0.0,
+            "1": 300.0,
+            "2": 0.0,
+            "3": 0.0
+          },
+          "method": "Previous observed count over intervals <=10s, clipped to window; not CPU consumption."
+        }
+      }
+    },
+    "reaction": {
+      "2": {
+        "signal_at_seconds_from_peak": 5.78412389755249,
+        "desired_at_seconds_from_peak": 4.545706033706665,
+        "ready_at_seconds_from_peak": 9.551979064941406
+      },
+      "3": {
+        "signal_at_seconds_from_peak": 16.134572505950928,
+        "desired_at_seconds_from_peak": 19.546036958694458,
+        "ready_at_seconds_from_peak": 24.562619924545288
+      }
+    },
+    "timing_scope": "Observed bounds; CPU demand uses HPA-reported utilization/current replicas, request demand uses total gateway gauge. Controller tolerance/readiness rules can change actual decisions. Ready is not model-warm."
+  },
+  "resources": {
+    "window": {
+      "started_at_utc": "2026-11-13T19:54:30.730000+00:00",
+      "scheduled_end_at_utc": "2026-11-13T20:07:32.730000+00:00",
+      "client_drain_end_at_utc": "2026-11-13T20:07:32.730000+00:00",
+      "request_start_tolerance_ms": 1
+    },
+    "method": "Counter deltas clipped by interval overlap; constant average rate within each source interval.",
+    "instances": [
+      {
+        "scope": "container",
+        "pod_uid": "ee38f8af-8777-45b4-aa55-7b6155c7defd",
+        "restart_count": 3,
+        "container_id": "containerd://44994821a853ff6bbfb3b3c0007d159dcb578b151260e56944ea22f2c8a74889",
+        "active_start_utc": "2026-11-13T15:31:35+00:00",
+        "active_end_utc": "2026-11-13T20:07:32.730000+00:00",
+        "expected_seconds": 782.0,
+        "cpu_covered_seconds": 782.0,
+        "cpu_coverage": 1.0,
+        "cpu_full_coverage": true,
+        "cpu_core_seconds_estimate": 576.7770402149463,
+        "observed_peak_memory_mib": 535.6640625,
+        "memory_samples": 51,
+        "memory_missing_polls": 1,
+        "memory_first_source_utc": "2026-11-13T19:54:34.803000+00:00",
+        "memory_last_source_utc": "2026-11-13T20:07:28.531000+00:00"
+      },
+      {
+        "scope": "container",
+        "pod_uid": "844cfa6e-ac82-4132-9e7b-6aa4190027b1",
+        "restart_count": 0,
+        "container_id": "containerd://9690d70168768f196081e94ab31504a3e1df2b13a022505b092daca9e90f3bee",
+        "active_start_utc": "2026-11-13T19:56:36+00:00",
+        "active_end_utc": null,
+        "expected_seconds": null,
+        "cpu_covered_seconds": 387.3180000782013,
+        "cpu_coverage": null,
+        "cpu_full_coverage": false,
+        "cpu_core_seconds_estimate": 404.77321630000006,
+        "observed_peak_memory_mib": 887.8359375,
+        "memory_samples": 37,
+        "memory_missing_polls": 50,
+        "memory_first_source_utc": "2026-11-13T19:56:36.906000+00:00",
+        "memory_last_source_utc": "2026-11-13T20:03:04.224000+00:00"
+      },
+      {
+        "scope": "container",
+        "pod_uid": "99ce2691-0673-4a18-ae8b-34eaf7300f6f",
+        "restart_count": 0,
+        "container_id": "containerd://0266ec8e7d91029b9ee835b7cdc24fc2d25b9ea1a9c7515fbc553c82d014688b",
+        "active_start_utc": "2026-11-13T19:56:51+00:00",
+        "active_end_utc": "2026-11-13T20:05:56+00:00",
+        "expected_seconds": 545.0,
+        "cpu_covered_seconds": 529.9150002002716,
+        "cpu_coverage": 0.972321101284902,
+        "cpu_full_coverage": false,
+        "cpu_core_seconds_estimate": 425.55132050000003,
+        "observed_peak_memory_mib": 481.23046875,
+        "memory_samples": 43,
+        "memory_missing_polls": 0,
+        "memory_first_source_utc": "2026-11-13T19:56:52.136000+00:00",
+        "memory_last_source_utc": "2026-11-13T20:05:42.051000+00:00"
+      }
+    ],
+    "nodes": [
+      {
+        "scope": "node",
+        "node": "ai-lab",
+        "active_start_utc": "2026-11-13T19:54:30.730000+00:00",
+        "active_end_utc": "2026-11-13T20:07:32.730000+00:00",
+        "expected_seconds": 782.0,
+        "cpu_covered_seconds": 782.0,
+        "cpu_coverage": 1.0,
+        "cpu_full_coverage": true,
+        "cpu_core_seconds_estimate": 1556.5676060813835,
+        "observed_peak_memory_mib": 3191.80859375,
+        "memory_samples": 78,
+        "memory_missing_polls": 1,
+        "memory_first_source_utc": "2026-11-13T19:54:32.759000+00:00",
+        "memory_last_source_utc": "2026-11-13T20:07:24.165000+00:00"
+      }
+    ],
+    "application_cpu_core_seconds_estimate": null,
+    "application_state_complete": true
+  }
+}

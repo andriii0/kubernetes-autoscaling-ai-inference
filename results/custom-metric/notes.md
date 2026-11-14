@@ -1,1 +1,1 @@
-I compare CPU-based HPA with HPA using active client requests at the Envoy gateway. The metric is inference_gateway_active_requests: requests that have arrived and are still open. I chose it because it can show work building up before requests finish, without changing Ollama. It is not the model's internal queue. Both policies use the same gateway and monitoring stack.
+This folder contains the setup checks and runs for the extra HPA experiment. I compare scaling by CPU usage with scaling by the number of active requests.

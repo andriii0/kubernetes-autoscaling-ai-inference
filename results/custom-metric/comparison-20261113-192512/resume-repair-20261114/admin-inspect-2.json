@@ -1,0 +1,5 @@
+{
+  "error": "Command '['wsl.exe', '--debug-shell']' timed out after 10 seconds",
+  "stdout": "",
+  "stderr": ""
+}

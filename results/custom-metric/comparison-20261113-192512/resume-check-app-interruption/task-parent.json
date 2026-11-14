@@ -1,0 +1,16 @@
+{
+  "observed_at_utc": "2026-11-13T23:02:32.0799096Z",
+  "process": {
+    "ProcessId": 4020,
+    "ParentProcessId": 1788,
+    "Name": "svchost.exe",
+    "CommandLine": null
+  },
+  "services": [
+    {
+      "Name": "Schedule",
+      "State": "Running",
+      "ProcessId": 4020
+    }
+  ]
+}

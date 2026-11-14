@@ -1,0 +1,29 @@
+{
+  "task_name": "AI-Inference-Custom-HPA-Resume-20261114-115738",
+  "started_at_utc": "2026-11-14T11:57:38.841908+00:00",
+  "worker_pid": 5424,
+  "worker_parent_pid": 41468,
+  "series_dir": "C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\results\\custom-metric\\comparison-20261113-192512",
+  "launch_method": "Direct Python action in a manually started Windows task; current account, limited privileges.",
+  "recurring_triggers": 0,
+  "stdout": "C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\results\\custom-metric\\comparison-20261113-192512\\resume-repair-20261114\\task-20261114-115738.stdout.log",
+  "stderr": "C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\results\\custom-metric\\comparison-20261113-192512\\resume-repair-20261114\\task-20261114-115738.stderr.log",
+  "command": [
+    "C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\.venv\\Scripts\\python.exe",
+    "-B",
+    "bench/run_custom_comparison.py",
+    "--preparation-dir",
+    "results/custom-metric/preparation-20261113-165340",
+    "--output-dir",
+    "C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\results\\custom-metric\\comparison-20261113-192512",
+    "--resume",
+    "--execute",
+    "--recovered-infrastructure-record",
+    "C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\results\\custom-metric\\comparison-20261113-192512\\resume-repair-20261114\\host-recovery\\infrastructure-recovery.json"
+  ],
+  "launcher_pid": 20616,
+  "driver_pid": 636,
+  "exit_code": 1,
+  "finished_at_utc": "2026-11-14T12:12:00.237255+00:00",
+  "task_cleanup_exit_code": 0
+}

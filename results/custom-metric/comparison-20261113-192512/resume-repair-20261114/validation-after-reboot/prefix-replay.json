@@ -1,0 +1,25 @@
+{
+  "accepted": 4,
+  "pending": [
+    {
+      "order": 5,
+      "pair": 3,
+      "policy": "cpu"
+    },
+    {
+      "order": 6,
+      "pair": 3,
+      "policy": "active-1"
+    }
+  ],
+  "source_changes": {
+    "prepare_custom_metric.py": {
+      "original": "146cdbcb2acb8eff128b68e03ac32cf7888da95fe2c661dcd4d0bb0305a48e65",
+      "continued": "f87b972896eb42e26b7a05b6f04ad77926e5743c5f7d73fbd1ad23b2792aa621"
+    },
+    "run_custom_comparison.py": {
+      "original": "be98111ff7917fa72669f5fe0d9037317b6b2e90ab9aef0fe37878239fdb77cf",
+      "continued": "26041c5a4bd25175e955d9e3f203ed5d915f69194972b41476547808204b84ab"
+    }
+  }
+}

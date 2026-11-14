@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "valid": false,
+  "errors": [
+    "launcher reported errors",
+    "load/collection processes did not finish normally",
+    "request evidence: [Errno 2] No such file or directory: 'C:\\\\Users\\\\matvi\\\\PycharmProjects\\\\kubernetes-autoscaling-ai-inference\\\\results\\\\custom-metric\\\\comparison-20261113-192512\\\\attempt-05-cpu-retry-03\\\\summary.json'"
+  ],
+  "warnings": [],
+  "counts": {
+    "started": 19,
+    "completed": 19,
+    "successful": 19,
+    "failed": 0,
+    "unfinished": 0,
+    "dropped": null
+  },
+  "load_window": null,
+  "events_read": {
+    "started": 19,
+    "completed": 19
+  },
+  "observation": {
+    "samples": 67,
+    "collection_errors": 0,
+    "max_gap_seconds": 6.46586012840271,
+    "resource_gap_samples": 0
+  },
+  "resource_gaps": [],
+  "logs": {
+    "complete": true,
+    "errors": [],
+    "pods": {
+      "ee38f8af-8777-45b4-aa55-7b6155c7defd": {
+        "pod_name": "ollama-7db4f544df-s6xhv",
+        "http_responses_after_load_start": 19,
+        "first_observed_http_response_at_utc": "2026-11-13T23:46:39.137518089Z",
+        "http_responses": [
+          {
+            "at_utc": "2026-11-13T23:46:39.137518089Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-13T23:46:44.350257489Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-13T23:46:49.276334365Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-13T23:46:54.302493368Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-13T23:46:59.160952342Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-13T23:47:04.247512808Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-13T23:47:09.236720219Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-13T23:47:14.139471936Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-13T23:47:19.310734681Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-13T23:47:24.123816303Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-13T23:47:29.224780949Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-13T23:47:34.195933222Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-13T23:47:39.219131739Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-13T23:47:44.123277611Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-13T23:47:49.231859102Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-13T23:47:54.191764626Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-13T23:47:59.503236015Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-13T23:48:04.182966343Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-13T23:48:10.300514037Z",
+            "http_status": 200
+          }
+        ]
+      }
+    },
+    "method": "Native HTTP completion logs; no client-request attribution or semantic success claim"
+  }
+}

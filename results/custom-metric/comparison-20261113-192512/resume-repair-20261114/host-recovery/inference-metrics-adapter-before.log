@@ -1,0 +1,13 @@
+2026-11-14T11:24:23.262464785Z I1114 11:24:23.256791       1 adapter.go:113] successfully using in-cluster auth
+2026-11-14T11:24:23.987723226Z I1114 11:24:23.987568       1 secure_serving.go:213] Serving securely on [::]:6443
+2026-11-14T11:24:23.990359860Z I1114 11:24:23.990173       1 tlsconfig.go:240] "Starting DynamicServingCertificateController"
+2026-11-14T11:24:23.990375638Z I1114 11:24:23.990223       1 configmap_cafile_content.go:202] "Starting controller" name="client-ca::kube-system::extension-apiserver-authentication::requestheader-client-ca-file"
+2026-11-14T11:24:23.990378722Z I1114 11:24:23.990235       1 shared_informer.go:313] Waiting for caches to sync for client-ca::kube-system::extension-apiserver-authentication::requestheader-client-ca-file
+2026-11-14T11:24:23.990381017Z I1114 11:24:23.990225       1 requestheader_controller.go:169] Starting RequestHeaderAuthRequestController
+2026-11-14T11:24:23.990383457Z I1114 11:24:23.990243       1 shared_informer.go:313] Waiting for caches to sync for RequestHeaderAuthRequestController
+2026-11-14T11:24:23.990385118Z I1114 11:24:23.990245       1 configmap_cafile_content.go:202] "Starting controller" name="client-ca::kube-system::extension-apiserver-authentication::client-ca-file"
+2026-11-14T11:24:23.990387216Z I1114 11:24:23.990264       1 shared_informer.go:313] Waiting for caches to sync for client-ca::kube-system::extension-apiserver-authentication::client-ca-file
+2026-11-14T11:24:23.990388870Z I1114 11:24:23.990167       1 dynamic_serving_content.go:132] "Starting controller" name="serving-cert::/var/run/serving-cert/apiserver.crt::/var/run/serving-cert/apiserver.key"
+2026-11-14T11:24:24.090563943Z I1114 11:24:24.090465       1 shared_informer.go:320] Caches are synced for client-ca::kube-system::extension-apiserver-authentication::client-ca-file
+2026-11-14T11:24:24.090577354Z I1114 11:24:24.090479       1 shared_informer.go:320] Caches are synced for client-ca::kube-system::extension-apiserver-authentication::requestheader-client-ca-file
+2026-11-14T11:24:24.090580311Z I1114 11:24:24.090499       1 shared_informer.go:320] Caches are synced for RequestHeaderAuthRequestController

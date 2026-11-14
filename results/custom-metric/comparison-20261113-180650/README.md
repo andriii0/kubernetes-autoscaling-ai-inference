@@ -24,6 +24,6 @@ The [manifest](manifest.json) records progress and all completed run assessments
 - [Preflight](preflight.json), [source hashes](source-sha256.json), [preparation code boundary](preparation-code-boundary.json), `inputs/` and `bundle/` preserve the environment and executable inputs. Collector/workload sources are unchanged since preparation; the recorded launcher/reviewer changes add comparison labels, archives and the shared comparison assessment branch.
 - The earlier OpenCode filesystem-permission failure prevented external review. Verification reported here is local.
 
-I leave this run unattended after startup as requested. I did not create the requested 15/30-minute job checks because current app instructions prohibit job-monitoring automations. There is no continuous assistant observation. The driver still performs its required internal safety and data-validity checks.
+The original launch was left unattended. The driver performed the configured collection and cleanup checks and stopped on the clock error described above.
 
-Launch state and stdout/stderr paths are in `tmp/series-command/custom-comparison-20261113-180650-process.json` in the document-authoring workspace. No commit or push was made.
+The original launch record and stdout/stderr paths are in `tmp/series-command/custom-comparison-20261113-180650-process.json` in the document-authoring workspace.

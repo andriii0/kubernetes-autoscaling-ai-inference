@@ -1,0 +1,1810 @@
+{
+  "schema_version": 1,
+  "time": "2026-11-13T20:14:16.353268+00:00",
+  "context": "ai-lab",
+  "namespace": "inference",
+  "selector": "app=ollama",
+  "sources": {
+    "pods": {
+      "started_at": "2026-11-13T20:14:16.353268+00:00",
+      "finished_at": "2026-11-13T20:14:16.445109+00:00"
+    },
+    "deployments": {
+      "started_at": "2026-11-13T20:14:16.445109+00:00",
+      "finished_at": "2026-11-13T20:14:16.535236+00:00"
+    },
+    "hpa": {
+      "started_at": "2026-11-13T20:14:16.535236+00:00",
+      "finished_at": "2026-11-13T20:14:16.618518+00:00"
+    },
+    "nodes": {
+      "started_at": "2026-11-13T20:14:16.618518+00:00",
+      "finished_at": "2026-11-13T20:14:16.705367+00:00"
+    },
+    "metrics_server": {
+      "started_at": "2026-11-13T20:14:16.705367+00:00",
+      "finished_at": "2026-11-13T20:14:16.784698+00:00"
+    },
+    "kubelet/ai-lab": {
+      "started_at": "2026-11-13T20:14:16.784698+00:00",
+      "finished_at": "2026-11-13T20:14:16.881647+00:00"
+    }
+  },
+  "errors": [],
+  "kubelet": {
+    "ai-lab": {
+      "raw": "# HELP container_cpu_usage_seconds_total [STABLE] Cumulative cpu time consumed by the container in core-seconds\n# TYPE container_cpu_usage_seconds_total counter\ncontainer_cpu_usage_seconds_total{container=\"coredns\",namespace=\"kube-system\",pod=\"coredns-559f6c778d-lnptb\"} 22.6493515 1794600849684\ncontainer_cpu_usage_seconds_total{container=\"dashboard-metrics-scraper\",namespace=\"kubernetes-dashboard\",pod=\"dashboard-metrics-scraper-69cbd87b98-kgcrb\"} 2.2079004 1794600850732\ncontainer_cpu_usage_seconds_total{container=\"etcd\",namespace=\"kube-system\",pod=\"etcd-ai-lab\"} 295.3304571 1794600854325\ncontainer_cpu_usage_seconds_total{container=\"inference-gateway\",namespace=\"inference\",pod=\"inference-gateway-7d9d5bdc78-sq6lb\"} 25.2864193 1794600846443\ncontainer_cpu_usage_seconds_total{container=\"inference-metrics-adapter\",namespace=\"inference\",pod=\"inference-metrics-adapter-8994f5d7d-2vgp7\"} 29.7743635 1794600844193\ncontainer_cpu_usage_seconds_total{container=\"inference-prometheus\",namespace=\"inference\",pod=\"inference-prometheus-7845b76fcd-rvgm7\"} 17.5076006 1794600852887\ncontainer_cpu_usage_seconds_total{container=\"kindnet-cni\",namespace=\"kube-system\",pod=\"kindnet-ngnzd\"} 23.640944 1794600855318\ncontainer_cpu_usage_seconds_total{container=\"kube-apiserver\",namespace=\"kube-system\",pod=\"kube-apiserver-ai-lab\"} 544.0228114 1794600842935\ncontainer_cpu_usage_seconds_total{container=\"kube-controller-manager\",namespace=\"kube-system\",pod=\"kube-controller-manager-ai-lab\"} 208.2444728 1794600840118\ncontainer_cpu_usage_seconds_total{container=\"kube-proxy\",namespace=\"kube-system\",pod=\"kube-proxy-m7mrn\"} 4.4710937 1794600850731\ncontainer_cpu_usage_seconds_total{container=\"kube-scheduler\",namespace=\"kube-system\",pod=\"kube-scheduler-ai-lab\"} 73.2948466 1794600852628\ncontainer_cpu_usage_seconds_total{container=\"kubernetes-dashboard\",namespace=\"kubernetes-dashboard\",pod=\"kubernetes-dashboard-6df74558bd-bbs87\"} 2.2319913 1794600842491\ncontainer_cpu_usage_seconds_total{container=\"metrics-server\",namespace=\"kube-system\",pod=\"metrics-server-768f9f6999-tjlwz\"} 33.8191811 1794600852502\ncontainer_cpu_usage_seconds_total{container=\"ollama\",namespace=\"inference\",pod=\"ollama-7db4f544df-s6xhv\"} 3347.6319706 1794600849670\ncontainer_cpu_usage_seconds_total{container=\"storage-provisioner\",namespace=\"kube-system\",pod=\"storage-provisioner\"} 16.6583081 1794600845527\n# HELP container_memory_working_set_bytes [STABLE] Current working set of the container in bytes\n# TYPE container_memory_working_set_bytes gauge\ncontainer_memory_working_set_bytes{container=\"coredns\",namespace=\"kube-system\",pod=\"coredns-559f6c778d-lnptb\"} 2.6836992e+07 1794600849684\ncontainer_memory_working_set_bytes{container=\"dashboard-metrics-scraper\",namespace=\"kubernetes-dashboard\",pod=\"dashboard-metrics-scraper-69cbd87b98-kgcrb\"} 2.357248e+07 1794600850732\ncontainer_memory_working_set_bytes{container=\"etcd\",namespace=\"kube-system\",pod=\"etcd-ai-lab\"} 6.4483328e+07 1794600854325\ncontainer_memory_working_set_bytes{container=\"inference-gateway\",namespace=\"inference\",pod=\"inference-gateway-7d9d5bdc78-sq6lb\"} 2.43712e+07 1794600846443\ncontainer_memory_working_set_bytes{container=\"inference-metrics-adapter\",namespace=\"inference\",pod=\"inference-metrics-adapter-8994f5d7d-2vgp7\"} 3.8486016e+07 1794600844193\ncontainer_memory_working_set_bytes{container=\"inference-prometheus\",namespace=\"inference\",pod=\"inference-prometheus-7845b76fcd-rvgm7\"} 5.2047872e+07 1794600852887\ncontainer_memory_working_set_bytes{container=\"kindnet-cni\",namespace=\"kube-system\",pod=\"kindnet-ngnzd\"} 3.0191616e+07 1794600855318\ncontainer_memory_working_set_bytes{container=\"kube-apiserver\",namespace=\"kube-system\",pod=\"kube-apiserver-ai-lab\"} 3.3724416e+08 1794600842935\ncontainer_memory_working_set_bytes{container=\"kube-controller-manager\",namespace=\"kube-system\",pod=\"kube-controller-manager-ai-lab\"} 9.2106752e+07 1794600840118\ncontainer_memory_working_set_bytes{container=\"kube-proxy\",namespace=\"kube-system\",pod=\"kube-proxy-m7mrn\"} 3.2362496e+07 1794600850731\ncontainer_memory_working_set_bytes{container=\"kube-scheduler\",namespace=\"kube-system\",pod=\"kube-scheduler-ai-lab\"} 3.9129088e+07 1794600852628\ncontainer_memory_working_set_bytes{container=\"kubernetes-dashboard\",namespace=\"kubernetes-dashboard\",pod=\"kubernetes-dashboard-6df74558bd-bbs87\"} 2.097152e+07 1794600842491\ncontainer_memory_working_set_bytes{container=\"metrics-server\",namespace=\"kube-system\",pod=\"metrics-server-768f9f6999-tjlwz\"} 3.3378304e+07 1794600852502\ncontainer_memory_working_set_bytes{container=\"ollama\",namespace=\"inference\",pod=\"ollama-7db4f544df-s6xhv\"} 5.61250304e+08 1794600849670\ncontainer_memory_working_set_bytes{container=\"storage-provisioner\",namespace=\"kube-system\",pod=\"storage-provisioner\"} 2.3646208e+07 1794600845527\n# HELP container_start_time_seconds [STABLE] Start time of the container since unix epoch in seconds\n# TYPE container_start_time_seconds gauge\ncontainer_start_time_seconds{container=\"coredns\",namespace=\"kube-system\",pod=\"coredns-559f6c778d-lnptb\"} 1.7945838953200953e+09\ncontainer_start_time_seconds{container=\"dashboard-metrics-scraper\",namespace=\"kubernetes-dashboard\",pod=\"dashboard-metrics-scraper-69cbd87b98-kgcrb\"} 1.794583895223152e+09\ncontainer_start_time_seconds{container=\"etcd\",namespace=\"kube-system\",pod=\"etcd-ai-lab\"} 1.794583887048325e+09\ncontainer_start_time_seconds{container=\"inference-gateway\",namespace=\"inference\",pod=\"inference-gateway-7d9d5bdc78-sq6lb\"} 1.7945857224450865e+09\ncontainer_start_time_seconds{container=\"inference-metrics-adapter\",namespace=\"inference\",pod=\"inference-metrics-adapter-8994f5d7d-2vgp7\"} 1.7945857267204e+09\ncontainer_start_time_seconds{container=\"inference-prometheus\",namespace=\"inference\",pod=\"inference-prometheus-7845b76fcd-rvgm7\"} 1.7945857157134876e+09\ncontainer_start_time_seconds{container=\"kindnet-cni\",namespace=\"kube-system\",pod=\"kindnet-ngnzd\"} 1.7945838953284338e+09\ncontainer_start_time_seconds{container=\"kube-apiserver\",namespace=\"kube-system\",pod=\"kube-apiserver-ai-lab\"} 1.7945838870712485e+09\ncontainer_start_time_seconds{container=\"kube-controller-manager\",namespace=\"kube-system\",pod=\"kube-controller-manager-ai-lab\"} 1.7945838870972362e+09\ncontainer_start_time_seconds{container=\"kube-proxy\",namespace=\"kube-system\",pod=\"kube-proxy-m7mrn\"} 1.7945838972124832e+09\ncontainer_start_time_seconds{container=\"kube-scheduler\",namespace=\"kube-system\",pod=\"kube-scheduler-ai-lab\"} 1.7945838870599387e+09\ncontainer_start_time_seconds{container=\"kubernetes-dashboard\",namespace=\"kubernetes-dashboard\",pod=\"kubernetes-dashboard-6df74558bd-bbs87\"} 1.7945839441637225e+09\ncontainer_start_time_seconds{container=\"metrics-server\",namespace=\"kube-system\",pod=\"metrics-server-768f9f6999-tjlwz\"} 1.7945839182604933e+09\ncontainer_start_time_seconds{container=\"ollama\",namespace=\"inference\",pod=\"ollama-7db4f544df-s6xhv\"} 1.7945838953355567e+09\ncontainer_start_time_seconds{container=\"storage-provisioner\",namespace=\"kube-system\",pod=\"storage-provisioner\"} 1.7945839491711652e+09\n# HELP container_swap_limit_bytes [ALPHA] Current amount of the container swap limit in bytes. Reported only on non-windows systems\n# TYPE container_swap_limit_bytes gauge\ncontainer_swap_limit_bytes{container=\"coredns\",namespace=\"kube-system\",pod=\"coredns-559f6c778d-lnptb\"} 1.7825792e+08 1794600849684\ncontainer_swap_limit_bytes{container=\"inference-gateway\",namespace=\"inference\",pod=\"inference-gateway-7d9d5bdc78-sq6lb\"} 2.68435456e+08 1794600846443\ncontainer_swap_limit_bytes{container=\"inference-metrics-adapter\",namespace=\"inference\",pod=\"inference-metrics-adapter-8994f5d7d-2vgp7\"} 2.68435456e+08 1794600844193\ncontainer_swap_limit_bytes{container=\"inference-prometheus\",namespace=\"inference\",pod=\"inference-prometheus-7845b76fcd-rvgm7\"} 5.36870912e+08 1794600852887\ncontainer_swap_limit_bytes{container=\"kindnet-cni\",namespace=\"kube-system\",pod=\"kindnet-ngnzd\"} 5.24288e+07 1794600855318\ncontainer_swap_limit_bytes{container=\"ollama\",namespace=\"inference\",pod=\"ollama-7db4f544df-s6xhv\"} 2.147483648e+09 1794600849670\n# HELP container_swap_usage_bytes [ALPHA] Current amount of the container swap usage in bytes. Reported only on non-windows systems\n# TYPE container_swap_usage_bytes gauge\ncontainer_swap_usage_bytes{container=\"coredns\",namespace=\"kube-system\",pod=\"coredns-559f6c778d-lnptb\"} 0 1794600849684\ncontainer_swap_usage_bytes{container=\"dashboard-metrics-scraper\",namespace=\"kubernetes-dashboard\",pod=\"dashboard-metrics-scraper-69cbd87b98-kgcrb\"} 0 1794600850732\ncontainer_swap_usage_bytes{container=\"etcd\",namespace=\"kube-system\",pod=\"etcd-ai-lab\"} 0 1794600854325\ncontainer_swap_usage_bytes{container=\"inference-gateway\",namespace=\"inference\",pod=\"inference-gateway-7d9d5bdc78-sq6lb\"} 0 1794600846443\ncontainer_swap_usage_bytes{container=\"inference-metrics-adapter\",namespace=\"inference\",pod=\"inference-metrics-adapter-8994f5d7d-2vgp7\"} 0 1794600844193\ncontainer_swap_usage_bytes{container=\"inference-prometheus\",namespace=\"inference\",pod=\"inference-prometheus-7845b76fcd-rvgm7\"} 0 1794600852887\ncontainer_swap_usage_bytes{container=\"kindnet-cni\",namespace=\"kube-system\",pod=\"kindnet-ngnzd\"} 0 1794600855318\ncontainer_swap_usage_bytes{container=\"kube-apiserver\",namespace=\"kube-system\",pod=\"kube-apiserver-ai-lab\"} 0 1794600842935\ncontainer_swap_usage_bytes{container=\"kube-controller-manager\",namespace=\"kube-system\",pod=\"kube-controller-manager-ai-lab\"} 0 1794600840118\ncontainer_swap_usage_bytes{container=\"kube-proxy\",namespace=\"kube-system\",pod=\"kube-proxy-m7mrn\"} 0 1794600850731\ncontainer_swap_usage_bytes{container=\"kube-scheduler\",namespace=\"kube-system\",pod=\"kube-scheduler-ai-lab\"} 0 1794600852628\ncontainer_swap_usage_bytes{container=\"kubernetes-dashboard\",namespace=\"kubernetes-dashboard\",pod=\"kubernetes-dashboard-6df74558bd-bbs87\"} 0 1794600842491\ncontainer_swap_usage_bytes{container=\"metrics-server\",namespace=\"kube-system\",pod=\"metrics-server-768f9f6999-tjlwz\"} 0 1794600852502\ncontainer_swap_usage_bytes{container=\"ollama\",namespace=\"inference\",pod=\"ollama-7db4f544df-s6xhv\"} 0 1794600849670\ncontainer_swap_usage_bytes{container=\"storage-provisioner\",namespace=\"kube-system\",pod=\"storage-provisioner\"} 0 1794600845527\n# HELP node_cpu_usage_seconds_total [STABLE] Cumulative cpu time consumed by the node in core-seconds\n# TYPE node_cpu_usage_seconds_total counter\nnode_cpu_usage_seconds_total 9921.7405308 1794600854797\n# HELP node_memory_working_set_bytes [STABLE] Current working set of the node in bytes\n# TYPE node_memory_working_set_bytes gauge\nnode_memory_working_set_bytes 2.304155648e+09 1794600854797\n# HELP node_swap_usage_bytes [ALPHA] Current swap usage of the node in bytes. Reported only on non-windows systems\n# TYPE node_swap_usage_bytes gauge\nnode_swap_usage_bytes 0 1794600854797\n# HELP pod_cpu_usage_seconds_total [STABLE] Cumulative cpu time consumed by the pod in core-seconds\n# TYPE pod_cpu_usage_seconds_total counter\npod_cpu_usage_seconds_total{namespace=\"inference\",pod=\"inference-gateway-7d9d5bdc78-sq6lb\"} 25.3083144 1794600844099\npod_cpu_usage_seconds_total{namespace=\"inference\",pod=\"inference-metrics-adapter-8994f5d7d-2vgp7\"} 29.7922308 1794600842342\npod_cpu_usage_seconds_total{namespace=\"inference\",pod=\"inference-prometheus-7845b76fcd-rvgm7\"} 17.5172407 1794600843013\npod_cpu_usage_seconds_total{namespace=\"inference\",pod=\"ollama-7db4f544df-s6xhv\"} 3347.6550734 1794600854772\npod_cpu_usage_seconds_total{namespace=\"kube-system\",pod=\"coredns-559f6c778d-lnptb\"} 22.6741655 1794600851031\npod_cpu_usage_seconds_total{namespace=\"kube-system\",pod=\"etcd-ai-lab\"} 295.3577424 1794600854677\npod_cpu_usage_seconds_total{namespace=\"kube-system\",pod=\"kindnet-ngnzd\"} 23.6552019 1794600852127\npod_cpu_usage_seconds_total{namespace=\"kube-system\",pod=\"kube-apiserver-ai-lab\"} 544.1441779 1794600847293\npod_cpu_usage_seconds_total{namespace=\"kube-system\",pod=\"kube-controller-manager-ai-lab\"} 208.4035509 1794600851198\npod_cpu_usage_seconds_total{namespace=\"kube-system\",pod=\"kube-proxy-m7mrn\"} 4.4757452 1794600842209\npod_cpu_usage_seconds_total{namespace=\"kube-system\",pod=\"kube-scheduler-ai-lab\"} 73.2674553 1794600839971\npod_cpu_usage_seconds_total{namespace=\"kube-system\",pod=\"metrics-server-768f9f6999-tjlwz\"} 34.0045255 1794600854690\npod_cpu_usage_seconds_total{namespace=\"kube-system\",pod=\"storage-provisioner\"} 16.7359809 1794600853912\npod_cpu_usage_seconds_total{namespace=\"kubernetes-dashboard\",pod=\"dashboard-metrics-scraper-69cbd87b98-kgcrb\"} 2.2293196 1794600849417\npod_cpu_usage_seconds_total{namespace=\"kubernetes-dashboard\",pod=\"kubernetes-dashboard-6df74558bd-bbs87\"} 2.3077789 1794600847503\n# HELP pod_memory_working_set_bytes [STABLE] Current working set of the pod in bytes\n# TYPE pod_memory_working_set_bytes gauge\npod_memory_working_set_bytes{namespace=\"inference\",pod=\"inference-gateway-7d9d5bdc78-sq6lb\"} 2.4707072e+07 1794600844099\npod_memory_working_set_bytes{namespace=\"inference\",pod=\"inference-metrics-adapter-8994f5d7d-2vgp7\"} 3.8825984e+07 1794600842342\npod_memory_working_set_bytes{namespace=\"inference\",pod=\"inference-prometheus-7845b76fcd-rvgm7\"} 5.238784e+07 1794600843013\npod_memory_working_set_bytes{namespace=\"inference\",pod=\"ollama-7db4f544df-s6xhv\"} 5.61463296e+08 1794600854772\npod_memory_working_set_bytes{namespace=\"kube-system\",pod=\"coredns-559f6c778d-lnptb\"} 2.7181056e+07 1794600851031\npod_memory_working_set_bytes{namespace=\"kube-system\",pod=\"etcd-ai-lab\"} 6.4823296e+07 1794600854677\npod_memory_working_set_bytes{namespace=\"kube-system\",pod=\"kindnet-ngnzd\"} 3.0511104e+07 1794600852127\npod_memory_working_set_bytes{namespace=\"kube-system\",pod=\"kube-apiserver-ai-lab\"} 3.37399808e+08 1794600847293\npod_memory_working_set_bytes{namespace=\"kube-system\",pod=\"kube-controller-manager-ai-lab\"} 9.2585984e+07 1794600851198\npod_memory_working_set_bytes{namespace=\"kube-system\",pod=\"kube-proxy-m7mrn\"} 3.2673792e+07 1794600842209\npod_memory_working_set_bytes{namespace=\"kube-system\",pod=\"kube-scheduler-ai-lab\"} 3.9641088e+07 1794600839971\npod_memory_working_set_bytes{namespace=\"kube-system\",pod=\"metrics-server-768f9f6999-tjlwz\"} 3.4004992e+07 1794600854690\npod_memory_working_set_bytes{namespace=\"kube-system\",pod=\"storage-provisioner\"} 2.4178688e+07 1794600853912\npod_memory_working_set_bytes{namespace=\"kubernetes-dashboard\",pod=\"dashboard-metrics-scraper-69cbd87b98-kgcrb\"} 2.3912448e+07 1794600849417\npod_memory_working_set_bytes{namespace=\"kubernetes-dashboard\",pod=\"kubernetes-dashboard-6df74558bd-bbs87\"} 2.1512192e+07 1794600847503\n# HELP pod_swap_usage_bytes [ALPHA] Current amount of the pod swap usage in bytes. Reported only on non-windows systems\n# TYPE pod_swap_usage_bytes gauge\npod_swap_usage_bytes{namespace=\"inference\",pod=\"inference-gateway-7d9d5bdc78-sq6lb\"} 0 1794600844099\npod_swap_usage_bytes{namespace=\"inference\",pod=\"inference-metrics-adapter-8994f5d7d-2vgp7\"} 0 1794600842342\npod_swap_usage_bytes{namespace=\"inference\",pod=\"inference-prometheus-7845b76fcd-rvgm7\"} 0 1794600843013\npod_swap_usage_bytes{namespace=\"inference\",pod=\"ollama-7db4f544df-s6xhv\"} 0 1794600854772\npod_swap_usage_bytes{namespace=\"kube-system\",pod=\"coredns-559f6c778d-lnptb\"} 0 1794600851031\npod_swap_usage_bytes{namespace=\"kube-system\",pod=\"etcd-ai-lab\"} 0 1794600854677\npod_swap_usage_bytes{namespace=\"kube-system\",pod=\"kindnet-ngnzd\"} 0 1794600852127\npod_swap_usage_bytes{namespace=\"kube-system\",pod=\"kube-apiserver-ai-lab\"} 0 1794600847293\npod_swap_usage_bytes{namespace=\"kube-system\",pod=\"kube-controller-manager-ai-lab\"} 0 1794600851198\npod_swap_usage_bytes{namespace=\"kube-system\",pod=\"kube-proxy-m7mrn\"} 0 1794600842209\npod_swap_usage_bytes{namespace=\"kube-system\",pod=\"kube-scheduler-ai-lab\"} 0 1794600839971\npod_swap_usage_bytes{namespace=\"kube-system\",pod=\"metrics-server-768f9f6999-tjlwz\"} 0 1794600854690\npod_swap_usage_bytes{namespace=\"kube-system\",pod=\"storage-provisioner\"} 0 1794600853912\npod_swap_usage_bytes{namespace=\"kubernetes-dashboard\",pod=\"dashboard-metrics-scraper-69cbd87b98-kgcrb\"} 0 1794600849417\npod_swap_usage_bytes{namespace=\"kubernetes-dashboard\",pod=\"kubernetes-dashboard-6df74558bd-bbs87\"} 0 1794600847503\n# HELP resource_scrape_error [STABLE] 1 if there was an error while getting container metrics, 0 otherwise\n# TYPE resource_scrape_error gauge\nresource_scrape_error 0\n",
+      "metrics": [
+        {
+          "name": "container_cpu_usage_seconds_total",
+          "labels": {
+            "container": "coredns",
+            "namespace": "kube-system",
+            "pod": "coredns-559f6c778d-lnptb"
+          },
+          "value": 22.6493515,
+          "timestamp_ms": 1794600849684
+        },
+        {
+          "name": "container_cpu_usage_seconds_total",
+          "labels": {
+            "container": "dashboard-metrics-scraper",
+            "namespace": "kubernetes-dashboard",
+            "pod": "dashboard-metrics-scraper-69cbd87b98-kgcrb"
+          },
+          "value": 2.2079004,
+          "timestamp_ms": 1794600850732
+        },
+        {
+          "name": "container_cpu_usage_seconds_total",
+          "labels": {
+            "container": "etcd",
+            "namespace": "kube-system",
+            "pod": "etcd-ai-lab"
+          },
+          "value": 295.3304571,
+          "timestamp_ms": 1794600854325
+        },
+        {
+          "name": "container_cpu_usage_seconds_total",
+          "labels": {
+            "container": "inference-gateway",
+            "namespace": "inference",
+            "pod": "inference-gateway-7d9d5bdc78-sq6lb"
+          },
+          "value": 25.2864193,
+          "timestamp_ms": 1794600846443
+        },
+        {
+          "name": "container_cpu_usage_seconds_total",
+          "labels": {
+            "container": "inference-metrics-adapter",
+            "namespace": "inference",
+            "pod": "inference-metrics-adapter-8994f5d7d-2vgp7"
+          },
+          "value": 29.7743635,
+          "timestamp_ms": 1794600844193
+        },
+        {
+          "name": "container_cpu_usage_seconds_total",
+          "labels": {
+            "container": "inference-prometheus",
+            "namespace": "inference",
+            "pod": "inference-prometheus-7845b76fcd-rvgm7"
+          },
+          "value": 17.5076006,
+          "timestamp_ms": 1794600852887
+        },
+        {
+          "name": "container_cpu_usage_seconds_total",
+          "labels": {
+            "container": "kindnet-cni",
+            "namespace": "kube-system",
+            "pod": "kindnet-ngnzd"
+          },
+          "value": 23.640944,
+          "timestamp_ms": 1794600855318
+        },
+        {
+          "name": "container_cpu_usage_seconds_total",
+          "labels": {
+            "container": "kube-apiserver",
+            "namespace": "kube-system",
+            "pod": "kube-apiserver-ai-lab"
+          },
+          "value": 544.0228114,
+          "timestamp_ms": 1794600842935
+        },
+        {
+          "name": "container_cpu_usage_seconds_total",
+          "labels": {
+            "container": "kube-controller-manager",
+            "namespace": "kube-system",
+            "pod": "kube-controller-manager-ai-lab"
+          },
+          "value": 208.2444728,
+          "timestamp_ms": 1794600840118
+        },
+        {
+          "name": "container_cpu_usage_seconds_total",
+          "labels": {
+            "container": "kube-proxy",
+            "namespace": "kube-system",
+            "pod": "kube-proxy-m7mrn"
+          },
+          "value": 4.4710937,
+          "timestamp_ms": 1794600850731
+        },
+        {
+          "name": "container_cpu_usage_seconds_total",
+          "labels": {
+            "container": "kube-scheduler",
+            "namespace": "kube-system",
+            "pod": "kube-scheduler-ai-lab"
+          },
+          "value": 73.2948466,
+          "timestamp_ms": 1794600852628
+        },
+        {
+          "name": "container_cpu_usage_seconds_total",
+          "labels": {
+            "container": "kubernetes-dashboard",
+            "namespace": "kubernetes-dashboard",
+            "pod": "kubernetes-dashboard-6df74558bd-bbs87"
+          },
+          "value": 2.2319913,
+          "timestamp_ms": 1794600842491
+        },
+        {
+          "name": "container_cpu_usage_seconds_total",
+          "labels": {
+            "container": "metrics-server",
+            "namespace": "kube-system",
+            "pod": "metrics-server-768f9f6999-tjlwz"
+          },
+          "value": 33.8191811,
+          "timestamp_ms": 1794600852502
+        },
+        {
+          "name": "container_cpu_usage_seconds_total",
+          "labels": {
+            "container": "ollama",
+            "namespace": "inference",
+            "pod": "ollama-7db4f544df-s6xhv"
+          },
+          "value": 3347.6319706,
+          "timestamp_ms": 1794600849670
+        },
+        {
+          "name": "container_cpu_usage_seconds_total",
+          "labels": {
+            "container": "storage-provisioner",
+            "namespace": "kube-system",
+            "pod": "storage-provisioner"
+          },
+          "value": 16.6583081,
+          "timestamp_ms": 1794600845527
+        },
+        {
+          "name": "container_memory_working_set_bytes",
+          "labels": {
+            "container": "coredns",
+            "namespace": "kube-system",
+            "pod": "coredns-559f6c778d-lnptb"
+          },
+          "value": 26836992.0,
+          "timestamp_ms": 1794600849684
+        },
+        {
+          "name": "container_memory_working_set_bytes",
+          "labels": {
+            "container": "dashboard-metrics-scraper",
+            "namespace": "kubernetes-dashboard",
+            "pod": "dashboard-metrics-scraper-69cbd87b98-kgcrb"
+          },
+          "value": 23572480.0,
+          "timestamp_ms": 1794600850732
+        },
+        {
+          "name": "container_memory_working_set_bytes",
+          "labels": {
+            "container": "etcd",
+            "namespace": "kube-system",
+            "pod": "etcd-ai-lab"
+          },
+          "value": 64483328.0,
+          "timestamp_ms": 1794600854325
+        },
+        {
+          "name": "container_memory_working_set_bytes",
+          "labels": {
+            "container": "inference-gateway",
+            "namespace": "inference",
+            "pod": "inference-gateway-7d9d5bdc78-sq6lb"
+          },
+          "value": 24371200.0,
+          "timestamp_ms": 1794600846443
+        },
+        {
+          "name": "container_memory_working_set_bytes",
+          "labels": {
+            "container": "inference-metrics-adapter",
+            "namespace": "inference",
+            "pod": "inference-metrics-adapter-8994f5d7d-2vgp7"
+          },
+          "value": 38486016.0,
+          "timestamp_ms": 1794600844193
+        },
+        {
+          "name": "container_memory_working_set_bytes",
+          "labels": {
+            "container": "inference-prometheus",
+            "namespace": "inference",
+            "pod": "inference-prometheus-7845b76fcd-rvgm7"
+          },
+          "value": 52047872.0,
+          "timestamp_ms": 1794600852887
+        },
+        {
+          "name": "container_memory_working_set_bytes",
+          "labels": {
+            "container": "kindnet-cni",
+            "namespace": "kube-system",
+            "pod": "kindnet-ngnzd"
+          },
+          "value": 30191616.0,
+          "timestamp_ms": 1794600855318
+        },
+        {
+          "name": "container_memory_working_set_bytes",
+          "labels": {
+            "container": "kube-apiserver",
+            "namespace": "kube-system",
+            "pod": "kube-apiserver-ai-lab"
+          },
+          "value": 337244160.0,
+          "timestamp_ms": 1794600842935
+        },
+        {
+          "name": "container_memory_working_set_bytes",
+          "labels": {
+            "container": "kube-controller-manager",
+            "namespace": "kube-system",
+            "pod": "kube-controller-manager-ai-lab"
+          },
+          "value": 92106752.0,
+          "timestamp_ms": 1794600840118
+        },
+        {
+          "name": "container_memory_working_set_bytes",
+          "labels": {
+            "container": "kube-proxy",
+            "namespace": "kube-system",
+            "pod": "kube-proxy-m7mrn"
+          },
+          "value": 32362496.0,
+          "timestamp_ms": 1794600850731
+        },
+        {
+          "name": "container_memory_working_set_bytes",
+          "labels": {
+            "container": "kube-scheduler",
+            "namespace": "kube-system",
+            "pod": "kube-scheduler-ai-lab"
+          },
+          "value": 39129088.0,
+          "timestamp_ms": 1794600852628
+        },
+        {
+          "name": "container_memory_working_set_bytes",
+          "labels": {
+            "container": "kubernetes-dashboard",
+            "namespace": "kubernetes-dashboard",
+            "pod": "kubernetes-dashboard-6df74558bd-bbs87"
+          },
+          "value": 20971520.0,
+          "timestamp_ms": 1794600842491
+        },
+        {
+          "name": "container_memory_working_set_bytes",
+          "labels": {
+            "container": "metrics-server",
+            "namespace": "kube-system",
+            "pod": "metrics-server-768f9f6999-tjlwz"
+          },
+          "value": 33378304.0,
+          "timestamp_ms": 1794600852502
+        },
+        {
+          "name": "container_memory_working_set_bytes",
+          "labels": {
+            "container": "ollama",
+            "namespace": "inference",
+            "pod": "ollama-7db4f544df-s6xhv"
+          },
+          "value": 561250304.0,
+          "timestamp_ms": 1794600849670
+        },
+        {
+          "name": "container_memory_working_set_bytes",
+          "labels": {
+            "container": "storage-provisioner",
+            "namespace": "kube-system",
+            "pod": "storage-provisioner"
+          },
+          "value": 23646208.0,
+          "timestamp_ms": 1794600845527
+        },
+        {
+          "name": "container_start_time_seconds",
+          "labels": {
+            "container": "coredns",
+            "namespace": "kube-system",
+            "pod": "coredns-559f6c778d-lnptb"
+          },
+          "value": 1794583895.3200953,
+          "timestamp_ms": null
+        },
+        {
+          "name": "container_start_time_seconds",
+          "labels": {
+            "container": "dashboard-metrics-scraper",
+            "namespace": "kubernetes-dashboard",
+            "pod": "dashboard-metrics-scraper-69cbd87b98-kgcrb"
+          },
+          "value": 1794583895.223152,
+          "timestamp_ms": null
+        },
+        {
+          "name": "container_start_time_seconds",
+          "labels": {
+            "container": "etcd",
+            "namespace": "kube-system",
+            "pod": "etcd-ai-lab"
+          },
+          "value": 1794583887.048325,
+          "timestamp_ms": null
+        },
+        {
+          "name": "container_start_time_seconds",
+          "labels": {
+            "container": "inference-gateway",
+            "namespace": "inference",
+            "pod": "inference-gateway-7d9d5bdc78-sq6lb"
+          },
+          "value": 1794585722.4450865,
+          "timestamp_ms": null
+        },
+        {
+          "name": "container_start_time_seconds",
+          "labels": {
+            "container": "inference-metrics-adapter",
+            "namespace": "inference",
+            "pod": "inference-metrics-adapter-8994f5d7d-2vgp7"
+          },
+          "value": 1794585726.7204,
+          "timestamp_ms": null
+        },
+        {
+          "name": "container_start_time_seconds",
+          "labels": {
+            "container": "inference-prometheus",
+            "namespace": "inference",
+            "pod": "inference-prometheus-7845b76fcd-rvgm7"
+          },
+          "value": 1794585715.7134876,
+          "timestamp_ms": null
+        },
+        {
+          "name": "container_start_time_seconds",
+          "labels": {
+            "container": "kindnet-cni",
+            "namespace": "kube-system",
+            "pod": "kindnet-ngnzd"
+          },
+          "value": 1794583895.3284338,
+          "timestamp_ms": null
+        },
+        {
+          "name": "container_start_time_seconds",
+          "labels": {
+            "container": "kube-apiserver",
+            "namespace": "kube-system",
+            "pod": "kube-apiserver-ai-lab"
+          },
+          "value": 1794583887.0712485,
+          "timestamp_ms": null
+        },
+        {
+          "name": "container_start_time_seconds",
+          "labels": {
+            "container": "kube-controller-manager",
+            "namespace": "kube-system",
+            "pod": "kube-controller-manager-ai-lab"
+          },
+          "value": 1794583887.0972362,
+          "timestamp_ms": null
+        },
+        {
+          "name": "container_start_time_seconds",
+          "labels": {
+            "container": "kube-proxy",
+            "namespace": "kube-system",
+            "pod": "kube-proxy-m7mrn"
+          },
+          "value": 1794583897.2124832,
+          "timestamp_ms": null
+        },
+        {
+          "name": "container_start_time_seconds",
+          "labels": {
+            "container": "kube-scheduler",
+            "namespace": "kube-system",
+            "pod": "kube-scheduler-ai-lab"
+          },
+          "value": 1794583887.0599387,
+          "timestamp_ms": null
+        },
+        {
+          "name": "container_start_time_seconds",
+          "labels": {
+            "container": "kubernetes-dashboard",
+            "namespace": "kubernetes-dashboard",
+            "pod": "kubernetes-dashboard-6df74558bd-bbs87"
+          },
+          "value": 1794583944.1637225,
+          "timestamp_ms": null
+        },
+        {
+          "name": "container_start_time_seconds",
+          "labels": {
+            "container": "metrics-server",
+            "namespace": "kube-system",
+            "pod": "metrics-server-768f9f6999-tjlwz"
+          },
+          "value": 1794583918.2604933,
+          "timestamp_ms": null
+        },
+        {
+          "name": "container_start_time_seconds",
+          "labels": {
+            "container": "ollama",
+            "namespace": "inference",
+            "pod": "ollama-7db4f544df-s6xhv"
+          },
+          "value": 1794583895.3355567,
+          "timestamp_ms": null
+        },
+        {
+          "name": "container_start_time_seconds",
+          "labels": {
+            "container": "storage-provisioner",
+            "namespace": "kube-system",
+            "pod": "storage-provisioner"
+          },
+          "value": 1794583949.1711652,
+          "timestamp_ms": null
+        },
+        {
+          "name": "node_cpu_usage_seconds_total",
+          "labels": {},
+          "value": 9921.7405308,
+          "timestamp_ms": 1794600854797
+        },
+        {
+          "name": "node_memory_working_set_bytes",
+          "labels": {},
+          "value": 2304155648.0,
+          "timestamp_ms": 1794600854797
+        },
+        {
+          "name": "resource_scrape_error",
+          "labels": {},
+          "value": 0.0,
+          "timestamp_ms": null
+        }
+      ]
+    }
+  },
+  "resource_usage": [
+    {
+      "node": "ai-lab",
+      "scope": "container",
+      "namespace": "inference",
+      "pod": "ollama-7db4f544df-s6xhv",
+      "pod_uid": "ee38f8af-8777-45b4-aa55-7b6155c7defd",
+      "container": "ollama",
+      "restart_count": 3,
+      "container_start_time_seconds": 1794583895.3355567,
+      "cpu_usage_seconds_total": 3347.6319706,
+      "cpu_timestamp_ms": 1794600849670,
+      "cpu_clock": "source",
+      "cpu_cores": null,
+      "memory_working_set_bytes": 561250304.0,
+      "memory_timestamp_ms": 1794600849670
+    },
+    {
+      "node": "ai-lab",
+      "scope": "node",
+      "namespace": null,
+      "pod": null,
+      "pod_uid": null,
+      "container": null,
+      "restart_count": null,
+      "container_start_time_seconds": null,
+      "cpu_usage_seconds_total": 9921.7405308,
+      "cpu_timestamp_ms": 1794600854797,
+      "cpu_clock": "source",
+      "cpu_cores": null,
+      "memory_working_set_bytes": 2304155648.0,
+      "memory_timestamp_ms": 1794600854797
+    }
+  ],
+  "pods": {
+    "apiVersion": "v1",
+    "items": [
+      {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "metadata": {
+          "creationTimestamp": "2026-10-27T20:45:43Z",
+          "generateName": "ollama-7db4f544df-",
+          "generation": 1,
+          "labels": {
+            "app": "ollama",
+            "pod-template-hash": "7db4f544df"
+          },
+          "name": "ollama-7db4f544df-s6xhv",
+          "namespace": "inference",
+          "ownerReferences": [
+            {
+              "apiVersion": "apps/v1",
+              "blockOwnerDeletion": true,
+              "controller": true,
+              "kind": "ReplicaSet",
+              "name": "ollama-7db4f544df",
+              "uid": "e26262a5-3907-411d-9bd6-97056120fb23"
+            }
+          ],
+          "resourceVersion": "227379",
+          "uid": "ee38f8af-8777-45b4-aa55-7b6155c7defd"
+        },
+        "spec": {
+          "containers": [
+            {
+              "env": [
+                {
+                  "name": "OLLAMA_HOST",
+                  "value": "0.0.0.0:11434"
+                },
+                {
+                  "name": "OLLAMA_NUM_PARALLEL",
+                  "value": "1"
+                },
+                {
+                  "name": "OLLAMA_CONTEXT_LENGTH",
+                  "value": "1024"
+                },
+                {
+                  "name": "OLLAMA_KEEP_ALIVE",
+                  "value": "-1"
+                }
+              ],
+              "image": "ai-inference:0.1",
+              "imagePullPolicy": "Never",
+              "lifecycle": {
+                "preStop": {
+                  "exec": {
+                    "command": [
+                      "/bin/sleep",
+                      "35"
+                    ]
+                  }
+                }
+              },
+              "name": "ollama",
+              "ports": [
+                {
+                  "containerPort": 11434,
+                  "protocol": "TCP"
+                }
+              ],
+              "readinessProbe": {
+                "failureThreshold": 3,
+                "httpGet": {
+                  "path": "/api/tags",
+                  "port": 11434,
+                  "scheme": "HTTP"
+                },
+                "periodSeconds": 5,
+                "successThreshold": 1,
+                "timeoutSeconds": 5
+              },
+              "resources": {
+                "limits": {
+                  "cpu": "2",
+                  "memory": "2Gi"
+                },
+                "requests": {
+                  "cpu": "2",
+                  "memory": "1Gi"
+                }
+              },
+              "terminationMessagePath": "/dev/termination-log",
+              "terminationMessagePolicy": "File",
+              "volumeMounts": [
+                {
+                  "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                  "name": "kube-api-access-5psqz",
+                  "readOnly": true
+                }
+              ]
+            }
+          ],
+          "dnsPolicy": "ClusterFirst",
+          "enableServiceLinks": true,
+          "nodeName": "ai-lab",
+          "preemptionPolicy": "PreemptLowerPriority",
+          "priority": 0,
+          "restartPolicy": "Always",
+          "schedulerName": "default-scheduler",
+          "securityContext": {},
+          "serviceAccount": "default",
+          "serviceAccountName": "default",
+          "terminationGracePeriodSeconds": 60,
+          "tolerations": [
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/not-ready",
+              "operator": "Exists",
+              "tolerationSeconds": 300
+            },
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/unreachable",
+              "operator": "Exists",
+              "tolerationSeconds": 300
+            }
+          ],
+          "volumes": [
+            {
+              "name": "kube-api-access-5psqz",
+              "projected": {
+                "defaultMode": 420,
+                "sources": [
+                  {
+                    "serviceAccountToken": {
+                      "expirationSeconds": 3607,
+                      "path": "token"
+                    }
+                  },
+                  {
+                    "configMap": {
+                      "items": [
+                        {
+                          "key": "ca.crt",
+                          "path": "ca.crt"
+                        }
+                      ],
+                      "name": "kube-root-ca.crt"
+                    }
+                  },
+                  {
+                    "downwardAPI": {
+                      "items": [
+                        {
+                          "fieldRef": {
+                            "apiVersion": "v1",
+                            "fieldPath": "metadata.namespace"
+                          },
+                          "path": "namespace"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "status": {
+          "allocatedResources": {
+            "cpu": "2",
+            "memory": "1Gi"
+          },
+          "conditions": [
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-13T15:31:31Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "PodReadyToStartContainers"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-10-27T20:45:43Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "Initialized"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-13T15:31:37Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "Ready"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-13T15:31:37Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "ContainersReady"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-10-27T20:45:43Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "PodScheduled"
+            }
+          ],
+          "containerStatuses": [
+            {
+              "allocatedResources": {
+                "cpu": "2",
+                "memory": "1Gi"
+              },
+              "containerID": "containerd://44994821a853ff6bbfb3b3c0007d159dcb578b151260e56944ea22f2c8a74889",
+              "image": "docker.io/library/ai-inference:0.1",
+              "imageID": "sha256:7afaba776be2a7256ac0470ab06af3d437ab4920d87ce2998ccb24b1585707ce",
+              "lastState": {
+                "terminated": {
+                  "containerID": "containerd://acc8502bfb79a5347ddefb52a177b2b4bc9c6d3d1b163fdb9b80f9a0e215ef05",
+                  "exitCode": 255,
+                  "finishedAt": "2026-11-13T15:31:24Z",
+                  "reason": "Unknown",
+                  "startedAt": "2026-11-10T19:19:36Z"
+                }
+              },
+              "name": "ollama",
+              "ready": true,
+              "resources": {
+                "limits": {
+                  "cpu": "2",
+                  "memory": "2Gi"
+                },
+                "requests": {
+                  "cpu": "2",
+                  "memory": "1Gi"
+                }
+              },
+              "restartCount": 3,
+              "started": true,
+              "state": {
+                "running": {
+                  "startedAt": "2026-11-13T15:31:35Z"
+                }
+              },
+              "user": {
+                "linux": {
+                  "gid": 0,
+                  "supplementalGroups": [
+                    0
+                  ],
+                  "uid": 0
+                }
+              },
+              "volumeMounts": [
+                {
+                  "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                  "name": "kube-api-access-5psqz",
+                  "readOnly": true,
+                  "recursiveReadOnly": "Disabled"
+                }
+              ]
+            }
+          ],
+          "hostIP": "192.168.49.2",
+          "hostIPs": [
+            {
+              "ip": "192.168.49.2"
+            }
+          ],
+          "observedGeneration": 1,
+          "phase": "Running",
+          "podIP": "10.244.0.6",
+          "podIPs": [
+            {
+              "ip": "10.244.0.6"
+            }
+          ],
+          "qosClass": "Burstable",
+          "resources": {
+            "limits": {
+              "cpu": "2",
+              "memory": "2Gi"
+            },
+            "requests": {
+              "cpu": "2",
+              "memory": "1Gi"
+            }
+          },
+          "startTime": "2026-10-27T20:45:43Z"
+        }
+      }
+    ],
+    "kind": "List",
+    "metadata": {
+      "resourceVersion": ""
+    }
+  },
+  "deployments": {
+    "apiVersion": "v1",
+    "items": [
+      {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "metadata": {
+          "annotations": {
+            "deployment.kubernetes.io/revision": "1"
+          },
+          "creationTimestamp": "2026-11-13T16:01:37Z",
+          "generation": 1,
+          "labels": {
+            "experiment": "custom-metric-hpa"
+          },
+          "name": "inference-gateway",
+          "namespace": "inference",
+          "resourceVersion": "229167",
+          "uid": "5c1398cf-1628-4e77-9d69-216636a22aea"
+        },
+        "spec": {
+          "progressDeadlineSeconds": 600,
+          "replicas": 1,
+          "revisionHistoryLimit": 10,
+          "selector": {
+            "matchLabels": {
+              "app": "inference-gateway"
+            }
+          },
+          "strategy": {
+            "type": "Recreate"
+          },
+          "template": {
+            "metadata": {
+              "labels": {
+                "app": "inference-gateway",
+                "experiment": "custom-metric-hpa"
+              }
+            },
+            "spec": {
+              "automountServiceAccountToken": false,
+              "containers": [
+                {
+                  "args": [
+                    "-c",
+                    "/etc/inference/envoy.json",
+                    "--concurrency",
+                    "1"
+                  ],
+                  "image": "envoyproxy/envoy:v1.35.0",
+                  "imagePullPolicy": "IfNotPresent",
+                  "name": "inference-gateway",
+                  "ports": [
+                    {
+                      "containerPort": 8080,
+                      "name": "http",
+                      "protocol": "TCP"
+                    },
+                    {
+                      "containerPort": 9901,
+                      "name": "admin",
+                      "protocol": "TCP"
+                    }
+                  ],
+                  "readinessProbe": {
+                    "failureThreshold": 3,
+                    "periodSeconds": 5,
+                    "successThreshold": 1,
+                    "tcpSocket": {
+                      "port": "http"
+                    },
+                    "timeoutSeconds": 1
+                  },
+                  "resources": {
+                    "limits": {
+                      "cpu": "500m",
+                      "memory": "256Mi"
+                    },
+                    "requests": {
+                      "cpu": "100m",
+                      "memory": "64Mi"
+                    }
+                  },
+                  "terminationMessagePath": "/dev/termination-log",
+                  "terminationMessagePolicy": "File",
+                  "volumeMounts": [
+                    {
+                      "mountPath": "/etc/inference",
+                      "name": "config",
+                      "readOnly": true
+                    }
+                  ]
+                }
+              ],
+              "dnsPolicy": "ClusterFirst",
+              "restartPolicy": "Always",
+              "schedulerName": "default-scheduler",
+              "securityContext": {},
+              "serviceAccount": "inference-gateway",
+              "serviceAccountName": "inference-gateway",
+              "terminationGracePeriodSeconds": 30,
+              "volumes": [
+                {
+                  "configMap": {
+                    "defaultMode": 420,
+                    "items": [
+                      {
+                        "key": "envoy.json",
+                        "path": "envoy.json"
+                      }
+                    ],
+                    "name": "inference-gateway"
+                  },
+                  "name": "config"
+                }
+              ]
+            }
+          }
+        },
+        "status": {
+          "availableReplicas": 1,
+          "conditions": [
+            {
+              "lastTransitionTime": "2026-11-13T16:02:02Z",
+              "lastUpdateTime": "2026-11-13T16:02:02Z",
+              "message": "Deployment has minimum availability.",
+              "reason": "MinimumReplicasAvailable",
+              "status": "True",
+              "type": "Available"
+            },
+            {
+              "lastTransitionTime": "2026-11-13T16:01:37Z",
+              "lastUpdateTime": "2026-11-13T16:02:02Z",
+              "message": "ReplicaSet \"inference-gateway-7d9d5bdc78\" has successfully progressed.",
+              "reason": "NewReplicaSetAvailable",
+              "status": "True",
+              "type": "Progressing"
+            }
+          ],
+          "observedGeneration": 1,
+          "readyReplicas": 1,
+          "replicas": 1,
+          "terminatingReplicas": 0,
+          "updatedReplicas": 1
+        }
+      },
+      {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "metadata": {
+          "annotations": {
+            "deployment.kubernetes.io/revision": "1"
+          },
+          "creationTimestamp": "2026-11-13T16:01:37Z",
+          "generation": 1,
+          "labels": {
+            "experiment": "custom-metric-hpa"
+          },
+          "name": "inference-metrics-adapter",
+          "namespace": "inference",
+          "resourceVersion": "229183",
+          "uid": "141d0967-f8c1-4205-a928-06934ab8c2c2"
+        },
+        "spec": {
+          "progressDeadlineSeconds": 600,
+          "replicas": 1,
+          "revisionHistoryLimit": 10,
+          "selector": {
+            "matchLabels": {
+              "app": "inference-metrics-adapter"
+            }
+          },
+          "strategy": {
+            "type": "Recreate"
+          },
+          "template": {
+            "metadata": {
+              "labels": {
+                "app": "inference-metrics-adapter",
+                "experiment": "custom-metric-hpa"
+              }
+            },
+            "spec": {
+              "automountServiceAccountToken": true,
+              "containers": [
+                {
+                  "args": [
+                    "--config=/etc/inference/adapter.json",
+                    "--cert-dir=/var/run/serving-cert",
+                    "--secure-port=6443",
+                    "--prometheus-url=http://inference-prometheus.inference.svc:9090",
+                    "--metrics-relist-interval=5s",
+                    "--metrics-max-age=30s"
+                  ],
+                  "image": "registry.k8s.io/prometheus-adapter/prometheus-adapter:v0.12.0",
+                  "imagePullPolicy": "IfNotPresent",
+                  "name": "inference-metrics-adapter",
+                  "ports": [
+                    {
+                      "containerPort": 6443,
+                      "name": "https",
+                      "protocol": "TCP"
+                    }
+                  ],
+                  "readinessProbe": {
+                    "failureThreshold": 3,
+                    "httpGet": {
+                      "path": "/readyz",
+                      "port": "https",
+                      "scheme": "HTTPS"
+                    },
+                    "periodSeconds": 5,
+                    "successThreshold": 1,
+                    "timeoutSeconds": 1
+                  },
+                  "resources": {
+                    "limits": {
+                      "cpu": "500m",
+                      "memory": "256Mi"
+                    },
+                    "requests": {
+                      "cpu": "100m",
+                      "memory": "128Mi"
+                    }
+                  },
+                  "terminationMessagePath": "/dev/termination-log",
+                  "terminationMessagePolicy": "File",
+                  "volumeMounts": [
+                    {
+                      "mountPath": "/etc/inference",
+                      "name": "config",
+                      "readOnly": true
+                    },
+                    {
+                      "mountPath": "/var/run/serving-cert",
+                      "name": "data"
+                    }
+                  ]
+                }
+              ],
+              "dnsPolicy": "ClusterFirst",
+              "restartPolicy": "Always",
+              "schedulerName": "default-scheduler",
+              "securityContext": {},
+              "serviceAccount": "inference-metrics-adapter",
+              "serviceAccountName": "inference-metrics-adapter",
+              "terminationGracePeriodSeconds": 30,
+              "volumes": [
+                {
+                  "configMap": {
+                    "defaultMode": 420,
+                    "items": [
+                      {
+                        "key": "adapter.json",
+                        "path": "adapter.json"
+                      }
+                    ],
+                    "name": "inference-metrics-adapter"
+                  },
+                  "name": "config"
+                },
+                {
+                  "emptyDir": {
+                    "sizeLimit": "16Mi"
+                  },
+                  "name": "data"
+                }
+              ]
+            }
+          }
+        },
+        "status": {
+          "availableReplicas": 1,
+          "conditions": [
+            {
+              "lastTransitionTime": "2026-11-13T16:02:07Z",
+              "lastUpdateTime": "2026-11-13T16:02:07Z",
+              "message": "Deployment has minimum availability.",
+              "reason": "MinimumReplicasAvailable",
+              "status": "True",
+              "type": "Available"
+            },
+            {
+              "lastTransitionTime": "2026-11-13T16:01:37Z",
+              "lastUpdateTime": "2026-11-13T16:02:07Z",
+              "message": "ReplicaSet \"inference-metrics-adapter-8994f5d7d\" has successfully progressed.",
+              "reason": "NewReplicaSetAvailable",
+              "status": "True",
+              "type": "Progressing"
+            }
+          ],
+          "observedGeneration": 1,
+          "readyReplicas": 1,
+          "replicas": 1,
+          "terminatingReplicas": 0,
+          "updatedReplicas": 1
+        }
+      },
+      {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "metadata": {
+          "annotations": {
+            "deployment.kubernetes.io/revision": "1"
+          },
+          "creationTimestamp": "2026-11-13T16:01:37Z",
+          "generation": 1,
+          "labels": {
+            "experiment": "custom-metric-hpa"
+          },
+          "name": "inference-prometheus",
+          "namespace": "inference",
+          "resourceVersion": "229147",
+          "uid": "87b89801-2c95-4683-9bba-8aaa19eb151a"
+        },
+        "spec": {
+          "progressDeadlineSeconds": 600,
+          "replicas": 1,
+          "revisionHistoryLimit": 10,
+          "selector": {
+            "matchLabels": {
+              "app": "inference-prometheus"
+            }
+          },
+          "strategy": {
+            "type": "Recreate"
+          },
+          "template": {
+            "metadata": {
+              "labels": {
+                "app": "inference-prometheus",
+                "experiment": "custom-metric-hpa"
+              }
+            },
+            "spec": {
+              "automountServiceAccountToken": true,
+              "containers": [
+                {
+                  "args": [
+                    "--config.file=/etc/inference/prometheus.json",
+                    "--storage.tsdb.path=/prometheus",
+                    "--storage.tsdb.retention.time=6h",
+                    "--storage.tsdb.retention.size=128MB"
+                  ],
+                  "image": "prom/prometheus:v3.5.0",
+                  "imagePullPolicy": "IfNotPresent",
+                  "name": "inference-prometheus",
+                  "ports": [
+                    {
+                      "containerPort": 9090,
+                      "name": "http",
+                      "protocol": "TCP"
+                    }
+                  ],
+                  "readinessProbe": {
+                    "failureThreshold": 3,
+                    "httpGet": {
+                      "path": "/-/ready",
+                      "port": "http",
+                      "scheme": "HTTP"
+                    },
+                    "periodSeconds": 5,
+                    "successThreshold": 1,
+                    "timeoutSeconds": 1
+                  },
+                  "resources": {
+                    "limits": {
+                      "cpu": "500m",
+                      "memory": "512Mi"
+                    },
+                    "requests": {
+                      "cpu": "100m",
+                      "memory": "128Mi"
+                    }
+                  },
+                  "terminationMessagePath": "/dev/termination-log",
+                  "terminationMessagePolicy": "File",
+                  "volumeMounts": [
+                    {
+                      "mountPath": "/etc/inference",
+                      "name": "config",
+                      "readOnly": true
+                    },
+                    {
+                      "mountPath": "/prometheus",
+                      "name": "data"
+                    }
+                  ]
+                }
+              ],
+              "dnsPolicy": "ClusterFirst",
+              "restartPolicy": "Always",
+              "schedulerName": "default-scheduler",
+              "securityContext": {},
+              "serviceAccount": "inference-prometheus",
+              "serviceAccountName": "inference-prometheus",
+              "terminationGracePeriodSeconds": 30,
+              "volumes": [
+                {
+                  "configMap": {
+                    "defaultMode": 420,
+                    "items": [
+                      {
+                        "key": "prometheus.json",
+                        "path": "prometheus.json"
+                      }
+                    ],
+                    "name": "inference-prometheus"
+                  },
+                  "name": "config"
+                },
+                {
+                  "emptyDir": {
+                    "sizeLimit": "256Mi"
+                  },
+                  "name": "data"
+                }
+              ]
+            }
+          }
+        },
+        "status": {
+          "availableReplicas": 1,
+          "conditions": [
+            {
+              "lastTransitionTime": "2026-11-13T16:01:56Z",
+              "lastUpdateTime": "2026-11-13T16:01:56Z",
+              "message": "Deployment has minimum availability.",
+              "reason": "MinimumReplicasAvailable",
+              "status": "True",
+              "type": "Available"
+            },
+            {
+              "lastTransitionTime": "2026-11-13T16:01:37Z",
+              "lastUpdateTime": "2026-11-13T16:01:56Z",
+              "message": "ReplicaSet \"inference-prometheus-7845b76fcd\" has successfully progressed.",
+              "reason": "NewReplicaSetAvailable",
+              "status": "True",
+              "type": "Progressing"
+            }
+          ],
+          "observedGeneration": 1,
+          "readyReplicas": 1,
+          "replicas": 1,
+          "terminatingReplicas": 0,
+          "updatedReplicas": 1
+        }
+      },
+      {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "metadata": {
+          "annotations": {
+            "deployment.kubernetes.io/revision": "1",
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"apps/v1\",\"kind\":\"Deployment\",\"metadata\":{\"annotations\":{},\"name\":\"ollama\",\"namespace\":\"inference\"},\"spec\":{\"replicas\":1,\"selector\":{\"matchLabels\":{\"app\":\"ollama\"}},\"strategy\":{\"rollingUpdate\":{\"maxSurge\":0,\"maxUnavailable\":1},\"type\":\"RollingUpdate\"},\"template\":{\"metadata\":{\"labels\":{\"app\":\"ollama\"}},\"spec\":{\"containers\":[{\"env\":[{\"name\":\"OLLAMA_HOST\",\"value\":\"0.0.0.0:11434\"},{\"name\":\"OLLAMA_NUM_PARALLEL\",\"value\":\"1\"},{\"name\":\"OLLAMA_CONTEXT_LENGTH\",\"value\":\"1024\"},{\"name\":\"OLLAMA_KEEP_ALIVE\",\"value\":\"-1\"}],\"image\":\"ai-inference:0.1\",\"imagePullPolicy\":\"Never\",\"lifecycle\":{\"preStop\":{\"exec\":{\"command\":[\"/bin/sleep\",\"35\"]}}},\"name\":\"ollama\",\"ports\":[{\"containerPort\":11434}],\"readinessProbe\":{\"httpGet\":{\"path\":\"/api/tags\",\"port\":11434},\"periodSeconds\":5,\"timeoutSeconds\":5},\"resources\":{\"limits\":{\"cpu\":\"2\",\"memory\":\"2Gi\"},\"requests\":{\"cpu\":\"2\",\"memory\":\"1Gi\"}}}],\"terminationGracePeriodSeconds\":60}}}}\n"
+          },
+          "creationTimestamp": "2026-10-04T18:08:42Z",
+          "generation": 74,
+          "name": "ollama",
+          "namespace": "inference",
+          "resourceVersion": "242870",
+          "uid": "959546fb-0e98-4116-bb3b-6b1167f13069"
+        },
+        "spec": {
+          "progressDeadlineSeconds": 600,
+          "replicas": 1,
+          "revisionHistoryLimit": 10,
+          "selector": {
+            "matchLabels": {
+              "app": "ollama"
+            }
+          },
+          "strategy": {
+            "rollingUpdate": {
+              "maxSurge": 0,
+              "maxUnavailable": 1
+            },
+            "type": "RollingUpdate"
+          },
+          "template": {
+            "metadata": {
+              "labels": {
+                "app": "ollama"
+              }
+            },
+            "spec": {
+              "containers": [
+                {
+                  "env": [
+                    {
+                      "name": "OLLAMA_HOST",
+                      "value": "0.0.0.0:11434"
+                    },
+                    {
+                      "name": "OLLAMA_NUM_PARALLEL",
+                      "value": "1"
+                    },
+                    {
+                      "name": "OLLAMA_CONTEXT_LENGTH",
+                      "value": "1024"
+                    },
+                    {
+                      "name": "OLLAMA_KEEP_ALIVE",
+                      "value": "-1"
+                    }
+                  ],
+                  "image": "ai-inference:0.1",
+                  "imagePullPolicy": "Never",
+                  "lifecycle": {
+                    "preStop": {
+                      "exec": {
+                        "command": [
+                          "/bin/sleep",
+                          "35"
+                        ]
+                      }
+                    }
+                  },
+                  "name": "ollama",
+                  "ports": [
+                    {
+                      "containerPort": 11434,
+                      "protocol": "TCP"
+                    }
+                  ],
+                  "readinessProbe": {
+                    "failureThreshold": 3,
+                    "httpGet": {
+                      "path": "/api/tags",
+                      "port": 11434,
+                      "scheme": "HTTP"
+                    },
+                    "periodSeconds": 5,
+                    "successThreshold": 1,
+                    "timeoutSeconds": 5
+                  },
+                  "resources": {
+                    "limits": {
+                      "cpu": "2",
+                      "memory": "2Gi"
+                    },
+                    "requests": {
+                      "cpu": "2",
+                      "memory": "1Gi"
+                    }
+                  },
+                  "terminationMessagePath": "/dev/termination-log",
+                  "terminationMessagePolicy": "File"
+                }
+              ],
+              "dnsPolicy": "ClusterFirst",
+              "restartPolicy": "Always",
+              "schedulerName": "default-scheduler",
+              "securityContext": {},
+              "terminationGracePeriodSeconds": 60
+            }
+          }
+        },
+        "status": {
+          "availableReplicas": 1,
+          "conditions": [
+            {
+              "lastTransitionTime": "2026-10-04T18:08:42Z",
+              "lastUpdateTime": "2026-10-04T18:08:48Z",
+              "message": "ReplicaSet \"ollama-7db4f544df\" has successfully progressed.",
+              "reason": "NewReplicaSetAvailable",
+              "status": "True",
+              "type": "Progressing"
+            },
+            {
+              "lastTransitionTime": "2026-11-10T23:15:04Z",
+              "lastUpdateTime": "2026-11-10T23:15:04Z",
+              "message": "Deployment has minimum availability.",
+              "reason": "MinimumReplicasAvailable",
+              "status": "True",
+              "type": "Available"
+            }
+          ],
+          "observedGeneration": 74,
+          "readyReplicas": 1,
+          "replicas": 1,
+          "terminatingReplicas": 0,
+          "updatedReplicas": 1
+        }
+      }
+    ],
+    "kind": "List",
+    "metadata": {
+      "resourceVersion": ""
+    }
+  },
+  "hpa": {
+    "apiVersion": "v1",
+    "items": [],
+    "kind": "List",
+    "metadata": {
+      "resourceVersion": ""
+    }
+  },
+  "nodes": {
+    "apiVersion": "v1",
+    "items": [
+      {
+        "apiVersion": "v1",
+        "kind": "Node",
+        "metadata": {
+          "annotations": {
+            "node.alpha.kubernetes.io/ttl": "0",
+            "volumes.kubernetes.io/controller-managed-attach-detach": "true"
+          },
+          "creationTimestamp": "2026-10-01T09:59:47Z",
+          "labels": {
+            "beta.kubernetes.io/arch": "amd64",
+            "beta.kubernetes.io/os": "linux",
+            "kubernetes.io/arch": "amd64",
+            "kubernetes.io/hostname": "ai-lab",
+            "kubernetes.io/os": "linux",
+            "minikube.k8s.io/commit": "7a9f6a841470a207de8cf4bafcccee0969d8ba10",
+            "minikube.k8s.io/name": "ai-lab",
+            "minikube.k8s.io/primary": "true",
+            "minikube.k8s.io/updated_at": "2026_10_01T11_59_50_0700",
+            "minikube.k8s.io/version": "v1.39.0",
+            "node-role.kubernetes.io/control-plane": "",
+            "node.kubernetes.io/exclude-from-external-load-balancers": ""
+          },
+          "name": "ai-lab",
+          "resourceVersion": "243122",
+          "uid": "c1e0c2fe-c1f5-4c0c-84e5-2a5736dd4835"
+        },
+        "spec": {
+          "podCIDR": "10.244.0.0/24",
+          "podCIDRs": [
+            "10.244.0.0/24"
+          ]
+        },
+        "status": {
+          "addresses": [
+            {
+              "address": "192.168.49.2",
+              "type": "InternalIP"
+            },
+            {
+              "address": "ai-lab",
+              "type": "Hostname"
+            }
+          ],
+          "allocatable": {
+            "cpu": "24",
+            "ephemeral-storage": "1081101176832",
+            "hugepages-1Gi": "0",
+            "hugepages-2Mi": "0",
+            "memory": "32742912Ki",
+            "pods": "110"
+          },
+          "capacity": {
+            "cpu": "24",
+            "ephemeral-storage": "1081101176832",
+            "hugepages-1Gi": "0",
+            "hugepages-2Mi": "0",
+            "memory": "32742912Ki",
+            "pods": "110"
+          },
+          "conditions": [
+            {
+              "lastHeartbeatTime": "2026-11-13T20:10:31Z",
+              "lastTransitionTime": "2026-10-01T09:59:46Z",
+              "message": "kubelet has sufficient memory available",
+              "reason": "KubeletHasSufficientMemory",
+              "status": "False",
+              "type": "MemoryPressure"
+            },
+            {
+              "lastHeartbeatTime": "2026-11-13T20:10:31Z",
+              "lastTransitionTime": "2026-10-01T09:59:46Z",
+              "message": "kubelet has no disk pressure",
+              "reason": "KubeletHasNoDiskPressure",
+              "status": "False",
+              "type": "DiskPressure"
+            },
+            {
+              "lastHeartbeatTime": "2026-11-13T20:10:31Z",
+              "lastTransitionTime": "2026-10-01T09:59:46Z",
+              "message": "kubelet has sufficient PID available",
+              "reason": "KubeletHasSufficientPID",
+              "status": "False",
+              "type": "PIDPressure"
+            },
+            {
+              "lastHeartbeatTime": "2026-11-13T20:10:31Z",
+              "lastTransitionTime": "2026-10-01T10:00:12Z",
+              "message": "kubelet is posting ready status",
+              "reason": "KubeletReady",
+              "status": "True",
+              "type": "Ready"
+            }
+          ],
+          "daemonEndpoints": {
+            "kubeletEndpoint": {
+              "Port": 10250
+            }
+          },
+          "declaredFeatures": [
+            "ExtendWebSocketsToKubelet",
+            "InPlacePodLevelResourcesVerticalScaling",
+            "InPlacePodVerticalScalingInitContainers",
+            "RestartAllContainersOnContainerExits"
+          ],
+          "features": {
+            "supplementalGroupsPolicy": true
+          },
+          "images": [
+            {
+              "names": [
+                "docker.io/library/ai-inference:0.1"
+              ],
+              "sizeBytes": 4135581192
+            },
+            {
+              "names": [
+                "docker.io/prom/prometheus@sha256:63805ebb8d2b3920190daf1cb14a60871b16fd38bed42b857a3182bc621f4996",
+                "docker.io/prom/prometheus:v3.5.0"
+              ],
+              "sizeBytes": 123797512
+            },
+            {
+              "names": [
+                "docker.io/kubernetesui/dashboard@sha256:2e500d29e9d5f4a086b908eb8dfe7ecac57d2ab09d65b24f588b1d449841ef93"
+              ],
+              "sizeBytes": 75788960
+            },
+            {
+              "names": [
+                "docker.io/envoyproxy/envoy@sha256:cfe1c570e72aa4207853a37bd1c32c808a0036a351b16f73732dcfd0e5775175",
+                "docker.io/envoyproxy/envoy:v1.35.0"
+              ],
+              "sizeBytes": 60681434
+            },
+            {
+              "names": [
+                "docker.io/kindest/kindnetd@sha256:07a4b3fe0077a0ae606cc0a200fc25a28fa64dcc30b8d311b461089969449f9a",
+                "docker.io/kindest/kindnetd:v20250512-df8de77b"
+              ],
+              "sizeBytes": 44375501
+            },
+            {
+              "names": [
+                "docker.io/kindest/kindnetd@sha256:526969f0a1a7a788a7a96f53a4ad3b51607bde7bb2841edf52a02916e8d52650",
+                "docker.io/kindest/kindnetd:v20260820-69b56db7"
+              ],
+              "sizeBytes": 39744255
+            },
+            {
+              "names": [
+                "registry.k8s.io/prometheus-adapter/prometheus-adapter@sha256:932eae60e2bcf9c4660d6442da066ef1a79b4ea7cc232c61c7303069216ca006",
+                "registry.k8s.io/prometheus-adapter/prometheus-adapter:v0.12.0"
+              ],
+              "sizeBytes": 38357373
+            },
+            {
+              "names": [
+                "registry.k8s.io/kube-apiserver@sha256:d1045e5c6d2f016797d22143eba7502e1bb712a4681836a7c35763a9c192dd70",
+                "registry.k8s.io/kube-apiserver:v1.37.0"
+              ],
+              "sizeBytes": 31171933
+            },
+            {
+              "names": [
+                "registry.k8s.io/kube-proxy@sha256:77bf2b08ff8ac1a4a446cffaa85e79e87379c8cb54fcf60f2cb6c62c966829c8",
+                "registry.k8s.io/kube-proxy:v1.37.0"
+              ],
+              "sizeBytes": 30200433
+            },
+            {
+              "names": [
+                "registry.k8s.io/kube-controller-manager@sha256:997c997924eb8574f63f204a0b0af133aaf33c10df84009c32d34037f4e0e077",
+                "registry.k8s.io/kube-controller-manager:v1.37.0"
+              ],
+              "sizeBytes": 27291057
+            },
+            {
+              "names": [
+                "registry.k8s.io/coredns/coredns@sha256:900f9c109f7a33545d3c811516e8376df9019147b750f5ce3e254468769176ea",
+                "registry.k8s.io/coredns/coredns:v1.14.6"
+              ],
+              "sizeBytes": 23758055
+            },
+            {
+              "names": [
+                "registry.k8s.io/metrics-server/metrics-server@sha256:d9862115e7c7881280d3d75ca26bda8ffc0fc213315979575bf23ce9826205c0"
+              ],
+              "sizeBytes": 23258428
+            },
+            {
+              "names": [
+                "registry.k8s.io/etcd@sha256:6ecefbe2510c4a30573a62a4d6dd175acf881ca67003fcd91849a16df7a724d5",
+                "registry.k8s.io/etcd:3.7.0-0"
+              ],
+              "sizeBytes": 22342384
+            },
+            {
+              "names": [
+                "registry.k8s.io/kube-scheduler@sha256:a27622f132aa09cf2461ba077894a070c0186ec607366d14e805912d4804d11f",
+                "registry.k8s.io/kube-scheduler:v1.37.0"
+              ],
+              "sizeBytes": 20845306
+            },
+            {
+              "names": [
+                "docker.io/kubernetesui/metrics-scraper@sha256:76049887f07a0476dc93efc2d3569b9529bf982b22d29f356092ce206e98765c"
+              ],
+              "sizeBytes": 19746404
+            },
+            {
+              "names": [
+                "gcr.io/k8s-minikube/storage-provisioner@sha256:18eb69d1418e854ad5a19e399310e52808a8321e4c441c1dddad8977a0d7a944",
+                "gcr.io/k8s-minikube/storage-provisioner:v5"
+              ],
+              "sizeBytes": 9058936
+            },
+            {
+              "names": [
+                "registry.k8s.io/pause@sha256:f548e0e8e3dc1896ca956272154dde3314e8cc4fde0a57577ee9fa1c63f5baf4",
+                "registry.k8s.io/pause:3.10.2"
+              ],
+              "sizeBytes": 320805
+            }
+          ],
+          "nodeInfo": {
+            "architecture": "amd64",
+            "bootID": "7dffb0c1-2295-4ca4-a25f-24eed1d63ee6",
+            "containerRuntimeVersion": "containerd://2.3.4",
+            "kernelVersion": "5.15.167.4-microsoft-standard-WSL2",
+            "kubeProxyVersion": "",
+            "kubeletVersion": "v1.37.0",
+            "machineID": "b7566eefbea02b7ce85821e86a97158b",
+            "operatingSystem": "linux",
+            "osImage": "Debian GNU/Linux 12 (bookworm)",
+            "runningInUserNamespace": false,
+            "swap": {
+              "capacity": 8589934592
+            },
+            "systemUUID": "b7566eefbea02b7ce85821e86a97158b"
+          },
+          "runtimeHandlers": [
+            {
+              "features": {
+                "recursiveReadOnlyMounts": true,
+                "userNamespaces": true
+              },
+              "name": ""
+            },
+            {
+              "features": {
+                "recursiveReadOnlyMounts": true,
+                "userNamespaces": true
+              },
+              "name": "runc"
+            }
+          ]
+        }
+      }
+    ],
+    "kind": "List",
+    "metadata": {
+      "resourceVersion": ""
+    }
+  },
+  "resources": {
+    "kind": "PodMetricsList",
+    "apiVersion": "metrics.k8s.io/v1beta1",
+    "metadata": {},
+    "items": [
+      {
+        "metadata": {
+          "name": "inference-gateway-7d9d5bdc78-sq6lb",
+          "namespace": "inference",
+          "creationTimestamp": "2026-11-13T20:14:16Z",
+          "labels": {
+            "app": "inference-gateway",
+            "experiment": "custom-metric-hpa",
+            "pod-template-hash": "7d9d5bdc78"
+          }
+        },
+        "timestamp": "2026-11-13T20:13:55Z",
+        "window": "1m4.495s",
+        "containers": [
+          {
+            "name": "inference-gateway",
+            "usage": {
+              "cpu": "1402662n",
+              "memory": "23796Ki"
+            }
+          }
+        ]
+      },
+      {
+        "metadata": {
+          "name": "inference-metrics-adapter-8994f5d7d-2vgp7",
+          "namespace": "inference",
+          "creationTimestamp": "2026-11-13T20:14:16Z",
+          "labels": {
+            "app": "inference-metrics-adapter",
+            "experiment": "custom-metric-hpa",
+            "pod-template-hash": "8994f5d7d"
+          }
+        },
+        "timestamp": "2026-11-13T20:13:50Z",
+        "window": "56.629s",
+        "containers": [
+          {
+            "name": "inference-metrics-adapter",
+            "usage": {
+              "cpu": "1656036n",
+              "memory": "37584Ki"
+            }
+          }
+        ]
+      },
+      {
+        "metadata": {
+          "name": "inference-prometheus-7845b76fcd-rvgm7",
+          "namespace": "inference",
+          "creationTimestamp": "2026-11-13T20:14:16Z",
+          "labels": {
+            "app": "inference-prometheus",
+            "experiment": "custom-metric-hpa",
+            "pod-template-hash": "7845b76fcd"
+          }
+        },
+        "timestamp": "2026-11-13T20:13:53Z",
+        "window": "1m6.585s",
+        "containers": [
+          {
+            "name": "inference-prometheus",
+            "usage": {
+              "cpu": "945053n",
+              "memory": "50828Ki"
+            }
+          }
+        ]
+      },
+      {
+        "metadata": {
+          "name": "ollama-7db4f544df-s6xhv",
+          "namespace": "inference",
+          "creationTimestamp": "2026-11-13T20:14:16Z",
+          "labels": {
+            "app": "ollama",
+            "pod-template-hash": "7db4f544df"
+          }
+        },
+        "timestamp": "2026-11-13T20:13:57Z",
+        "window": "1m6.498s",
+        "containers": [
+          {
+            "name": "ollama",
+            "usage": {
+              "cpu": "234531n",
+              "memory": "547968Ki"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "collection_finished_at": "2026-11-13T20:14:16.882755+00:00",
+  "collection_duration_seconds": 0.5310000000026776,
+  "overrun_seconds": 0
+}

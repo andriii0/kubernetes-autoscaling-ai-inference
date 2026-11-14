@@ -1,0 +1,45 @@
+{
+  "manifest_sha256": "3258c9be74277dd8acd0ea32184ae1ce56f99221748c460cca650e507adb5570",
+  "runs": [
+    {
+      "target": 1,
+      "qualification": {
+        "qualifies": true,
+        "initial_low_one_copy": true,
+        "peak_desired_two_at_seconds": 128.10551404953003,
+        "peak_ready_two_at_seconds": 128.10551404953003,
+        "scope": "Sampled at 5s; gaps over 10s invalidate qualification. Latency is not a selection criterion."
+      },
+      "metric": {
+        "valid": true,
+        "observations": 158,
+        "gateway": {
+          "matched": 457,
+          "complete": true,
+          "scope": "Gateway routing only; native Ollama reconciliation is still required"
+        },
+        "max_source_age_seconds": 5.003434181213379
+      }
+    },
+    {
+      "target": 2,
+      "qualification": {
+        "qualifies": true,
+        "initial_low_one_copy": true,
+        "peak_desired_two_at_seconds": 141.0613570213318,
+        "peak_ready_two_at_seconds": 146.07059907913208,
+        "scope": "Sampled at 5s; gaps over 10s invalidate qualification. Latency is not a selection criterion."
+      },
+      "metric": {
+        "valid": true,
+        "observations": 158,
+        "gateway": {
+          "matched": 457,
+          "complete": true,
+          "scope": "Gateway routing only; native Ollama reconciliation is still required"
+        },
+        "max_source_age_seconds": 5.008002281188965
+      }
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "attempted": true,
+  "successful": false,
+  "errors": [
+    "Prometheus and observer clocks differ by more than one second"
+  ],
+  "backend_quiet": {
+    "started_at_utc": "2026-11-13T23:04:08.150186+00:00",
+    "passed_at_utc": "2026-11-13T23:04:53.895452+00:00",
+    "identity": [
+      {
+        "pod_uid": "ee38f8af-8777-45b4-aa55-7b6155c7defd",
+        "container_id": "containerd://44994821a853ff6bbfb3b3c0007d159dcb578b151260e56944ea22f2c8a74889",
+        "restart_count": 3
+      }
+    ]
+  }
+}

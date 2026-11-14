@@ -1,0 +1,3 @@
+{
+  "error": "Command '['wsl.exe', '--debug-shell']' timed out after 25 seconds"
+}

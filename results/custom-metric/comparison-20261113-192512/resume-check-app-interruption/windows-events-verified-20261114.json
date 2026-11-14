@@ -1,0 +1,9 @@
+{
+  "retrieved_at_utc": "2026-11-13T23:25:03.0389077Z",
+  "time_utc": "2026-11-13T22:19:52.7772682Z",
+  "event_id": 1001,
+  "record_id": 49361,
+  "provider": "Windows Error Reporting",
+  "message": "Контейнер ошибки 1329325527736228488, тип 5\r\nИмя события: MoAppHang\r\nОтклик: Нет данных\r\nИдентификатор CAB: 0\r\n\r\nСигнатура проблемы:\r\nP1: OpenAI.Codex_26.1106.6628.0_x64__2p2nqsd0c76g0\r\nP2: praid:App\r\nP3: 0.0.0.0\r\nP4: 00000000\r\nP5: 0000\r\nP6: 2097152\r\nP7: \r\nP8: \r\nP9: \r\nP10: \r\n\r\nВложенные файлы:\r\n\\\\?\\C:\\ProgramData\\Microsoft\\Windows\\WER\\Temp\\WER.39f85b9c-77c1-4793-b206-268028c8c0fd.tmp.WERInternalMetadata.xml\r\nWPR_initiated_DiagTrackMiniLogger_OneTrace_User_Logger_20261110_1_EC_0_inject.etl\r\n\\\\?\\C:\\ProgramData\\Microsoft\\Windows\\WER\\Temp\\WER.55eca2f1-ed33-471d-9ac7-b02d85bd50e4.tmp.etl\r\nWPR_initiated_DiagTrackMiniLogger_WPR System Collector_inject.etl\r\n\\\\?\\C:\\ProgramData\\Microsoft\\Windows\\WER\\Temp\\WER.90566427-048f-4903-95c9-0f3bb2f91022.tmp.etl\r\n\\\\?\\C:\\ProgramData\\Microsoft\\Windows\\WER\\Temp\\WER.8eff55f1-9954-4bd8-903f-b93ca366d4b7.tmp.csv\r\n\\\\?\\C:\\ProgramData\\Microsoft\\Windows\\WER\\Temp\\WER.6bca7bf0-512d-4a5e-b4d1-a169fffbb35d.tmp.txt\r\n\\\\?\\C:\\ProgramData\\Microsoft\\Windows\\WER\\Temp\\WER.8cf6e6d8-d4cc-4c01-92f2-c74112195b9b.tmp.xml\r\n\r\nЭти файлы можно найти здесь:\r\n\\\\?\\C:\\ProgramData\\Microsoft\\Windows\\WER\\ReportArchive\\AppHang_OpenAI.Codex_26._6de28ef375ae1319f22bb22b3de8030da2872ac_8acd98c1_93436ba7-437a-4674-b63f-cd11c76626db\r\n\r\nСимвол анализа: \r\nПовторный поиск решения: 0\r\nИдентификатор отчета: cc4383e9-be44-4908-9a1f-2a7421baee8f\r\nСостояние отчета: 268435456\r\nХэшированный контейнер: 01d476d3198c807c5272b6863f939a88\r\nИдентификатор GUID CAB: 0",
+  "interpretation": "Confirms a Codex hang in the same minute; does not establish why the benchmark processes ended."
+}
