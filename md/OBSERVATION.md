@@ -90,3 +90,9 @@ Report covered seconds and coverage of each instance's active part of the primar
 The fixed fields and combination rule are owned by protocol v1.1: data_valid, duration_complete, unfinished, dropped, primary_p95_pass, primary_errors_pass, whole_run_errors_pass, scaling_observed and overall. Incomplete data, an incomplete duration or drops prevent a full-comparison verdict. Otherwise any service-target failure means fail, all three passing means pass, and a remaining unknown means not_assessable. Resource coverage is separate. Do not turn an interrupted system failure into a successful repetition or erase it as measurement noise.
 
 Existing pilot_records.py already counts started IDs without completions and rejects nonzero unfinished. Reuse this check. Until unfinished is zero and accounting is complete, failed/completed on the completed subset cannot certify target attainment. Retain the unmatched IDs without inventing their outcome or latency.
+
+## Clock records for new runs
+
+Request-event schema 2 records `latency_clock: monotonic-v1`, monotonic start/end milliseconds and UTC start/end timestamps. `duration_ms` and latency trends use the Go monotonic interval, including the complete client call. `wall_duration_ms` and k6 HTTP timings are diagnostic fields. A UTC/monotonic duration difference above one second invalidates the timeline. Old schema-1 evidence retains its original checks.
+
+New custom-metric records use `bounded-clock-v3`. Each before/Adapter/after query records paired wall and monotonic timestamps. Live checks and replay validate query intervals, acquisition retries and the interval between observations. Wall/monotonic disagreement beyond 50 ms plus the measured clock-read uncertainty fails as an observer clock step. The separate Prometheus/observer check still allows one second outside the query bounds; source freshness still allows ten seconds. These checks distinguish failure types; they do not correct the host clocks.

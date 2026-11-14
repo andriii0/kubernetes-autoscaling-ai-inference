@@ -102,10 +102,23 @@ def reconcile(folder, metadata):
                 report["warnings"].append(f"input archive: {error}")
     except (OSError, ValueError, KeyError, TypeError, AttributeError) as error:
         report["warnings"].append(f"input archive: {error}")
+    if metadata.get("latency_clock") == "monotonic-v1":
+        try:
+            runtime = metadata["timing_runtime"]
+            if not {"monotonic.go", "go.mod", "go.sum"}.issubset(runtime["sources"]):
+                raise ValueError("monotonic timer source archive is incomplete")
+            if not isinstance(runtime["binary_sha256"], str) or len(runtime["binary_sha256"]) != 64 or any(c not in "0123456789abcdef" for c in runtime["binary_sha256"]):
+                raise ValueError("monotonic runtime binary hash is missing")
+            for name, expected in runtime["sources"].items():
+                if Path(name).name != name or hashlib.sha256((folder / "inputs/monotonic" / name).read_bytes()).hexdigest() != expected:
+                    raise ValueError("monotonic timer archive changed")
+        except (OSError, ValueError, KeyError, TypeError) as error:
+            errors.append(f"timing runtime: {error}")
     starts, completions = {}, {}
     try:
         for event in read_jsonl(folder / "request-events.jsonl"):
-            if event["schema_version"] != 1 or event["run_id"] != metadata["run_id"] or event["phase"] != "load":
+            monotonic = metadata.get("latency_clock") == "monotonic-v1"
+            if event["schema_version"] != (2 if monotonic else 1) or event["run_id"] != metadata["run_id"] or event["phase"] != "load":
                 raise ValueError("request event has an unexpected schema, run or phase")
             kind = event["event"]
             if kind not in ("started", "completed"):
@@ -115,6 +128,10 @@ def reconcile(folder, metadata):
             if key in target:
                 raise ValueError(f"duplicate {kind} event: {key}")
             timestamp(event["started_at_utc"])
+            if monotonic and (event.get("latency_clock") != "monotonic-v1" or
+                              type(event.get("started_monotonic_ms")) not in (int, float) or
+                              not math.isfinite(event["started_monotonic_ms"])):
+                raise ValueError("missing monotonic request clock")
             target[key] = event
             if kind == "completed":
                 if key not in starts:
@@ -122,8 +139,19 @@ def reconcile(folder, metadata):
                 for field in ("started_at_utc", "scenario_started_at_utc", "scenario", "iteration", "vu"):
                     if event[field] != starts[key][field]:
                         raise ValueError(f"request identity changed: {field}")
-                elapsed = (timestamp(event["finished_at_utc"]) - timestamp(event["started_at_utc"])) * 1000
-                if elapsed < 0 or not math.isfinite(event["duration_ms"]) or abs(elapsed - event["duration_ms"]) > 1:
+                wall_elapsed = (timestamp(event["finished_at_utc"]) - timestamp(event["started_at_utc"])) * 1000
+                elapsed = wall_elapsed
+                tolerance = 1
+                if monotonic:
+                    end = event.get("finished_monotonic_ms")
+                    if (type(end) not in (int, float) or not math.isfinite(end) or
+                            event["started_monotonic_ms"] != starts[key]["started_monotonic_ms"]):
+                        raise ValueError("invalid monotonic request interval")
+                    elapsed = end - event["started_monotonic_ms"]
+                    tolerance = LATENCY_TOLERANCE_MS
+                    if abs(wall_elapsed - elapsed) > 1000:
+                        raise ValueError("client wall clock changed during a request; timeline is invalid")
+                if elapsed < 0 or not math.isfinite(event["duration_ms"]) or abs(elapsed - event["duration_ms"]) > tolerance:
                     raise ValueError("inconsistent request duration")
                 if event["outcome"] not in ("success", "failure"):
                     raise ValueError("unknown request outcome")

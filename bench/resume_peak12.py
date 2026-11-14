@@ -71,6 +71,10 @@ def record(driver, series, cell, folder, reviewed, manifest):
                                        'verdict': result['overall'], 'peak': result['primary']})
 
 
+from run_lock import exclusive_main
+
+
+@exclusive_main
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--series-dir', type=Path, required=True)

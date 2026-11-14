@@ -67,6 +67,10 @@ def inspect(folder, duration):
     return row, controlled
 
 
+from run_lock import exclusive_main
+
+
+@exclusive_main
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--series-dir', type=Path, required=True)

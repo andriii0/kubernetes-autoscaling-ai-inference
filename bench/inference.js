@@ -1,4 +1,5 @@
 import http from 'k6/http';
+import monotonic from 'k6/x/monotonic';
 import exec from 'k6/execution';
 import { Counter, Rate, Trend } from 'k6/metrics';
 
@@ -58,8 +59,9 @@ function emit(event) {
 
 export default function () {
   const started = Date.now();
+  const startedMonotonic = monotonic.now();
   const identity = {
-    schema_version: 1, run_id: __ENV.RUN_ID || 'standalone', phase: 'load',
+    schema_version: 2, latency_clock: 'monotonic-v1', started_monotonic_ms: startedMonotonic, run_id: __ENV.RUN_ID || 'standalone', phase: 'load',
     request_id: `${__ENV.RUN_ID || 'standalone'}:${exec.scenario.name}:${exec.scenario.iterationInTest}`,
     scenario: exec.scenario.name, iteration: exec.scenario.iterationInTest, vu: exec.vu.idInTest,
     scenario_started_at_utc: new Date(exec.scenario.startTime).toISOString(),
@@ -74,8 +76,9 @@ export default function () {
     },
     timeout: `${workload.timeout_seconds}s`, redirects: 0,
   });
+  const finishedMonotonic = monotonic.now();
   const finished = Date.now();
-  const elapsed = finished - started;
+  const elapsed = finishedMonotonic - startedMonotonic;
   requestLatency.add(elapsed);
   let body;
   try {
@@ -95,6 +98,7 @@ export default function () {
   else if (!ok) errorCategory = 'empty_response';
   emit({
     ...identity, event: 'completed', finished_at_utc: new Date(finished).toISOString(),
+    finished_monotonic_ms: finishedMonotonic, wall_duration_ms: finished - started,
     duration_ms: elapsed, http_duration_ms: response.timings.duration,
     http_status: response.status, outcome: ok ? 'success' : 'failure',
     error_category: errorCategory, error_code: response.error_code || null,

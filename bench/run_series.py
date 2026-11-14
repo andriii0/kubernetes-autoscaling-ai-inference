@@ -127,6 +127,10 @@ def execute(series, rows, base_url, activity):
         print(f"Saved {folder.name}: {result['overall']}; analysis: {output}", flush=True)
 
 
+from run_lock import exclusive_main
+
+
+@exclusive_main
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--series-dir', type=Path, default=DEFAULT_SERIES)

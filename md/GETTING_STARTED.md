@@ -18,7 +18,7 @@ Selecting a series shows its overview on the right without replacing the middle 
 
 In Results, I can expand **Notes** below a run or series preview, describe problems or observations, and click **Save notes**. The text is stored in that result's `notes.md`, separately from measurements. Drafts survive navigation and refresh inside the page; I save before closing the browser. If another editor changes the file, saving reports a conflict instead of replacing it.
 
-In Results, I group comparisons under **Series**, load-selection runs under **Pilots**, and other evidence under **Checks & diagnostics**. Series includes **Main · peak 8 req / 10 s** and **Follow-up · peak 12 req / 10 s**. These labels use saved run rates; dates and completion counts distinguish series. The continuation selector still lists only supported main v1.1 folders.
+In Results, I group comparisons under **Series**, load-selection runs under **Pilots**, and other evidence under **Checks & diagnostics**. Series includes **Main В· peak 8 req / 10 s** and **Follow-up В· peak 12 req / 10 s**. These labels use saved run rates; dates and completion counts distinguish series. The continuation selector still lists only supported main v1.1 folders.
 
 I can browse saved results without starting Docker or Kubernetes. With Python 3.12+ and the environment described in section 2, run:
 
@@ -101,7 +101,7 @@ winget install --id GrafanaLabs.k6 --exact --source winget
 winget install --id Kubernetes.kubectl --exact --source winget
 ```
 
-After installation, open a new PowerShell window and check the versions again. Use Python 3.12 or newer. In a fresh checkout, create an environment with `py -3.12 -m venv .venv` if you use the Windows Python launcher. Run Python commands with `.\.venv\Scripts\python.exe`, or activate that environment so `python` refers to it. CSV/JSON analysis needs no additional Python packages.
+For new measurements, also build the [local k6 runtime](#local-k6-timer-for-new-runs); the global k6 binary does not contain the required timer. After installation, open a new PowerShell window and check the versions again. Use Python 3.12 or newer. In a fresh checkout, create an environment with `py -3.12 -m venv .venv` if you use the Windows Python launcher. Run Python commands with `.\.venv\Scripts\python.exe`, or activate that environment so `python` refers to it. CSV/JSON analysis needs no additional Python packages.
 
 The examples use the `ai-lab` profile and `inference` namespace. For a separate setup check, set `$env:KUBECONFIG` to a new file in your PowerShell session before starting Minikube. Use the same value in the tunnel window. Replace `ai-lab` with your new profile name and pass `--context YOUR_PROFILE` to the single-run launcher. The main-series continuation script expects `ai-lab`.
 
@@ -322,7 +322,7 @@ python .\bench\analyze.py "$runDir" --output-dir "$analysisDir"
 
 Add `--no-plots` when only CSV/JSON is required. The analysis commands read saved data; they do not generate a new load test.
 
-Run `python -m unittest discover -s tests -t .` from the project root. This includes the benchmark tests and the local UI backend tests in `tests/lab`; it does not launch a browser. Numeric and lifecycle analysis tests do not require Matplotlib. Dedicated plot tests report a skip when this optional dependency is absent; install the version above to include it. Tests that execute real k6 report a skip when k6 is missing from PATH; collection and error-handling unit tests still run. The verified project-environment command is `.\.venv\Scripts\python.exe -B -m unittest discover -s tests -t .`. If that environment has no pip, install the plot dependency from a Python with pip using `python -m pip --python .venv install "matplotlib>=3.10,<4"`. These tests use temporary files and local HTTP fixtures, not the live cluster.
+Run `python -m unittest discover -s tests -t .` from the project root. This includes the benchmark tests and the local UI backend tests in `tests/lab`; it does not launch a browser. Numeric and lifecycle analysis tests do not require Matplotlib. Dedicated plot tests report a skip when this optional dependency is absent; install the version above to include it. Build the [local k6 runtime](#local-k6-timer-for-new-runs) before running the full suite. The timer integration check requires that binary. The verified project-environment command is `.\.venv\Scripts\python.exe -B -m unittest discover -s tests -t .`. If that environment has no pip, install the plot dependency from a Python with pip using `python -m pip --python .venv install "matplotlib>=3.10,<4"`. These tests use temporary files and local HTTP fixtures, not the live cluster.
 
 The optional [browser checks](../tests/ui/README.md) cover the actual page, note editing, navigation and launch errors. They use one browser without a visible window, temporary results and simulated jobs. Run them separately when changing the UI; no model or cluster is needed. The [coverage review](plans/test-coverage.md) records the checked scenarios and limits.
 
@@ -396,3 +396,21 @@ Use these documents for the maintained explanations and rules:
 | Actual run data and conclusions | The report next to each run under `results/` |
 
 If a planned procedure conflicts with an accepted decision or the implementation, fix the conflict before running the experiment. Keep unavailable measurements missing and preserve earlier runs. The plans and decisions define the detailed rules; this guide provides setup commands and links to them.
+
+## Local k6 timer for new runs
+
+New live runs require the project's k6 binary. Install Go, then build it once from the repository root:
+
+```powershell
+python -B bench/build_k6.py
+```
+
+The builder downloads pinned Go 1.26.5, xk6 1.5.1 and k6 2.2.0 modules. It writes `.bench-runtime/k6.exe` and a hash record; it does not replace a global k6 installation. Rebuild after changing the timer sources. Keep this directory out of Git. See [the timer source](../bench/monotonic/README.md).
+
+For an authorized fresh custom-metric series, choose a new output path:
+
+```powershell
+python -B bench/run_custom_series.py --output-dir results/custom-metric/series-YYYYMMDD-HHMMSS --execute
+```
+
+This holds one experiment lock while running both threshold preparations and then all six comparison cells. Comparison starts only if valid preparation selects target 1. Omit `--execute` to inspect the sequence without changing files or runtime. The driver never resumes old results or retries failures. Follow the [extension plan](plans/custom-metric-hpa.md) for cluster setup and acceptance rules.

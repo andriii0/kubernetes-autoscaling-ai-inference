@@ -263,6 +263,9 @@ class FixedLauncherFixture(unittest.TestCase):
                 self.end_headers()
                 logs[uid].append(f'{run_pilot.utc_now()} [GIN] test | 200 | 1ms | ip | POST "/api/generate"\n')
                 self.server.payloads.append(body)
+                if self.path.startswith("/warmup/"):
+                    # Keep the warmup log outside the later load boundary on Windows.
+                    time.sleep(.02)
                 self.wfile.write(data)
             def log_message(self, *args): pass
 
@@ -280,6 +283,9 @@ class FixedLauncherFixture(unittest.TestCase):
         class Observer:
             def __init__(self, context, namespace, selector): self.context, self.namespace = context, namespace
             def collect(self, interval):
+                # The real observer does subprocess I/O. Instant fixture samples can
+                # share one Windows wall-clock tick, especially at final collection.
+                time.sleep(.02)
                 current = three_sample(run_pilot.utc_now())
                 if replicas == 1:
                     current['pods']['items'] = current['pods']['items'][:1]
@@ -305,7 +311,7 @@ class FixedLauncherFixture(unittest.TestCase):
             with urllib.request.urlopen(request, timeout=5) as response:
                 return subprocess.CompletedProcess(command, 0, response.read().decode(), "")
 
-        args = ["--base-url", base, "--replicas", str(replicas), "--rate", "30", "--duration", "1s", "--idle-seconds", "0",
+        args = ["--base-url", base, "--replicas", str(replicas), "--rate", "30", "--duration", ("1s" if main else "1200ms"), "--idle-seconds", "0",
                 "--post-seconds", "0", "--run-dir", str(folder)]
         if diagnostic:
             args += ['--diagnostic-warmup-wait', diagnostic, '--observer-interval', '.05']
@@ -377,7 +383,7 @@ class AutoscalingFixture(unittest.TestCase):
         for stage, seconds in zip(workload['burst_stages'], (.2, .05, .5, .05, .2)):
             stage['seconds'] = seconds
         if main:
-            workload["main_protocol"].update(peak_rate=30, steady_seconds=1, observer_interval_seconds=.05, idle_seconds=0, hpa_post_seconds=1)
+            workload["main_protocol"].update(peak_rate=30, steady_seconds=1, observer_interval_seconds=.2, idle_seconds=0, hpa_post_seconds=1)
         if latency_target is not None:
             workload["main_protocol"]["primary_p95_ms"] = latency_target
         original_read, original_copy = Path.read_text, shutil.copyfile
@@ -462,7 +468,7 @@ class AutoscalingFixture(unittest.TestCase):
         args[args.index('--post-seconds') + 1] = '1'
         index = args.index('--duration')
         del args[index:index+2]
-        args += ['--mode', 'autoscaling', '--profile', profile, '--rate', '30', '--observer-interval', '.05']
+        args += ['--mode', 'autoscaling', '--profile', profile, '--rate', '30', '--observer-interval', '.2']
         if profile == 'steady':
             args += ['--duration', '1s']
         if main:

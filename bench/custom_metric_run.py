@@ -8,8 +8,8 @@ from urllib.parse import urlencode
 from autoscaling import Logs, Session, hpa_ready
 from check_custom_metric import check
 from custom_metric_stack import stack
-from custom_metrics import (CLOCK_TOLERANCE, GATEWAY, METRIC, NAMESPACE, ZeroGate, infrastructure_identity,
-                            reconcile_gateway, selector, validate_clock, validate_signal, validate_source, vector)
+from custom_metrics import (CLOCK_TOLERANCE, clock_point, GATEWAY, METRIC, NAMESPACE, ZeroGate, infrastructure_identity,
+                            reconcile_gateway, selector, validate_clock, validate_observer_interval, validate_signal, validate_source, vector)
 from records import read_jsonl, timestamp
 
 
@@ -64,21 +64,50 @@ def split_source(reply):
     return output
 
 
+def validate_record_clock(record, previous=None):
+    """Replay all acquisition intervals, including retries and gaps between reads."""
+    started = (record["started_at"], record["started_monotonic"], record.get("started_clock_uncertainty", 0))
+    origin = previous or started
+    if previous is not None:
+        validate_observer_interval(previous[0], started[0], previous[1], started[1],
+                                   previous[2] if len(previous) > 2 else 0, started[2])
+    previous = started
+    for bracket in record["brackets"]:
+        for side in ("before", "adapter", "after"):
+            for edge in ("sent", "received"):
+                point = (bracket[f"{side}_{edge}_at"], bracket[f"{side}_{edge}_monotonic"],
+                         bracket.get(f"{side}_{edge}_clock_uncertainty", 0))
+                validate_observer_interval(previous[0], point[0], previous[1], point[1], previous[2], point[2])
+                previous = point
+    validate_observer_interval(origin[0], previous[0], origin[1], previous[1],
+                               origin[2] if len(origin) > 2 else 0, previous[2])
+    return previous
+
+
 def replay(folder, data):
     """Recheck raw source/Adapter observations and request IDs without cluster access."""
     preflight = json.loads((folder / "custom-preflight.json").read_text(encoding="utf-8"))
     identity = preflight["identity"]
     signals = []
+    previous_clock = None
     for record in read_jsonl(folder / "custom-metric.jsonl"):
         if record.get("error") or infrastructure_identity(record["pods"]) != identity:
             raise ValueError("invalid custom metric observation or changed infrastructure")
-        if (data["metadata"].get("extension_version") == "active-requests-comparison-v2"
-                and record.get("clock_contract") != "bounded-clock-v2"):
+        if (data["metadata"].get("extension_version") in ("active-requests-comparison-v2", "active-requests-comparison-v3")
+                and record.get("clock_contract") not in ("bounded-clock-v2", "bounded-clock-v3")):
             raise ValueError("comparison v2 requires recorded query clock bounds")
         bracket = record["brackets"][-1]
+        if record.get("clock_contract") == "bounded-clock-v3":
+            previous_clock = validate_record_clock(record, previous_clock)
         before, after = split_source(bracket["before"]), split_source(bracket["after"])
-        if record.get("clock_contract") == "bounded-clock-v2":
+        if data["metadata"].get("extension_version") == "active-requests-comparison-v3" and record.get("clock_contract") != "bounded-clock-v3":
+            raise ValueError("comparison v3 requires paired wall and monotonic observations")
+        if record.get("clock_contract") in ("bounded-clock-v2", "bounded-clock-v3"):
             for side, parts in (("before", before), ("after", after)):
+                if record.get("clock_contract") == "bounded-clock-v3":
+                    validate_observer_interval(bracket[side + "_sent_at"], bracket[side + "_received_at"],
+                                               bracket[side + "_sent_monotonic"], bracket[side + "_received_monotonic"],
+                                               bracket.get(side + "_sent_clock_uncertainty", 0), bracket.get(side + "_received_clock_uncertainty", 0))
                 validate_clock(vector(parts[0])[1], bracket[side + "_sent_at"], bracket[side + "_received_at"])
         if any(vector(before[i])[0] != vector(after[i])[0] or vector(before[i])[2] != vector(after[i])[2]
                for i in range(4)):
@@ -127,6 +156,8 @@ class Monitor:
         self.logs = None
         self.started = time.time()
         self.last_received = None
+        self.last_monotonic = None
+        self.last_uncertainty = 0
         self.output = (folder / "custom-metric.jsonl").open("x", encoding="utf-8")
 
     def objects(self):
@@ -158,7 +189,9 @@ class Monitor:
         return {"items": [p for p in pods["items"] if p["metadata"]["labels"].get("app") == GATEWAY]}
 
     def sample(self):
-        record = {"started_at": time.time(), "clock_contract": "bounded-clock-v2", "brackets": []}
+        started, monotonic, uncertainty = clock_point()
+        record = {"started_at": started, "started_monotonic": monotonic,
+                  "started_clock_uncertainty": uncertainty, "clock_contract": "bounded-clock-v3", "brackets": []}
         try:
             pods = json.loads(self.observer.read("-n", NAMESPACE, "get", "pods",
                               "-l", "experiment=custom-metric-hpa", "-o", "json"))
@@ -175,19 +208,28 @@ class Monitor:
             for _ in range(3):
                 bracket = {}
                 record["brackets"].append(bracket)
-                bracket["before_sent_at"] = time.time()
+                bracket["before_sent_at"], bracket["before_sent_monotonic"], bracket["before_sent_clock_uncertainty"] = clock_point()
                 bracket["before"] = json.loads(self.observer.read("get", "--raw", query))
-                bracket["before_received_at"] = time.time()
+                bracket["before_received_at"], bracket["before_received_monotonic"], bracket["before_received_clock_uncertainty"] = clock_point()
+                validate_observer_interval(bracket["before_sent_at"], bracket["before_received_at"],
+                                           bracket["before_sent_monotonic"], bracket["before_received_monotonic"],
+                                           bracket["before_sent_clock_uncertainty"], bracket["before_received_clock_uncertainty"])
                 before = split_source(bracket["before"])
                 validate_clock(vector(before[0])[1], bracket["before_sent_at"], bracket["before_received_at"])
-                bracket["adapter_sent_at"] = time.time()
+                bracket["adapter_sent_at"], bracket["adapter_sent_monotonic"], bracket["adapter_sent_clock_uncertainty"] = clock_point()
                 bracket["adapter"] = json.loads(self.observer.read("get", "--raw",
                     f"/apis/custom.metrics.k8s.io/v1beta1/namespaces/{NAMESPACE}/services/{GATEWAY}/{METRIC}"))
-                bracket["adapter_received_at"] = time.time()
-                bracket["after_sent_at"] = time.time()
+                bracket["adapter_received_at"], bracket["adapter_received_monotonic"], bracket["adapter_received_clock_uncertainty"] = clock_point()
+                validate_observer_interval(bracket["adapter_sent_at"], bracket["adapter_received_at"],
+                                           bracket["adapter_sent_monotonic"], bracket["adapter_received_monotonic"],
+                                           bracket["adapter_sent_clock_uncertainty"], bracket["adapter_received_clock_uncertainty"])
+                bracket["after_sent_at"], bracket["after_sent_monotonic"], bracket["after_sent_clock_uncertainty"] = clock_point()
                 bracket["after"] = json.loads(self.observer.read("get", "--raw", query))
-                received = time.time()
-                bracket["after_received_at"] = received
+                bracket["after_received_at"], bracket["after_received_monotonic"], bracket["after_received_clock_uncertainty"] = clock_point()
+                received = bracket["after_received_at"]
+                validate_observer_interval(bracket["after_sent_at"], received,
+                                           bracket["after_sent_monotonic"], bracket["after_received_monotonic"],
+                                           bracket["after_sent_clock_uncertainty"], bracket["after_received_clock_uncertainty"])
                 after = split_source(bracket["after"])
                 validate_clock(vector(after[0])[1], bracket["after_sent_at"], received)
                 # Validate both sides, without substituting an observed value for the adapter.
@@ -202,7 +244,11 @@ class Monitor:
                                     gateway_uid=self.identity[GATEWAY]["uid"], received_at=received)
                     if self.last_received is not None and received - self.last_received > 10:
                         raise ValueError("custom metric observation gap exceeded 10 seconds")
+                    validate_record_clock(record, None if self.last_received is None else
+                                          (self.last_received, self.last_monotonic, self.last_uncertainty))
                     self.last_received = received
+                    self.last_monotonic = bracket["after_received_monotonic"]
+                    self.last_uncertainty = bracket["after_received_clock_uncertainty"]
                     self.signal = record["signal"] = signal
                     return signal
                 # Check source validity before treating this as an acquisition race.

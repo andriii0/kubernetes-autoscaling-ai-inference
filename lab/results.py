@@ -108,7 +108,7 @@ class Results:
 
     def assessment(self, folder, issues):
         manifest = read_json(folder.parent / 'manifest.json', issues)
-        if manifest.get('protocol') in ('active-requests-comparison-v1', 'active-requests-comparison-v2'):
+        if manifest.get('protocol') in ('active-requests-comparison-v1', 'active-requests-comparison-v2', 'active-requests-comparison-v3'):
             for row in list_field(manifest, 'completed', issues):
                 if isinstance(row, dict) and row.get('run') == folder.name:
                     return object_field(row, 'assessment', issues)
@@ -153,8 +153,24 @@ class Results:
                 if source and replacement and recovered in accepted and replacement['complete'] and replacement['tone'] != 'bad':
                     source['name'] += ' · original'
                     preserved.append(source)
+            if manifest.get('protocol') in ('active-requests-comparison-v1', 'active-requests-comparison-v2', 'active-requests-comparison-v3'):
+                for saved in list_field(manifest, 'completed', issues):
+                    if not isinstance(saved, dict):
+                        continue
+                    replacement = by_name.get(saved.get('run'))
+                    if not replacement or not replacement['complete'] or replacement['tone'] == 'bad':
+                        continue
+                    match = re.fullmatch(r'(attempt-\d{2}-(?:cpu|active-1))(?:-retry-\d+)?', saved['run'])
+                    if not match:
+                        continue
+                    for name, source in by_name.items():
+                        if (source is not replacement and source not in preserved
+                                and re.fullmatch(re.escape(match[1]) + r'(?:-retry-\d+)?', name)
+                                and (not source['complete'] or source['tone'] == 'bad')):
+                            source['name'] += ' · original'
+                            preserved.append(source)
             assessed = [r for r in children if r not in preserved]
-            completed = sum(run['complete'] for run in children)
+            completed = sum(run['complete'] for run in assessed)
             relative = parent.relative_to(self.root)
             planned = len(manifest['cells']) if isinstance(manifest.get('cells'), list) else None
             if relative.parts[0] == 'main':

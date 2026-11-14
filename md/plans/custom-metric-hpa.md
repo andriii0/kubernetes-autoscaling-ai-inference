@@ -1,83 +1,63 @@
 # Custom-metric HPA comparison
 
-Status: the clock correction and Results grouping are verified, and comparison v2 is launched in a new folder. Both threshold preparations are preserved and target 1 remains selected. The first comparison stopped during attempt 01 on a clock-check failure, with 0/6 accepted runs. Historical evidence and settings remain unchanged.
-
-### Authorized clock correction and retry
-
-I traced the stop to Prometheus evaluation times about 0.78 seconds ahead of Windows. The initial clock check permits one second, but continuous validation permitted no future offset. The source samples were fresh. The load stopped at 404 of 782 seconds, leaving 29 unfinished client requests; I retain this attempt as incomplete.
-
-I will use the same bounded one-second clock allowance throughout collection and readiness, retain the ten-second source-age limit in Prometheus's clock, and save query send/receive bounds even on failure. Two cleanup zeros must come from scrapes after the boundary including the clock allowance. Missing/stale values, larger clock offsets, restarts, mapping faults and failed cleanup still stop the run.
-
-Acceptance: regression checks cover the saved 0.78-second trigger, excessive offset, stale source, empty/missing values, clock bounds and post-boundary zeros. I will replay both archived preparations without changing them, record the exact collector-version boundary, run a short installed collector/cleanup check, and launch a new six-cell comparison only after these pass. The model, workload, CPU/request thresholds, resources and ordering remain fixed. Results will group this evidence under Custom metrics with separate author notes. No commit or push is authorized.
-
-The [clock correction check](../../results/custom-metric/clock-fix-20261113/README.md) passed: 254 Python tests, six browser tests, both preparation replays, five installed zero observations including a simulated -0.8-second observer offset, and complete cleanup. All 245 protected files were unchanged. Comparison v2 requires the exact verified old/new collector hashes; the selected target stays 1. The Custom metrics folder and notes were also checked in the live UI.
-
-I launched [comparison-20261113-192512](../../results/custom-metric/comparison-20261113-192512/README.md) at 19:25:13 UTC. Launcher PID 24292 and interpreter/driver PID 42856 had matching command lines. The startup snapshot showed attempt 01 CPU in recovery quiet, no errors and 0/6 completed. This is startup evidence, not a completed result. I leave the series unattended as requested.
+Status: I retain the old four accepted cells as a stopped series. I will use fresh preparation and six new cells for the final comparison. The [reliability plan](clock-and-run-reliability.md) owns the new timing runtime, verification and launch; the one-second clock guard remains strict.
 
 ## Implementation checkpoint
 
-### Authorized next stage
+Envoy, Prometheus and Prometheus Adapter are installed. The launcher supports both policies through the same gateway, continuous source and access-log collection, source freshness checks, cleanup and archived-input verification. The preparation and six-cell drivers and comparative analysis are implemented.
 
-The six-run comparison is now authorized after the completed preparation. I will implement and test its separate driver and outcome analysis, then launch it in the background in a new directory. Order is CPU/custom, custom/CPU, CPU/custom; the selected request threshold remains 1. Both arms use the same gateway and metrics stack. Invalid collection, changed inputs or failed cleanup stops the driver without replacements. I will verify startup and leave the run unattended as requested; no job-monitoring automation is created because the current app instructions prohibit it. No commit or push is authorized.
+Both threshold preparations passed collection, cleanup and the declared scaling check. Target 1 missed the latency target; target 2 met it. The predeclared rule selected target 1. The [preparation report](../../results/custom-metric/preparation-20261113-165340/README.md) retains the results, assessment correction and tests.
 
-I added `run_custom_comparison.py` and `analyze_custom_comparison.py`. Each run retains its successful-response p95, errors/timeouts, on-time success fraction and CPU coverage. The analysis also records sampled desired/Ready replica-seconds over the load and post-load windows separately, missing intervals, and signal/desired/Ready times relative to peak. The final summary retains all three pairs and applies the predeclared descriptive improvement rule. The driver verifies preparation from archived inputs, freezes comparison sources/configuration, checks the shared stack, model, backend image/configuration and host limits before each launch, and stops without replacing invalid runs. The new comparison metadata flag changes labels and archives only; the collector and workload remain identical to preparation.
+The [container check](../../results/custom-metric/container-check-20261113-b4116a3d/README.md) and [installed-chain check](../../results/custom-metric/cluster-check-20261113-160100/README.md) retain the functional verification and failed setup attempts. The [clock correction](../../results/custom-metric/clock-fix-20261113/README.md) introduced a bounded one-second allowance while keeping the ten-second source-age limit. It passed 254 Python tests, six browser checks and installed idle/cleanup checks. It does not admit a larger clock difference.
 
-Before launch, I will archive both the initial full-test failure (an existing fixed-three log-count fixture) and its verification repeat. The new focused checks cover both full six-cell progression and early stop on failed cleanup. External delegation remains unavailable after the previously recorded OpenCode filesystem permission failure; I have not bypassed it with another provider.
+## Comparison and interruption history
 
-### Preserved first comparison launch
+The [first comparison](../../results/custom-metric/comparison-20261113-180650/README.md) stopped on the earlier clock check with no accepted cells. The separate [comparison v2 report](../../results/custom-metric/comparison-20261113-192512/README.md) owns the four accepted results, the kubectl crash, the application interruption and the latest pre-load stop. Target misses count as valid results when collection is complete.
 
-I launched [comparison-20261113-180650](../../results/custom-metric/comparison-20261113-180650/README.md) after 248 passing tests in the full repeat, 38 passing focused checks, preparation replay and live preflight. Driver PID 48160 started at 18:06:51 UTC on 13 November; attempt 01 CPU was confirmed in recovery quiet with 0/6 completed. The comparison archive records the preparation-to-comparison source boundary. I verified startup only and leave it unattended; the driver's internal collection and cleanup checks remain active. No six-run outcome is available at this checkpoint.
+Explicit continuation revalidates the accepted prefix against archived inputs, preserves the previous manifest and writes each replacement to a separate retry directory. It rejects workload and collector changes. Only comparison-driver and archived-review-helper changes may be recorded at continuation. Its original verification passed 51 focused and 263 full Python tests; the later interruption recovery passed 17 continuation tests. The report links those outputs.
 
-That first comparison subsequently stopped during load on the clock guard. Its manifest and incomplete attempt remain preserved; it is not the current retry.
+The Windows task launch was independent of Codex: the saved process ancestry reaches the Schedule service. The task used Limited privileges, no triggers and no automatic restarts. It finished after the clock failure and deleted itself. The check after that failure found no experiment process or HPA. The subsequent valid cleanup and new continuation are recorded below.
 
-The preceding authorization covered launcher integration and the two preparation bursts only. Those runs are complete and preserved below.
+## Recovery check on 14 November
 
-Before load I require tests of opt-in isolation, source freshness and restart detection, log failure, cleanup failure and the threshold qualification rule. During collection I bracket each Adapter request with source observations. A scrape crossing this short bracket is retained and retried within a bounded check; stale, missing or invalid sources are failures. This avoids treating two different valid scrapes as a mapping fault.
+The saved clock bounds changed abruptly between 23:04:01 and 23:04:06 UTC on 13 November. Prometheus was then about 1.015 seconds ahead of the Windows receive time. Live clocks were aligned again before I changed any clock setting. I could not establish the underlying host/guest trigger from the available logs. I did not change system clocks, restart the infrastructure, weaken the one-second guard or modify collectors.
 
-I implemented these checks in `custom_metric_run.py` and `prepare_custom_metric.py`. The launcher requires explicit `--custom-metric-policy`; it retains the existing backend checks and archives the additional sources and rendered configuration. The collector checks component identity and configuration, keeps gateway log streams, and rejects observation gaps above 10 seconds. Cleanup deletes the experiment HPA, restores one Ready copy, checks backend CPU quiet and requires two fresh gateway zeros. Offline review replays the raw signal and reconciles gateway IDs before qualifying a threshold.
+Before launch, 36 idle observations over three minutes passed, followed by the existing backend CPU quiet and two fresh gateway-zero checks. All 53 focused tests passed. The accepted-prefix replay retained cells 1-4 and listed only cells 5-6. All 596 pre-existing non-Markdown series files matched their saved hashes before launch; the continuation intentionally updates the manifest and keeps its previous version in the resume directory.
 
-All 240 Python tests passed in the final pre-launch check (64.338 seconds); the 30 focused tests also passed. The live idle collector check in `results/custom-metric/collector-check-20261113-164700` recorded three fresh zero samples with collection taking 0.45-0.48 seconds each. This is an idle timing check, not measured load overhead. Integrity verification preserved 120 historical files and matched the previous aggregates.
+At 2026-11-13T23:47:28.942016+00:00, the continuation was running with four of six cells accepted. `attempt-05-cpu-retry-03` had reached measured CPU load: 11 requests started and 10 completed. The final active-1 cell follows only if the CPU cell passes full collection and cleanup. This snapshot confirms load startup, not either remaining result. The [recovery record](../../results/custom-metric/comparison-20261113-192512/resume-check-clock-20261114/README.md) contains the evidence.
 
-I launched [the two-target preparation](../../results/custom-metric/preparation-20261113-165340/manifest.json) at 16:53:13 UTC on 13 November. Its driver PID is 45792. The first saved phase is recovery quiet; this launch record does not establish a completed load or scaling result.
+## Repair after retry 03
 
-Target 1 subsequently completed with valid collection and cleanup and met the mechanism qualification rule, while missing the latency target. The driver then stopped at an assessor interface mismatch (`protocol_version`). I reproduced it offline, added the extension version only to the derived assessment view, passed 31 focused tests and replayed the saved evidence. I preserved the original stopped manifest and source archive and recorded both driver hashes before continuing target 2. The [preparation report](../../results/custom-metric/preparation-20261113-165340/README.md) owns the measurements and interruption history. No load was repeated.
+Retry 03 stopped during load at 23:48:56 UTC on 13 November after 19 completed requests. The clock offset exceeded one second again; cleanup passed. The three-minute idle check did not establish a lasting fix. No fifth or sixth result is accepted.
 
-Target 2 also completed with valid collection, cleanup and mechanism qualification, and met the service targets. I retain both measured outcomes. The [frozen inputs](../../results/custom-metric/preparation-20261113-165340/frozen-inputs.json) record configuration, component identities and source hashes; the final manifest selects target 1 by the original rule. This is a threshold-admission result, not evidence that target 1 is the best policy. Final runtime has no HPA or generator, one Ready Ollama copy and the installed metrics stack. The six-cell comparison and its additional outcome/capacity analysis remain unimplemented and unstarted.
+I repaired continuation between cells and the Results treatment of superseded attempts, with regression tests. The trace did not establish the physical trigger of the clock jump. The temporary Hyper-V clocksource is a provisional mitigation. Workload and collectors remain unchanged; the four accepted results passed replay before the new continuation.
 
-After completion, all 241 Python tests passed in a full repeat. I retained the preceding accelerated-fixture timing failures and passing repeat in the preparation report; neither experimental settings nor validation limits were changed. Historical integrity verification passed again.
+## Recovery after the host reboot on 14 November
 
-I added [the stack renderer](../../bench/custom_metric_stack.py), [signal validation](../../bench/custom_metrics.py) and [a read-only installed-stack check](../../bench/check_custom_metric.py). The renderer creates a new folder with Envoy, Prometheus and Adapter configuration, bounded resource settings, separate CPU/custom HPA manifests and SHA256 hashes. It never applies resources or starts load. The launcher retains its original CPU policy by default; the extension requires an explicit policy argument.
+The host rebooted after the stopped retry 03. Docker and ai-lab were stopped when work resumed. All three metric containers restarted when the existing cluster was restored. I will archive that state and renew only those pods under the unchanged Deployment specifications. I will record their old and new identities explicitly; every image digest, stack configuration, node resource limit, backend configuration and model digest must still match preparation.
 
-I selected Envoy 1.35.0, Prometheus 3.5.0 and Prometheus Adapter 0.12.0 and retained those versions for deployment. The [installed-chain report](../../results/custom-metric/cluster-check-20261113-160100/README.md) records Kubernetes 1.37.0, real image IDs, resource headroom and the checked signal path. These are explicit versions, not a claim about the latest releases. The local Adapter uses a generated serving certificate and `insecureSkipTLSVerify` for its own custom-metrics API registration, following the upstream example. It does not replace metrics-server. I checked all 21 resource names and API ownership before using `kubectl create`; the renderer itself does not install or check ownership.
+The comparison driver may use this explicit instance-renewal record only on continuation between complete pairs. It must reject an unrecorded identity change. The collector remains unchanged and continues to reject any restart or identity change within a run. The first four results remain intact; both cells in pair 3 will share the recovered environment. This adds a session boundary to report with the final comparison, not a new target-selection opportunity.
 
-The adapter query requires one healthy, fresh, nonnegative finite source series. Old, missing or duplicate data produces no metric. Local checks additionally retain the original scrape time, verify the current gateway identity and compare the Adapter value with its source. Two zero observations must come from distinct scrapes after the preparation boundary. The opt-in session attaches these checks to continuous collection and cleanup.
+Verification passed: all 269 Python tests, 60 idle observations over five minutes, full cleanup, four-cell replay and 737 unchanged protected files. At 2026-11-14T12:05:07.884164+00:00, the independent continuation was running `attempt-05-cpu-retry-04` in measured CPU load with four of six cells accepted. 44 requests had started and 38 had completed, more than two minutes after the first measured request, with no recorded collection errors. The active-1 cell follows only after this CPU cell passes full load, post-load, collection and cleanup checks. This confirms startup, not an accepted fifth result. The [repair record](../../results/custom-metric/comparison-20261113-192512/resume-repair-20261114/README.md) owns the evidence.
 
-I extended HPA readiness with an opt-in Object-metric check and added optional forwarding of k6 request IDs. The launcher removes ambient `GATEWAY_REQUEST_IDS`, so existing runs do not enable the new header accidentally. Its explicit extension option sets the header in either policy and archives the additional sources.
+## Latest failure and protocol boundary
 
-I verified the Prometheus configuration and ten positive/negative PromQL cases with the official Prometheus 3.5.0 `promtool`, after checking its archive SHA256. The targeted 61 Python tests passed, including real k6 request-ID forwarding against a local HTTP fixture. [The explicit container check](../../tests/check_custom_metric_containers.py) covers the configured Envoy gauge, concurrent requests, errors, cancellation, client timeout, health exclusion, no retries, separate upstream connections and restart. **The container check passed on 13 November 2026:** [accepted evidence](../../results/custom-metric/container-check-20261113-b4116a3d/README.md). I retained three failed fixture attempts and corrected IPv4 host lookup, asynchronous access-log collection and the Docker-assigned port after restart. The accepted run verified 0 -> 3 -> 2 -> 0, 503/timeout/cancellation behavior, health exclusion, no retries, separate connections, complete request-ID reconciliation and a zero gauge after restart. All 15 focused custom-metric unit tests also passed. The later installed-chain checkpoint below adds Kubernetes deployment and end-to-end signal evidence. The container check alone does not establish the installed API path.
+The series stopped again at 12:12:00 UTC (13:12 Berlin) on 14 November. Attempt 05 retry 04 recorded 393 started and 392 completed requests, with no summary. The clock guard failed again; the saved observation near 12:10:30 UTC shows Prometheus about 1.384 seconds ahead of the Windows receive time. Full cleanup passed. Four cells remain accepted; cell 6 never started.
 
-The full 225-test Python suite passed in 62.228 seconds without skips. Its first run exposed a historical replay test that compared saved source hashes with the changed checkout. I gave that test a temporary reference tree copied from the saved inputs; production continuation still rejects an unrecorded source change. No historical input or hash was updated. The integrity check preserved 120 protected evidence files, reproduced the saved observer-overhead aggregates and resolved 277 local links. External review did not run because the configured OpenCode catalog attempt failed on access to its log file; these are local verification results.
+The Hyper-V clocksource was still selected at the subsequent runtime check, so the mitigation did not prevent recurrence. No experiment process or continuation task remained; HPA was absent and one Ollama copy was Ready. No new load was started. The cause of the clock jump remains unresolved.
 
-I can render and inspect a candidate without touching Kubernetes:
+The host recovery changed instance identities, the timing environment and the continuation procedure. The first four runs retain their own validated evidence, but matching images/configuration alone does not establish that a later recovered pair forms an unchanged six-cell protocol. The original frozen-configuration rule requires an explicit decision about that boundary. I must resolve it, together with the clock failure, before treating further runs as the final comparison. A fresh complete series under stable settings is the conservative option; it has not been launched.
 
-```powershell
-.\.venv\Scripts\python.exe -B bench/custom_metric_stack.py --output-dir <new-bundle-folder>
-.\.venv\Scripts\python.exe -B -m unittest tests.bench.test_custom_metrics
-```
+## Remaining work and acceptance
 
-The explicit container check uses disposable containers and a controlled HTTP backend:
+1. Clock alignment and the existing backend quiet/fresh-zero checks passed before continuation. Keep the one-second allowance and ten-second source-age limit; stop if the discrepancy recurs. Its underlying trigger remains unproven.
+2. The independent task has exited. Do not infer authorization for another retry from its earlier startup; resolve the clock failure and continuation boundary first. Use separate attempt folders. Preserve the four accepted cells and every failed attempt. Keep the model, resources, collectors, workload, targets and observation interval unchanged.
+3. Accept a cell only after full load, post-load, collection and cleanup checks pass. Stop on invalid evidence; do not automatically replace a failed run.
+4. Review all six accepted outcomes together under the predeclared rule below. Keep startup confirmation separate from run acceptance.
 
-```powershell
-.\.venv\Scripts\python.exe -B tests/check_custom_metric_containers.py --output-dir <new-check-folder>
-```
+The continuation now handles a preflight failure after accepting a cell without repeating its load. A regression test covers this state. Results retains superseded failed attempts but excludes them from the completion verdict when an accepted replacement exists. All 267 Python tests passed after the changes; only the test fixture sampling interval changed from 50 to 200 ms. The real sampling interval remains five seconds.
 
-### Installed-chain checkpoint
-
-I created only `stack.json` and left the HPA manifests unapplied. The [deployment check](../../results/custom-metric/cluster-check-20261113-160100/README.md) passed idle validation and three concurrent, longer diagnostic requests: the signal grew to three and returned to zero through Prometheus, Adapter and the Custom Metrics API. Two new zero scrapes and the existing CPU quiet gate passed after completion. Configuration, image IDs, access logs, timestamps, the initial failed checker attempt and its narrow `/v1` compatibility correction are archived with that check. All 16 focused tests passed. Read-only tests against the installed Prometheus suppressed missing and stale source values rather than returning zero.
-
-Ollama's configuration and container identity were unchanged; HPA remained absent and the reproduction profile remained stopped. This proves a working installed signal path, not autoscaling behavior or comparison readiness.
-
-The launcher, continuous logs, source-age/restart stop rules, archive and preparation driver now have local and two-run live verification. The six-run comparison driver and its additional comparative analysis remain outside this completed preparation launch.
+The [documentation correction plan](notion-evidence.md#review-corrections-2026-11-14) covers current wording, Notion, Research and preservation of preparation errors. It does not change the experiment or start another attempt.
 
 ## Small research and choice
 
@@ -123,7 +103,7 @@ That would change the client/response contract in both arms and require new even
 
 Sources: [Kubernetes HPA](https://kubernetes.io/docs/concepts/workloads/autoscaling/horizontal-pod-autoscale/), [Prometheus Adapter](https://github.com/kubernetes-sigs/prometheus-adapter), [adapter mapping configuration](https://github.com/kubernetes-sigs/prometheus-adapter/blob/master/docs/config.md), [KEDA Prometheus scaler](https://keda.sh/docs/2.21/scalers/prometheus/), [KEDA HPA configuration](https://keda.sh/docs/2.21/reference/scaledobject-spec/), [HTTP Add-on status](https://github.com/kedacore/http-add-on), [Knative metrics](https://knative.dev/docs/serving/autoscaling/autoscaling-metrics/).
 
-For the gateway I choose **Envoy rather than a new proxy implementation**. Its HTTP connection manager already exposes `downstream_rq_active`, a gauge of active requests, and its admin endpoint exports Prometheus metrics. I would use one dedicated inference listener and keep admin/health traffic outside its counter. This avoids implementing concurrency accounting in application code, although configuration and failure tests are still needed. [Envoy HTTP statistics](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/stats), [Prometheus export](https://www.envoyproxy.io/docs/envoy/latest/operations/admin).
+For the gateway I choose **Envoy rather than a new proxy implementation**. Its HTTP connection manager exposes `downstream_rq_active`, a gauge of active requests, and its admin endpoint exports Prometheus metrics. I use one dedicated inference listener and keep admin/health traffic outside its counter. The saved container and installed-chain checks verify this configuration. [Envoy HTTP statistics](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/stats), [Prometheus export](https://www.envoyproxy.io/docs/envoy/latest/operations/admin).
 
 This changes the earlier upstream-operation proposal: the chosen metric counts **active client-facing requests at Envoy**. After a client disconnects, Ollama might still be computing, so this counter is not all remaining model work. I will record that limitation and test disconnect behavior before accepting the setup.
 
@@ -146,7 +126,7 @@ k6 -> Envoy -> existing Ollama Service -> Ollama pods
 Envoy /stats/prometheus -> Prometheus -> Prometheus Adapter -> HPA -> Ollama Deployment
 ```
 
-Both policies use the same gateway and running metrics stack. The CPU arm retains the 60% CPU-request utilization target. The custom arm uses only the proposed outstanding-request metric; combining CPU and custom signals would answer a different question.
+Both policies use the same gateway and running metrics stack. The CPU arm retains the 60% CPU-request utilization target. The custom arm uses only the selected active-request metric; combining CPU and custom signals would answer a different question.
 
 ### Request routing and proof
 
@@ -162,7 +142,7 @@ The dedicated listener accepts only generation traffic. Client disconnects, upst
 
 ### Metric validity and admission checks
 
-These are proposed experiment rules, to verify during preparation and freeze before comparison:
+These rules were checked during preparation and frozen for the comparison:
 
 - Scrape and observe every 5 seconds. Accept a source sample only when it is no more than **10 seconds old**, comes from the current gateway instance, and belongs to the dedicated inference listener. Save source scrape time and receipt time separately; a fresh adapter response timestamp must not hide an old Prometheus value. Check clock alignment before using this age rule.
 - Require a healthy scrape target and exactly the expected series before aggregation. Missing, duplicate, negative, non-finite or stale values are errors, not zero. Do not use a query fallback that substitutes zero for missing series.
@@ -171,11 +151,11 @@ These are proposed experiment rules, to verify during preparation and freeze bef
 - For a client timeout, save the gateway reset/completion and any later backend completion. Require the counter to follow active gateway requests correctly. Continued Ollama work is a recorded scope limitation, not evidence that the counter itself is wrong. Keep preparation blocked until the existing backend quiet checks pass.
 - During either comparison arm, a source older than 10 seconds, failed metric mapping or gateway/metrics-component restart stops the attempt through normal cleanup and prevents the next launch. Preserve all data and label the policy comparison incomplete. Client measurements already collected may remain valid; they do not establish a complete comparison run. Do not silently resume, replace the run or feed a synthetic metric.
 
-I will implement and test freshness enforcement in the query/adapter path as well as observation; checking age only in the final report would not prevent HPA from using stale input. If this contract cannot be implemented reliably in the time available, the comparison does not start.
+Freshness is enforced in the query/adapter path and in observation. The saved checks cover stale and missing values; any later violation stops the attempt.
 
 ### Bounded threshold preparation
 
-After functional checks pass, I will use one separately saved prepared burst for target 1, then one for target 2. Both use the same 782-second 2 -> 12 -> 2 profile, 300-second post-load observation, infrastructure and clean-start rules as the comparison. These are two additional preparation runs, not part of the six comparative runs.
+After functional checks passed, I ran one separately saved prepared burst for target 1, then one for target 2. Both use the same 782-second 2 -> 12 -> 2 profile, 300-second post-load observation, infrastructure and clean-start rules as the comparison. These are two additional preparation runs, not part of the six comparative runs.
 
 A candidate qualifies if collection and cleanup pass, HPA remains at one desired/Ready replica throughout the initial 120-second low phase, and during the peak it requests at least two replicas and a second replica becomes Ready before the peak ends. These are stability and mechanism checks; passing the five-second latency target is not a selection condition.
 
@@ -183,23 +163,23 @@ If both qualify, choose the smaller target; if only one qualifies, choose that t
 
 Freeze the chosen target, query, freshness rule, component versions/resources, timeout settings, sampling and HPA behavior before the comparative series. A later configuration change creates a new protocol revision and requires a new decision about the series; it cannot silently replace one of the six cells.
 
-## Changes needed
+## Implementation responsibilities
 
 I can keep Ollama, Qwen, generation settings, the k6 burst, latency/error formulas and existing backend log reconciliation. The new experiment adds request-ID forwarding and gateway reconciliation to both arms. I cannot obtain this signal simply by changing the current HPA threshold.
 
-| Component | Proposed work |
+| Component | Implemented responsibility |
 |---|---|
-| Deployment | Add Envoy configuration, a small Prometheus instance, adapter mapping and separate custom HPA manifest. Check available CPU/memory first. Pin images/chart versions and configuration. No custom proxy code, Grafana or full monitoring bundle is required. |
-| Launcher and routing | Add explicit opt-in policy/manifest and client gateway selection. Keep the Ollama backend identity checks separate from the client URL. Add experiment-only request-ID forwarding and archive both routes. The frozen main-protocol path remains unchanged. |
-| HPA readiness | The opt-in Object-metric readiness helper is connected to the extension session and has local tests. The original CPU readiness path remains available. Live preparation is checking the complete lifecycle. |
+| Deployment | Pinned Envoy, Prometheus and Adapter configurations, bounded resources and separate CPU/custom HPA manifests. |
+| Launcher and routing | Explicit policy selection and gateway routing, separate backend identity checks, request-ID forwarding and archived route configuration. |
+| HPA readiness | The opt-in Object-metric readiness helper is connected to the extension session and has local tests. The original CPU readiness path remains available. Both preparation runs verified the complete lifecycle. |
 | Observation and archive | Save Envoy access logs, raw gauge samples, source/scrape/receipt times, HPA-reported values, errors, policy and infrastructure hashes. Enforce the metric contract and retain existing CPU/memory and desired/Ready replica records. |
 | Comparison driver | Reuse preparation, load, cleanup and analysis through a separate six-cell protocol. Do not overwrite or repurpose the completed nine-cell manifest or its source checks. |
-| Analysis | Keep existing successful p95/error assessments. Add on-time success fraction, sampled replica-seconds and the separate signal, HPA-decision and Ready timelines defined below. Include common monitoring overhead in the limits. |
+| Analysis | Saved per-run successful p95/error assessments, on-time success fraction, sampled replica-seconds and signal, HPA-decision and Ready timelines. The final paired summary requires all six accepted cells. |
 | Tests | Verify the configured gateway against concurrent success/error/cancellation, no retries and connection reuse; test counter reset, missing/stale metrics, metric readiness, policy archival and cleanup. Keep existing tests passing. |
 
 I would not build a custom autoscaling controller or a custom Kubernetes metrics API server for this extension.
 
-## Proposed series
+## Frozen comparison series
 
 - Two policies, three repetitions each: CPU/custom, custom/CPU, CPU/custom. Record this order before starting.
 - The same 2 -> 12 -> 2 requests/10 s burst: 120 s low, 1 s rise, 300 s peak, 1 s fall, 360 s low.
@@ -222,13 +202,13 @@ Show the on-time fraction, errors/timeouts and successful p95 side by side for e
 
 The timing comparison is between two complete HPA policy/signal paths. Different sampling windows and metric-specific controller handling can contribute to an earlier desired count. I will not attribute all improvement to the metric's meaning, or confuse an earlier HPA decision with faster pod/model startup.
 
-The six comparative load/post-load windows take at least 108.2 minutes; the two threshold-preparation windows add 36.1 minutes. This is about 2 hours 24 minutes before warmup, quiet gates, functional checks and review. Failures add time and are retained. Two-day feasibility is not yet verified.
+The six comparative load/post-load windows take at least 108.2 minutes; the two threshold-preparation windows add 36.1 minutes. This is about 2 hours 24 minutes before warmup, quiet gates, functional checks and review. Failures add time and are retained. The interruptions added time; this original estimate is not a completion forecast.
 
-## Two-day limit and acceptance
+## Original time budget and acceptance
 
 1. First half-day checkpoint: aim for a working signal path and passing local functional tests, including routing and the metric contract. Inspect resource headroom and give Envoy, Prometheus and the adapter explicit, identical resource settings in both arms. This checkpoint is a limit on the attempt, not a promise of delivery.
 2. Proceed to separately approved threshold preparation only if that chain works and enough time remains for two preparation runs, six comparative runs, cleanup and second-day review. Otherwise retain the work as an uncompleted extension. Freeze configuration and the selected threshold after preparation; a missed checkpoint is not a reason to skip checks.
 3. Run the separately approved six-cell comparison in new paths. Stop on invalid collection, changed configuration or failed cleanup; retain valid target misses and every failed attempt.
 4. Leave the second day for evidence verification, charts and a short findings addition. Success means a valid comparison, even if neither policy meets the latency target.
 
-Planning verification: I inspected `deploy/hpa.yaml`, `deploy/ollama.yaml`, `bench/inference.js`, `bench/workload.json`, the launcher, HPA readiness and the existing peak-12 driver. I read the official sources linked above directly after the search tool returned no results. The sources support the architecture choice; they do not prove local compatibility or overhead. The installed-chain checkpoint now verifies basic Kubernetes compatibility, versions, exported labels, freshness and resource headroom. This does not replace the remaining collection, cleanup and comparative-run acceptance checks.
+Planning verification: I inspected `deploy/hpa.yaml`, `deploy/ollama.yaml`, `bench/inference.js`, `bench/workload.json`, the launcher, HPA readiness and the existing peak-12 driver. The official sources are linked above. The sources support the architecture choice; they do not prove local compatibility or overhead. The installed-chain checkpoint now verifies basic Kubernetes compatibility, versions, exported labels, freshness and resource headroom. Each remaining run must still pass its own collection and cleanup checks.

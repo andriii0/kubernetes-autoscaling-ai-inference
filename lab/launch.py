@@ -83,6 +83,7 @@ def main(argv=None):
     sys.path.insert(0, str(ROOT / 'bench'))
     from run_pilot import parse_arguments
     from runtime import run_command, service_url
+    from run_lock import experiment_lock
 
     stamp = datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S')
     folder = ROOT / 'results/pilot' / f'ui-{stamp}-{uuid.uuid4().hex[:6]}'
@@ -97,7 +98,7 @@ def main(argv=None):
         return 0
     try:
         print('Run 1/1: opening Service tunnel', flush=True)
-        with service_url(None) as url:
+        with experiment_lock(), service_url(None) as url:
             print(f'Result: {folder.relative_to(ROOT).as_posix()}', flush=True)
             code = run_command(command + pilot_arguments(folder, url, args.activity_note, settings), folder)
         if code not in (0, 99):

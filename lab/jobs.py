@@ -23,7 +23,7 @@ def external_runs():
     script = r'''[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false)
     @(Get-CimInstance Win32_Process -ErrorAction Stop | Where-Object {
       $_.Name -eq 'k6.exe' -or ($_.Name -match '^python(w)?\.exe$' -and
-      $_.CommandLine -match '(run_series|run_pilot|run_pilot_search|run_wait_pair|observe)\.py|lab\.launch')
+      $_.CommandLine -match '(run_series|run_pilot|run_pilot_search|run_wait_pair|run_custom_comparison|run_custom_series|prepare_custom_metric|run_peak12_comparison|resume_peak12|observe)\.py|lab\.launch')
     } | Select-Object ProcessId,CommandLine) | ConvertTo-Json -Compress'''
     result = subprocess.run(['powershell.exe', '-NoProfile', '-NonInteractive', '-Command', script],
                             check=True, capture_output=True, text=True, encoding='utf-8', timeout=15,

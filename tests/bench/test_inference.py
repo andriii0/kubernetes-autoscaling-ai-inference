@@ -9,6 +9,7 @@ import unittest
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from tests.bench.fixtures import BENCH
+from build_k6 import runtime
 
 
 class InferenceMetricTests(unittest.TestCase):
@@ -42,7 +43,7 @@ class InferenceMetricTests(unittest.TestCase):
                                    "export const options = { vus: 3, iterations: 12 };\nexport default generate;\n")
                 events = folder / "events.jsonl"
                 result = subprocess.run(
-                    [shutil.which("k6"), "run", "--quiet", "--no-usage-report", "--log-format", "raw",
+                    [runtime()[0], "run", "--quiet", "--no-usage-report", "--log-format", "raw",
                      "--console-output", str(events), str(wrapper)],
                     env={**{k: v for k, v in os.environ.items() if not k.upper().startswith("K6_")},
                          "BASE_URL": f"http://127.0.0.1:{server.server_port}", "REQUEST_EVENTS": "1", "RUN_ID": "parallel",
@@ -107,7 +108,7 @@ class InferenceMetricTests(unittest.TestCase):
                                    "export const options = { vus: 1, iterations: 6 };\nexport default generate;\n")
                 events = folder / "events.jsonl"
                 result = subprocess.run(
-                    [shutil.which("k6"), "run", "--quiet", "--no-usage-report", "--log-format", "raw",
+                    [runtime()[0], "run", "--quiet", "--no-usage-report", "--log-format", "raw",
                      "--console-output", str(events), str(wrapper)],
                     env={**{k: v for k, v in os.environ.items() if not k.upper().startswith("K6_")},
                          "BASE_URL": f"http://127.0.0.1:{server.server_port}", "REQUEST_EVENTS": "1", "RUN_ID": "failures"},
@@ -127,7 +128,7 @@ class InferenceMetricTests(unittest.TestCase):
 
     @unittest.skipUnless(shutil.which('k6'), 'k6 is required for this integration check')
     def test_actual_k6_preserves_zeros_and_reports_missing_optional_fields(self):
-        executable = shutil.which("k6")
+        executable = runtime()[0]
         self.assertIsNotNone(executable, "k6 must be installed for this integration check")
         responses = [
             {},

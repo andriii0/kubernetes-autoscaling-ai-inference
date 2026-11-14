@@ -55,7 +55,7 @@ def load_environment(args, run_id):
                     "GATEWAY_REQUEST_IDS"}}
     environment.update(BASE_URL=args.base_url, PROFILE=getattr(args, "profile", "steady"), RATE=str(args.rate),
                        LOW_RATE=str(getattr(args, "low_rate", 2)),
-                       DURATION=args.duration, RUN_ID=run_id, REQUEST_EVENTS="1")
+                       DURATION=args.duration, RUN_ID=run_id, REQUEST_EVENTS="1", K6_AUTO_EXTENSION_RESOLUTION="false")
     if getattr(args, 'protocol_version', None):
         environment['MAIN_PROTOCOL'] = args.protocol_version
     if getattr(args, 'custom_metric_policy', None):
@@ -212,6 +212,8 @@ def run_load(command, environment, folder, collection, metadata):
         process = subprocess.Popen(command, env=environment, stdout=console, stderr=subprocess.STDOUT,
                                    creationflags=subprocess.CREATE_NEW_PROCESS_GROUP if os.name == "nt" else 0)
         try:
+            from run_lock import register_process
+            register_process(process)
             deadline = time.monotonic() + metadata["duration_seconds"] + metadata["workload"]["graceful_stop_seconds"] + 60
             while process.poll() is None:
                 collection.wait(.1)
@@ -343,9 +345,10 @@ def create_metadata(args, workload, seconds):
                         replaces_run=args.replaces_run, replacement_reason=args.replacement_reason)
     if args.custom_metric_policy:
         metadata.update(purpose="custom-metric-preparation", custom_metric_policy=args.custom_metric_policy,
-                        extension_version="active-requests-preparation-v1")
+                        extension_version="active-requests-preparation-v2")
     if args.custom_metric_comparison:
-        metadata.update(purpose="custom-metric-comparison", extension_version="active-requests-comparison-v2")
+        metadata.update(purpose="custom-metric-comparison", extension_version="active-requests-comparison-v3")
+    metadata["latency_clock"] = "monotonic-v1"
     return metadata
 
 
@@ -355,7 +358,7 @@ def archive_inputs(args, metadata, prepared):
     inputs = args.run_dir / "inputs"
     inputs.mkdir()
     metadata["source_sha256"] = {}
-    names = ["inference.js", "workload.json", "run_pilot.py", "observe.py", "pilot_records.py", "records.py"]
+    names = ["inference.js", "workload.json", "run_pilot.py", "observe.py", "pilot_records.py", "records.py", "run_lock.py", "build_k6.py"]
     if prepared:
         names.extend(["main_protocol.py", "analyze.py"])
         from main_protocol import source_revision
@@ -515,6 +518,10 @@ def finalize_run(args, metadata, collection, session, pods, prepared, phase, exi
     return exit_code
 
 
+from run_lock import exclusive_main
+
+
+@exclusive_main
 def main(argv=None):
     args, workload, seconds, prepared = parse_arguments(argv)
     try:
@@ -540,9 +547,12 @@ def main(argv=None):
     save_json(metadata_path, metadata)
     try:
         inputs, workload = archive_inputs(args, metadata, prepared)
-        k6 = shutil.which("k6")
-        if k6 is None:
-            raise FileNotFoundError("k6 is not available on PATH")
+        from build_k6 import MODULE, runtime
+        k6, metadata["timing_runtime"] = runtime()
+        timer_sources = inputs / "monotonic"
+        timer_sources.mkdir()
+        for name in metadata["timing_runtime"]["sources"]:
+            shutil.copyfile(MODULE / name, timer_sources / name)
         environment = load_environment(args, metadata["run_id"])
         observer = Observer(args.context, args.namespace, args.selector)
         metadata["versions"] = versions(k6, observer, environment)

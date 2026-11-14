@@ -5,6 +5,8 @@ from datetime import datetime, timezone
 import json
 from pathlib import Path
 import re
+import os
+import sys
 import subprocess
 import tempfile
 import time
@@ -69,13 +71,27 @@ def service_url(base_url):
                     tunnel.wait()
 
 
+def foreign_processes(processes, owned, executable=None):
+    """Ignore owned workers and their Windows venv redirectors, not other runs."""
+    owned = set(owned)
+    by_id = {p["ProcessId"]: p for p in processes}
+    executable = os.path.normcase(os.path.abspath(executable or sys.executable))
+    for process in processes:
+        if process["ProcessId"] in owned:
+            parent = by_id.get(process.get("ParentProcessId"))
+            if parent and parent.get("ExecutablePath") and os.path.normcase(
+                    os.path.abspath(parent["ExecutablePath"])) == executable:
+                owned.add(parent["ProcessId"])
+    return [p for p in processes if p["ProcessId"] not in owned]
+
+
 def host_snapshot():
     script = r'''$ErrorActionPreference = 'Stop'
     [Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false)
     $p = @(Get-CimInstance Win32_Process | Where-Object {
         $_.Name -eq 'k6.exe' -or $_.Name -match 'ForHonor' -or
-        ($_.Name -match '^python(w)?\.exe$' -and $_.CommandLine -match '(run_series|run_pilot|observe)\.py')
-    } | Select-Object ProcessId,Name,CommandLine)
+        ($_.Name -match '^python(w)?\.exe$' -and $_.CommandLine -match '(run_series|run_pilot|run_pilot_search|run_wait_pair|run_custom_comparison|run_custom_series|prepare_custom_metric|run_peak12_comparison|resume_peak12|observe)\.py|lab\.launch')
+    } | Select-Object ProcessId,ParentProcessId,ExecutablePath,Name,CommandLine)
     $cpu = @(Get-CimInstance Win32_Processor | Select-Object Name,CurrentClockSpeed,MaxClockSpeed,LoadPercentage)
     $power = powercfg /getactivescheme
     $schemeGuid = [regex]::Match(($power -join ' '), '[A-Fa-f0-9]{8}-(?:[A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}').Value
@@ -90,6 +106,9 @@ def host_snapshot():
     host.update(recorded_at_utc=datetime.now(timezone.utc).isoformat(),
                 scope='Pre-launch snapshot; not a continuous Windows load/frequency measurement',
                 minikube_container={key:config.get(key) for key in ('NanoCpus','CpuQuota','CpuPeriod','CpusetCpus','Memory')})
+    from run_lock import participant_pids
+    own = participant_pids()
+    host['conflicting_processes'] = foreign_processes(host['conflicting_processes'], own)
     if host['conflicting_processes']:
         raise ValueError('A game or another project generator/observer is running; do not start diagnostic load')
     return host

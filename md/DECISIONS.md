@@ -68,4 +68,12 @@ I expose Run series as v1.1 continuation. The existing driver cannot initialize 
 
 I chose an Envoy active-request gauge, Prometheus and Prometheus Adapter for the optional extension. Both policy arms will use the same gateway and metrics infrastructure. This retains the existing HPA controller and model server while changing the scaling signal. KEDA or Knative would add another controller or serving lifecycle to this comparison. I do not use p95 or TTFT as its control signal; the gateway measures active client-facing requests, not Ollama's internal queue or compute left after a disconnect.
 
-The [extension plan](plans/custom-metric-hpa.md) owns the research, candidate versions, freshness rules, preparation and acceptance criteria. The current code renders configuration and checks signals locally; it does not yet run the extension. Historical policies and evidence retain their original meaning.
+The [extension plan](plans/custom-metric-hpa.md) records the selected versions, freshness rules and acceptance criteria. The metric chain, continuous collection, cleanup, threshold preparation and six-cell comparison driver are implemented. Both preparations are complete; the comparison has four accepted cells and is stopped. Target 1 remains selected. [STATUS.md](STATUS.md#cpurequest-hpa-comparison) records the current blocker. Historical policies and evidence retain their original meaning.
+
+## 14. Separate elapsed time from calendar time
+
+I use a local k6 runtime with a small Go timer (`time.Since`) for new request durations. Stock k6 2.2.0 exposes wall-clock-derived run and HTTP timings, so they do not solve clock steps. I pin k6, xk6 and Go versions, verify the local binary hash and archive the timer sources. UTC timestamps remain necessary for matching client, gateway and cluster records. A monotonic timer does not repair Windows/WSL clock alignment.
+
+New threshold preparation uses `active-requests-preparation-v2`; new comparison uses `active-requests-comparison-v3`. The one-second Prometheus/observer limit and ten-second freshness limit remain. New observations also compare wall and monotonic intervals, with a 50-ms allowance plus the measured uncertainty of each paired read. A failed clock check still stops the run.
+
+I keep the stopped 13 November series as separate evidence. The final comparison starts with new preparation and six new cells. I will not join them to the old four. One shared local lock covers CLI/UI preparation, child launchers, k6 and cleanup. The new-series driver stops on failure and does not retry automatically. See the [reliability plan](plans/clock-and-run-reliability.md).

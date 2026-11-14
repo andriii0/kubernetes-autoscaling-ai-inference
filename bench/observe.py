@@ -223,6 +223,10 @@ def positive_number(value):
     return number
 
 
+from run_lock import exclusive_main
+
+
+@exclusive_main
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("output", type=Path, help="new JSONL file; existing files are never overwritten")

@@ -1,6 +1,6 @@
 # Project status
 
-Updated: 2026-11-13. I completed the 18-run main v1.1 series and the separate nine-run controlled peak-12 comparison. Findings and the reproduction check are documented. All 24 roadmap steps are complete under their recorded criteria; Portflow submission still needs confirmation. The latest maintenance task, [test coverage and status cleanup](plans/test-coverage.md), is complete.
+Updated: 2026-11-14. I completed the 18-run main v1.1 series and the separate nine-run controlled peak-12 comparison. Findings and the reproduction check are documented. All 24 roadmap steps are complete under their recorded criteria; Portflow submission still needs confirmation. The latest maintenance task, [test coverage and status cleanup](plans/test-coverage.md), is complete.
 
 ## Completed main v1.1 comparison
 
@@ -30,7 +30,7 @@ The [test review](plans/test-coverage.md) added UI backend tests to root discove
 
 ## Documentation and reproduction
 
-Research v0.10 and its PDF include the measured SQ4 answer and controlled overload comparison. I aligned the Notion findings, experiment log, pilot results, technology decisions and PDP with this evidence. Current sources and editing ownership are in [docs/README.md](../docs/README.md). The editable FigJam C1/C2/C3 views describe the prototype; older exported diagrams and course documents remain historical.
+Research v0.11 and its PDF include the measured SQ4 answer and controlled overload comparison. I aligned the Notion findings, experiment log, pilot results, technology decisions and PDP with this evidence. Current sources and editing ownership are in [docs/README.md](../docs/README.md). The editable FigJam C1/C2/C3 views describe the prototype; older exported diagrams and course documents remain historical.
 
 The [step-24 check](../results/reproduction/check-2026-11-06/README.md) passed from a clean clone and new Minikube profile on the same Windows host, including a short live check and saved main-analysis replay. This is a fresh-setup check, not reproduction by another person or on another machine.
 
@@ -42,20 +42,12 @@ The [step-24 check](../results/reproduction/check-2026-11-06/README.md) passed f
 - Successful-response p95 excludes failures and timeouts. I report those outcomes separately, alongside dropped and unfinished requests. Pod Ready does not establish that its model is warm, and native logs do not prove normal server drain.
 - Saved evidence does not prove that Docker, Kubernetes or the model is running now. Runtime checks are required before any separately authorized experiment.
 
-The planned measurements are complete. The optional [custom-metric HPA extension](plans/custom-metric-hpa.md) now has an installed Envoy 1.35.0 -> Prometheus 3.5.0 -> Adapter 0.12.0 -> Custom Metrics API chain in ai-lab. The [installed-chain check](../results/custom-metric/cluster-check-20261113-160100/README.md) passed three controlled requests, observed 0 -> 3 -> 2 -> 1 -> 0, verified source freshness and matched all gateway request IDs. Two fresh zeros and the existing backend CPU quiet gate passed afterward. I preserved the first checker failure and fixed its handling of Adapter's core API version `/v1`; all 16 focused tests passed. Read-only live PromQL checks suppressed stale/missing sources. Real configurations and image IDs are archived in the report.
+## CPU/request HPA comparison
 
-I added opt-in launcher/cleanup integration, continuous signal and gateway-log collection, raw-signal replay and the separate two-target preparation driver. All 240 Python tests passed before launch. Historical integrity checks passed. [Both authorized preparations](../results/custom-metric/preparation-20261113-165340/README.md) completed with valid collection and cleanup. Both thresholds qualified for scaling; target 1 missed the latency goal, while target 2 met it. The predeclared smallest-qualifying rule selected target 1, not the better observed latency. I preserve this difference explicitly.
+I retired the [13 November series](../results/custom-metric/comparison-20261113-192512/README.md) with four accepted cells. CPU cell 5 failed five times; cell 6 never started. All attempts remain saved. The last failure recorded a 1.384-second clock difference. The Hyper-V clocksource did not prevent it; the physical cause remains unresolved.
 
-A review-only `protocol_version` mismatch stopped progression after the first valid load. I preserved the stop, corrected only the derived assessment view, passed 31 focused tests and replayed the first run, then continued target 2 without repeating load. The preparation's final live check confirmed no HPA or load generator, one Ready Ollama copy, and three Ready metric-stack components without restarts.
+The active [reliability plan](plans/clock-and-run-reliability.md) adds a monotonic request timer, paired observer clocks, shared experiment ownership and recovery-baseline reuse. New preparation and all six comparison cells will run in a new directory. I will not combine them with the old four. The one-second clock bound remains strict.
 
-The final full suite passed all 241 tests. Its preceding run exposed intermittent timing failures in the existing accelerated HPA fixture; the unchanged test then passed separately and in the full repeat. Both suite outputs and the test limitation are retained in the preparation report. Final historical integrity checks passed.
+Verification passed: 288 Python tests, six browser tests, unchanged replay of the old four cells and 33 live idle observations over three minutes. The [verification record](../results/custom-metric/clock-check-20261114-final/verification.json) records the scope. These checks do not prove that the host clock problem is permanently fixed. No new model load had started at this checkpoint.
 
-## Active CPU/request HPA comparison
-
-The [first comparison](../results/custom-metric/comparison-20261113-180650/README.md) stopped with 0/6 accepted runs. Its first CPU load was interrupted after 404 of 782 seconds when Prometheus time was about 0.78 seconds ahead of Windows. I preserve the partial run, 29 unfinished client requests, original manifest and archived sources.
-
-The [clock correction](../results/custom-metric/clock-fix-20261113/README.md) passed 254 Python tests, six browser tests, both archived preparation replays and installed collection/cleanup checks. I use the same bounded one-second clock allowance as preflight, retain the ten-second source-age limit, and save query time bounds. Five installed zero samples included a simulated -0.8-second observer offset. Cleanup passed; 245 protected files were unchanged.
-
-I launched [comparison v2](../results/custom-metric/comparison-20261113-192512/README.md) at 19:25:13 UTC (20:25 Berlin) on 13 November. I verified the exact command lines of launcher PID 24292 and actual interpreter/driver PID 42856 against this new directory. The startup snapshot recorded attempt 01 CPU in recovery quiet with no errors and 0/6 completed. Both arms keep the same infrastructure, CPU 60% versus request target 1, in CPU/custom, custom/CPU, CPU/custom order. The new driver archives and requires the exact verified collector-version boundary. I leave it unattended after startup and do not create more checks.
-
-Results now has a Custom metrics group with an editable folder description and preserved attempt/series notes. I verified it in the live UI. Historical comparisons retain their data and settings. External OpenCode review remained blocked by access to its log file; verification was local.
+The [Notion experiment log](https://app.notion.com/p/417c7c697bfd8049a916f48c59ff1e75) was updated earlier on 14 November with the stopped retry history. The new timing implementation and fresh startup are not yet added there.

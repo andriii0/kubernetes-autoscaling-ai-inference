@@ -56,7 +56,7 @@ class MonitorTests(unittest.TestCase):
                 monitor.close()
                 record = json.loads((Path(temp) / 'custom-metric.jsonl').read_text())
                 self.assertEqual('error' in record, fails)
-                self.assertEqual(record['clock_contract'], 'bounded-clock-v2')
+                self.assertEqual(record['clock_contract'], 'bounded-clock-v3')
                 self.assertEqual(record['brackets'][0]['before_sent_at'], NOW)
                 self.assertEqual(record['brackets'][0]['before_received_at'], NOW)
 

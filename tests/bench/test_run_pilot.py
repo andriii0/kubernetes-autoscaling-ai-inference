@@ -122,12 +122,12 @@ class PilotLauncherTests(PilotLauncherFixture):
             execute.assert_not_called()
 
     def test_missing_k6_preserves_failure_metadata(self):
-        with patch.object(run_pilot.shutil, "which", return_value=None):
+        with patch("build_k6.runtime", side_effect=ValueError("Build the monotonic k6 runtime first")):
             self.assertEqual(run_pilot.main(self.args), 1)
         metadata = self.metadata()
         self.assertEqual(metadata["status"], "failed")
         self.assertIsNone(metadata["k6_exit_code"])
-        self.assertIn("PATH", metadata["errors"][0])
+        self.assertIn("monotonic k6 runtime", metadata["errors"][0])
         self.assertFalse(metadata["collection_valid"])
 
     def test_invalid_preflight_retains_snapshot_and_never_loads(self):

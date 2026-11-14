@@ -109,14 +109,21 @@ def select(results):
 
 def assess_preparation(data):
     version = data["metadata"].get("extension_version")
-    if version != "active-requests-preparation-v1" or data["metadata"].get("protocol_version"):
+    if version not in ("active-requests-preparation-v1", "active-requests-preparation-v2") or data["metadata"].get("protocol_version"):
         raise ValueError("unexpected preparation protocol")
     # The shared assessor requires a version label. Keep it in the derived view:
     # raw preliminary metadata must never become a main-v1.1 run.
     return assessment({**data, "metadata": {**data["metadata"], "protocol_version": version}})
 
 
-def review(folder, code, driver_versions=(), *, comparison=False):
+def review(folder, code, driver_versions=(), *, comparison=False, source_dir=None):
+    if code not in (0, 99):
+        meta = json.loads((folder / "metadata.json").read_text(encoding="utf-8"))
+        errors = list(meta.get("errors", [])) or [f"launcher exited with code {code}"]
+        missing = [name for name in ("request-events.jsonl", "summary.json") if not (folder / name).is_file()]
+        if missing:
+            errors.append("missing request evidence: " + ", ".join(missing))
+        raise ValueError("invalid preparation or cleanup: " + "; ".join(errors))
     data = load_results(folder)
     meta, check = data["metadata"], data["check"]
     if (code not in (0, 99) or meta["exit_code"] != code or not meta["collection_valid"] or not check["valid"]
@@ -129,8 +136,10 @@ def review(folder, code, driver_versions=(), *, comparison=False):
     if warnings:
         raise ValueError(f"unexpected collection warnings: {sorted(warnings)}")
     for name, digest in meta["source_sha256"].items():
+        if Path(name).name != name:
+            raise ValueError("invalid archived source name")
         archived = hashlib.sha256((folder / "inputs" / name).read_bytes()).hexdigest()
-        current = hashlib.sha256((ROOT / "bench" / name).read_bytes()).hexdigest()
+        current = hashlib.sha256(((source_dir or (ROOT / "bench")) / name).read_bytes()).hexdigest()
         recorded_driver_change = name == "prepare_custom_metric.py" and {digest, current} <= set(driver_versions)
         if archived != digest or current != digest and not recorded_driver_change:
             raise ValueError(f"source changed: {name}")
@@ -138,7 +147,7 @@ def review(folder, code, driver_versions=(), *, comparison=False):
         if hashlib.sha256((folder / "inputs/custom-stack" / name).read_bytes()).hexdigest() != digest:
             raise ValueError(f"archived configuration changed: {name}")
     if comparison:
-        if (meta.get("extension_version") not in ("active-requests-comparison-v1", "active-requests-comparison-v2")
+        if (meta.get("extension_version") not in ("active-requests-comparison-v1", "active-requests-comparison-v2", "active-requests-comparison-v3")
                 or meta.get("purpose") != "custom-metric-comparison" or meta.get("protocol_version")):
             raise ValueError("unexpected comparison protocol")
         assessed = assessment({**data, "metadata": {**meta, "protocol_version": meta["extension_version"]}})
@@ -152,6 +161,10 @@ def review(folder, code, driver_versions=(), *, comparison=False):
             "custom_metric_check": replay(folder, data)}
 
 
+from run_lock import exclusive_main
+
+
+@exclusive_main
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", type=Path, required=True)
@@ -182,7 +195,7 @@ def main(argv=None):
                         continuation_reason="Derived assessor version label fixed; target-1 load is retained without repetition.")
     else:
         folder.mkdir(parents=True, exist_ok=False)
-        manifest = {"status": "starting", "protocol": "active-requests-preparation-v1", "pid": os.getpid(),
+        manifest = {"status": "starting", "protocol": "active-requests-preparation-v2", "pid": os.getpid(),
                     "started_at": now(), "targets": [1, 2], "completed": [], "current": None,
                     "comparison_started": False, "errors": []}
     save(folder / "manifest.json", manifest)
@@ -209,6 +222,7 @@ def main(argv=None):
                         raise ValueError("unrecorded preparation driver version")
                     sources["prepare_custom_metric.py"] = manifest["driver_versions"]
                 frozen = {"sources": sources, "stack": meta["custom_bundle"]["sha256"],
+                          "timing_runtime": meta.get("timing_runtime"),
                           "infrastructure": preflight["identity"], "image": meta["initial_identity"]["image_id"],
                           "models": sorted({m["digest"] for m in meta["runtime_context"]["models"].values()}),
                           "profile": meta["runtime_context"]["minikube_profile"]["Config"]}

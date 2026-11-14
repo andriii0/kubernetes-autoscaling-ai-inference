@@ -121,6 +121,10 @@ def review(folder, cell, exit_code, common, source_versions=None):
     return assessed, phase_results(data), primary_resources(data)
 
 
+from run_lock import exclusive_main
+
+
+@exclusive_main
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--series-dir', type=Path, required=True)

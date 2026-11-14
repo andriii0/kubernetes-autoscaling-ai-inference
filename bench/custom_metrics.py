@@ -3,6 +3,7 @@
 from collections import Counter
 from decimal import Decimal, InvalidOperation
 import math
+import time
 import re
 
 METRIC = "inference_gateway_active_requests"
@@ -88,6 +89,23 @@ def _labels(labels, gateway_uid):
         raise ValueError("metric does not belong to the current gateway")
     if not labels.get("instance"):
         raise ValueError("metric has no scrape instance")
+
+
+def clock_point():
+    """Bound the wall read so a scheduling pause cannot look like a clock step."""
+    before = time.monotonic()
+    wall = time.time()
+    after = time.monotonic()
+    return wall, (before + after) / 2, (after - before) / 2
+
+
+def validate_observer_interval(sent_at, received_at, sent_monotonic, received_monotonic,
+                               sent_uncertainty=0, received_uncertainty=0):
+    values = (sent_at, received_at, sent_monotonic, received_monotonic, sent_uncertainty, received_uncertainty)
+    if not all(math.isfinite(value) for value in values) or min(sent_uncertainty, received_uncertainty) < 0 or received_monotonic < sent_monotonic:
+        raise ValueError("invalid observer clock interval")
+    if abs((received_at - sent_at) - (received_monotonic - sent_monotonic)) > .05 + sent_uncertainty + received_uncertainty:
+        raise ValueError("observer wall clock changed relative to its monotonic clock")
 
 
 def validate_clock(evaluated_at, sent_at, received_at):

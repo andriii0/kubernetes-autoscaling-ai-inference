@@ -8,7 +8,7 @@ import subprocess
 import time
 from urllib.parse import urlencode
 
-from custom_metrics import GATEWAY, METRIC, NAMESPACE, infrastructure_identity, selector, validate_signal
+from custom_metrics import GATEWAY, METRIC, NAMESPACE, infrastructure_identity, selector, validate_signal, validate_observer_interval, clock_point
 from observe import Observer
 
 
@@ -31,9 +31,9 @@ def check(observer, record):
                for c in registered.get("status", {}).get("conditions", [])):
         raise ValueError("custom metrics API is not Available")
     prefix = f"/api/v1/namespaces/{NAMESPACE}/services/http:inference-prometheus:9090/proxy/api/v1/query?"
-    start = time.time()
+    start, start_monotonic, start_uncertainty = clock_point()
     clock = read("prometheus_clock", "get", "--raw", prefix + urlencode({"query": "time()"}))
-    end = time.time()
+    end, end_monotonic, end_uncertainty = clock_point()
     data = clock.get("data", {})
     if clock.get("status") != "success" or data.get("resultType") != "scalar":
         raise ValueError("cannot check the Prometheus clock")
@@ -41,6 +41,9 @@ def check(observer, record):
     if not math.isfinite(server_time):
         raise ValueError("Prometheus clock is not finite")
     record["clock_bounds"] = {"sent_at": start, "received_at": end, "server_time": server_time, "tolerance_seconds": 1}
+    record["clock_bounds"].update(sent_monotonic=start_monotonic, received_monotonic=end_monotonic,
+                                  sent_clock_uncertainty=start_uncertainty, received_clock_uncertainty=end_uncertainty)
+    validate_observer_interval(start, end, start_monotonic, end_monotonic, start_uncertainty, end_uncertainty)
     if not start - 1 <= server_time <= end + 1:
         raise ValueError("Prometheus and observer clocks differ by more than one second")
     evaluated = time.time()
