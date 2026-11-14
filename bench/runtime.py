@@ -17,7 +17,12 @@ BOUNDARY_WARNING = 'request start within 1 ms timestamp boundary tolerance'
 
 def run_command(command, folder=None):
     """Keep child output visible and wait for launcher cleanup after console Ctrl+C."""
-    child = subprocess.Popen(command, cwd=ROOT)
+    startup = None
+    if os.name == "nt":
+        startup = subprocess.STARTUPINFO()
+        startup.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+        startup.wShowWindow = subprocess.SW_HIDE
+    child = subprocess.Popen(command, cwd=ROOT, startupinfo=startup)
     last_phase = None
     try:
         while child.poll() is None:
@@ -98,10 +103,12 @@ def host_snapshot():
     if (-not $schemeGuid) { throw 'Cannot identify the active power scheme' }
     [pscustomobject]@{conflicting_processes=$p; processor_snapshot=$cpu; power_scheme_guid=$schemeGuid} | ConvertTo-Json -Depth 5'''
     result=subprocess.run(['powershell.exe','-NoProfile','-NonInteractive','-Command',script],
-                          check=True,capture_output=True,text=True,encoding='utf-8',timeout=30)
+                          check=True,capture_output=True,text=True,encoding='utf-8',timeout=30,
+                          creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0))
     host=json.loads(result.stdout)
     inspected=subprocess.run(['docker','inspect','ai-lab','--format','{{json .HostConfig}}'],
-                              check=True,capture_output=True,text=True,timeout=15)
+                              check=True,capture_output=True,text=True,timeout=15,
+                              creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0))
     config=json.loads(inspected.stdout)
     host.update(recorded_at_utc=datetime.now(timezone.utc).isoformat(),
                 scope='Pre-launch snapshot; not a continuous Windows load/frequency measurement',

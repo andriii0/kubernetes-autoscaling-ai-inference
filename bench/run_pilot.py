@@ -199,7 +199,8 @@ def versions(k6, observer, environment):
     for name, command in commands.items():
         try:
             completed = subprocess.run(command, env=environment, capture_output=True, text=True,
-                                       encoding="utf-8", errors="replace", timeout=15, check=False)
+                                       encoding="utf-8", errors="replace", timeout=15, check=False,
+                                       creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
             result[name] = {"exit_code": completed.returncode, "stdout": completed.stdout.strip(),
                             "stderr": completed.stderr.strip()}
         except (OSError, subprocess.TimeoutExpired) as error:
@@ -210,7 +211,7 @@ def versions(k6, observer, environment):
 def run_load(command, environment, folder, collection, metadata):
     with (folder / "console.txt").open("xb") as console:
         process = subprocess.Popen(command, env=environment, stdout=console, stderr=subprocess.STDOUT,
-                                   creationflags=subprocess.CREATE_NEW_PROCESS_GROUP if os.name == "nt" else 0)
+                                   creationflags=(subprocess.CREATE_NEW_PROCESS_GROUP | subprocess.CREATE_NO_WINDOW) if os.name == "nt" else 0)
         try:
             from run_lock import register_process
             register_process(process)

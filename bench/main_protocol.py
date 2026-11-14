@@ -55,7 +55,8 @@ def validate_arguments(args, workload, seconds):
 def source_revision(root):
     def git(*args):
         return subprocess.run(['git', '-C', str(root), *args], check=True, capture_output=True,
-                              text=True, timeout=10).stdout.strip()
+                              text=True, timeout=10,
+                              creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0)).stdout.strip()
     return {'commit': git('rev-parse', 'HEAD'), 'dirty': bool(git('status', '--porcelain'))}
 
 
@@ -233,7 +234,8 @@ def runtime_context(observer, pods, folder, model):
     if len({m['digest'] for m in models.values()}) != 1:
         raise ValueError('initial copies have different model digests')
     def command(args):
-        result = subprocess.run(args, check=True, capture_output=True, text=True, timeout=15)
+        result = subprocess.run(args, check=True, capture_output=True, text=True, timeout=15,
+                                creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0))
         return json.loads(result.stdout)
     docker = command(['docker', 'info', '--format', '{"cpu":{{.NCPU}},"memory_bytes":{{.MemTotal}}}'])
     profiles = command(['minikube', 'profile', 'list', '-o', 'json'])

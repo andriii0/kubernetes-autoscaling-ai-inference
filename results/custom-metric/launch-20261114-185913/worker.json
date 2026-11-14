@@ -1,0 +1,17 @@
+{
+  "status": "failed",
+  "worker_pid": 47972,
+  "started_at_utc": "2026-11-14T18:59:38.707770+00:00",
+  "series_dir": "C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\results\\custom-metric\\series-20261114-185913",
+  "errors": [
+    "kubectl exit code 3221225786"
+  ],
+  "ubuntu_lease_pid": 49324,
+  "initial_timesync_active": "active",
+  "initial_timesync_enabled": "enabled",
+  "clock_samples": 10,
+  "restored_timesync_active": "active",
+  "restored_timesync_enabled": "enabled",
+  "task_cleanup_exit_code": 0,
+  "finished_at_utc": "2026-11-14T19:01:25.641713+00:00"
+}

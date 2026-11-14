@@ -1,0 +1,30 @@
+{
+  "checked_at_utc": "2026-11-14T19:15:31.627434+00:00",
+  "worker": {
+    "status": "running",
+    "worker_pid": 49408,
+    "started_at_utc": "2026-11-14T19:10:49.135308+00:00",
+    "series_dir": "C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\results\\custom-metric\\series-20261114-191048",
+    "errors": [],
+    "ubuntu_lease_pid": 49128,
+    "initial_timesync_active": "active",
+    "initial_timesync_enabled": "enabled",
+    "clock_samples": 36,
+    "clock_check_passed": true,
+    "clock_check_finished_at": "2026-11-14T19:14:37.294632+00:00"
+  },
+  "workflow": {
+    "status": "preparing",
+    "pid": 49408,
+    "started_at": "2026-11-14T19:14:37.296199+00:00",
+    "errors": [],
+    "preparation_dir": "C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\results\\custom-metric\\series-20261114-191048\\preparation-new",
+    "comparison_dir": "C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\results\\custom-metric\\series-20261114-191048\\comparison-new"
+  },
+  "preparation_status": "running",
+  "preparation_current": "target-1",
+  "accepted_preparation_count": 0,
+  "target_1_phase": "initial_quiet",
+  "target_1_errors": [],
+  "comparison_started": false
+}

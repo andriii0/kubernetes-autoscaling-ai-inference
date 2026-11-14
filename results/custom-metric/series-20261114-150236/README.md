@@ -7,3 +7,10 @@ The measurement code is local commit `5d50420`; [verification](../clock-check-20
 At 16:31 Berlin on 14 November, target 1 passed collection, scaling qualification and cleanup. All 457 started requests completed: 450 succeeded and 7 timed out. Successful peak p95 was 26.390 seconds, so the response targets failed. There were no dropped or unfinished requests. Target 2 had started preparation; the six comparison cells had not started.
 
 I keep the [old four accepted cells and failures](../comparison-20261113-192512/README.md) separate. Request duration now uses a monotonic timer. The one-second clock bound and ten-second source-age limit remain strict. The physical clock jump remains unresolved; a new stop is still possible. No final comparison is available yet.
+
+
+## Verified stop and subsequent clock attribution
+
+This cycle stopped on 14 November at 15:38:29 UTC (16:38:29 Berlin). Target 1 passed collection and cleanup, but target 2 failed the one-second clock check during load. It recorded 100 starts and 80 completions. None of the six comparison cells started. The earlier progress paragraph is a historical startup snapshot.
+
+The later investigation matched all four saved clock failures to Ubuntu systemd-timesyncd initial synchronizations. At the latest boundary the journal's wall-minus-monotonic offset changed by about +1.548 seconds; the first shifted Envoy request followed within about one millisecond. This identifies a competing time synchronization mechanism; the new monotonic request timer did not prevent calendar-clock changes. I preserve this cycle separately and will not resume or merge it into a final comparison.

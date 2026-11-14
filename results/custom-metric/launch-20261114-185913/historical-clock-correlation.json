@@ -1,0 +1,38 @@
+[
+  {
+    "run": "attempt-05-cpu-retry-02",
+    "failure_server_utc": "2026-11-13T23:04:07.441000+00:00",
+    "timesync_utc": "2026-11-13T23:04:03.261530+00:00",
+    "seconds_since_timesync": 4.179470062255859,
+    "estimated_step_seconds": 1.023864984512329,
+    "pid": "186",
+    "boot": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "run": "attempt-05-cpu-retry-03",
+    "failure_server_utc": "2026-11-13T23:48:12.755000+00:00",
+    "timesync_utc": "2026-11-13T23:48:09.464603+00:00",
+    "seconds_since_timesync": 3.2903971672058105,
+    "estimated_step_seconds": 1.0613839626312256,
+    "pid": "183",
+    "boot": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "run": "attempt-05-cpu-retry-04",
+    "failure_server_utc": "2026-11-14T12:10:32.230000+00:00",
+    "timesync_utc": "2026-11-14T12:10:32.089725+00:00",
+    "seconds_since_timesync": 0.1402750015258789,
+    "estimated_step_seconds": 1.391650915145874,
+    "pid": "180",
+    "boot": "da7b2ab229544f98b5b7c9adcb85e95b"
+  },
+  {
+    "run": "target-2",
+    "failure_server_utc": "2026-11-14T15:36:56.856000+00:00",
+    "timesync_utc": "2026-11-14T15:36:52.702695+00:00",
+    "seconds_since_timesync": 4.1533050537109375,
+    "estimated_step_seconds": 1.5479519367218018,
+    "pid": "181",
+    "boot": "da7b2ab229544f98b5b7c9adcb85e95b"
+  }
+]

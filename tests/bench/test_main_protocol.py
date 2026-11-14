@@ -214,13 +214,16 @@ class PreparationTests(unittest.TestCase):
         observer.collect.assert_not_called()
 
     def test_main_missing_k6_still_saves_not_assessable_attempt(self):
-        with tempfile.TemporaryDirectory() as temporary, patch.object(run_pilot.shutil, 'which', return_value=None), \
+        with tempfile.TemporaryDirectory() as temporary, \
+                patch('build_k6.runtime', side_effect=ValueError('Build the monotonic k6 runtime first')), \
+                patch.object(run_pilot, 'Observer') as observer, \
                 patch.object(protocol, 'source_revision', return_value={'commit': 'local-test-fixture', 'dirty': False}), redirect_stderr(io.StringIO()):
             folder = Path(temporary) / 'attempt'
             code = run_pilot.main(['--base-url', 'http://localhost:1', '--rate', '8', '--run-dir', str(folder),
                 '--protocol-version', '1.1', '--repetition', '1', '--planned-order', '1', '--actual-order', '1'])
             self.assertEqual(code, 1)
             result = json.loads((folder / 'assessment.json').read_text())
+            observer.assert_not_called()
             self.assertFalse(result['data_valid'])
             self.assertEqual(result['overall'], 'not_assessable')
 

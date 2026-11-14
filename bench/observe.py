@@ -132,6 +132,7 @@ class Observer:
             ["kubectl", "--context", self.context, f"--request-timeout={self.timeout}s", *args],
             capture_output=True, text=True, encoding="utf-8", errors="replace",
             timeout=self.timeout + 2, check=False,
+            creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
         )
         if result.returncode:
             raise RuntimeError(result.stderr.strip() or f"kubectl exit code {result.returncode}")

@@ -1,0 +1,1 @@
+Fresh cycle started after a three-minute clock check with 36 passing observations. Earlier cycles and pre-load failures remain separate. The temporary Ubuntu time-sync guard and hidden Windows subprocesses are recorded in the launch evidence. Current progress must be checked in the manifest; six-cell comparison results are not available yet.

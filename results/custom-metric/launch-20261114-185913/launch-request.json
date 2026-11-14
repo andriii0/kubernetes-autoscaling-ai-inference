@@ -1,0 +1,9 @@
+{
+  "task_name": "AI-Inference-Fresh-20261114-185913",
+  "launch_dir": "C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\results\\custom-metric\\launch-20261114-185913",
+  "series_dir": "C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\results\\custom-metric\\series-20261114-185913",
+  "source_head": "7da7c66",
+  "requested_at_utc": "2026-11-14T18:59:13.552663+00:00",
+  "verification": "90 focused Python tests passed; no production source edits",
+  "scope": "New preparation and six new cells. Strict clock checks. No retries. Restore Ubuntu synchronization after exit."
+}

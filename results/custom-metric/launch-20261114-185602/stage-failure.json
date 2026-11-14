@@ -1,0 +1,5 @@
+{
+  "status": "not_launched",
+  "error": "Original task XML declared UTF-16 but was stored as UTF-8; parsing failed before task creation or any load.",
+  "replacement_launch": "../launch-20261114-185624"
+}

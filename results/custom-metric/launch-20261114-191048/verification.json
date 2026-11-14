@@ -1,0 +1,17 @@
+{
+  "base_commit": "7da7c661231eac8141090072e7d792c12d7fa5c5",
+  "local_changes": "Hide Windows subprocess windows; update missing-runtime test isolation. No measurement or acceptance formula changed.",
+  "sha256": {
+    "bench/observe.py": "4f59a6b426c21245da432d7038eb1b741647c0618595f2c4da69c768762c7201",
+    "bench/runtime.py": "4988359aaa2f9843b32d676c97cc35fc004f3fbf6aeb51124a404e86374a66e0",
+    "bench/main_protocol.py": "14bd987ecba8eaaffd1ca409694ff60e6d1e784291d2b33bcba6c25847c8f02b",
+    "bench/run_pilot.py": "aa31d457fa7c4aca23ad4bc93cef28e9096e025c5985788cdee68cd9a6bff870",
+    "tests/bench/test_observe.py": "842dc401c73238d50d1cfab98400ed30b41f68aa30af93726e5a1d8c20d15f3a",
+    "tests/bench/test_main_protocol.py": "f8daa67ee499805a3d10323bc10860c5e5833d3521e3bcbced48d083484f46ed"
+  },
+  "tests": {
+    "passed": 154,
+    "duration_seconds": 38.045
+  },
+  "review": "Local verification only; external GPT Sol authentication failed; DeepSeek, GLM and Gemini timed out."
+}

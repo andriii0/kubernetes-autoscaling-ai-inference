@@ -77,3 +77,8 @@ I use a local k6 runtime with a small Go timer (`time.Since`) for new request du
 New threshold preparation uses `active-requests-preparation-v2`; new comparison uses `active-requests-comparison-v3`. The one-second Prometheus/observer limit and ten-second freshness limit remain. New observations also compare wall and monotonic intervals, with a 50-ms allowance plus the measured uncertainty of each paired read. A failed clock check still stops the run.
 
 I keep the stopped 13 November series as separate evidence. The final comparison starts with new preparation and six new cells. I will not join them to the old four. One shared local lock covers CLI/UI preparation, child launchers, k6 and cleanup. The new-series driver stops on failure and does not retry automatically. See the [reliability plan](plans/clock-and-run-reliability.md).
+
+
+### Temporary clock environment for the new 14 November cycle
+
+I retain both stopped cycles separately. The saved Ubuntu journal links the clock steps to systemd-timesyncd, while Docker/WSL follows host time. For [this new launch](../results/custom-metric/launch-20261114-191048/launch-request.json), I temporarily mask Ubuntu's separate synchronizer while keeping that distribution alive. The worker restores the prior service state after completion or failure. This establishes one host-relative time domain during the experiment; it does not certify absolute UTC accuracy. I keep the existing clock/freshness limits, workload and HPA settings. No persistent host time configuration is changed.

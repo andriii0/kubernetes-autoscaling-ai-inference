@@ -79,6 +79,18 @@ class ResourceTests(unittest.TestCase):
 
 
 class ObserverTests(unittest.TestCase):
+    @unittest.skipUnless(hasattr(subprocess, "CREATE_NO_WINDOW"), "Windows console check")
+    def test_read_does_not_attach_a_console_to_captured_child(self):
+        import sys
+        execute = subprocess.run
+
+        def probe(command, **kwargs):
+            script = "import ctypes; print(ctypes.windll.kernel32.GetConsoleWindow())"
+            return execute([sys.executable, "-c", script], **kwargs)
+
+        with patch.object(observe.subprocess, "run", side_effect=probe):
+            self.assertEqual(observe.Observer().read("get", "pods").strip(), "0")
+
     def reader(self, *args):
         if "--raw" in args:
             return raw_metrics() if args[-1].endswith("/metrics/resource") else '{"items":[]}'

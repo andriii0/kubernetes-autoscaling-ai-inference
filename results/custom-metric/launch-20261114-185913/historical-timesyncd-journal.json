@@ -1,0 +1,884 @@
+[
+  {
+    "MESSAGE": "Starting systemd-timesyncd.service - Network Time Synchronization...",
+    "__REALTIME_TIMESTAMP": "1794580431777404",
+    "__MONOTONIC_TIMESTAMP": "3032248",
+    "_PID": "1",
+    "_BOOT_ID": "02889a4443474bdca8d567e9d21c7d1e"
+  },
+  {
+    "MESSAGE": "Started systemd-timesyncd.service - Network Time Synchronization.",
+    "__REALTIME_TIMESTAMP": "1794580431808606",
+    "__MONOTONIC_TIMESTAMP": "3063450",
+    "_PID": "1",
+    "_BOOT_ID": "02889a4443474bdca8d567e9d21c7d1e"
+  },
+  {
+    "MESSAGE": "Contacted time server 185.125.190.56:123 (ntp.ubuntu.com).",
+    "__REALTIME_TIMESTAMP": "1794580432451378",
+    "__MONOTONIC_TIMESTAMP": "3098931",
+    "_PID": "173",
+    "_BOOT_ID": "02889a4443474bdca8d567e9d21c7d1e"
+  },
+  {
+    "MESSAGE": "Initial clock synchronization to Fri 2026-11-13 15:33:52.451055 CET.",
+    "__REALTIME_TIMESTAMP": "1794580432451545",
+    "__MONOTONIC_TIMESTAMP": "3099097",
+    "_PID": "173",
+    "_BOOT_ID": "02889a4443474bdca8d567e9d21c7d1e"
+  },
+  {
+    "MESSAGE": "Starting systemd-timesyncd.service - Network Time Synchronization...",
+    "__REALTIME_TIMESTAMP": "1794580665201736",
+    "__MONOTONIC_TIMESTAMP": "1880709",
+    "_PID": "1",
+    "_BOOT_ID": "e5b49960b20c4a51b2894bb1f4735e63"
+  },
+  {
+    "MESSAGE": "Started systemd-timesyncd.service - Network Time Synchronization.",
+    "__REALTIME_TIMESTAMP": "1794580665233286",
+    "__MONOTONIC_TIMESTAMP": "1912260",
+    "_PID": "1",
+    "_BOOT_ID": "e5b49960b20c4a51b2894bb1f4735e63"
+  },
+  {
+    "MESSAGE": "Contacted time server 185.125.190.56:123 (ntp.ubuntu.com).",
+    "__REALTIME_TIMESTAMP": "1794580665881282",
+    "__MONOTONIC_TIMESTAMP": "1949718",
+    "_PID": "164",
+    "_BOOT_ID": "e5b49960b20c4a51b2894bb1f4735e63"
+  },
+  {
+    "MESSAGE": "Initial clock synchronization to Fri 2026-11-13 15:37:45.881175 CET.",
+    "__REALTIME_TIMESTAMP": "1794580665881509",
+    "__MONOTONIC_TIMESTAMP": "1949944",
+    "_PID": "164",
+    "_BOOT_ID": "e5b49960b20c4a51b2894bb1f4735e63"
+  },
+  {
+    "MESSAGE": "Starting systemd-timesyncd.service - Network Time Synchronization...",
+    "__REALTIME_TIMESTAMP": "1794581101233107",
+    "__MONOTONIC_TIMESTAMP": "2167989",
+    "_PID": "1",
+    "_BOOT_ID": "55e5494793fb47399ee25cec7d01e5ab"
+  },
+  {
+    "MESSAGE": "Started systemd-timesyncd.service - Network Time Synchronization.",
+    "__REALTIME_TIMESTAMP": "1794581101265878",
+    "__MONOTONIC_TIMESTAMP": "2200761",
+    "_PID": "1",
+    "_BOOT_ID": "55e5494793fb47399ee25cec7d01e5ab"
+  },
+  {
+    "MESSAGE": "Contacted time server 185.125.190.57:123 (ntp.ubuntu.com).",
+    "__REALTIME_TIMESTAMP": "1794581101918524",
+    "__MONOTONIC_TIMESTAMP": "2236730",
+    "_PID": "169",
+    "_BOOT_ID": "55e5494793fb47399ee25cec7d01e5ab"
+  },
+  {
+    "MESSAGE": "Initial clock synchronization to Fri 2026-11-13 15:45:01.918418 CET.",
+    "__REALTIME_TIMESTAMP": "1794581101918732",
+    "__MONOTONIC_TIMESTAMP": "2236938",
+    "_PID": "169",
+    "_BOOT_ID": "55e5494793fb47399ee25cec7d01e5ab"
+  },
+  {
+    "MESSAGE": "Starting systemd-timesyncd.service - Network Time Synchronization...",
+    "__REALTIME_TIMESTAMP": "1794583517185896",
+    "__MONOTONIC_TIMESTAMP": "1952902",
+    "_PID": "1",
+    "_BOOT_ID": "aa190ee3f177422898a65d928eb36554"
+  },
+  {
+    "MESSAGE": "Started systemd-timesyncd.service - Network Time Synchronization.",
+    "__REALTIME_TIMESTAMP": "1794583517216944",
+    "__MONOTONIC_TIMESTAMP": "1983951",
+    "_PID": "1",
+    "_BOOT_ID": "aa190ee3f177422898a65d928eb36554"
+  },
+  {
+    "MESSAGE": "Contacted time server 185.125.190.57:123 (ntp.ubuntu.com).",
+    "__REALTIME_TIMESTAMP": "1794583517902157",
+    "__MONOTONIC_TIMESTAMP": "2019237",
+    "_PID": "178",
+    "_BOOT_ID": "aa190ee3f177422898a65d928eb36554"
+  },
+  {
+    "MESSAGE": "Initial clock synchronization to Fri 2026-11-13 16:25:17.902036 CET.",
+    "__REALTIME_TIMESTAMP": "1794583517902327",
+    "__MONOTONIC_TIMESTAMP": "2019407",
+    "_PID": "178",
+    "_BOOT_ID": "aa190ee3f177422898a65d928eb36554"
+  },
+  {
+    "MESSAGE": "Starting systemd-timesyncd.service - Network Time Synchronization...",
+    "__REALTIME_TIMESTAMP": "1794584030412485",
+    "__MONOTONIC_TIMESTAMP": "216390240",
+    "_PID": "1",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Started systemd-timesyncd.service - Network Time Synchronization.",
+    "__REALTIME_TIMESTAMP": "1794584030443323",
+    "__MONOTONIC_TIMESTAMP": "216421078",
+    "_PID": "1",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Timed out waiting for reply from 91.189.91.157:123 (ntp.ubuntu.com).",
+    "__REALTIME_TIMESTAMP": "1794584040664504",
+    "__MONOTONIC_TIMESTAMP": "226642259",
+    "_PID": "180",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Contacted time server 185.125.190.57:123 (ntp.ubuntu.com).",
+    "__REALTIME_TIMESTAMP": "1794584041344016",
+    "__MONOTONIC_TIMESTAMP": "226664734",
+    "_PID": "180",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Initial clock synchronization to Fri 2026-11-13 16:34:01.343613 CET.",
+    "__REALTIME_TIMESTAMP": "1794584041344064",
+    "__MONOTONIC_TIMESTAMP": "226664782",
+    "_PID": "180",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Starting systemd-timesyncd.service - Network Time Synchronization...",
+    "__REALTIME_TIMESTAMP": "1794584162983414",
+    "__MONOTONIC_TIMESTAMP": "348969796",
+    "_PID": "1",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Started systemd-timesyncd.service - Network Time Synchronization.",
+    "__REALTIME_TIMESTAMP": "1794584163018696",
+    "__MONOTONIC_TIMESTAMP": "349005077",
+    "_PID": "1",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Contacted time server 185.125.190.56:123 (ntp.ubuntu.com).",
+    "__REALTIME_TIMESTAMP": "1794584163702675",
+    "__MONOTONIC_TIMESTAMP": "349030836",
+    "_PID": "180",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Initial clock synchronization to Fri 2026-11-13 16:36:03.702574 CET.",
+    "__REALTIME_TIMESTAMP": "1794584163702887",
+    "__MONOTONIC_TIMESTAMP": "349031048",
+    "_PID": "180",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Starting systemd-timesyncd.service - Network Time Synchronization...",
+    "__REALTIME_TIMESTAMP": "1794584689750462",
+    "__MONOTONIC_TIMESTAMP": "876078513",
+    "_PID": "1",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Started systemd-timesyncd.service - Network Time Synchronization.",
+    "__REALTIME_TIMESTAMP": "1794584689785736",
+    "__MONOTONIC_TIMESTAMP": "876113786",
+    "_PID": "1",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Contacted time server 185.125.190.58:123 (ntp.ubuntu.com).",
+    "__REALTIME_TIMESTAMP": "1794584690499669",
+    "__MONOTONIC_TIMESTAMP": "876161390",
+    "_PID": "180",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Initial clock synchronization to Fri 2026-11-13 16:44:50.499543 CET.",
+    "__REALTIME_TIMESTAMP": "1794584690499837",
+    "__MONOTONIC_TIMESTAMP": "876161558",
+    "_PID": "180",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Starting systemd-timesyncd.service - Network Time Synchronization...",
+    "__REALTIME_TIMESTAMP": "1794584747045262",
+    "__MONOTONIC_TIMESTAMP": "932651873",
+    "_PID": "1",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Started systemd-timesyncd.service - Network Time Synchronization.",
+    "__REALTIME_TIMESTAMP": "1794584747079819",
+    "__MONOTONIC_TIMESTAMP": "932686430",
+    "_PID": "1",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Contacted time server 185.125.190.57:123 (ntp.ubuntu.com).",
+    "__REALTIME_TIMESTAMP": "1794584747805289",
+    "__MONOTONIC_TIMESTAMP": "932731531",
+    "_PID": "183",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Initial clock synchronization to Fri 2026-11-13 16:45:47.805174 CET.",
+    "__REALTIME_TIMESTAMP": "1794584747805477",
+    "__MONOTONIC_TIMESTAMP": "932731719",
+    "_PID": "183",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Starting systemd-timesyncd.service - Network Time Synchronization...",
+    "__REALTIME_TIMESTAMP": "1794584842028426",
+    "__MONOTONIC_TIMESTAMP": "1026885668",
+    "_PID": "1",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Started systemd-timesyncd.service - Network Time Synchronization.",
+    "__REALTIME_TIMESTAMP": "1794584842063274",
+    "__MONOTONIC_TIMESTAMP": "1026920516",
+    "_PID": "1",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Contacted time server 185.125.190.58:123 (ntp.ubuntu.com).",
+    "__REALTIME_TIMESTAMP": "1794584842766612",
+    "__MONOTONIC_TIMESTAMP": "1026954856",
+    "_PID": "180",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Initial clock synchronization to Fri 2026-11-13 16:47:22.766397 CET.",
+    "__REALTIME_TIMESTAMP": "1794584842766828",
+    "__MONOTONIC_TIMESTAMP": "1026955071",
+    "_PID": "180",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Starting systemd-timesyncd.service - Network Time Synchronization...",
+    "__REALTIME_TIMESTAMP": "1794584976815819",
+    "__MONOTONIC_TIMESTAMP": "1161022181",
+    "_PID": "1",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Started systemd-timesyncd.service - Network Time Synchronization.",
+    "__REALTIME_TIMESTAMP": "1794584976849423",
+    "__MONOTONIC_TIMESTAMP": "1161055784",
+    "_PID": "1",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Contacted time server 91.189.91.157:123 (ntp.ubuntu.com).",
+    "__REALTIME_TIMESTAMP": "1794584977607889",
+    "__MONOTONIC_TIMESTAMP": "1161147710",
+    "_PID": "180",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Initial clock synchronization to Fri 2026-11-13 16:49:37.607715 CET.",
+    "__REALTIME_TIMESTAMP": "1794584977608110",
+    "__MONOTONIC_TIMESTAMP": "1161147932",
+    "_PID": "180",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Starting systemd-timesyncd.service - Network Time Synchronization...",
+    "__REALTIME_TIMESTAMP": "1794585352850519",
+    "__MONOTONIC_TIMESTAMP": "1537095089",
+    "_PID": "1",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Started systemd-timesyncd.service - Network Time Synchronization.",
+    "__REALTIME_TIMESTAMP": "1794585352882742",
+    "__MONOTONIC_TIMESTAMP": "1537127312",
+    "_PID": "1",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Contacted time server 185.125.190.58:123 (ntp.ubuntu.com).",
+    "__REALTIME_TIMESTAMP": "1794585353595074",
+    "__MONOTONIC_TIMESTAMP": "1537164576",
+    "_PID": "180",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Initial clock synchronization to Fri 2026-11-13 16:55:53.594943 CET.",
+    "__REALTIME_TIMESTAMP": "1794585353595324",
+    "__MONOTONIC_TIMESTAMP": "1537164825",
+    "_PID": "180",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Starting systemd-timesyncd.service - Network Time Synchronization...",
+    "__REALTIME_TIMESTAMP": "1794585498073710",
+    "__MONOTONIC_TIMESTAMP": "1682326555",
+    "_PID": "1",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Started systemd-timesyncd.service - Network Time Synchronization.",
+    "__REALTIME_TIMESTAMP": "1794585498107525",
+    "__MONOTONIC_TIMESTAMP": "1682360370",
+    "_PID": "1",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Contacted time server 185.125.190.56:123 (ntp.ubuntu.com).",
+    "__REALTIME_TIMESTAMP": "1794585498827100",
+    "__MONOTONIC_TIMESTAMP": "1682402632",
+    "_PID": "180",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Initial clock synchronization to Fri 2026-11-13 16:58:18.826979 CET.",
+    "__REALTIME_TIMESTAMP": "1794585498827292",
+    "__MONOTONIC_TIMESTAMP": "1682402825",
+    "_PID": "180",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Starting systemd-timesyncd.service - Network Time Synchronization...",
+    "__REALTIME_TIMESTAMP": "1794593890905515",
+    "__MONOTONIC_TIMESTAMP": "10075138938",
+    "_PID": "1",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Started systemd-timesyncd.service - Network Time Synchronization.",
+    "__REALTIME_TIMESTAMP": "1794593890961003",
+    "__MONOTONIC_TIMESTAMP": "10075194428",
+    "_PID": "1",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Contacted time server 185.125.190.57:123 (ntp.ubuntu.com).",
+    "__REALTIME_TIMESTAMP": "1794593891790892",
+    "__MONOTONIC_TIMESTAMP": "10075236836",
+    "_PID": "157",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Initial clock synchronization to Fri 2026-11-13 19:18:11.790554 CET.",
+    "__REALTIME_TIMESTAMP": "1794593891791316",
+    "__MONOTONIC_TIMESTAMP": "10075237260",
+    "_PID": "157",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Starting systemd-timesyncd.service - Network Time Synchronization...",
+    "__REALTIME_TIMESTAMP": "1794593948576676",
+    "__MONOTONIC_TIMESTAMP": "10132812412",
+    "_PID": "1",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Started systemd-timesyncd.service - Network Time Synchronization.",
+    "__REALTIME_TIMESTAMP": "1794593948612790",
+    "__MONOTONIC_TIMESTAMP": "10132848526",
+    "_PID": "1",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Contacted time server 185.125.190.58:123 (ntp.ubuntu.com).",
+    "__REALTIME_TIMESTAMP": "1794593949428549",
+    "__MONOTONIC_TIMESTAMP": "10132877924",
+    "_PID": "180",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Initial clock synchronization to Fri 2026-11-13 19:19:09.428423 CET.",
+    "__REALTIME_TIMESTAMP": "1794593949428721",
+    "__MONOTONIC_TIMESTAMP": "10132878097",
+    "_PID": "180",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Starting systemd-timesyncd.service - Network Time Synchronization...",
+    "__REALTIME_TIMESTAMP": "1794595534123559",
+    "__MONOTONIC_TIMESTAMP": "11718436742",
+    "_PID": "1",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Started systemd-timesyncd.service - Network Time Synchronization.",
+    "__REALTIME_TIMESTAMP": "1794595534160280",
+    "__MONOTONIC_TIMESTAMP": "11718473463",
+    "_PID": "1",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Contacted time server 185.125.190.58:123 (ntp.ubuntu.com).",
+    "__REALTIME_TIMESTAMP": "1794595535003799",
+    "__MONOTONIC_TIMESTAMP": "11718506644",
+    "_PID": "180",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Initial clock synchronization to Fri 2026-11-13 19:45:35.003691 CET.",
+    "__REALTIME_TIMESTAMP": "1794595535003983",
+    "__MONOTONIC_TIMESTAMP": "11718506828",
+    "_PID": "180",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Starting systemd-timesyncd.service - Network Time Synchronization...",
+    "__REALTIME_TIMESTAMP": "1794610718347231",
+    "__MONOTONIC_TIMESTAMP": "26903433665",
+    "_PID": "1",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Started systemd-timesyncd.service - Network Time Synchronization.",
+    "__REALTIME_TIMESTAMP": "1794610718403993",
+    "__MONOTONIC_TIMESTAMP": "26903490428",
+    "_PID": "1",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Contacted time server 185.125.190.57:123 (ntp.ubuntu.com).",
+    "__REALTIME_TIMESTAMP": "1794610719463064",
+    "__MONOTONIC_TIMESTAMP": "26903530544",
+    "_PID": "183",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Initial clock synchronization to Fri 2026-11-13 23:58:39.462887 CET.",
+    "__REALTIME_TIMESTAMP": "1794610719463323",
+    "__MONOTONIC_TIMESTAMP": "26903530803",
+    "_PID": "183",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Starting systemd-timesyncd.service - Network Time Synchronization...",
+    "__REALTIME_TIMESTAMP": "1794611042146942",
+    "__MONOTONIC_TIMESTAMP": "27225463352",
+    "_PID": "1",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Started systemd-timesyncd.service - Network Time Synchronization.",
+    "__REALTIME_TIMESTAMP": "1794611042192270",
+    "__MONOTONIC_TIMESTAMP": "27225508680",
+    "_PID": "1",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Contacted time server 185.125.190.56:123 (ntp.ubuntu.com).",
+    "__REALTIME_TIMESTAMP": "1794611043261177",
+    "__MONOTONIC_TIMESTAMP": "27225553723",
+    "_PID": "186",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Initial clock synchronization to Sat 2026-11-14 00:04:03.260886 CET.",
+    "__REALTIME_TIMESTAMP": "1794611043261530",
+    "__MONOTONIC_TIMESTAMP": "27225554075",
+    "_PID": "186",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Starting systemd-timesyncd.service - Network Time Synchronization...",
+    "__REALTIME_TIMESTAMP": "1794611090371686",
+    "__MONOTONIC_TIMESTAMP": "27271560378",
+    "_PID": "1",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Started systemd-timesyncd.service - Network Time Synchronization.",
+    "__REALTIME_TIMESTAMP": "1794611090411725",
+    "__MONOTONIC_TIMESTAMP": "27271600417",
+    "_PID": "1",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Contacted time server 185.125.190.57:123 (ntp.ubuntu.com).",
+    "__REALTIME_TIMESTAMP": "1794611091714442",
+    "__MONOTONIC_TIMESTAMP": "27271626283",
+    "_PID": "183",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Initial clock synchronization to Sat 2026-11-14 00:04:51.714200 CET.",
+    "__REALTIME_TIMESTAMP": "1794611091714716",
+    "__MONOTONIC_TIMESTAMP": "27271626557",
+    "_PID": "183",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Starting systemd-timesyncd.service - Network Time Synchronization...",
+    "__REALTIME_TIMESTAMP": "1794611691636123",
+    "__MONOTONIC_TIMESTAMP": "27871877946",
+    "_PID": "1",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Started systemd-timesyncd.service - Network Time Synchronization.",
+    "__REALTIME_TIMESTAMP": "1794611691679511",
+    "__MONOTONIC_TIMESTAMP": "27871921334",
+    "_PID": "1",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Contacted time server 185.125.190.58:123 (ntp.ubuntu.com).",
+    "__REALTIME_TIMESTAMP": "1794611692747260",
+    "__MONOTONIC_TIMESTAMP": "27871956257",
+    "_PID": "183",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Initial clock synchronization to Sat 2026-11-14 00:14:52.747020 CET.",
+    "__REALTIME_TIMESTAMP": "1794611692747606",
+    "__MONOTONIC_TIMESTAMP": "27871956603",
+    "_PID": "183",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Starting systemd-timesyncd.service - Network Time Synchronization...",
+    "__REALTIME_TIMESTAMP": "1794612640474876",
+    "__MONOTONIC_TIMESTAMP": "28820763192",
+    "_PID": "1",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Started systemd-timesyncd.service - Network Time Synchronization.",
+    "__REALTIME_TIMESTAMP": "1794612640513603",
+    "__MONOTONIC_TIMESTAMP": "28820801919",
+    "_PID": "1",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Contacted time server 91.189.91.157:123 (ntp.ubuntu.com).",
+    "__REALTIME_TIMESTAMP": "1794612641665619",
+    "__MONOTONIC_TIMESTAMP": "28820913614",
+    "_PID": "183",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Initial clock synchronization to Sat 2026-11-14 00:30:41.665445 CET.",
+    "__REALTIME_TIMESTAMP": "1794612641665758",
+    "__MONOTONIC_TIMESTAMP": "28820913752",
+    "_PID": "183",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Starting systemd-timesyncd.service - Network Time Synchronization...",
+    "__REALTIME_TIMESTAMP": "1794613678199982",
+    "__MONOTONIC_TIMESTAMP": "29856211613",
+    "_PID": "1",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Started systemd-timesyncd.service - Network Time Synchronization.",
+    "__REALTIME_TIMESTAMP": "1794613678254729",
+    "__MONOTONIC_TIMESTAMP": "29856266360",
+    "_PID": "1",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Timed out waiting for reply from 91.189.91.157:123 (ntp.ubuntu.com).",
+    "__REALTIME_TIMESTAMP": "1794613688380628",
+    "__MONOTONIC_TIMESTAMP": "29866392258",
+    "_PID": "183",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Contacted time server 185.125.190.56:123 (ntp.ubuntu.com).",
+    "__REALTIME_TIMESTAMP": "1794613689464566",
+    "__MONOTONIC_TIMESTAMP": "29866414813",
+    "_PID": "183",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Initial clock synchronization to Sat 2026-11-14 00:48:09.464085 CET.",
+    "__REALTIME_TIMESTAMP": "1794613689464603",
+    "__MONOTONIC_TIMESTAMP": "29866414850",
+    "_PID": "183",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Starting systemd-timesyncd.service - Network Time Synchronization...",
+    "__REALTIME_TIMESTAMP": "1794613778947364",
+    "__MONOTONIC_TIMESTAMP": "29956962647",
+    "_PID": "1",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Started systemd-timesyncd.service - Network Time Synchronization.",
+    "__REALTIME_TIMESTAMP": "1794613778984503",
+    "__MONOTONIC_TIMESTAMP": "29956999786",
+    "_PID": "1",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Contacted time server 185.125.190.58:123 (ntp.ubuntu.com).",
+    "__REALTIME_TIMESTAMP": "1794613780072927",
+    "__MONOTONIC_TIMESTAMP": "29957026727",
+    "_PID": "180",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Initial clock synchronization to Sat 2026-11-14 00:49:40.072811 CET.",
+    "__REALTIME_TIMESTAMP": "1794613780073123",
+    "__MONOTONIC_TIMESTAMP": "29957026922",
+    "_PID": "180",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Starting systemd-timesyncd.service - Network Time Synchronization...",
+    "__REALTIME_TIMESTAMP": "1794614240240786",
+    "__MONOTONIC_TIMESTAMP": "30418275677",
+    "_PID": "1",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Started systemd-timesyncd.service - Network Time Synchronization.",
+    "__REALTIME_TIMESTAMP": "1794614240276447",
+    "__MONOTONIC_TIMESTAMP": "30418311337",
+    "_PID": "1",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Contacted time server 185.125.190.56:123 (ntp.ubuntu.com).",
+    "__REALTIME_TIMESTAMP": "1794614241380039",
+    "__MONOTONIC_TIMESTAMP": "30418347387",
+    "_PID": "186",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Initial clock synchronization to Sat 2026-11-14 00:57:21.379904 CET.",
+    "__REALTIME_TIMESTAMP": "1794614241380279",
+    "__MONOTONIC_TIMESTAMP": "30418347626",
+    "_PID": "186",
+    "_BOOT_ID": "7dffb0c122954ca4a25f24eed1d63ee6"
+  },
+  {
+    "MESSAGE": "Starting systemd-timesyncd.service - Network Time Synchronization...",
+    "__REALTIME_TIMESTAMP": "1794656500717368",
+    "__MONOTONIC_TIMESTAMP": "1103851393",
+    "_PID": "1",
+    "_BOOT_ID": "da7b2ab229544f98b5b7c9adcb85e95b"
+  },
+  {
+    "MESSAGE": "Started systemd-timesyncd.service - Network Time Synchronization.",
+    "__REALTIME_TIMESTAMP": "1794656500753839",
+    "__MONOTONIC_TIMESTAMP": "1103887864",
+    "_PID": "1",
+    "_BOOT_ID": "da7b2ab229544f98b5b7c9adcb85e95b"
+  },
+  {
+    "MESSAGE": "Contacted time server 185.125.190.58:123 (ntp.ubuntu.com).",
+    "__REALTIME_TIMESTAMP": "1794656502157652",
+    "__MONOTONIC_TIMESTAMP": "1103923609",
+    "_PID": "180",
+    "_BOOT_ID": "da7b2ab229544f98b5b7c9adcb85e95b"
+  },
+  {
+    "MESSAGE": "Initial clock synchronization to Sat 2026-11-14 12:41:42.157522 CET.",
+    "__REALTIME_TIMESTAMP": "1794656502157828",
+    "__MONOTONIC_TIMESTAMP": "1103923785",
+    "_PID": "180",
+    "_BOOT_ID": "da7b2ab229544f98b5b7c9adcb85e95b"
+  },
+  {
+    "MESSAGE": "Starting systemd-timesyncd.service - Network Time Synchronization...",
+    "__REALTIME_TIMESTAMP": "1794658230621997",
+    "__MONOTONIC_TIMESTAMP": "2833988706",
+    "_PID": "1",
+    "_BOOT_ID": "da7b2ab229544f98b5b7c9adcb85e95b"
+  },
+  {
+    "MESSAGE": "Started systemd-timesyncd.service - Network Time Synchronization.",
+    "__REALTIME_TIMESTAMP": "1794658230660371",
+    "__MONOTONIC_TIMESTAMP": "2834027080",
+    "_PID": "1",
+    "_BOOT_ID": "da7b2ab229544f98b5b7c9adcb85e95b"
+  },
+  {
+    "MESSAGE": "Contacted time server 185.125.190.58:123 (ntp.ubuntu.com).",
+    "__REALTIME_TIMESTAMP": "1794658232089431",
+    "__MONOTONIC_TIMESTAMP": "2834064489",
+    "_PID": "180",
+    "_BOOT_ID": "da7b2ab229544f98b5b7c9adcb85e95b"
+  },
+  {
+    "MESSAGE": "Initial clock synchronization to Sat 2026-11-14 13:10:32.089154 CET.",
+    "__REALTIME_TIMESTAMP": "1794658232089725",
+    "__MONOTONIC_TIMESTAMP": "2834064783",
+    "_PID": "180",
+    "_BOOT_ID": "da7b2ab229544f98b5b7c9adcb85e95b"
+  },
+  {
+    "MESSAGE": "Starting systemd-timesyncd.service - Network Time Synchronization...",
+    "__REALTIME_TIMESTAMP": "1794658496038828",
+    "__MONOTONIC_TIMESTAMP": "3099419489",
+    "_PID": "1",
+    "_BOOT_ID": "da7b2ab229544f98b5b7c9adcb85e95b"
+  },
+  {
+    "MESSAGE": "Started systemd-timesyncd.service - Network Time Synchronization.",
+    "__REALTIME_TIMESTAMP": "1794658496071244",
+    "__MONOTONIC_TIMESTAMP": "3099451904",
+    "_PID": "1",
+    "_BOOT_ID": "da7b2ab229544f98b5b7c9adcb85e95b"
+  },
+  {
+    "MESSAGE": "Contacted time server 185.125.190.56:123 (ntp.ubuntu.com).",
+    "__REALTIME_TIMESTAMP": "1794658497502828",
+    "__MONOTONIC_TIMESTAMP": "3099487456",
+    "_PID": "180",
+    "_BOOT_ID": "da7b2ab229544f98b5b7c9adcb85e95b"
+  },
+  {
+    "MESSAGE": "Initial clock synchronization to Sat 2026-11-14 13:14:57.502713 CET.",
+    "__REALTIME_TIMESTAMP": "1794658497503035",
+    "__MONOTONIC_TIMESTAMP": "3099487662",
+    "_PID": "180",
+    "_BOOT_ID": "da7b2ab229544f98b5b7c9adcb85e95b"
+  },
+  {
+    "MESSAGE": "Starting systemd-timesyncd.service - Network Time Synchronization...",
+    "__REALTIME_TIMESTAMP": "1794658848522766",
+    "__MONOTONIC_TIMESTAMP": "3451920251",
+    "_PID": "1",
+    "_BOOT_ID": "da7b2ab229544f98b5b7c9adcb85e95b"
+  },
+  {
+    "MESSAGE": "Started systemd-timesyncd.service - Network Time Synchronization.",
+    "__REALTIME_TIMESTAMP": "1794658848554673",
+    "__MONOTONIC_TIMESTAMP": "3451952158",
+    "_PID": "1",
+    "_BOOT_ID": "da7b2ab229544f98b5b7c9adcb85e95b"
+  },
+  {
+    "MESSAGE": "Contacted time server 185.125.190.57:123 (ntp.ubuntu.com).",
+    "__REALTIME_TIMESTAMP": "1794658849990795",
+    "__MONOTONIC_TIMESTAMP": "3451989512",
+    "_PID": "180",
+    "_BOOT_ID": "da7b2ab229544f98b5b7c9adcb85e95b"
+  },
+  {
+    "MESSAGE": "Initial clock synchronization to Sat 2026-11-14 13:20:49.990650 CET.",
+    "__REALTIME_TIMESTAMP": "1794658849990971",
+    "__MONOTONIC_TIMESTAMP": "3451989688",
+    "_PID": "180",
+    "_BOOT_ID": "da7b2ab229544f98b5b7c9adcb85e95b"
+  },
+  {
+    "MESSAGE": "Starting systemd-timesyncd.service - Network Time Synchronization...",
+    "__REALTIME_TIMESTAMP": "1794659609427179",
+    "__MONOTONIC_TIMESTAMP": "4212865881",
+    "_PID": "1",
+    "_BOOT_ID": "da7b2ab229544f98b5b7c9adcb85e95b"
+  },
+  {
+    "MESSAGE": "Started systemd-timesyncd.service - Network Time Synchronization.",
+    "__REALTIME_TIMESTAMP": "1794659609459369",
+    "__MONOTONIC_TIMESTAMP": "4212898072",
+    "_PID": "1",
+    "_BOOT_ID": "da7b2ab229544f98b5b7c9adcb85e95b"
+  },
+  {
+    "MESSAGE": "Contacted time server 91.189.91.157:123 (ntp.ubuntu.com).",
+    "__REALTIME_TIMESTAMP": "1794659610985393",
+    "__MONOTONIC_TIMESTAMP": "4213018773",
+    "_PID": "180",
+    "_BOOT_ID": "da7b2ab229544f98b5b7c9adcb85e95b"
+  },
+  {
+    "MESSAGE": "Initial clock synchronization to Sat 2026-11-14 13:33:30.985277 CET.",
+    "__REALTIME_TIMESTAMP": "1794659610985513",
+    "__MONOTONIC_TIMESTAMP": "4213018894",
+    "_PID": "180",
+    "_BOOT_ID": "da7b2ab229544f98b5b7c9adcb85e95b"
+  },
+  {
+    "MESSAGE": "Starting systemd-timesyncd.service - Network Time Synchronization...",
+    "__REALTIME_TIMESTAMP": "1794661028850044",
+    "__MONOTONIC_TIMESTAMP": "5630966217",
+    "_PID": "1",
+    "_BOOT_ID": "da7b2ab229544f98b5b7c9adcb85e95b"
+  },
+  {
+    "MESSAGE": "Started systemd-timesyncd.service - Network Time Synchronization.",
+    "__REALTIME_TIMESTAMP": "1794661028886609",
+    "__MONOTONIC_TIMESTAMP": "5631002781",
+    "_PID": "1",
+    "_BOOT_ID": "da7b2ab229544f98b5b7c9adcb85e95b"
+  },
+  {
+    "MESSAGE": "Contacted time server 185.125.190.57:123 (ntp.ubuntu.com).",
+    "__REALTIME_TIMESTAMP": "1794661030358012",
+    "__MONOTONIC_TIMESTAMP": "5631045670",
+    "_PID": "180",
+    "_BOOT_ID": "da7b2ab229544f98b5b7c9adcb85e95b"
+  },
+  {
+    "MESSAGE": "Initial clock synchronization to Sat 2026-11-14 13:57:10.357830 CET.",
+    "__REALTIME_TIMESTAMP": "1794661030358216",
+    "__MONOTONIC_TIMESTAMP": "5631045874",
+    "_PID": "180",
+    "_BOOT_ID": "da7b2ab229544f98b5b7c9adcb85e95b"
+  },
+  {
+    "MESSAGE": "Starting systemd-timesyncd.service - Network Time Synchronization...",
+    "__REALTIME_TIMESTAMP": "1794667363865561",
+    "__MONOTONIC_TIMESTAMP": "11966283943",
+    "_PID": "1",
+    "_BOOT_ID": "da7b2ab229544f98b5b7c9adcb85e95b"
+  },
+  {
+    "MESSAGE": "Started systemd-timesyncd.service - Network Time Synchronization.",
+    "__REALTIME_TIMESTAMP": "1794667363900096",
+    "__MONOTONIC_TIMESTAMP": "11966318479",
+    "_PID": "1",
+    "_BOOT_ID": "da7b2ab229544f98b5b7c9adcb85e95b"
+  },
+  {
+    "MESSAGE": "Contacted time server 185.125.190.56:123 (ntp.ubuntu.com).",
+    "__REALTIME_TIMESTAMP": "1794667365444666",
+    "__MONOTONIC_TIMESTAMP": "11966354020",
+    "_PID": "183",
+    "_BOOT_ID": "da7b2ab229544f98b5b7c9adcb85e95b"
+  },
+  {
+    "MESSAGE": "Initial clock synchronization to Sat 2026-11-14 15:42:45.444470 CET.",
+    "__REALTIME_TIMESTAMP": "1794667365444903",
+    "__MONOTONIC_TIMESTAMP": "11966354257",
+    "_PID": "183",
+    "_BOOT_ID": "da7b2ab229544f98b5b7c9adcb85e95b"
+  },
+  {
+    "MESSAGE": "Starting systemd-timesyncd.service - Network Time Synchronization...",
+    "__REALTIME_TIMESTAMP": "1794670611061096",
+    "__MONOTONIC_TIMESTAMP": "15213661213",
+    "_PID": "1",
+    "_BOOT_ID": "da7b2ab229544f98b5b7c9adcb85e95b"
+  },
+  {
+    "MESSAGE": "Started systemd-timesyncd.service - Network Time Synchronization.",
+    "__REALTIME_TIMESTAMP": "1794670611115883",
+    "__MONOTONIC_TIMESTAMP": "15213716001",
+    "_PID": "1",
+    "_BOOT_ID": "da7b2ab229544f98b5b7c9adcb85e95b"
+  },
+  {
+    "MESSAGE": "Contacted time server 185.125.190.57:123 (ntp.ubuntu.com).",
+    "__REALTIME_TIMESTAMP": "1794670612702145",
+    "__MONOTONIC_TIMESTAMP": "15213754312",
+    "_PID": "181",
+    "_BOOT_ID": "da7b2ab229544f98b5b7c9adcb85e95b"
+  },
+  {
+    "MESSAGE": "Initial clock synchronization to Sat 2026-11-14 16:36:52.701873 CET.",
+    "__REALTIME_TIMESTAMP": "1794670612702695",
+    "__MONOTONIC_TIMESTAMP": "15213754861",
+    "_PID": "181",
+    "_BOOT_ID": "da7b2ab229544f98b5b7c9adcb85e95b"
+  }
+]

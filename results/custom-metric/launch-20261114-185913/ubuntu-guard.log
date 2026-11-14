@@ -1,0 +1,12 @@
+{"at": "2026-11-14T18:59:42.999746+00:00", "command": ["systemctl", "is-active", "systemd-timesyncd.service"], "code": 0, "stdout": "active\n", "stderr": ""}
+{"at": "2026-11-14T18:59:43.114685+00:00", "command": ["systemctl", "is-enabled", "systemd-timesyncd.service"], "code": 0, "stdout": "enabled\n", "stderr": ""}
+{"at": "2026-11-14T18:59:43.322919+00:00", "command": ["systemctl", "mask", "--runtime", "--now", "systemd-timesyncd.service"], "code": 0, "stdout": "", "stderr": "Created symlink /run/systemd/system/systemd-timesyncd.service \u2192 /dev/null.\nWarning: The unit file, source configuration file or drop-ins of systemd-timesyncd.service changed on disk. Run 'systemctl daemon-reload' to reload units.\n"}
+{"at": "2026-11-14T18:59:43.561783+00:00", "command": ["systemctl", "daemon-reload"], "code": 0, "stdout": "", "stderr": ""}
+{"at": "2026-11-14T18:59:43.673466+00:00", "command": ["systemctl", "is-enabled", "systemd-timesyncd.service"], "code": 1, "stdout": "masked-runtime\n", "stderr": ""}
+{"at": "2026-11-14T18:59:43.780515+00:00", "command": ["systemctl", "is-active", "systemd-timesyncd.service"], "code": 3, "stdout": "inactive\n", "stderr": ""}
+{"at": "2026-11-14T19:01:24.816773+00:00", "command": ["systemctl", "unmask", "--runtime", "systemd-timesyncd.service"], "code": 0, "stdout": "", "stderr": "Removed \"/run/systemd/system/systemd-timesyncd.service\".\n"}
+{"at": "2026-11-14T19:01:25.038682+00:00", "command": ["systemctl", "daemon-reload"], "code": 0, "stdout": "", "stderr": ""}
+{"at": "2026-11-14T19:01:25.197256+00:00", "command": ["systemctl", "start", "systemd-timesyncd.service"], "code": 0, "stdout": "", "stderr": ""}
+{"at": "2026-11-14T19:01:25.338220+00:00", "command": ["systemctl", "is-active", "systemd-timesyncd.service"], "code": 0, "stdout": "active\n", "stderr": ""}
+{"at": "2026-11-14T19:01:25.467619+00:00", "command": ["systemctl", "is-enabled", "systemd-timesyncd.service"], "code": 0, "stdout": "enabled\n", "stderr": ""}
+{"at": "2026-11-14T19:01:25.599432+00:00", "command": ["kill", "365"], "code": 0, "stdout": "", "stderr": ""}
