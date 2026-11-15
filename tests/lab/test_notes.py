@@ -60,6 +60,19 @@ class NotesTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 notes.save('pilot/example', 'a' * 20001, '')
 
+    def test_child_note_includes_nearest_parent_series_context(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            series = root / 'custom-metric/series-stopped'
+            run = series / 'preparation-new/target-1'
+            run.mkdir(parents=True)
+            (run / 'metadata.json').write_text('{}', encoding='utf-8')
+            (series / 'notes.md').write_text('Stopped during target-two preparation.', encoding='utf-8')
+            note = Notes(Results(root)).get('custom-metric/series-stopped/preparation-new/target-1')
+            self.assertEqual(note['text'], '')
+            self.assertEqual(note['parent']['id'], 'custom-metric/series-stopped')
+            self.assertEqual(note['parent']['text'], 'Stopped during target-two preparation.')
+
 
 if __name__ == '__main__':
     unittest.main()

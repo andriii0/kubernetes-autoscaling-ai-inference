@@ -28,7 +28,24 @@ class Notes:
 
     def get(self, result_id):
         with self.lock:
-            return self.read(self.path(result_id))
+            path = self.path(result_id)
+            note = self.read(path)
+            # A preparation run can live below a stopped series directory that
+            # is intentionally not a catalog item (it has no manifest). Keep
+            # that parent context visible without copying or editing its note.
+            parent = path.parent.parent
+            while parent != self.results.root and parent.is_relative_to(self.results.root):
+                candidate = parent / 'notes.md'
+                if candidate.is_file() and not candidate.is_symlink() and candidate.resolve().is_relative_to(self.results.root):
+                    context = self.read(candidate)
+                    if context['text'].strip():
+                        note['parent'] = {
+                            'id': parent.relative_to(self.results.root).as_posix(),
+                            **context,
+                        }
+                        break
+                parent = parent.parent
+            return note
 
     def save(self, result_id, text, revision):
         if not isinstance(text, str) or len(text) > 20000:

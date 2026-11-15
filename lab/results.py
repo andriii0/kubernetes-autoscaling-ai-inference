@@ -7,6 +7,8 @@ import re
 
 
 GROUPS = ('Pilots', 'Series', 'Checks & diagnostics', 'Custom metrics')
+COMPARISON_PROTOCOLS = ('active-requests-comparison-v1', 'active-requests-comparison-v2', 'active-requests-comparison-v3')
+PREPARATION_PROTOCOLS = ('active-requests-preparation-v1', 'active-requests-preparation-v2')
 
 
 def read_json(path, issues=None):
@@ -62,13 +64,74 @@ def short_name(name):
     return name.replace('series-', '').replace('recalibration-', 'Pilot · ').replace('comparison-', 'Comparison · ')
 
 
+def collection_valid(metadata, check, assessment):
+    # Launch metadata starts false before collection has been checked.
+    finalized = (metadata.get('finished_at_utc') or metadata.get('load_finished_at_utc')
+                 or metadata.get('exit_code', metadata.get('load_exit_code')) is not None
+                 or metadata.get('status') in ('finished', 'failed', 'interrupted', 'thresholds_failed'))
+    if (check.get('valid') is False or assessment.get('data_valid') is False
+            or metadata.get('collector_exit_code') not in (None, 0)
+            or (finalized and metadata.get('collection_valid') is False)):
+        return False
+    return check.get('valid') if isinstance(check.get('valid'), bool) else None
+
+
+def policy_summary(manifest, issues):
+    """Summarize accepted rows in this manifest, keeping missing values unknown."""
+    rows = []
+    seen = set()
+    for row in list_field(manifest, 'completed', issues):
+        if not isinstance(row, dict) or not isinstance(row.get('run'), str):
+            issues.append('Invalid accepted comparison row')
+            continue
+        if row['run'] in seen:
+            issues.append(f"Duplicate accepted run: {row['run']}")
+            continue
+        seen.add(row['run'])
+        if row.get('policy') not in ('cpu', 'active-1'):
+            issues.append(f"Missing or unknown policy: {row['run']}")
+            continue
+        rows.append(row)
+
+    summaries = []
+    for policy in ('cpu', 'active-1'):
+        accepted = [row for row in rows if row['policy'] == policy]
+        values = []
+        for row in accepted:
+            assessment = object_field(row, 'assessment', issues)
+            primary = object_field(assessment, 'primary', issues)
+            outcomes = object_field(row, 'outcomes', issues)
+            values.append(dict(
+                started=outcomes.get('peak_started'), on_time=outcomes.get('peak_on_time_successes'),
+                errors=primary.get('failed') if primary.get('name') == 'peak' else None,
+                p95=primary.get('p95_ms') if primary.get('name') == 'peak' else None,
+                overall=assessment.get('overall') if assessment.get('data_valid') is True else None))
+
+        def count_total(key):
+            counts = [row[key] for row in values]
+            return sum(counts) if counts and all(type(value) is int and value >= 0 for value in counts) else None
+
+        started, on_time, errors = (count_total(key) for key in ('started', 'on_time', 'errors'))
+        if any(type(row['on_time']) is int and type(row['started']) is int
+               and row['on_time'] > row['started'] for row in values):
+            on_time = None
+        p95s = [number(row['p95']) for row in values]
+        p95_range = [min(p95s), max(p95s)] if p95s and all(value is not None and value >= 0 for value in p95s) else None
+        summaries.append(dict(policy=policy, runs=len(accepted), peak_started=started,
+                              peak_on_time_successes=on_time,
+                              peak_on_time_fraction=on_time / started if started and on_time is not None else None,
+                              peak_errors=errors, peak_p95_range_ms=p95_range,
+                              target_met=sum(row['overall'] == 'pass' for row in values),
+                              target_assessed=sum(row['overall'] in ('pass', 'fail') for row in values)))
+    return summaries
+
+
 def outcome(metadata, check, assessment, issues):
     finished = bool(metadata.get('finished_at_utc') or metadata.get('load_finished_at_utc'))
     exit_code = metadata.get('exit_code', metadata.get('load_exit_code'))
     if issues:
         return 'Read error', 'bad'
-    if (check.get('valid') is False or metadata.get('collection_valid') is False
-            or assessment.get('data_valid') is False or metadata.get('collector_exit_code') not in (None, 0)):
+    if collection_valid(metadata, check, assessment) is False:
         return 'Data failure', 'bad'
     if metadata.get('errors') or exit_code not in (None, 0, 99):
         return 'Run failed', 'bad'
@@ -101,14 +164,14 @@ class Results:
         status, tone = outcome(metadata, check, assessment, issues)
         relative = folder.relative_to(self.root)
         return dict(id=relative.as_posix(), kind='run', group=group_for(relative), name=short_name(folder.name),
-                    mode=metadata.get('mode') or (f"fixed-{metadata['expected_replicas']}" if metadata.get('expected_replicas') else None),
+                    policy=metadata.get('custom_metric_policy'), mode=metadata.get('mode') or (f"fixed-{metadata['expected_replicas']}" if metadata.get('expected_replicas') else None),
                     date=metadata.get('started_at_utc') or metadata.get('load_started_at_utc'), status=status, tone=tone,
                     complete=bool(metadata.get('finished_at_utc') or metadata.get('load_finished_at_utc')) and metadata.get('exit_code', metadata.get('load_exit_code')) in (0, 99),
                     phase=metadata.get('phase'), profile=metadata.get('profile'), rate=number(metadata.get('rate')), issues=issues)
 
     def assessment(self, folder, issues):
         manifest = read_json(folder.parent / 'manifest.json', issues)
-        if manifest.get('protocol') in ('active-requests-comparison-v1', 'active-requests-comparison-v2', 'active-requests-comparison-v3'):
+        if manifest.get('protocol') in (*PREPARATION_PROTOCOLS, *COMPARISON_PROTOCOLS):
             for row in list_field(manifest, 'completed', issues):
                 if isinstance(row, dict) and row.get('run') == folder.name:
                     return object_field(row, 'assessment', issues)
@@ -153,7 +216,7 @@ class Results:
                 if source and replacement and recovered in accepted and replacement['complete'] and replacement['tone'] != 'bad':
                     source['name'] += ' · original'
                     preserved.append(source)
-            if manifest.get('protocol') in ('active-requests-comparison-v1', 'active-requests-comparison-v2', 'active-requests-comparison-v3'):
+            if manifest.get('protocol') in COMPARISON_PROTOCOLS:
                 for saved in list_field(manifest, 'completed', issues):
                     if not isinstance(saved, dict):
                         continue
@@ -192,7 +255,8 @@ class Results:
             elif group_for(relative) == 'Custom metrics' and parent.name.startswith('comparison-'):
                 name = 'CPU vs requests'
             entries.append(dict(id=relative.as_posix(), kind='series', group=group_for(relative),
-                                name=name, mode='Mixed modes' if len({r['mode'] for r in children}) > 1 else (children[0]['mode'] if children else None),
+                                name=name, policy='comparison' if manifest.get('protocol') in COMPARISON_PROTOCOLS else None,
+                                mode='Mixed modes' if len({r['mode'] for r in children}) > 1 else (children[0]['mode'] if children else None),
                                 date=manifest.get('started_at_utc') or (min(dates) if dates else None),
                                 status=status, tone=tone, completed=completed, total=planned or len(children),
                                 attempts=[run['id'] for run in sorted(children, key=lambda row: row['id'])],
@@ -205,7 +269,7 @@ class Results:
 
     def plot(self, folder, series=False):
         if series:
-            candidates = sorted(folder.glob('*/primary-p95.png'))
+            candidates = sorted(folder.glob('primary-p95.png')) + sorted(folder.glob('*/primary-p95.png'))
         else:
             candidates = sorted(folder.glob('*.png')) + sorted(folder.glob('analysis/*.png'))
             candidates += sorted(folder.parent.glob(f'*/[0-9][0-9]-{folder.name}.png'))
@@ -222,6 +286,11 @@ class Results:
         entry['plot'] = self.plot(folder, entry['kind'] == 'series')
         if entry['kind'] == 'series':
             entry['children'] = [next(row for row in entries if row['id'] == child) for child in entry['attempts']]
+            manifest = read_json(folder / 'manifest.json', entry['issues'])
+            if manifest.get('protocol') in COMPARISON_PROTOCOLS:
+                entry['policies'] = policy_summary(manifest, entry['issues'])
+                if entry['issues']:
+                    entry.update(status='Needs review', tone='bad')
             return entry
         issues = entry['issues']
         metadata = read_json(folder / 'metadata.json', issues)
@@ -233,7 +302,8 @@ class Results:
         latency = object_field(metrics, 'successful_latency_ms', issues)
         workload = object_field(metadata, 'workload', issues)
         protocol = object_field(workload, 'main_protocol', issues)
-        has_primary = bool(primary) or bool(metadata.get('protocol_version'))
+        has_primary = (bool(primary) or bool(metadata.get('protocol_version'))
+                       or metadata.get('extension_version') in PREPARATION_PROTOCOLS)
         # Never substitute a whole-run value for a missing primary measurement.
         scope = 'Peak' if primary.get('name') == 'peak' or (has_primary and metadata.get('profile') == 'burst') else 'Whole run'
         p95 = primary.get('p95_ms') if has_primary else latency.get('p(95)')
@@ -258,7 +328,7 @@ class Results:
                      p95_ms=number(p95), p95_scope=scope, target_ms=number(target),
                      successful=number(counts.get('successful')), failed=number(counts.get('failed')),
                      timeouts=timeout_count, unfinished=number(counts.get('unfinished')), dropped=number(counts.get('dropped')),
-                     collection_valid=False if metadata.get('collection_valid') is False else check.get('valid'),
+                     collection_valid=collection_valid(metadata, check, assessment),
                      errors=list_field(check, 'errors', issues) + list_field(metadata, 'errors', issues),
                      warnings=list_field(check, 'warnings', issues) + list_field(metadata, 'warnings', issues))
         if issues:

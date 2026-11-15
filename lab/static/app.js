@@ -24,10 +24,16 @@ async function renderNotes(id, request, title='Notes') {
     if (request !== state.detailRequest) return;
     input.disabled = false;
     input.value = note.text;
-    panel.open = !!note.text;
+    panel.open = !!(note.text || note.parent?.text);
+    if (note.parent?.text) {
+      const context = document.createElement('div');
+      context.className = 'parent-note';
+      context.innerHTML = `<strong>Parent notes · read only</strong><span>${escape(note.parent.id)}</span><p>${escape(note.parent.text)}</p>`;
+      panel.insertBefore(context, panel.querySelector('label'));
+    }
     const update = () => {
       button.disabled = note.saving || note.text === note.saved;
-      status.textContent = note.saving ? 'Saving…' : note.text !== note.saved ? 'Unsaved changes' : note.text ? 'Saved' : 'No notes yet';
+      status.textContent = note.saving ? 'Saving…' : note.text !== note.saved ? 'Unsaved changes' : note.text ? 'Saved' : note.parent?.text ? 'No local note; parent context shown above' : 'No notes yet';
     };
     update();
     input.oninput = () => { note.text = input.value; update(); };
@@ -55,7 +61,7 @@ function showCustomFolder() {
 const icon = (name) => `<svg aria-hidden="true"><use href="#${name}"/></svg>`;
 const escape = (value) => String(value ?? '—').replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const badge = (row) => `<span class="badge ${escape(row.tone)}">${escape(row.status)}</span>`;
-const mode = (value) => ({'fixed-1':'Fixed 1', 'fixed-3':'Fixed 3', 'autoscaling':'HPA · 1–3'}[value] || value || '—');
+const mode = (value, policy) => ({cpu:'CPU HPA · 1–3', 'active-1':'Request HPA · target 1 · 1–3', 'active-2':'Request HPA · target 2 · 1–3', comparison:'CPU / request HPA · 1–3'}[policy]) || ({'fixed-1':'Fixed 1', 'fixed-3':'Fixed 3', 'autoscaling':'HPA · 1–3'}[value] || value || '—');
 const date = (value) => value ? new Date(value).toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric',timeZone:'UTC'}) : '—';
 const numeric = (value) => value == null ? '—' : Number(value).toLocaleString('en-GB', {maximumFractionDigits:0});
 const latency = (value) => value == null ? '—' : `${(value / 1000).toFixed(3)} s`;
@@ -77,7 +83,7 @@ function showPage(page, writeHash=true) {
   if (page === 'results') revealSelected();
 }
 function rowButton(row) {
-  return `<button class="entry ${row.id === state.selected ? 'selected' : ''}" data-id="${escape(row.id)}" aria-pressed="${row.id === state.selected}" title="results/${escape(row.id)}">${icon(row.kind === 'series' ? 'folder' : 'file')}<span class="entry-body"><span class="entry-name">${escape(row.name)}</span><span class="entry-meta">${escape(mode(row.mode))}${row.profile ? ` · ${escape(row.profile)}` : ''}${row.kind === 'series' ? ` · ${row.completed}/${row.total} complete` : ''}</span><span class="entry-bottom">${badge(row)}<span class="entry-date">${date(row.date)}</span></span></span>${row.kind === 'series' ? '<svg class="chevron" aria-hidden="true"><use href="#arrow"/></svg>' : ''}</button>`;
+  return `<button class="entry ${row.id === state.selected ? 'selected' : ''}" data-id="${escape(row.id)}" aria-pressed="${row.id === state.selected}" title="results/${escape(row.id)}">${icon(row.kind === 'series' ? 'folder' : 'file')}<span class="entry-body"><span class="entry-name">${escape(row.name)}</span><span class="entry-meta">${escape(mode(row.mode, row.policy))}${row.profile ? ` · ${escape(row.profile)}` : ''}${row.kind === 'series' ? ` · ${row.completed}/${row.total} complete` : ''}</span><span class="entry-bottom">${badge(row)}<span class="entry-date">${date(row.date)}</span></span></span>${row.kind === 'series' ? '<svg class="chevron" aria-hidden="true"><use href="#arrow"/></svg>' : ''}</button>`;
 }
 function revealSelected() {
   const entry = $('entries').querySelector('.selected');
@@ -108,10 +114,16 @@ function folderBar(row) {
   return `<div class="folder-bar"><button id="open-folder">${icon('folder')}Open folder</button><span class="folder-path" title="${escape(row.path)}">results/${escape(row.id)}</span></div>`;
 }
 function plot(row) {
-  return `<div class="plot-title">${icon('chart')}Saved plot<span>${row.plot ? 'Preview · open full plot ↗' : 'From disk'}</span></div>${row.plot ? `<a class="plot" href="/plot?id=${encodeURIComponent(row.plot)}" target="_blank" rel="noopener" title="Open full-size plot"><img src="/plot?id=${encodeURIComponent(row.plot)}" alt="Top of saved measurements for ${escape(row.name)}; open for the full plot"></a>` : '<div class="no-plot">No saved plot for this result.</div>'}`;
+  return `<div class="plot-title">${icon('chart')}Saved plot<span>${row.plot ? 'Preview · open full plot ↗' : 'From disk'}</span></div>${row.plot ? `<a class="plot${row.kind === 'series' ? ' overview' : ''}" href="/plot?id=${encodeURIComponent(row.plot)}" target="_blank" rel="noopener" title="Open full-size plot"><img src="/plot?id=${encodeURIComponent(row.plot)}" alt="${row.kind === 'series' ? 'Overview' : 'Top of saved measurements'} for ${escape(row.name)}; open for the full plot"></a>` : '<div class="no-plot">No saved plot for this result.</div>'}`;
 }
 function metric(label, value, hint, small=false) {
   return `<div class="metric"><span class="metric-label">${escape(label)}</span><span class="metric-value${small ? ' small' : ''}">${escape(value)}</span><span class="metric-hint">${escape(hint)}</span></div>`;
+}
+function policyComparison(policies) {
+  if (!policies) return '';
+  const fraction = row => row.peak_on_time_fraction == null ? '—' : `${(row.peak_on_time_fraction * 100).toFixed(1)}% (${numeric(row.peak_on_time_successes)} / ${numeric(row.peak_started)})`;
+  const range = value => value ? `${latency(value[0])} – ${latency(value[1])}` : '—';
+  return `<div class="policy-comparison"><table><caption>Peak comparison · accepted runs in this series</caption><thead><tr><th scope="col">Policy</th><th scope="col">On time</th><th scope="col">Errors</th><th scope="col">Successful p95</th><th scope="col">Target met</th></tr></thead><tbody>${policies.map(row => `<tr data-policy="${escape(row.policy)}"><th scope="row">${escape(row.policy === 'cpu' ? 'CPU HPA' : 'Request HPA · target 1')}<small>${row.runs} accepted runs</small></th><td>${fraction(row)}</td><td>${numeric(row.peak_errors)}</td><td>${range(row.peak_p95_range_ms)}</td><td>${row.target_assessed ? `${row.target_met} / ${row.target_assessed}` : '—'}</td></tr>`).join('')}</tbody></table></div><p class="saved-state">On time = successful within 5 s / started peak requests. Counts are summed across accepted runs; p95 is the range of run-level values, not a pooled percentile. Missing measurements stay “—”.</p>`;
 }
 async function select(id, enter=false) {
   const row = state.entries.find(e => e.id === id);
@@ -127,16 +139,16 @@ async function select(id, enter=false) {
   try {
     const data = await api(`/api/detail?id=${encodeURIComponent(id)}`);
     if (request !== state.detailRequest) return;
-    const heading = `<div class="eyebrow">${icon(data.kind === 'series' ? 'folder' : 'file')}${escape(data.group)}<span>/</span>${data.kind === 'series' ? 'Series overview' : 'Run preview'}</div><div class="preview-title"><h3>${escape(data.name)}</h3>${badge(data)}</div><p class="preview-subtitle">${escape(mode(data.mode))} · ${date(data.date)}${data.profile ? ` · ${escape(data.profile)}` : ''}</p>`;
+    const heading = `<div class="eyebrow">${icon(data.kind === 'series' ? 'folder' : 'file')}${escape(data.group)}<span>/</span>${data.kind === 'series' ? 'Series overview' : 'Run preview'}</div><div class="preview-title"><h3>${escape(data.name)}</h3>${badge(data)}</div><p class="preview-subtitle">${escape(mode(data.mode, data.policy))} · ${date(data.date)}${data.profile ? ` · ${escape(data.profile)}` : ''}</p>`;
     const issues = [...(data.issues || []), ...(data.errors || [])].map(e => `<p class="issue">${escape(e)}</p>`).join('');
     if (data.kind === 'series') {
       const targetSummary = data.target_assessed ? `<p class="saved-state">Target met: ${data.target_met} / ${data.target_assessed} assessed runs. Completion and target attainment are separate.</p>` : '';
-      $('preview').innerHTML = heading + `<div class="series-summary"><strong>${data.completed} / ${data.total}</strong><span>runs completed</span></div>${data.saved_status === 'running' ? '<p class="saved-state">The manifest says “running”. Live activity is checked separately above.</p>' : ''}${issues}<div class="attempt-heading"><strong>Attempts</strong><span>${data.children.length} saved</span></div><div class="attempt-list">${data.children.map(child => `<button class="attempt" data-id="${escape(child.id)}">${icon('file')}<span class="attempt-name">${escape(child.name)}<small>${escape(mode(child.mode))} · ${escape(child.profile)}</small></span>${badge(child)}${icon('arrow')}</button>`).join('') || '<p class="saved-state">No attempt files yet.</p>'}</div>${data.plot ? `<br>${plot(data)}` : ''}${folderBar(data)}`;
-      $('preview').querySelector('.series-summary').insertAdjacentHTML('afterend', targetSummary);
+      $('preview').innerHTML = heading + `<div class="series-summary"><strong>${data.completed} / ${data.total}</strong><span>runs completed</span></div>${data.saved_status === 'running' ? '<p class="saved-state">The manifest says “running”. Live activity is checked separately above.</p>' : ''}${issues}<div class="attempt-heading"><strong>Attempts</strong><span>${data.children.length} saved</span></div><div class="attempt-list">${data.children.map(child => `<button class="attempt" data-id="${escape(child.id)}">${icon('file')}<span class="attempt-name">${escape(child.name)}<small>${escape(mode(child.mode, child.policy))} · ${escape(child.profile)}</small></span>${badge(child)}${icon('arrow')}</button>`).join('') || '<p class="saved-state">No attempt files yet.</p>'}</div>${data.plot ? `<br>${plot(data)}` : ''}${folderBar(data)}`;
+      $('preview').querySelector('.series-summary').insertAdjacentHTML('afterend', targetSummary + policyComparison(data.policies));
     } else {
       const rate = data.rate == null ? '—' : data.profile === 'burst' ? `${data.low_rate ?? '—'} → ${data.rate} → ${data.low_rate ?? '—'}` : String(data.rate);
       const collection = data.collection_valid === true ? {tone:'good',status:'Valid collection'} : data.collection_valid === false ? {tone:'bad',status:'Invalid collection'} : {tone:'muted',status:'Collection not verified'};
-      $('preview').innerHTML = heading + `<div class="metrics">${metric('Profile',data.profile ? data.profile[0].toUpperCase()+data.profile.slice(1) : '—',mode(data.mode),true)}${metric('Request rate',rate,'requests / 10 seconds',true)}${metric(`p95 · ${data.p95_scope.toLowerCase()}`,latency(data.p95_ms),data.target_ms == null ? 'Successful responses' : `Target ≤ ${data.target_ms / 1000} s`)}${metric('Successful',numeric(data.successful),'whole run')}${metric('Errors',numeric(data.failed),'includes timeouts')}${metric('Timeouts',numeric(data.timeouts),'whole run')}</div><div class="data-note">${badge(collection)}p95 uses successful responses only.<br>Unfinished: ${numeric(data.unfinished)} · Dropped starts: ${numeric(data.dropped)}${data.warnings.length ? ` · ${data.warnings.length} saved warning(s)` : ''}</div>${issues}${plot(data)}${folderBar(data)}`;
+      $('preview').innerHTML = heading + `<div class="metrics">${metric('Profile',data.profile ? data.profile[0].toUpperCase()+data.profile.slice(1) : '—',mode(data.mode, data.policy),true)}${metric('Request rate',rate,'requests / 10 seconds',true)}${metric(`p95 · ${data.p95_scope.toLowerCase()}`,latency(data.p95_ms),data.target_ms == null ? 'Successful responses' : `Target ≤ ${data.target_ms / 1000} s`)}${metric('Successful',numeric(data.successful),'whole run')}${metric('Errors',numeric(data.failed),'includes timeouts')}${metric('Timeouts',numeric(data.timeouts),'whole run')}</div><div class="data-note">${badge(collection)}p95 uses successful responses only.<br>Unfinished: ${numeric(data.unfinished)} · Dropped starts: ${numeric(data.dropped)}${data.warnings.length ? ` · ${data.warnings.length} saved warning(s)` : ''}</div>${issues}${plot(data)}${folderBar(data)}`;
     }
     $('open-folder').onclick = async () => { try { await api('/api/open',{id}); notice(''); } catch(error) { notice(error.message); } };
     renderNotes(id, request);

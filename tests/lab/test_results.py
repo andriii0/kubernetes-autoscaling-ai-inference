@@ -3,10 +3,17 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from lab.results import Results
+from lab.results import Results, policy_summary
 
 
 class ResultTests(unittest.TestCase):
+    def test_series_finds_direct_overview_without_changing_run_plot_lookup(self):
+        series = self.folder.parent
+        (series / 'primary-p95.png').write_bytes(b'overview')
+        (self.folder / 'measurements.png').write_bytes(b'run')
+        self.assertEqual(self.results.detail('main/series')['plot'], 'main/series/primary-p95.png')
+        self.assertEqual(self.detail()['plot'], 'main/series/attempt-01-autoscaling-burst/measurements.png')
+
     def test_custom_metrics_group_retains_comparison_assessment(self):
         folder = self.root / 'custom-metric/comparison-example/attempt-01-cpu'
         folder.mkdir(parents=True)
@@ -21,6 +28,28 @@ class ResultTests(unittest.TestCase):
         series = self.results.detail(folder.parent.relative_to(self.root).as_posix())
         self.assertEqual((series['name'], series['total']), ('CPU vs requests', 6))
 
+    def test_preparation_uses_peak_assessment_and_preserves_missing_values(self):
+        for version in ('active-requests-preparation-v1', 'active-requests-preparation-v2'):
+            for primary in ({'name': 'peak', 'p95_ms': 7000}, {'name': 'peak', 'p95_ms': None}, None):
+                with self.subTest(version=version, primary=primary):
+                    folder = self.root / 'custom-metric' / version / 'target-1'
+                    folder.mkdir(parents=True, exist_ok=True)
+                    metadata = {**self.metadata, 'extension_version': version, 'slo_ms': 5000}
+                    metadata.pop('protocol_version')
+                    (folder / 'metadata.json').write_text(json.dumps(metadata))
+                    (folder / 'collection-check.json').write_text(json.dumps({'valid': True}))
+                    (folder / 'summary.json').write_text(json.dumps({
+                        'metrics': {'successful_latency_ms': {'p(95)': 1200}}}))
+                    completed = [] if primary is None else [{'run': folder.name, 'assessment': {
+                        'overall': 'fail', 'data_valid': True, 'primary': primary}}]
+                    (folder.parent / 'manifest.json').write_text(json.dumps({
+                        'protocol': version, 'completed': completed}))
+                    run = self.results.detail(folder.relative_to(self.root).as_posix())
+                    self.assertEqual((run['p95_scope'], run['p95_ms'], run['target_ms']),
+                                     ('Peak', primary['p95_ms'] if primary else None, 5000))
+                    if primary is not None:
+                        self.assertEqual(run['status'], 'Target missed')
+
     def test_custom_completion_keeps_superseded_failures_visible(self):
         series = self.root / 'custom-metric/comparison-resumed'
         series.mkdir(parents=True)
@@ -32,7 +61,10 @@ class ResultTests(unittest.TestCase):
             folder.mkdir()
             (folder / 'metadata.json').write_text(json.dumps(self.metadata))
             (folder / 'collection-check.json').write_text(json.dumps({'valid': True}))
-            completed.append({'run': name, 'assessment': {'overall': 'pass', 'data_valid': True}})
+            completed.append({'run': name, 'policy': policy,
+                              'assessment': {'overall': 'pass', 'data_valid': True,
+                                             'primary': {'name': 'peak', 'failed': 1, 'p95_ms': 4000}},
+                              'outcomes': {'peak_started': 10, 'peak_on_time_successes': 8}})
         failed = series / 'attempt-05-cpu'
         failed.mkdir()
         (failed / 'metadata.json').write_text(json.dumps({**self.metadata, 'exit_code': 1, 'collection_valid': False}))
@@ -42,6 +74,12 @@ class ResultTests(unittest.TestCase):
         result = next(r for r in self.results.catalog() if r['id'] == 'custom-metric/comparison-resumed')
         self.assertEqual((result['status'], result['completed'], result['total']), ('Complete', 6, 6))
         self.assertEqual(result['preserved_originals'], 1)
+        detail = self.results.detail('custom-metric/comparison-resumed')
+        self.assertEqual(detail['policy'], 'comparison')
+        for arm in detail['policies']:
+            self.assertEqual((arm['runs'], arm['peak_started'], arm['peak_on_time_successes'],
+                              arm['peak_errors'], arm['peak_p95_range_ms'], arm['target_met']),
+                             (3, 30, 24, 3, [4000, 4000], 3))
         self.assertIn('custom-metric/comparison-resumed/attempt-05-cpu', result['attempts'])
         # A failed cell without an accepted replacement must still affect the status.
         manifest['completed'] = completed[:4]
@@ -50,6 +88,68 @@ class ResultTests(unittest.TestCase):
         result = next(r for r in self.results.catalog() if r['id'] == 'custom-metric/comparison-resumed')
         self.assertEqual(result['status'], 'Needs review')
         self.assertEqual(result['preserved_originals'], 0)
+
+    def test_pending_collection_is_unknown_until_checked_or_finalized(self):
+        self.metadata.update(finished_at_utc=None, exit_code=None, collector_exit_code=None,
+                             collection_valid=False, status='running')
+        self.write('metadata.json', self.metadata)
+        (self.folder / 'collection-check.json').unlink()
+        (self.folder / 'assessment.json').unlink()
+        pending = self.detail()
+        self.assertEqual((pending['status'], pending['collection_valid']), ('Incomplete', None))
+        self.assertFalse(pending['complete'])
+        self.write('collection-check.json', {'valid': False})
+        self.assertEqual((self.detail()['status'], self.detail()['collection_valid']), ('Data failure', False))
+        (self.folder / 'collection-check.json').unlink()
+        self.metadata.update(collector_exit_code=1)
+        self.write('metadata.json', self.metadata)
+        self.assertEqual(self.detail()['status'], 'Data failure')
+        self.metadata.update(collector_exit_code=None, errors=['Launch failed'])
+        self.write('metadata.json', self.metadata)
+        self.assertEqual(self.detail()['status'], 'Run failed')
+        self.metadata.update(errors=[], exit_code=1)
+        self.write('metadata.json', self.metadata)
+        self.assertEqual((self.detail()['status'], self.detail()['collection_valid']), ('Data failure', False))
+
+    def test_policy_labels_survive_in_catalog_and_detail(self):
+        for policy in ('cpu', 'active-1', 'active-2'):
+            with self.subTest(policy=policy):
+                self.metadata['custom_metric_policy'] = policy
+                self.write('metadata.json', self.metadata)
+                self.assertEqual(self.detail()['policy'], policy)
+                self.assertEqual(self.results.run(self.folder)['policy'], policy)
+
+    def test_policy_summary_keeps_missing_and_malformed_values_unknown(self):
+        for bad in (None, '12', True, -1, float('nan'), float('inf')):
+            with self.subTest(bad=bad):
+                issues = []
+                rows = [{'run': f'attempt-{i:02d}-cpu', 'policy': 'cpu',
+                         'assessment': {'data_valid': True, 'overall': 'pass',
+                                        'primary': {'name': 'peak', 'failed': bad if i == 2 else 0,
+                                                    'p95_ms': bad if i == 2 else 4000}},
+                         'outcomes': {'peak_started': 10, 'peak_on_time_successes': bad if i == 2 else 9}}
+                        for i in (1, 2)]
+                cpu, custom = policy_summary({'completed': rows}, issues)
+                self.assertEqual(cpu['runs'], 2)
+                for field in ('peak_on_time_fraction', 'peak_errors', 'peak_p95_range_ms'):
+                    self.assertIsNone(cpu[field])
+                self.assertEqual((custom['runs'], custom['target_assessed']), (0, 0))
+                self.assertIsNone(custom['peak_errors'])
+                self.assertIsNone(custom['peak_on_time_fraction'])
+        rows[1]['outcomes']['peak_on_time_successes'] = 11
+        self.assertIsNone(policy_summary({'completed': rows}, [])[0]['peak_on_time_fraction'])
+        rows[1]['outcomes'] = []
+        issues = []
+        self.assertIsNone(policy_summary({'completed': rows}, issues)[0]['peak_on_time_fraction'])
+        self.assertTrue(issues)
+
+    def test_duplicate_accepted_run_is_not_counted_twice(self):
+        row = {'run': 'attempt-01-cpu', 'policy': 'cpu', 'outcomes': {
+            'peak_started': 10, 'peak_on_time_successes': 8}}
+        issues = []
+        cpu = policy_summary({'completed': [row, row]}, issues)[0]
+        self.assertEqual((cpu['runs'], cpu['peak_started'], cpu['peak_on_time_fraction']), (1, 10, .8))
+        self.assertTrue(issues)
 
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()

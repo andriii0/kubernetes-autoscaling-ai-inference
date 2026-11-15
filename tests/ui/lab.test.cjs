@@ -21,6 +21,9 @@ test('custom metrics folder shows its description and preserved failed attempt',
   assert.match(await page.locator('#preview textarea').inputValue(), /Envoy/);
   await page.locator('[data-id="custom-metric/comparison-example"]').click();
   assert.match(await page.locator('.series-summary').innerText(), /0 \/ 6/);
+  for (const cell of await page.locator('.policy-comparison td').all()) {
+    assert.equal(await cell.innerText(), '—', 'Absent accepted measurements are not zero');
+  }
   await page.locator('.attempt[data-id="custom-metric/comparison-example/attempt-01-cpu"]').click();
   await page.waitForFunction(() => document.querySelector('#preview textarea')?.value.includes('clock check'));
   assert.match(await page.locator('#preview').innerText(), /Invalid collection/);
@@ -206,4 +209,51 @@ test('lost status connection disables launch and shows a readable error', {timeo
   await page.waitForFunction(() => document.getElementById('notice').textContent.includes('Connection lost'));
   assert.equal(await page.locator('#pilot').isDisabled(), true);
   assert.match(await page.locator('#notice').innerText(), /Server unavailable/);
+});
+
+test('comparison separates policies and counts only accepted runs', {timeout: 15000}, async () => {
+  await select('custom-metric/comparison-complete');
+  assert.match(await page.locator('.preview-subtitle').innerText(), /CPU \/ request HPA/);
+  const cpu = page.locator('.policy-comparison [data-policy="cpu"]');
+  const custom = page.locator('.policy-comparison [data-policy="active-1"]');
+  assert.match(await cpu.innerText(), /16\.0% \(173 \/ 1,080\)/);
+  assert.match(await cpu.innerText(), /194/);
+  assert.match(await cpu.innerText(), /28\.322 s – 28\.912 s/);
+  assert.match(await cpu.innerText(), /0 \/ 3/);
+  assert.match(await custom.innerText(), /83\.6% \(903 \/ 1,080\)/);
+  assert.match(await custom.innerText(), /4\.820 s – 11\.361 s/);
+  assert.match(await custom.innerText(), /1 \/ 3/);
+  assert.match(await custom.locator('td').nth(1).innerText(), /^0$/);
+  assert.match(await page.locator('.attempt[data-id$="attempt-05-cpu"]').innerText(), /original/);
+  assert.match(await page.locator('.attempt[data-id$="attempt-05-cpu"]').innerText(), /Data failure/);
+  await page.locator('.attempt[data-id$="attempt-02-active-1"]').click();
+  await page.locator('.data-note').waitFor();
+  assert.match(await page.locator('.preview-subtitle').innerText(), /Request HPA · target 1/);
+  assert.match(await page.locator('#entries [data-id$="attempt-01-cpu"]').innerText(), /CPU HPA/);
+  assert.match(await page.locator('#entries [data-id$="attempt-02-active-1"]').innerText(), /Request HPA/);
+});
+
+test('pending collection remains unverified and does not claim live activity', {timeout: 15000}, async () => {
+  await select('custom-metric/preparation-pending/target-2');
+  const preview = await page.locator('#preview').innerText();
+  assert.match(preview, /Incomplete/);
+  assert.match(preview, /Collection not verified/);
+  assert.match(preview, /Request HPA · target 2/);
+  assert.doesNotMatch(preview, /Data failure|Invalid collection|Running/);
+});
+
+test('preparation exposes parent cycle notes without copying them into its draft', {timeout: 15000}, async () => {
+  const id = 'custom-metric/series-stopped/preparation-new';
+  await select(id);
+  await page.locator('.parent-note').waitFor();
+  assert.match(await page.locator('.parent-note').innerText(), /target 2 stopped on a clock difference/);
+  assert.match(await page.locator('.parent-note').innerText(), /<script>literal<\/script>/);
+  assert.equal(await page.locator('.parent-note script').count(), 0);
+  assert.equal(await page.locator('.result-notes textarea').inputValue(), '');
+  assert.equal(await page.locator('.result-notes').getAttribute('open'), '');
+  await page.locator('.result-notes textarea').fill('Local preparation note');
+  await page.getByRole('button', {name: 'Save notes', exact: true}).click();
+  await page.waitForFunction(() => document.querySelector('.result-notes [role=status]').textContent === 'Saved');
+  assert.equal(await fs.readFile(path.join(root, 'results', id, 'notes.md'), 'utf8'), 'Local preparation note');
+  assert.match(await fs.readFile(path.join(root, 'results/custom-metric/series-stopped/notes.md'), 'utf8'), /target 2 stopped/);
 });

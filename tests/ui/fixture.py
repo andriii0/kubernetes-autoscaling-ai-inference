@@ -43,6 +43,34 @@ def seed(root):
                                           encoding='utf-8')
     (custom / 'attempt-01-cpu/notes.md').write_text('Stopped because the clock check failed.', encoding='utf-8')
 
+    custom = root / 'results/custom-metric/comparison-complete'
+    completed = []
+    for order, (policy, on_time, errors, p95) in enumerate([
+            ('cpu', 37, 86, 28912), ('active-1', 296, 0, 6978),
+            ('active-1', 345, 0, 4820), ('cpu', 95, 59, 28355),
+            ('cpu', 41, 49, 28322), ('active-1', 262, 0, 11361)], 1):
+        name = f'attempt-{order:02d}-{policy}' + ('-retry-01' if order == 5 else '')
+        write(custom / name, 'metadata.json', dict(
+            mode='autoscaling', custom_metric_policy=policy, profile='burst', protocol_version='1.1',
+            started_at_utc='2026-11-14T20:00:00Z', finished_at_utc='2026-11-14T20:20:00Z',
+            exit_code=0 if order == 3 else 99, collection_valid=True))
+        write(custom / name, 'collection-check.json', dict(valid=True))
+        completed.append(dict(run=name, policy=policy, order=order,
+                              assessment=dict(data_valid=True, overall='pass' if order == 3 else 'fail',
+                                              primary=dict(name='peak', failed=errors, p95_ms=p95)),
+                              outcomes=dict(peak_started=360, peak_on_time_successes=on_time)))
+    write(custom, 'manifest.json', dict(protocol='active-requests-comparison-v3', status='finished',
+                                       cells=[{}] * 6, completed=completed))
+    write(custom / 'attempt-05-cpu', 'metadata.json', dict(
+        mode='autoscaling', custom_metric_policy='cpu', exit_code=1, collection_valid=False))
+    pending = root / 'results/custom-metric/preparation-pending/target-2'
+    write(pending, 'metadata.json', dict(mode='autoscaling', custom_metric_policy='active-2',
+                                        status='running', collection_valid=False, finished_at_utc=None,
+                                        collector_exit_code=None, exit_code=None))
+    stopped = root / 'results/custom-metric/series-stopped'
+    write(stopped / 'preparation-new/target-1', 'metadata.json', dict(mode='autoscaling'))
+    (stopped / 'notes.md').write_text('Historical cycle: target 2 stopped on a clock difference. <script>literal</script>', encoding='utf-8')
+
 
 def fake_process(command, **_kwargs):
     # Backend command construction is real; there is no child interpreter or k6.
