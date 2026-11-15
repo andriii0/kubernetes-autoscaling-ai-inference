@@ -482,7 +482,7 @@ class AutoscalingFixture(unittest.TestCase):
              patch.object(run_pilot.shutil, 'which', return_value=shutil.which('k6') or 'test-k6'), \
              patch('main_protocol.recover', return_value={'test_stub': True}), \
              patch('main_protocol.runtime_context', return_value={'test_stub': True}), \
-             patch('main_protocol.check_configuration') as configuration, \
+             patch('main_protocol.check_configuration'), \
              patch('main_protocol.settle', return_value={'test_stub': True}) as settle:
             if interrupt:
                 with patch.object(run_pilot, 'run_load', side_effect=KeyboardInterrupt):

@@ -6,3 +6,10 @@ dependencies = []
 
 [project.optional-dependencies]
 analysis = ["matplotlib>=3.10,<4"]
+
+[tool.ruff]
+target-version = "py312"
+
+[tool.ruff.lint]
+# Keep CI focused on syntax and Pyflakes checks.
+select = ["E9", "F"]

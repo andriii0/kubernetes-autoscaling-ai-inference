@@ -551,7 +551,7 @@ def main(argv=None):
         parser.error("output directory already exists; choose a new path")
     if not args.no_plots:
         try:
-            import matplotlib
+            import matplotlib  # noqa: F401 - check the optional dependency before creating output
         except ImportError:
             print('Plots require the optional Matplotlib analysis dependency; install it or use --no-plots.', file=sys.stderr)
             return 1

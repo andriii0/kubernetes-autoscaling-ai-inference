@@ -6,7 +6,6 @@ import json
 import os
 from pathlib import Path
 import shutil
-import subprocess
 import sys
 
 from analyze import load_results, main as analyze, primary_resources
