@@ -14,6 +14,9 @@ permissions:
 jobs:
   python:
     runs-on: windows-latest
+    env:
+      TEMP: ${{ runner.temp }}
+      TMP: ${{ runner.temp }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -54,12 +57,19 @@ jobs:
         shell: bash
         run: python tests/check_markdown_links.py
 
+      - name: Build monotonic k6 runtime
+        shell: bash
+        run: python bench/build_k6.py
+
       - name: Run Python tests
         shell: bash
         run: python -m unittest discover -s tests -t .
 
   browser:
     runs-on: windows-latest
+    env:
+      TEMP: ${{ runner.temp }}
+      TMP: ${{ runner.temp }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
