@@ -1,0 +1,516 @@
+{
+  "schemaVersion": "architect.diagram-snapshot.v1",
+  "architecture": {
+    "schemaVersion": "architect.canonical.v1",
+    "diagram": {
+      "id": "d56e1114-e3c1-4391-a505-f91f5eb4e3ca",
+      "name": "C3 - Python workbench components",
+      "description": "Expands C2 Python workbench. UI control is limited to pilot/main; custom comparison uses CLI. C4 expands these responsibilities into complete owned code modules, classes and interfaces.",
+      "sections": [
+        {
+          "id": "20b0141e-9e51-44b8-b82d-e44ddf712ff9",
+          "name": "Python workbench / CLI experiment processes",
+          "comment": "Drivers call shared lifecycle; experiment_lock excludes overlapping experiment runs.",
+          "parentId": null
+        },
+        {
+          "id": "2c347c0a-3b3d-4cc6-908f-b2b44d5a19df",
+          "name": "Python workbench / lab HTTP process",
+          "comment": "Browser API, saved data and launch controls.",
+          "parentId": null
+        },
+        {
+          "id": "53c691f1-aa75-4a90-bfdf-12cd925bcb44",
+          "name": "Python workbench / offline analysis",
+          "comment": "Saved records are checked independently of live cluster state.",
+          "parentId": null
+        }
+      ],
+      "components": [
+        {
+          "id": "28f8eea9-295f-4e5d-8d88-67c8ce66f36f",
+          "name": "Analysis + comparisons",
+          "comment": "analyze.py, summarize_main.py, analyze_custom_comparison.py. Collection validity and target outcomes are separate.",
+          "type": "CLASS",
+          "sectionId": "53c691f1-aa75-4a90-bfdf-12cd925bcb44",
+          "rows": [],
+          "customTypeId": "98f5e96b-bac0-41c0-9f6e-3ba5b23672d6"
+        },
+        {
+          "id": "30ad26b3-e185-4d9c-80a3-5e73662f5992",
+          "name": "Scaling lifecycle",
+          "comment": "autoscaling.py Session + CustomSession. Prepare / enable / observe / restore CPU or request policy; keep logs and identity.",
+          "type": "CLASS",
+          "sectionId": "20b0141e-9e51-44b8-b82d-e44ddf712ff9",
+          "rows": [],
+          "customTypeId": "98f5e96b-bac0-41c0-9f6e-3ba5b23672d6"
+        },
+        {
+          "id": "3ca02786-8ad4-427f-a35b-e38897b23d2c",
+          "name": "Custom metric support",
+          "comment": "custom_metric_run.Monitor, custom_metrics, check_custom_metric, custom_metric_stack. Clock, freshness, zero gate and gateway reconciliation.",
+          "type": "CLASS",
+          "sectionId": "20b0141e-9e51-44b8-b82d-e44ddf712ff9",
+          "rows": [],
+          "customTypeId": "98f5e96b-bac0-41c0-9f6e-3ba5b23672d6"
+        },
+        {
+          "id": "42bb8179-d973-4467-ab1e-715322b3b715",
+          "name": "Protocol preparation",
+          "comment": "main_protocol.py + fixed_replicas.py. Fixed warmup, quiet baseline, input/config checks, scheduled windows and recovery.",
+          "type": "CLASS",
+          "sectionId": "20b0141e-9e51-44b8-b82d-e44ddf712ff9",
+          "rows": [],
+          "customTypeId": "98f5e96b-bac0-41c0-9f6e-3ba5b23672d6"
+        },
+        {
+          "id": "4c9271d3-ba88-4d3d-9d29-259d0a77aa11",
+          "name": "Notes repository",
+          "comment": "lab/notes.py: revision-checked atomic notes.md writes; inherited parent Notes are read-only.",
+          "type": "CLASS",
+          "sectionId": "2c347c0a-3b3d-4cc6-908f-b2b44d5a19df",
+          "rows": [],
+          "customTypeId": "98f5e96b-bac0-41c0-9f6e-3ba5b23672d6"
+        },
+        {
+          "id": "81a3259f-c289-4c54-ab7b-77110654c7ba",
+          "name": "Evidence validation",
+          "comment": "records.py + pilot_records.py. JSONL and timestamp parsing, request reconciliation and latency integrity.",
+          "type": "CLASS",
+          "sectionId": "53c691f1-aa75-4a90-bfdf-12cd925bcb44",
+          "rows": [],
+          "customTypeId": "98f5e96b-bac0-41c0-9f6e-3ba5b23672d6"
+        },
+        {
+          "id": "82296a08-b223-4323-9bca-6864b0e47976",
+          "name": "Single-run coordinator",
+          "comment": "bench/run_pilot.py. Archive inputs, prepare mode, run load, stop collection, assess and restore in finally.",
+          "type": "CLASS",
+          "sectionId": "20b0141e-9e51-44b8-b82d-e44ddf712ff9",
+          "rows": [],
+          "customTypeId": "98f5e96b-bac0-41c0-9f6e-3ba5b23672d6"
+        },
+        {
+          "id": "8d1aff61-fb46-40fb-a1d2-088a34a119c8",
+          "name": "Saved results reader",
+          "comment": "lab/results.py: catalog, status, policy summaries, detail and plot resolution.",
+          "type": "CLASS",
+          "sectionId": "2c347c0a-3b3d-4cc6-908f-b2b44d5a19df",
+          "rows": [],
+          "customTypeId": "98f5e96b-bac0-41c0-9f6e-3ba5b23672d6"
+        },
+        {
+          "id": "a574bd60-98d7-4d64-8217-cc7759745281",
+          "name": "Experiment drivers",
+          "comment": "Main, peak-12, custom-series/comparison, pilot search and wait-pair CLIs. Own ordered matrices, manifests and resume rules.",
+          "type": "CLASS",
+          "sectionId": "20b0141e-9e51-44b8-b82d-e44ddf712ff9",
+          "rows": [],
+          "customTypeId": "98f5e96b-bac0-41c0-9f6e-3ba5b23672d6"
+        },
+        {
+          "id": "c21252be-f687-4720-9e1c-c2bbee3f0f81",
+          "name": "Plot generation",
+          "comment": "analyze.create_plots, plot_peak12.py, plot_custom_overview.py. Produce saved per-run and cross-policy figures.",
+          "type": "CLASS",
+          "sectionId": "53c691f1-aa75-4a90-bfdf-12cd925bcb44",
+          "rows": [],
+          "customTypeId": "98f5e96b-bac0-41c0-9f6e-3ba5b23672d6"
+        },
+        {
+          "id": "c651ad17-ec87-4718-bbac-f6be292158de",
+          "name": "Process runtime + lock",
+          "comment": "run_lock.py + runtime.py + build_k6.py. Exclusive run ownership, subprocess identity, tunnel/service discovery and verified k6 binary.",
+          "type": "CLASS",
+          "sectionId": "20b0141e-9e51-44b8-b82d-e44ddf712ff9",
+          "rows": [],
+          "customTypeId": "98f5e96b-bac0-41c0-9f6e-3ba5b23672d6"
+        },
+        {
+          "id": "cd00bce6-d1ad-40a4-a337-f1bff2a7bbb8",
+          "name": "HTTP API",
+          "comment": "lab/server.py: Server + Handler. Loopback requests, API dispatch, static assets and pilot settings.",
+          "type": "CLASS",
+          "sectionId": "2c347c0a-3b3d-4cc6-908f-b2b44d5a19df",
+          "rows": [],
+          "customTypeId": "98f5e96b-bac0-41c0-9f6e-3ba5b23672d6"
+        },
+        {
+          "id": "e0b9dee5-cd9e-42a9-b783-400bdc62be30",
+          "name": "Cluster collection",
+          "comment": "run_pilot.Collection + observe.Observer + autoscaling.Logs. One background observer thread and per-pod log collectors.",
+          "type": "CLASS",
+          "sectionId": "20b0141e-9e51-44b8-b82d-e44ddf712ff9",
+          "rows": [],
+          "customTypeId": "98f5e96b-bac0-41c0-9f6e-3ba5b23672d6"
+        },
+        {
+          "id": "ea989f01-3cca-4af1-a1b0-78b574a1cf49",
+          "name": "Job controller",
+          "comment": "lab/jobs.py + launch.py: launch a pilot or resume main v1.1; track child / external process state.",
+          "type": "CLASS",
+          "sectionId": "2c347c0a-3b3d-4cc6-908f-b2b44d5a19df",
+          "rows": [],
+          "customTypeId": "98f5e96b-bac0-41c0-9f6e-3ba5b23672d6"
+        }
+      ],
+      "relations": [
+        {
+          "id": "0176441d-f75f-4009-8a54-58a5ed68597b",
+          "name": "Spawn verified k6 / commands",
+          "type": "DEPENDENCY",
+          "fromComponentId": "82296a08-b223-4323-9bca-6864b0e47976",
+          "toComponentId": "c651ad17-ec87-4718-bbac-f6be292158de",
+          "customTypeId": null
+        },
+        {
+          "id": "328df519-debd-4347-8176-bfa0da281393",
+          "name": "Pilot launcher",
+          "type": "DEPENDENCY",
+          "fromComponentId": "ea989f01-3cca-4af1-a1b0-78b574a1cf49",
+          "toComponentId": "82296a08-b223-4323-9bca-6864b0e47976",
+          "customTypeId": null
+        },
+        {
+          "id": "343b7a52-f97f-42e1-9c80-de3dd5e845bd",
+          "name": "Start / stop samples",
+          "type": "DEPENDENCY",
+          "fromComponentId": "82296a08-b223-4323-9bca-6864b0e47976",
+          "toComponentId": "e0b9dee5-cd9e-42a9-b783-400bdc62be30",
+          "customTypeId": null
+        },
+        {
+          "id": "5206f606-a7c2-43d2-918a-7a9d7278e385",
+          "name": "Persist derived figures",
+          "type": "DEPENDENCY",
+          "fromComponentId": "28f8eea9-295f-4e5d-8d88-67c8ce66f36f",
+          "toComponentId": "c21252be-f687-4720-9e1c-c2bbee3f0f81",
+          "customTypeId": null
+        },
+        {
+          "id": "5dbe4e20-5f52-4072-b87a-3d86993d054b",
+          "name": "Finalize saved run",
+          "type": "DEPENDENCY",
+          "fromComponentId": "82296a08-b223-4323-9bca-6864b0e47976",
+          "toComponentId": "28f8eea9-295f-4e5d-8d88-67c8ce66f36f",
+          "customTypeId": null
+        },
+        {
+          "id": "661ca2dc-225f-4081-a89a-6916107b0c48",
+          "name": "Spawn main-series CLI",
+          "type": "DEPENDENCY",
+          "fromComponentId": "ea989f01-3cca-4af1-a1b0-78b574a1cf49",
+          "toComponentId": "a574bd60-98d7-4d64-8217-cc7759745281",
+          "customTypeId": null
+        },
+        {
+          "id": "7887d8b9-f7eb-4b62-810d-55e6e3c41fdb",
+          "name": "Read catalog / details",
+          "type": "DEPENDENCY",
+          "fromComponentId": "cd00bce6-d1ad-40a4-a337-f1bff2a7bbb8",
+          "toComponentId": "8d1aff61-fb46-40fb-a1d2-088a34a119c8",
+          "customTypeId": null
+        },
+        {
+          "id": "7a78a81d-f6b1-43bc-9971-6e7d2982d4ae",
+          "name": "Read saved assessment; do not rerun load",
+          "type": "DEPENDENCY",
+          "fromComponentId": "8d1aff61-fb46-40fb-a1d2-088a34a119c8",
+          "toComponentId": "28f8eea9-295f-4e5d-8d88-67c8ce66f36f",
+          "customTypeId": null
+        },
+        {
+          "id": "7fbba342-a457-442a-9b7f-803577772567",
+          "name": "Status / launch",
+          "type": "DEPENDENCY",
+          "fromComponentId": "cd00bce6-d1ad-40a4-a337-f1bff2a7bbb8",
+          "toComponentId": "ea989f01-3cca-4af1-a1b0-78b574a1cf49",
+          "customTypeId": null
+        },
+        {
+          "id": "82e175d6-53c9-4f3e-867e-c29dc7d02887",
+          "name": "Execute selected protocol row",
+          "type": "DEPENDENCY",
+          "fromComponentId": "a574bd60-98d7-4d64-8217-cc7759745281",
+          "toComponentId": "82296a08-b223-4323-9bca-6864b0e47976",
+          "customTypeId": null
+        },
+        {
+          "id": "cfefdc3c-76bb-45db-acae-94c182367057",
+          "name": "CustomSession + Monitor / signal checks",
+          "type": "DEPENDENCY",
+          "fromComponentId": "30ad26b3-e185-4d9c-80a3-5e73662f5992",
+          "toComponentId": "3ca02786-8ad4-427f-a35b-e38897b23d2c",
+          "customTypeId": null
+        },
+        {
+          "id": "d363f555-52e5-4728-81bb-0db22d0c0cee",
+          "name": "Resolve allowed result paths",
+          "type": "DEPENDENCY",
+          "fromComponentId": "4c9271d3-ba88-4d3d-9d29-259d0a77aa11",
+          "toComponentId": "8d1aff61-fb46-40fb-a1d2-088a34a119c8",
+          "customTypeId": null
+        },
+        {
+          "id": "d87e3bb0-aa8a-4c76-857f-3486559f45ab",
+          "name": "Accept state observations",
+          "type": "DEPENDENCY",
+          "fromComponentId": "e0b9dee5-cd9e-42a9-b783-400bdc62be30",
+          "toComponentId": "30ad26b3-e185-4d9c-80a3-5e73662f5992",
+          "customTypeId": null
+        },
+        {
+          "id": "da96559b-4a50-4369-bce7-fb558c414d63",
+          "name": "Prepare / enable / restore",
+          "type": "DEPENDENCY",
+          "fromComponentId": "82296a08-b223-4323-9bca-6864b0e47976",
+          "toComponentId": "30ad26b3-e185-4d9c-80a3-5e73662f5992",
+          "customTypeId": null
+        },
+        {
+          "id": "dab6f5ab-0de8-4f00-a340-bf6ad0834983",
+          "name": "Prepare fixed / main baseline",
+          "type": "DEPENDENCY",
+          "fromComponentId": "82296a08-b223-4323-9bca-6864b0e47976",
+          "toComponentId": "42bb8179-d973-4467-ab1e-715322b3b715",
+          "customTypeId": null
+        },
+        {
+          "id": "dc79aa40-5866-4249-b55c-682b66aaac59",
+          "name": "Preparation qualification / resume preflight",
+          "type": "DEPENDENCY",
+          "fromComponentId": "a574bd60-98d7-4d64-8217-cc7759745281",
+          "toComponentId": "3ca02786-8ad4-427f-a35b-e38897b23d2c",
+          "customTypeId": null
+        },
+        {
+          "id": "ec6ace55-f429-40a9-b01b-b2299aa2a55d",
+          "name": "Reconcile source evidence",
+          "type": "DEPENDENCY",
+          "fromComponentId": "28f8eea9-295f-4e5d-8d88-67c8ce66f36f",
+          "toComponentId": "81a3259f-c289-4c54-ab7b-77110654c7ba",
+          "customTypeId": null
+        },
+        {
+          "id": "fcf0228b-4037-4e89-9bf0-48c78d07e976",
+          "name": "Hold exclusive run ownership",
+          "type": "DEPENDENCY",
+          "fromComponentId": "a574bd60-98d7-4d64-8217-cc7759745281",
+          "toComponentId": "c651ad17-ec87-4718-bbac-f6be292158de",
+          "customTypeId": null
+        },
+        {
+          "id": "ffa89f82-c88f-416b-9c0d-871a379f9cd2",
+          "name": "Read / save author notes",
+          "type": "DEPENDENCY",
+          "fromComponentId": "cd00bce6-d1ad-40a4-a337-f1bff2a7bbb8",
+          "toComponentId": "4c9271d3-ba88-4d3d-9d29-259d0a77aa11",
+          "customTypeId": null
+        }
+      ],
+      "typeDefinitions": [
+        {
+          "id": "98f5e96b-bac0-41c0-9f6e-3ba5b23672d6",
+          "name": "Component",
+          "color": "#0d9488",
+          "description": "Component",
+          "icon": "diagram",
+          "archived": false
+        }
+      ],
+      "relationTypeDefinitions": []
+    }
+  },
+  "components": [
+    {
+      "id": "28f8eea9-295f-4e5d-8d88-67c8ce66f36f",
+      "positionX": 550.0,
+      "positionY": 1130.0
+    },
+    {
+      "id": "30ad26b3-e185-4d9c-80a3-5e73662f5992",
+      "positionX": 2180.0,
+      "positionY": 620.0
+    },
+    {
+      "id": "3ca02786-8ad4-427f-a35b-e38897b23d2c",
+      "positionX": 2180.0,
+      "positionY": 1160.0
+    },
+    {
+      "id": "42bb8179-d973-4467-ab1e-715322b3b715",
+      "positionX": 2730.0,
+      "positionY": 100.0
+    },
+    {
+      "id": "4c9271d3-ba88-4d3d-9d29-259d0a77aa11",
+      "positionX": 1030.0,
+      "positionY": 100.0
+    },
+    {
+      "id": "81a3259f-c289-4c54-ab7b-77110654c7ba",
+      "positionX": 80.0,
+      "positionY": 1130.0
+    },
+    {
+      "id": "82296a08-b223-4323-9bca-6864b0e47976",
+      "positionX": 2180.0,
+      "positionY": 100.0
+    },
+    {
+      "id": "8d1aff61-fb46-40fb-a1d2-088a34a119c8",
+      "positionX": 550.0,
+      "positionY": 100.0
+    },
+    {
+      "id": "a574bd60-98d7-4d64-8217-cc7759745281",
+      "positionX": 1630.0,
+      "positionY": 100.0
+    },
+    {
+      "id": "c21252be-f687-4720-9e1c-c2bbee3f0f81",
+      "positionX": 1030.0,
+      "positionY": 1130.0
+    },
+    {
+      "id": "c651ad17-ec87-4718-bbac-f6be292158de",
+      "positionX": 1630.0,
+      "positionY": 1160.0
+    },
+    {
+      "id": "cd00bce6-d1ad-40a4-a337-f1bff2a7bbb8",
+      "positionX": 80.0,
+      "positionY": 100.0
+    },
+    {
+      "id": "e0b9dee5-cd9e-42a9-b783-400bdc62be30",
+      "positionX": 2730.0,
+      "positionY": 620.0
+    },
+    {
+      "id": "ea989f01-3cca-4af1-a1b0-78b574a1cf49",
+      "positionX": 550.0,
+      "positionY": 540.0
+    }
+  ],
+  "relations": [
+    {
+      "id": "0176441d-f75f-4009-8a54-58a5ed68597b",
+      "sourceHandle": "source-bottom",
+      "targetHandle": "source-top"
+    },
+    {
+      "id": "328df519-debd-4347-8176-bfa0da281393",
+      "sourceHandle": "source-right",
+      "targetHandle": "source-left"
+    },
+    {
+      "id": "343b7a52-f97f-42e1-9c80-de3dd5e845bd",
+      "sourceHandle": "source-right",
+      "targetHandle": "source-left"
+    },
+    {
+      "id": "5206f606-a7c2-43d2-918a-7a9d7278e385",
+      "sourceHandle": "source-right",
+      "targetHandle": "source-left"
+    },
+    {
+      "id": "5dbe4e20-5f52-4072-b87a-3d86993d054b",
+      "sourceHandle": "source-left",
+      "targetHandle": "source-right"
+    },
+    {
+      "id": "661ca2dc-225f-4081-a89a-6916107b0c48",
+      "sourceHandle": "source-right",
+      "targetHandle": "source-left"
+    },
+    {
+      "id": "7887d8b9-f7eb-4b62-810d-55e6e3c41fdb",
+      "sourceHandle": "source-right",
+      "targetHandle": "source-left"
+    },
+    {
+      "id": "7a78a81d-f6b1-43bc-9971-6e7d2982d4ae",
+      "sourceHandle": "source-bottom",
+      "targetHandle": "source-top"
+    },
+    {
+      "id": "7fbba342-a457-442a-9b7f-803577772567",
+      "sourceHandle": "source-right",
+      "targetHandle": "source-left"
+    },
+    {
+      "id": "82e175d6-53c9-4f3e-867e-c29dc7d02887",
+      "sourceHandle": "source-right",
+      "targetHandle": "source-left"
+    },
+    {
+      "id": "cfefdc3c-76bb-45db-acae-94c182367057",
+      "sourceHandle": "source-bottom",
+      "targetHandle": "source-top"
+    },
+    {
+      "id": "d363f555-52e5-4728-81bb-0db22d0c0cee",
+      "sourceHandle": "source-left",
+      "targetHandle": "source-right"
+    },
+    {
+      "id": "d87e3bb0-aa8a-4c76-857f-3486559f45ab",
+      "sourceHandle": "source-left",
+      "targetHandle": "source-right"
+    },
+    {
+      "id": "da96559b-4a50-4369-bce7-fb558c414d63",
+      "sourceHandle": "source-bottom",
+      "targetHandle": "source-top"
+    },
+    {
+      "id": "dab6f5ab-0de8-4f00-a340-bf6ad0834983",
+      "sourceHandle": "source-right",
+      "targetHandle": "source-left"
+    },
+    {
+      "id": "dc79aa40-5866-4249-b55c-682b66aaac59",
+      "sourceHandle": "source-bottom",
+      "targetHandle": "source-top"
+    },
+    {
+      "id": "ec6ace55-f429-40a9-b01b-b2299aa2a55d",
+      "sourceHandle": "source-left",
+      "targetHandle": "source-right"
+    },
+    {
+      "id": "fcf0228b-4037-4e89-9bf0-48c78d07e976",
+      "sourceHandle": "source-bottom",
+      "targetHandle": "source-top"
+    },
+    {
+      "id": "ffa89f82-c88f-416b-9c0d-871a379f9cd2",
+      "sourceHandle": "source-right",
+      "targetHandle": "source-left"
+    }
+  ],
+  "sections": [
+    {
+      "id": "20b0141e-9e51-44b8-b82d-e44ddf712ff9",
+      "positionX": 1550.0,
+      "positionY": 0.0,
+      "width": 1900.0,
+      "height": 1700.0
+    },
+    {
+      "id": "2c347c0a-3b3d-4cc6-908f-b2b44d5a19df",
+      "positionX": 0.0,
+      "positionY": 0.0,
+      "width": 1420.0,
+      "height": 900.0
+    },
+    {
+      "id": "53c691f1-aa75-4a90-bfdf-12cd925bcb44",
+      "positionX": 0.0,
+      "positionY": 1020.0,
+      "width": 1420.0,
+      "height": 680.0
+    }
+  ]
+}

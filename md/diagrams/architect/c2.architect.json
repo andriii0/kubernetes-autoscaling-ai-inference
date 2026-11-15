@@ -1,0 +1,492 @@
+{
+  "schemaVersion": "architect.diagram-snapshot.v1",
+  "architecture": {
+    "schemaVersion": "architect.canonical.v1",
+    "diagram": {
+      "id": "3be9d52c-97d6-437a-a310-f2202dd169af",
+      "name": "C2 - Containers",
+      "description": "Expands C1 experiment system: local UI, Python workbench, k6, evidence and deployed serving/metric processes. C3 expands the Python workbench. Both custom comparison policies use Envoy.",
+      "sections": [
+        {
+          "id": "24dfa7ff-4916-4994-b678-2677e00e27be",
+          "name": "External Kubernetes platform",
+          "comment": "Built-in platform controllers and resource metrics.",
+          "parentId": null
+        },
+        {
+          "id": "82c4bcb6-c134-4dcb-89a2-f58b30a0d0ca",
+          "name": "Experiment system / deployed workload",
+          "comment": "Minikube inference namespace; all inference replicas share one host.",
+          "parentId": null
+        },
+        {
+          "id": "f9d2c04a-d2e7-4798-91d3-5fb213cf813a",
+          "name": "Experiment system / Windows host",
+          "comment": "Owned tools and local saved evidence. Python workbench = several CLI processes, not a daemon cluster.",
+          "parentId": null
+        }
+      ],
+      "components": [
+        {
+          "id": "1899dd64-1214-472d-93e3-e71e1cb2d854",
+          "name": "Inference Lab browser",
+          "comment": "HTML / CSS / JavaScript. Browses saved results, plots and Notes; starts pilots or resumes main v1.1 only.",
+          "type": "CLASS",
+          "sectionId": "f9d2c04a-d2e7-4798-91d3-5fb213cf813a",
+          "rows": [],
+          "customTypeId": "5562f1bd-8706-4ca4-950a-e8d283f112ae"
+        },
+        {
+          "id": "2c4341ee-ccb1-4191-8eca-c0f48ebfc09f",
+          "name": "Inference gateway",
+          "comment": "Envoy. Routes requests to Ollama and exports active-request metrics plus request-ID access logs. Used by BOTH custom comparison arms.",
+          "type": "CLASS",
+          "sectionId": "82c4bcb6-c134-4dcb-89a2-f58b30a0d0ca",
+          "rows": [],
+          "customTypeId": "5562f1bd-8706-4ca4-950a-e8d283f112ae"
+        },
+        {
+          "id": "321668a6-6504-4c04-b6c5-2d9c83eaff62",
+          "name": "Benchmark CLI",
+          "comment": "Python bench CLI processes. Prepare, execute and collect controlled experiments; finalize per-run analysis. Custom comparison is launched from CLI. Components in C3.",
+          "type": "CLASS",
+          "sectionId": "f9d2c04a-d2e7-4798-91d3-5fb213cf813a",
+          "rows": [],
+          "customTypeId": "5562f1bd-8706-4ca4-950a-e8d283f112ae"
+        },
+        {
+          "id": "68bdfc62-5f2b-4cdd-ba11-e9f89a6b8f00",
+          "name": "HPA controller",
+          "comment": "CPU utilization or active-request Object metric drives desired replica count, bounded 1-3. Policies are mutually exclusive per run.",
+          "type": "CLASS",
+          "sectionId": "24dfa7ff-4916-4994-b678-2677e00e27be",
+          "rows": [],
+          "customTypeId": "4d3c0a23-7b59-4ddd-a442-5b4b6b4babc4"
+        },
+        {
+          "id": "70919478-082d-4d48-9e82-8f07305f73d1",
+          "name": "Offline analysis",
+          "comment": "Python analysis CLIs. Replay saved evidence and generate comparison tables / plots. No traffic generation is needed for saved-result analysis.",
+          "type": "CLASS",
+          "sectionId": "f9d2c04a-d2e7-4798-91d3-5fb213cf813a",
+          "rows": [],
+          "customTypeId": "5562f1bd-8706-4ca4-950a-e8d283f112ae"
+        },
+        {
+          "id": "7ecf283a-6912-4733-b6f5-6d4d290e6c9b",
+          "name": "Prometheus",
+          "comment": "Scrapes Envoy active requests and sample timestamps. Metric source for request-based HPA, not benchmark CPU collection.",
+          "type": "CLASS",
+          "sectionId": "82c4bcb6-c134-4dcb-89a2-f58b30a0d0ca",
+          "rows": [],
+          "customTypeId": "5562f1bd-8706-4ca4-950a-e8d283f112ae"
+        },
+        {
+          "id": "915be889-f3de-4a37-8bf0-67bd058383df",
+          "name": "Metrics Server",
+          "comment": "Provides CPU Resource Metrics API to the CPU HPA. Observer CPU evidence comes directly from kubelet resource metrics.",
+          "type": "CLASS",
+          "sectionId": "24dfa7ff-4916-4994-b678-2677e00e27be",
+          "rows": [],
+          "customTypeId": "4d3c0a23-7b59-4ddd-a442-5b4b6b4babc4"
+        },
+        {
+          "id": "b46e03d0-d5f4-449c-9893-5e1eeb0c7cc9",
+          "name": "Ollama inference",
+          "comment": "Qwen2.5:0.5b, CPU. Deployment fixed at 1 or 3 replicas, or HPA 1-3. Services route traffic; Ready does not guarantee a warmed model.",
+          "type": "CLASS",
+          "sectionId": "82c4bcb6-c134-4dcb-89a2-f58b30a0d0ca",
+          "rows": [],
+          "customTypeId": "5562f1bd-8706-4ca4-950a-e8d283f112ae"
+        },
+        {
+          "id": "c2812d29-b977-438c-90b5-fe11719a74bd",
+          "name": "Lab HTTP server",
+          "comment": "Python lab/server.py on loopback. Serves browser assets, saved results, plots and Notes; launches pilot or main-series child processes.",
+          "type": "CLASS",
+          "sectionId": "f9d2c04a-d2e7-4798-91d3-5fb213cf813a",
+          "rows": [],
+          "customTypeId": "5562f1bd-8706-4ca4-950a-e8d283f112ae"
+        },
+        {
+          "id": "da93542e-e188-4ab3-ae4c-821d9b3c3538",
+          "name": "Kubernetes API",
+          "comment": "kubectl operations, pod/deployment/HPA state, logs and kubelet /metrics/resource proxy used by benchmark observer.",
+          "type": "CLASS",
+          "sectionId": "24dfa7ff-4916-4994-b678-2677e00e27be",
+          "rows": [],
+          "customTypeId": "4d3c0a23-7b59-4ddd-a442-5b4b6b4babc4"
+        },
+        {
+          "id": "e755d251-6144-49b3-ae7d-89febe97b806",
+          "name": "k6 load generator",
+          "comment": "Child process; inference.js sends nonstream requests. Compiled Go extension measures monotonic elapsed latency.",
+          "type": "CLASS",
+          "sectionId": "f9d2c04a-d2e7-4798-91d3-5fb213cf813a",
+          "rows": [],
+          "customTypeId": "5562f1bd-8706-4ca4-950a-e8d283f112ae"
+        },
+        {
+          "id": "e7e9b5aa-3b6c-451e-ab0a-5d804dcaedca",
+          "name": "Prometheus Adapter",
+          "comment": "Exposes Object metric via custom.metrics.k8s.io. HPA queries the metric associated with inference-gateway Service.",
+          "type": "CLASS",
+          "sectionId": "82c4bcb6-c134-4dcb-89a2-f58b30a0d0ca",
+          "rows": [],
+          "customTypeId": "5562f1bd-8706-4ca4-950a-e8d283f112ae"
+        },
+        {
+          "id": "e94b5d7f-de5e-458c-bd03-fc2cb774db11",
+          "name": "Local evidence files",
+          "comment": "results/: archived inputs, manifests, request / cluster JSONL, CSV tables, PNG/SVG plots and editable notes.md.",
+          "type": "CLASS",
+          "sectionId": "f9d2c04a-d2e7-4798-91d3-5fb213cf813a",
+          "rows": [],
+          "customTypeId": "c8d01b94-c42d-4712-8949-1cebac6b632b"
+        }
+      ],
+      "relations": [
+        {
+          "id": "15315e5e-b6d2-450d-92e2-4f6c2211e023",
+          "name": "Spawn and collect stdout / summary",
+          "type": "DEPENDENCY",
+          "fromComponentId": "321668a6-6504-4c04-b6c5-2d9c83eaff62",
+          "toComponentId": "e755d251-6144-49b3-ae7d-89febe97b806",
+          "customTypeId": null
+        },
+        {
+          "id": "26dceb06-b4e7-4be4-a6a2-cec75ac63a46",
+          "name": "Update Deployment scale",
+          "type": "DEPENDENCY",
+          "fromComponentId": "68bdfc62-5f2b-4cdd-ba11-e9f89a6b8f00",
+          "toComponentId": "da93542e-e188-4ab3-ae4c-821d9b3c3538",
+          "customTypeId": null
+        },
+        {
+          "id": "2fa12a68-3b6f-4d28-9655-4f2f7751568e",
+          "name": "Read records / write reports",
+          "type": "DEPENDENCY",
+          "fromComponentId": "70919478-082d-4d48-9e82-8f07305f73d1",
+          "toComponentId": "e94b5d7f-de5e-458c-bd03-fc2cb774db11",
+          "customTypeId": null
+        },
+        {
+          "id": "345de95c-c9bb-421a-a663-f47824b5d56c",
+          "name": "Reconcile desired pods",
+          "type": "DEPENDENCY",
+          "fromComponentId": "da93542e-e188-4ab3-ae4c-821d9b3c3538",
+          "toComponentId": "b46e03d0-d5f4-449c-9893-5e1eeb0c7cc9",
+          "customTypeId": null
+        },
+        {
+          "id": "55faf5a0-a4fc-493e-91f2-ba484914461b",
+          "name": "Loopback HTTP / JSON",
+          "type": "DEPENDENCY",
+          "fromComponentId": "1899dd64-1214-472d-93e3-e71e1cb2d854",
+          "toComponentId": "c2812d29-b977-438c-90b5-fe11719a74bd",
+          "customTypeId": null
+        },
+        {
+          "id": "7cf2a12d-2d6c-4a16-a95b-3d6477fa18eb",
+          "name": "Read evidence / edit Notes",
+          "type": "DEPENDENCY",
+          "fromComponentId": "c2812d29-b977-438c-90b5-fe11719a74bd",
+          "toComponentId": "e94b5d7f-de5e-458c-bd03-fc2cb774db11",
+          "customTypeId": null
+        },
+        {
+          "id": "999aa47b-7c1c-4ca8-be49-a7cdbfb19c55",
+          "name": "Custom CPU + request arms: HTTP /api/generate",
+          "type": "DEPENDENCY",
+          "fromComponentId": "e755d251-6144-49b3-ae7d-89febe97b806",
+          "toComponentId": "2c4341ee-ccb1-4191-8eca-c0f48ebfc09f",
+          "customTypeId": null
+        },
+        {
+          "id": "9c353c2d-8257-42b9-b748-679d379676b8",
+          "name": "Scrape /stats/prometheus",
+          "type": "DEPENDENCY",
+          "fromComponentId": "7ecf283a-6912-4733-b6f5-6d4d290e6c9b",
+          "toComponentId": "2c4341ee-ccb1-4191-8eca-c0f48ebfc09f",
+          "customTypeId": null
+        },
+        {
+          "id": "9d436144-d9c7-42e0-a853-b23e2101784a",
+          "name": "Read CPU resource metric",
+          "type": "DEPENDENCY",
+          "fromComponentId": "68bdfc62-5f2b-4cdd-ba11-e9f89a6b8f00",
+          "toComponentId": "915be889-f3de-4a37-8bf0-67bd058383df",
+          "customTypeId": null
+        },
+        {
+          "id": "ab440c50-fea2-4fbd-b6e0-d1eb06975ff8",
+          "name": "HTTP upstream via Ollama Service",
+          "type": "DEPENDENCY",
+          "fromComponentId": "2c4341ee-ccb1-4191-8eca-c0f48ebfc09f",
+          "toComponentId": "b46e03d0-d5f4-449c-9893-5e1eeb0c7cc9",
+          "customTypeId": null
+        },
+        {
+          "id": "b480f5c2-b6f2-4d8b-a157-5a7bb2f20fb0",
+          "name": "PromQL queries",
+          "type": "DEPENDENCY",
+          "fromComponentId": "e7e9b5aa-3b6c-451e-ab0a-5d804dcaedca",
+          "toComponentId": "7ecf283a-6912-4733-b6f5-6d4d290e6c9b",
+          "customTypeId": null
+        },
+        {
+          "id": "c980a14d-02d4-400c-bf07-653bd1c36ca2",
+          "name": "Archive raw + derived evidence",
+          "type": "DEPENDENCY",
+          "fromComponentId": "321668a6-6504-4c04-b6c5-2d9c83eaff62",
+          "toComponentId": "e94b5d7f-de5e-458c-bd03-fc2cb774db11",
+          "customTypeId": null
+        },
+        {
+          "id": "dc2d6ae0-f4f7-41d4-b7f3-a405fd46b11e",
+          "name": "Read Object custom metric",
+          "type": "DEPENDENCY",
+          "fromComponentId": "68bdfc62-5f2b-4cdd-ba11-e9f89a6b8f00",
+          "toComponentId": "e7e9b5aa-3b6c-451e-ab0a-5d804dcaedca",
+          "customTypeId": null
+        },
+        {
+          "id": "e67d4970-8165-46fd-92b7-a1c36e967459",
+          "name": "Launch pilot / resume main",
+          "type": "DEPENDENCY",
+          "fromComponentId": "c2812d29-b977-438c-90b5-fe11719a74bd",
+          "toComponentId": "321668a6-6504-4c04-b6c5-2d9c83eaff62",
+          "customTypeId": null
+        },
+        {
+          "id": "f060b68d-0cac-447f-9632-a84c0b5f4ace",
+          "name": "kubectl: prepare / observe / logs / restore",
+          "type": "DEPENDENCY",
+          "fromComponentId": "321668a6-6504-4c04-b6c5-2d9c83eaff62",
+          "toComponentId": "da93542e-e188-4ab3-ae4c-821d9b3c3538",
+          "customTypeId": null
+        },
+        {
+          "id": "f129a8d9-4182-4d53-9b15-4426fde3926d",
+          "name": "Main / peak-12: tunnel + Service /api/generate",
+          "type": "DEPENDENCY",
+          "fromComponentId": "e755d251-6144-49b3-ae7d-89febe97b806",
+          "toComponentId": "b46e03d0-d5f4-449c-9893-5e1eeb0c7cc9",
+          "customTypeId": null
+        },
+        {
+          "id": "f1598735-6dad-454c-b9a5-0786b9055b46",
+          "name": "Check source freshness / clock / identity",
+          "type": "DEPENDENCY",
+          "fromComponentId": "321668a6-6504-4c04-b6c5-2d9c83eaff62",
+          "toComponentId": "7ecf283a-6912-4733-b6f5-6d4d290e6c9b",
+          "customTypeId": null
+        }
+      ],
+      "typeDefinitions": [
+        {
+          "id": "4d3c0a23-7b59-4ddd-a442-5b4b6b4babc4",
+          "name": "External platform",
+          "color": "#64748b",
+          "description": "External platform",
+          "icon": "diagram",
+          "archived": false
+        },
+        {
+          "id": "5562f1bd-8706-4ca4-950a-e8d283f112ae",
+          "name": "Container",
+          "color": "#0284c7",
+          "description": "Container",
+          "icon": "diagram",
+          "archived": false
+        },
+        {
+          "id": "c8d01b94-c42d-4712-8949-1cebac6b632b",
+          "name": "Data store",
+          "color": "#b45309",
+          "description": "Data store",
+          "icon": "diagram",
+          "archived": false
+        }
+      ],
+      "relationTypeDefinitions": []
+    }
+  },
+  "components": [
+    {
+      "id": "1899dd64-1214-472d-93e3-e71e1cb2d854",
+      "positionX": 60.0,
+      "positionY": 100.0
+    },
+    {
+      "id": "2c4341ee-ccb1-4191-8eca-c0f48ebfc09f",
+      "positionX": 1660.0,
+      "positionY": 100.0
+    },
+    {
+      "id": "321668a6-6504-4c04-b6c5-2d9c83eaff62",
+      "positionX": 540.0,
+      "positionY": 100.0
+    },
+    {
+      "id": "68bdfc62-5f2b-4cdd-ba11-e9f89a6b8f00",
+      "positionX": 2190.0,
+      "positionY": 1250.0
+    },
+    {
+      "id": "70919478-082d-4d48-9e82-8f07305f73d1",
+      "positionX": 1050.0,
+      "positionY": 650.0
+    },
+    {
+      "id": "7ecf283a-6912-4733-b6f5-6d4d290e6c9b",
+      "positionX": 1660.0,
+      "positionY": 650.0
+    },
+    {
+      "id": "915be889-f3de-4a37-8bf0-67bd058383df",
+      "positionX": 2720.0,
+      "positionY": 1250.0
+    },
+    {
+      "id": "b46e03d0-d5f4-449c-9893-5e1eeb0c7cc9",
+      "positionX": 2720.0,
+      "positionY": 100.0
+    },
+    {
+      "id": "c2812d29-b977-438c-90b5-fe11719a74bd",
+      "positionX": 60.0,
+      "positionY": 650.0
+    },
+    {
+      "id": "da93542e-e188-4ab3-ae4c-821d9b3c3538",
+      "positionX": 1660.0,
+      "positionY": 1250.0
+    },
+    {
+      "id": "e755d251-6144-49b3-ae7d-89febe97b806",
+      "positionX": 1050.0,
+      "positionY": 100.0
+    },
+    {
+      "id": "e7e9b5aa-3b6c-451e-ab0a-5d804dcaedca",
+      "positionX": 2190.0,
+      "positionY": 650.0
+    },
+    {
+      "id": "e94b5d7f-de5e-458c-bd03-fc2cb774db11",
+      "positionX": 540.0,
+      "positionY": 650.0
+    }
+  ],
+  "relations": [
+    {
+      "id": "15315e5e-b6d2-450d-92e2-4f6c2211e023",
+      "sourceHandle": "source-right",
+      "targetHandle": "source-left"
+    },
+    {
+      "id": "26dceb06-b4e7-4be4-a6a2-cec75ac63a46",
+      "sourceHandle": "source-left",
+      "targetHandle": "source-right"
+    },
+    {
+      "id": "2fa12a68-3b6f-4d28-9655-4f2f7751568e",
+      "sourceHandle": "source-left",
+      "targetHandle": "source-right"
+    },
+    {
+      "id": "345de95c-c9bb-421a-a663-f47824b5d56c",
+      "sourceHandle": "source-right",
+      "targetHandle": "source-right"
+    },
+    {
+      "id": "55faf5a0-a4fc-493e-91f2-ba484914461b",
+      "sourceHandle": "source-bottom",
+      "targetHandle": "source-top"
+    },
+    {
+      "id": "7cf2a12d-2d6c-4a16-a95b-3d6477fa18eb",
+      "sourceHandle": "source-right",
+      "targetHandle": "source-left"
+    },
+    {
+      "id": "999aa47b-7c1c-4ca8-be49-a7cdbfb19c55",
+      "sourceHandle": "source-right",
+      "targetHandle": "source-left"
+    },
+    {
+      "id": "9c353c2d-8257-42b9-b748-679d379676b8",
+      "sourceHandle": "source-top",
+      "targetHandle": "source-bottom"
+    },
+    {
+      "id": "9d436144-d9c7-42e0-a853-b23e2101784a",
+      "sourceHandle": "source-right",
+      "targetHandle": "source-left"
+    },
+    {
+      "id": "ab440c50-fea2-4fbd-b6e0-d1eb06975ff8",
+      "sourceHandle": "source-right",
+      "targetHandle": "source-left"
+    },
+    {
+      "id": "b480f5c2-b6f2-4d8b-a157-5a7bb2f20fb0",
+      "sourceHandle": "source-left",
+      "targetHandle": "source-right"
+    },
+    {
+      "id": "c980a14d-02d4-400c-bf07-653bd1c36ca2",
+      "sourceHandle": "source-bottom",
+      "targetHandle": "source-top"
+    },
+    {
+      "id": "dc2d6ae0-f4f7-41d4-b7f3-a405fd46b11e",
+      "sourceHandle": "source-top",
+      "targetHandle": "source-bottom"
+    },
+    {
+      "id": "e67d4970-8165-46fd-92b7-a1c36e967459",
+      "sourceHandle": "source-right",
+      "targetHandle": "source-left"
+    },
+    {
+      "id": "f060b68d-0cac-447f-9632-a84c0b5f4ace",
+      "sourceHandle": "source-bottom",
+      "targetHandle": "source-top"
+    },
+    {
+      "id": "f129a8d9-4182-4d53-9b15-4426fde3926d",
+      "sourceHandle": "source-top",
+      "targetHandle": "source-top"
+    },
+    {
+      "id": "f1598735-6dad-454c-b9a5-0786b9055b46",
+      "sourceHandle": "source-right",
+      "targetHandle": "source-left"
+    }
+  ],
+  "sections": [
+    {
+      "id": "24dfa7ff-4916-4994-b678-2677e00e27be",
+      "positionX": 1600.0,
+      "positionY": 1150.0,
+      "width": 1500.0,
+      "height": 550.0
+    },
+    {
+      "id": "82c4bcb6-c134-4dcb-89a2-f58b30a0d0ca",
+      "positionX": 1600.0,
+      "positionY": 0.0,
+      "width": 1500.0,
+      "height": 1050.0
+    },
+    {
+      "id": "f9d2c04a-d2e7-4798-91d3-5fb213cf813a",
+      "positionX": 0.0,
+      "positionY": 0.0,
+      "width": 1450.0,
+      "height": 1050.0
+    }
+  ]
+}

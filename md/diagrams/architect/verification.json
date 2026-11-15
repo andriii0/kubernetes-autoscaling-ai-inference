@@ -1,0 +1,74 @@
+{
+  "python_modules": 34,
+  "python_classes": 14,
+  "diagrams": {
+    "c1": {
+      "id": "a155ecbb-b1f2-425f-8649-541d2086f17b",
+      "name": "C1 - System context",
+      "phase": "verified",
+      "revision": 2,
+      "version": {
+        "id": "5167a17e-71f9-43c6-8e14-3dc2b963903d",
+        "diagramId": "a155ecbb-b1f2-425f-8649-541d2086f17b",
+        "number": 5,
+        "createdAt": "2026-11-15T11:52:53.965196800Z",
+        "comment": "Final source-coverage and rendering audit, 2026-11-15",
+        "reason": "MANUAL"
+      },
+      "components": 4,
+      "relations": 4,
+      "sections": 0
+    },
+    "c2": {
+      "id": "3be9d52c-97d6-437a-a310-f2202dd169af",
+      "name": "C2 - Containers",
+      "phase": "verified",
+      "revision": 2,
+      "version": {
+        "id": "c4c46624-a2ab-45c9-8335-33d7037ee305",
+        "diagramId": "3be9d52c-97d6-437a-a310-f2202dd169af",
+        "number": 4,
+        "createdAt": "2026-11-15T11:52:56.459239Z",
+        "comment": "Final source-coverage and rendering audit, 2026-11-15",
+        "reason": "MANUAL"
+      },
+      "components": 13,
+      "relations": 17,
+      "sections": 3
+    },
+    "c3": {
+      "id": "d56e1114-e3c1-4391-a505-f91f5eb4e3ca",
+      "name": "C3 - Python workbench components",
+      "phase": "verified",
+      "revision": 1,
+      "version": {
+        "id": "f58e732b-aa65-4b56-a268-a93c9bac3e1b",
+        "diagramId": "d56e1114-e3c1-4391-a505-f91f5eb4e3ca",
+        "number": 3,
+        "createdAt": "2026-11-15T11:52:59.223558500Z",
+        "comment": "Final source-coverage and rendering audit, 2026-11-15",
+        "reason": "MANUAL"
+      },
+      "components": 14,
+      "relations": 19,
+      "sections": 3
+    },
+    "c4": {
+      "id": "b2f9ccf0-a924-43c1-89db-a15b02c58d9f",
+      "name": "C4 - UML of the complete application",
+      "phase": "verified",
+      "revision": 3,
+      "version": {
+        "id": "5f451fff-7cab-494e-838b-e87225b80be0",
+        "diagramId": "b2f9ccf0-a924-43c1-89db-a15b02c58d9f",
+        "number": 4,
+        "createdAt": "2026-11-15T11:53:01.955300700Z",
+        "comment": "Final source-coverage and rendering audit, 2026-11-15",
+        "reason": "MANUAL"
+      },
+      "components": 58,
+      "relations": 70,
+      "sections": 8
+    }
+  }
+}
