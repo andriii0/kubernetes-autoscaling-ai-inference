@@ -99,7 +99,7 @@ def main(argv=None):
                 command=[sys.executable,'-B',str(ROOT/'bench/run_pilot.py'),'--mode','fixed-1','--profile','steady',
                          '--diagnostic-warmup-wait',variant,'--rate','8','--duration','5m','--slo-ms','5000',
                          '--base-url',url,'--run-dir',str(folder),'--activity-note',
-                         'No For Honor or other project k6/observer found before launch; see the pre-launch host snapshot.']
+                         'No other project k6/observer found before launch; see the pre-launch host snapshot.']
                 print(f'Diagnostic {order}/2: {variant}',flush=True)
                 code=run_command(command,folder)
                 if code not in (0,99):

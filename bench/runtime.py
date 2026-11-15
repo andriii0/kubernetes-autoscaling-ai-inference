@@ -94,8 +94,8 @@ def host_snapshot():
     script = r'''$ErrorActionPreference = 'Stop'
     [Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false)
     $p = @(Get-CimInstance Win32_Process | Where-Object {
-        $_.Name -eq 'k6.exe' -or $_.Name -match 'ForHonor' -or
-        ($_.Name -match '^python(w)?\.exe$' -and $_.CommandLine -match '(run_series|run_pilot|run_pilot_search|run_wait_pair|run_custom_comparison|run_custom_series|prepare_custom_metric|run_peak12_comparison|resume_peak12|observe)\.py|lab\.launch')
+        $_.Name -eq 'k6.exe' -or
+        ($_.Name -match '^python(w)?\.exe$' -and $_.CommandLine -match '(run_series|run_pilot|observe)\.py')
     } | Select-Object ProcessId,ParentProcessId,ExecutablePath,Name,CommandLine)
     $cpu = @(Get-CimInstance Win32_Processor | Select-Object Name,CurrentClockSpeed,MaxClockSpeed,LoadPercentage)
     $power = powercfg /getactivescheme
@@ -117,5 +117,5 @@ def host_snapshot():
     own = participant_pids()
     host['conflicting_processes'] = foreign_processes(host['conflicting_processes'], own)
     if host['conflicting_processes']:
-        raise ValueError('A game or another project generator/observer is running; do not start diagnostic load')
+        raise ValueError('Another project generator/observer is running; do not start diagnostic load')
     return host

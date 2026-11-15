@@ -113,7 +113,7 @@ def main(argv=None):
         command = [sys.executable, '-B', str(ROOT / 'bench/run_pilot.py'), '--pilot-preparation',
                    '--mode', 'fixed-1', '--profile', 'steady', '--rate', str(rate), '--duration', f'{seconds}s',
                    '--slo-ms', '5000', '--base-url', url, '--run-dir', str(folder),
-                   '--activity-note', 'No For Honor or other project generator found; pre-launch host snapshot saved.']
+                   '--activity-note', 'No other project generator found; pre-launch host snapshot saved.']
         print(f'Starting {name}: {seconds}s measured load', flush=True)
         code = run_command(command, folder)
         if code not in (0, 99):
