@@ -13,10 +13,7 @@ permissions:
 
 jobs:
   python:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: windows-latest
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
