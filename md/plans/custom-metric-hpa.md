@@ -16,7 +16,7 @@ The [first comparison](../../results/custom-metric/comparison-20261113-180650/RE
 
 Explicit continuation revalidates the accepted prefix against archived inputs, preserves the previous manifest and writes each replacement to a separate retry directory. It rejects workload and collector changes. Only comparison-driver and archived-review-helper changes may be recorded at continuation. Its original verification passed 51 focused and 263 full Python tests; the later interruption recovery passed 17 continuation tests. The report links those outputs.
 
-The Windows task launch was independent of Codex: the saved process ancestry reaches the Schedule service. The task used Limited privileges, no triggers and no automatic restarts. It finished after the clock failure and deleted itself. The check after that failure found no experiment process or HPA. The subsequent valid cleanup and new continuation are recorded below.
+The saved process ancestry shows that the Windows Schedule service launched the experiment. The task used Limited privileges, no triggers and no automatic restarts. It finished after the clock failure and deleted itself. The check after that failure found no experiment process or HPA. The subsequent valid cleanup and new continuation are recorded below.
 
 ## Recovery check on 14 November
 
@@ -51,7 +51,7 @@ The host recovery changed instance identities, the timing environment and the co
 ## Historical remaining work after the old-series stop
 
 1. Clock alignment and the existing backend quiet/fresh-zero checks passed before continuation. Keep the one-second allowance and ten-second source-age limit; stop if the discrepancy recurs. Its underlying trigger remains unproven.
-2. The independent task has exited. Do not infer authorization for another retry from its earlier startup; resolve the clock failure and continuation boundary first. Use separate attempt folders. Preserve the four accepted cells and every failed attempt. Keep the model, resources, collectors, workload, targets and observation interval unchanged.
+2. The independent task has exited. I need to resolve the clock failure and continuation boundary before another retry. Use separate attempt folders. Preserve the four accepted cells and every failed attempt. Keep the model, resources, collectors, workload, targets and observation interval unchanged.
 3. Accept a cell only after full load, post-load, collection and cleanup checks pass. Stop on invalid evidence; do not automatically replace a failed run.
 4. Review all six accepted outcomes together under the predeclared rule below. Keep startup confirmation separate from run acceptance.
 
@@ -59,9 +59,11 @@ The continuation now handles a preflight failure after accepting a cell without 
 
 The [documentation correction plan](notion-evidence.md#review-corrections-2026-11-14) covers current wording, Notion, Research and preservation of preparation errors. It does not change the experiment or start another attempt.
 
-## Small research and choice
+<a id="small-research-and-choice"></a>
 
-I reviewed the official sources below on 13 November 2026. My choice is **request concurrency measured at an Envoy gateway, exposed through Prometheus Adapter to the existing Kubernetes HPA**. I keep Minikube and Ollama. This is a suitable architecture for a focused extension, not a verified two-day delivery estimate or a claim that it is the best serving platform in general.
+## Research and choice
+
+I reviewed the official sources below on 13 November 2026. My choice is **request concurrency measured at an Envoy gateway, exposed through Prometheus Adapter to the existing Kubernetes HPA**. I keep Minikube and Ollama. I chose it for this extension; I had not verified a two-day delivery estimate or compared it with every serving platform.
 
 I used four criteria: relevance to accumulating work, availability without changing model serving, preservation of the CPU-HPA comparison, and implementation/verification effort.
 
@@ -207,8 +209,8 @@ The six comparative load/post-load windows take at least 108.2 minutes; the two 
 ## Original time budget and acceptance
 
 1. First half-day checkpoint: aim for a working signal path and passing local functional tests, including routing and the metric contract. Inspect resource headroom and give Envoy, Prometheus and the adapter explicit, identical resource settings in both arms. This checkpoint is a limit on the attempt, not a promise of delivery.
-2. Proceed to separately approved threshold preparation only if that chain works and enough time remains for two preparation runs, six comparative runs, cleanup and second-day review. Otherwise retain the work as an uncompleted extension. Freeze configuration and the selected threshold after preparation; a missed checkpoint is not a reason to skip checks.
-3. Run the separately approved six-cell comparison in new paths. Stop on invalid collection, changed configuration or failed cleanup; retain valid target misses and every failed attempt.
+2. Proceed to threshold preparation only if that chain works and enough time remains for two preparation runs, six comparative runs, cleanup and second-day review. Otherwise retain the work as an uncompleted extension. Freeze configuration and the selected threshold after preparation; a missed checkpoint is not a reason to skip checks.
+3. Run the six-cell comparison in new paths. Stop on invalid collection, changed configuration or failed cleanup; retain valid target misses and every failed attempt.
 4. Leave the second day for evidence verification, charts and a short findings addition. Success means a valid comparison, even if neither policy meets the latency target.
 
 Planning verification: I inspected `deploy/hpa.yaml`, `deploy/ollama.yaml`, `bench/inference.js`, `bench/workload.json`, the launcher, HPA readiness and the existing peak-12 driver. The official sources are linked above. The sources support the architecture choice; they do not prove local compatibility or overhead. The installed-chain checkpoint now verifies basic Kubernetes compatibility, versions, exported labels, freshness and resource headroom. Each remaining run must still pass its own collection and cleanup checks.

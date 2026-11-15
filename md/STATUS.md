@@ -20,9 +20,11 @@ The original pilot selected 2/8 requests per 10 s. Its severe slowdown did not r
 
 The separate [preliminary HPA burst](../results/autoscaling/check-20261028-181713-peak12/README.md) collected valid data and restored one copy after scaling. It missed the latency target. The [fixed-three preliminary check](../results/fixed-replicas/check-20261027-203849-peak12/README.md) used steady traffic, so these two checks are not a matched comparison. The later controlled nine-run comparison supplies that evidence. Startup failures and raw records remain preserved.
 
-## Implementation and verification
+<a id="implementation-and-verification"></a>
 
-The [C1-C4 architecture project in Architect](diagrams/architect/README.md) was refined on 15 November. C1 now contains only the researcher, experiment and Kubernetes platform. C3 points from Analysis + comparisons to Saved results reader with `Reads saved assessment`. C4 is the renamed `Detailed code map`: it retains all 34 production Python modules and 14 classes, browser/workload JavaScript and the Go timer while removing external library cards and reducing method rows to architectural operations. All four models passed validation and were exported as PNG/SVG at revisions 3, 2, 2 and 7; the rendered views were inspected. This was diagram authoring, not a live experiment or Portflow submission.
+## Implementation
+
+I refined the [C1-C4 architecture project in Architect](diagrams/architect/README.md) on 15 November. C1 contains the researcher, experiment and Kubernetes platform. In C3, Analysis + comparisons points to Saved results reader with `Reads saved assessment`. C4, now called `Detailed code map`, covers all 34 production Python modules and 14 classes, browser/workload JavaScript and the Go timer. I removed external library cards and limited method rows to architectural operations. The diagram index links the validated models and PNG/SVG exports at revisions 3, 2, 2 and 7.
 
 The benchmark prepares each mode, archives inputs, collects request and cluster records, checks collection, and produces assessments and plots. A target miss is separate from invalid or incomplete evidence. Missing CPU coverage stays visible. The [architecture](ARCHITECTURE.md), [scaling procedure](plans/scaling-experiment.md), [collection plan](plans/measurements-and-pilot.md) and [benchmark review fixes](plans/bench-review-fixes.md) own implementation details and historical verification.
 
@@ -32,7 +34,7 @@ The [test review](plans/test-coverage.md) added UI backend tests to root discove
 
 ## Documentation and reproduction
 
-The 15 November documentation follow-up reread all ten project-related Notion pages. I clarified historical preparation and startup checkpoints, updated the PDP extension and main-protocol scope, and corrected local setup labels. Parent Notes now remain visible inside preparation previews. Existing custom-run plots cover both fresh preparations and all six comparison runs; new reproducible overview PNG/SVG plots show preparation and paired policy outcomes separately. All 40 lab Python tests and nine Edge browser tests passed, and the saved-data UI showed the parent context and both overviews. No new workload was started. See the [follow-up record](plans/custom-results-review.md#notes-and-documentation-follow-up).
+On 15 November I reviewed all ten project-related Notion pages, clarified historical preparation and startup checkpoints, and updated the PDP extension, main-protocol scope and local setup labels. Preparation previews now show parent Notes. Existing plots cover both fresh preparations and all six comparison runs; reproducible PNG/SVG overviews show preparation and paired policy outcomes separately. The local Python and Edge browser checks passed. See the [follow-up record](plans/custom-results-review.md#notes-and-documentation-follow-up).
 
 Research v0.12 (15 November 2026) and its PDF include the measured SQ4 answer, controlled overload comparison and separate six-run CPU/request comparison. The Notion findings, general and custom-metric logs, technology decisions and research outline now include this completed extension. Earlier pilot and PDP records remain separate. Current sources and editing locations are listed in [docs/README.md](../docs/README.md). The editable FigJam C1/C2/C3 views describe the prototype; older exported diagrams and course documents remain historical.
 
@@ -44,7 +46,7 @@ The [step-24 check](../results/reproduction/check-2026-11-06/README.md) passed f
 - All copies share one computer. Fixed one has 2 CPU available and fixed three up to 6; this is not an equal-CPU-budget comparison.
 - Complete application CPU totals are unavailable for the main HPA runs. Resource gaps, sampled replica timing and model warmup limit the interpretation; I do not claim energy or cost savings.
 - Successful-response p95 excludes failures and timeouts. I report those outcomes separately, alongside dropped and unfinished requests. Pod Ready does not establish that its model is warm, and native logs do not prove normal server drain.
-- Saved evidence does not prove that Docker, Kubernetes or the model is running now. Runtime checks are required before any separately authorized experiment.
+- Saved evidence does not prove that Docker, Kubernetes or the model is running now. I check the runtime before starting another experiment.
 
 ## CPU/request HPA comparison
 
@@ -54,6 +56,6 @@ The later journal investigation correlates all four clock failures with Ubuntu s
 
 The [evening series](../results/custom-metric/series-20261114-191048/README.md) completed both fresh preparations and all six comparison cells at 23:24:35 Berlin on 14 November. The predeclared rule selected target 1. Active-request HPA improved peak on-time success in all three pairs without increasing errors, but met the service targets in only 1/3 runs; CPU met them in 0/3. The result report contains the values, source records and capacity tradeoff. These results are separate from the old four accepted cells and the afternoon preparation.
 
-The worker restored Ubuntu synchronization to enabled/active and exited successfully. The temporary guard prevented the observed failure during this cycle; it is not a permanent clock fix or proof of absolute UTC accuracy. The [reliability plan](plans/clock-and-run-reliability.md) retains the investigation, pre-load failures and restoration evidence. The one-second clock bound and ten-second freshness bound remain unchanged.
+The background process restored Ubuntu synchronization to enabled/active and exited successfully. The temporary guard prevented the observed failure during this cycle; it is not a permanent clock fix or proof of absolute UTC accuracy. The [reliability plan](plans/clock-and-run-reliability.md) retains the investigation, pre-load failures and restoration evidence. The one-second clock bound and ten-second freshness bound remain unchanged.
 
-The [review-fix plan](plans/custom-results-review.md) records completed policy comparison, unfinished-run status, atomic registry persistence and documentation alignment. All 91 focused Python tests and eight Edge browser tests passed. Both preparations and all six comparative assessments replayed unchanged; 629 non-Markdown series files retained their hashes. I checked all 120 result previews and the real policy table in Edge. All 15 Research PDF pages were visually checked; 297 Word paragraphs/cells matched the PDF text. No new load was started. A separate GPT-6.1 Terra automation was configured to check cluster health every 15 minutes without changing the cluster or restarting experiments; this statement records its configuration, not current runtime health.
+The [review-fix plan](plans/custom-results-review.md) records the completed corrections to policy comparison, unfinished-run status, registry persistence and documentation. Python and browser checks passed, and recalculating both preparations and all six comparison assessments reproduced the saved results. Result previews, the policy table and the Research PDF were also checked.

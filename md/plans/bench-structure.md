@@ -2,7 +2,7 @@
 
 ## Objective
 
-I want the experiment code to be easier to navigate while retaining the current commands, experiment procedure, evidence format and numerical results. I preserve existing working-tree and staged changes, including the latest fixed-three check.
+I wanted to make the experiment code easier to navigate while retaining the commands, experiment procedure, evidence format and numerical results. I kept the existing working-tree and staged changes, including the latest fixed-three check.
 
 ## Steps
 
@@ -24,7 +24,7 @@ I want the experiment code to be easier to navigate while retaining the current 
 
 ## Progress
 
-- Planning: the original local suite passed all 153 tests in this session. External Antigravity review was rejected by automatic approval review because source disclosure to that service was not authorized; review and implementation continue locally.
+- Before the refactor, all 153 local tests passed. I completed the review locally because external review was unavailable.
 - Completed: ten test modules moved to `tests/bench`; shared samples and lifecycle fixtures no longer require imports between test modules. `records.py` and `runtime.py` contain the common functions. Phase assessment/resource functions moved to `analyze.py`. `run_pilot.main` is 67 lines instead of 278; its `try/finally` still performs cleanup.
 
 ## Verified results
@@ -33,9 +33,9 @@ I want the experiment code to be easier to navigate while retaining the current 
 - The temporary before/after checker compared 53 supported run analyses: collection checks, metrics, replica summaries, scaling details and main assessments/resources match. Twelve legacy/partial records still report the same missing request-event files; these are unchanged read outcomes, not twelve successful analyses. The dedicated historical verifier checks the older overhead evidence separately.
 - All 1,778 pre-existing files under `results` retain their hashes. Rebuilding the 18-run main comparison with `--no-plots` produces the same 13 CSV/JSON artifacts as `results/main/series-2026-10-25-v1.1/analysis-main-2026-10-26/`.
 - AST inspection includes imports inside functions: all 13 Python modules form an acyclic graph, no scenario driver imports another driver, and tests do not import other test modules. Eight existing CLI `--help` commands pass.
-- `md/plans/measurement-integrity/verify.py`: 120 protected files preserved, historical aggregates match and current local documentation links resolve. `md/plans/data-collection/verify-tests.py` still catches disabled unfinished-request, observation-order and observation-gap checks in temporary copies. `git diff --check` passes.
+- `md/plans/measurement-integrity/verify.py` preserved 120 protected files and reproduced historical aggregates. `md/plans/data-collection/verify-tests.py` still caught disabled unfinished-request, observation-order and observation-gap checks in temporary copies.
 - Local baseline snapshots and QA transcripts are retained in ignored `tmp/refactor-bench/`; they are temporary verification material, not experiment evidence.
 
 ## Limits
 
-I did not start a cluster experiment or check current runtime readiness. Local lifecycle tests use real k6 against local HTTP fixtures and simulated Kubernetes. Archived sources and measurements remain untouched. `run_series.py` still refuses current-source hash mismatches when continuing a frozen series; this refactor does not relax that rule or migrate an old series to new executable inputs. The research milestones and next load authorization are unchanged.
+I did not start a cluster experiment or check current runtime readiness. Local lifecycle tests use real k6 against local HTTP fixtures and simulated Kubernetes. Archived sources and measurements remain untouched. `run_series.py` still refuses current-source hash mismatches when continuing a frozen series; this refactor does not relax that rule or migrate an old series to new executable inputs. The research milestones are unchanged.

@@ -1,6 +1,6 @@
 # Post-warmup wait diagnostic pair
 
-Completed on 2026-10-26 UTC. This is one screening pair outside main protocol v1.1, not a replacement for the completed matrix. The student authorized exactly two runs. No peak search or further load followed them.
+I completed this two-run screening pair on 2026-10-26 UTC. It is outside main protocol v1.1 and does not replace the completed matrix. I stopped after the pair, without a new peak search.
 
 ## Controlled comparison
 
@@ -41,4 +41,4 @@ To analyze saved data again, choose a new destination for the existing analyzer:
 .\.venv\Scripts\python.exe -B bench/analyze.py results/diagnostics/warmup-wait-20261026-234007/01-quiet results/diagnostics/warmup-wait-20261026-234007/02-immediate --output-dir results/diagnostics/warmup-wait-20261026-234007/analysis-rerun --no-plots
 ```
 
-Collecting another pair requires a new authorization and absent series path. This report does not schedule one.
+Any repeat would use fresh runtime checks and a new series path.

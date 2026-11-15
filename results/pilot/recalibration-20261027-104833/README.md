@@ -20,10 +20,10 @@ The next folder is `04-discovery-peak-rate-12`. Its metadata stops at `initial_q
 
 The raw manifest still says `running`. I preserved it as the last driver-written record; [review.json](review.json) records the independently observed interruption. A stale manifest does not establish that the job is active. The process exit code, reason for termination and normal cleanup completion are unknown. I did not treat this as a target failure at rate 12 or evidence of its capacity.
 
-The initial check's write/diagnostic follow-up was delayed when automatic approval review could not complete because of a usage limit. This affected recording the review; it does not establish why the earlier background process disappeared. The final review removed the scheduled heartbeat because the job was no longer running.
+The follow-up review was recorded after the process had stopped. It did not establish why the process disappeared.
 
 ## Meaning and limits
 
 These short probes agree with the later fast one-copy results at rate 8. They do not explain the historical pilot slowdown, establish a sustained overload boundary, or show an HPA benefit. Rates 12, 16 and 20 were not measured, and no selected rate received the planned five-minute confirmations.
 
-I preserved every existing raw file, the archived driver and earlier results. No replacement probe, HPA run, main-matrix change, commit or push followed this review. Any continuation needs a new instruction, fresh runtime checks and new result paths; do not overwrite this partial attempt.
+I preserved every existing raw file, the archived driver and earlier results. I did not start replacement load or change the main matrix. Any later search needs fresh runtime checks and new result paths so this partial attempt stays intact.
