@@ -303,6 +303,30 @@ class ResumeComparisonTests(unittest.TestCase):
         self.assertTrue(all(c.kwargs['source_dir'] == self.folder / 'inputs'
                             for c in driver.review.call_args_list))
 
+    def test_resume_compares_container_transitions_in_saved_json_form(self):
+        from analyze import system_outcomes
+        samples = [{'time': str(index), 'pods': {'items': [{
+            'metadata': {'uid': 'pod'}, 'status': {'containerStatuses': [{
+                'name': 'ollama', 'containerID': identity, 'restartCount': 0}]}}]}}
+            for index, identity in enumerate((None, 'container'))]
+        transitions = system_outcomes(samples, 'ollama')
+        self.result['assessment']['system_outcomes'] = transitions
+        for saved in self.manifest['completed']:
+            saved['assessment']['system_outcomes'] = transitions
+            self.save(saved['analysis'] + '/comparison.json', self.result)
+        self.save('manifest.json', self.manifest)
+        before = self.hashes()
+        _, _, pending, _ = driver.resume_state(self.folder)
+        self.assertEqual([cell['order'] for cell in pending], [5, 6])
+        self.assertEqual(self.hashes(), before)
+
+        # Normalizing JSON representation must not hide changed evidence.
+        damaged = json.loads(json.dumps(self.result))
+        damaged['assessment']['system_outcomes'][0]['identity_after'][0] = 'other-container'
+        self.save(self.manifest['completed'][0]['analysis'] + '/comparison.json', damaged)
+        with self.assertRaisesRegex(ValueError, 'saved analysis differs'):
+            driver.resume_state(self.folder)
+
     def test_changed_collector_and_corrupt_archive_are_rejected(self):
         self.current['observe.py'] = 'changed'
         with self.assertRaisesRegex(ValueError, 'collector changed'):

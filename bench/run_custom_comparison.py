@@ -202,6 +202,8 @@ def resume_state(folder):
         result = review(run, meta['exit_code'], comparison=True, source_dir=source_dir)
         data = load_results(run)
         result.update(outcomes=outcomes(data, run, cell['policy']), resources=primary_resources(data))
+        # Compare the same JSON representation that was archived (tuples become lists).
+        result = json.loads(json.dumps(result, allow_nan=False))
         if saved != {**cell, 'run': saved['run'], 'analysis': saved['analysis'], **result}:
             raise ValueError('accepted result differs from replay')
         if read(folder / saved['analysis'] / 'comparison.json') != result:

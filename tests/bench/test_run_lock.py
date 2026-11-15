@@ -101,3 +101,87 @@ class RunLockTests(unittest.TestCase):
             return 42
         self.assertEqual(dry(['--dry-run']), 42)
         self.assertFalse(self.path.exists())
+
+
+    def test_atomic_save_failures_preserve_owner_and_block_workload(self):
+        with run_lock.experiment_lock():
+            state_path = self.path.with_suffix(".lock.json")
+            committed = state_path.read_bytes()
+            for operation in ("replace", "fsync"):
+                with self.subTest(operation=operation):
+                    with patch.object(run_lock.os, operation, side_effect=OSError("interrupted write")):
+                        with self.assertRaisesRegex(OSError, "interrupted write"):
+                            with run_lock._registry() as state:
+                                state["participants"]["999"] = "new-child"
+                    self.assertEqual(state_path.read_bytes(), committed)
+                    self.assertIn(os.getpid(), run_lock.participant_pids())
+            with patch.object(run_lock.json, "dumps", side_effect=ValueError("bad value")):
+                with self.assertRaisesRegex(ValueError, "bad value"):
+                    with run_lock._registry() as state:
+                        state["token"] = "replacement"
+            self.assertEqual(state_path.read_bytes(), committed)
+        # Failed ownership persistence must stop before entering the workload.
+        entered = False
+        with patch.object(run_lock.os, "replace", side_effect=OSError("interrupted write")):
+            with self.assertRaises(OSError):
+                with run_lock.experiment_lock():
+                    entered = True
+        self.assertFalse(entered)
+
+    def test_live_legacy_owner_blocks_migration_without_changes(self):
+        legacy = b' ' + json.dumps({'token': 'old', 'participants':
+                   {str(os.getpid()): run_lock.process_identity(os.getpid())}}).encode()
+        self.path.write_bytes(legacy)
+        with self.assertRaisesRegex(ValueError, 'legacy registry'):
+            with run_lock.experiment_lock():
+                self.fail("must not start")
+        self.assertEqual(self.path.read_bytes(), legacy)
+        self.assertFalse(self.path.with_suffix('.lock.json').exists())
+
+    def test_corrupt_legacy_registry_is_preserved_and_explained(self):
+        for payload in (b' {"token":', b' []', b' {"participants": {}}', b' \xff'):
+            with self.subTest(payload=payload):
+                self.path.write_bytes(payload)
+                with self.assertRaisesRegex(ValueError, 'registry is corrupt.*no load started'):
+                    with run_lock.experiment_lock():
+                        self.fail("must not start")
+                self.assertEqual(self.path.read_bytes(), payload)
+
+    def test_migration_blocks_old_reader_and_ignores_abandoned_temp(self):
+        self.path.write_bytes(b' {}')
+        with run_lock.experiment_lock():
+            with self.assertRaises(json.JSONDecodeError):
+                json.loads(self.path.read_bytes()[1:])
+            self.path.with_suffix('.lock.json.abandoned.tmp').write_bytes(b'{')
+            self.assertIn(os.getpid(), run_lock.participant_pids())
+
+    def test_missing_or_corrupt_committed_state_fails_closed(self):
+        with run_lock.experiment_lock():
+            pass
+        state_path = self.path.with_suffix('.lock.json')
+        state_path.unlink()
+        with self.assertRaisesRegex(ValueError, 'registry state is missing'):
+            with run_lock.experiment_lock():
+                self.fail("must not start")
+        state_path.write_bytes(b'{"token":')
+        with self.assertRaisesRegex(ValueError, 'registry is corrupt'):
+            with run_lock.experiment_lock():
+                self.fail("must not start")
+        self.assertEqual(state_path.read_bytes(), b'{"token":')
+
+    def test_interrupted_migration_cannot_start_workload(self):
+        self.path.write_bytes(b' {}')
+        real_fsync = run_lock.os.fsync
+        calls = 0
+        def fail_marker(fd):
+            nonlocal calls
+            calls += 1
+            if calls == 2:
+                raise OSError("marker not durable")
+            return real_fsync(fd)
+        with patch.object(run_lock.os, 'fsync', side_effect=fail_marker):
+            with self.assertRaisesRegex(OSError, 'marker not durable'):
+                with run_lock.experiment_lock():
+                    self.fail("must not start")
+        with run_lock.experiment_lock():
+            self.assertIn(os.getpid(), run_lock.participant_pids())

@@ -14,6 +14,7 @@ import uuid
 TOKEN_ENV = "INFERENCE_LAB_RUN_TOKEN"
 LOCK_PATH = Path(tempfile.gettempdir()) / "inference-lab-ai-lab.lock"
 _local = threading.local()
+_REGISTRY_MARKER = b"atomic-registry-v1\n"
 
 
 def process_identity(pid):
@@ -48,9 +49,46 @@ def process_identity(pid):
         return None
 
 
+def _read_state(raw, path):
+    try:
+        state = json.loads(raw)
+        if not isinstance(state, dict):
+            raise ValueError("expected an object")
+        if state:
+            if not isinstance(state.get("token"), str) or not state["token"]:
+                raise ValueError("missing owner token")
+            participants = state.get("participants")
+            if not isinstance(participants, dict) or any(
+                not pid.isdecimal() or int(pid) <= 0 or not isinstance(stamp, str) or not stamp
+                for pid, stamp in participants.items()
+            ):
+                raise ValueError("invalid process identities")
+        return state
+    except (ValueError, UnicodeError) as error:
+        raise ValueError(
+            f"Experiment registry is corrupt: {path}; no load started. "
+            "Preserve the registry and verify all experiment processes have stopped before repair."
+        ) from error
+
+
+def _write_state(path, state):
+    # Never truncate the committed ownership record, even if serialization or I/O fails.
+    payload = json.dumps(state, allow_nan=False).encode()
+    fd, temporary = tempfile.mkstemp(prefix=path.name + ".", suffix=".tmp", dir=path.parent)
+    try:
+        with os.fdopen(fd, "wb") as handle:
+            handle.write(payload)
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temporary, path)
+    finally:
+        Path(temporary).unlink(missing_ok=True)
+
+
 @contextmanager
 def _registry():
-    # Lock the first byte; the JSON begins at byte 1. Keep this section short.
+    # The mutex inode stays fixed; only its separate JSON state is replaced.
+    state_path = LOCK_PATH.with_suffix(LOCK_PATH.suffix + ".json")
     fd = os.open(LOCK_PATH, os.O_CREAT | os.O_RDWR, 0o600)
     with os.fdopen(fd, "r+b", buffering=0) as handle:
         if os.fstat(handle.fileno()).st_size == 0:
@@ -73,11 +111,28 @@ def _registry():
         try:
             handle.seek(1)
             raw = handle.read()
-            state = json.loads(raw) if raw else {}
+            if raw == _REGISTRY_MARKER:
+                try:
+                    state = _read_state(state_path.read_bytes(), state_path)
+                except FileNotFoundError as error:
+                    raise ValueError(
+                        f"Experiment registry state is missing: {state_path}; no load started. "
+                        "Verify all experiment processes have stopped before repair."
+                    ) from error
+            else:
+                state = _read_state(raw, LOCK_PATH) if raw else {}
+                if _living(state):
+                    raise ValueError("Another experiment is running; cluster is locked by a legacy registry")
+                # Migrate only while idle. Write state before the marker, and never
+                # register an owner until the marker is durable. Old code then fails
+                # closed instead of reading an obsolete ownership record.
+                _write_state(state_path, state)
+                handle.seek(1)
+                handle.write(_REGISTRY_MARKER)
+                handle.truncate()
+                os.fsync(handle.fileno())
             yield state
-            handle.seek(1)
-            handle.write(json.dumps(state).encode())
-            handle.truncate()
+            _write_state(state_path, state)
         finally:
             handle.seek(0)
             if os.name == "nt":
