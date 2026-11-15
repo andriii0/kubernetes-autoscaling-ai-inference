@@ -4,7 +4,7 @@ Updated: 2026-10-29. I keep one topic per document and use simple English.
 
 ## Scope
 
-Keep the pilot method, results, rate choice and limits in one short Notion page. Link to related documents instead of embedding them. The separate [main experiment protocol v1.1](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd) owns the main agreement; do not duplicate its settings in the results page. Code and raw data stay in Git.
+Keep the pilot method, results, rate choice and limits in one short Notion page. Link to related documents instead of embedding them. The separate [main experiment protocol v1.1](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd) defines the main agreement; do not duplicate its settings in the results page. Code and raw data stay in Git.
 
 ## Verification
 
@@ -32,7 +32,7 @@ Final findings (step 23), reproduction review (step 24) and Portflow submission 
 
 ## Documentation synchronization: 2026-10-29
 
-I requested the corrections from the documentation review and their Git publication. I keep this task limited to existing Markdown and Notion pages; code, collected documents, raw results and archived inputs stay unchanged.
+The documentation review called for corrections and their Git publication. I keep this task limited to existing Markdown and Notion pages; code, collected documents, raw results and archived inputs stay unchanged.
 
 - [x] Correct module ownership, archive descriptions, completed-analysis wording and editable/exported diagram roles.
 - [x] Separate current handoff information from historical publication records in STATUS.md.

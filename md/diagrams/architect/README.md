@@ -1,6 +1,6 @@
 # C4 architecture in Architect
 
-I created these four views from the current implementation on 15 November 2026. The modeled system is the AI inference experiment; Architect is the local authoring application. These are structural views, not evidence of a currently running experiment.
+These four views describe the current implementation as of 15 November 2026. The modeled system is the AI inference experiment; Architect is the local authoring application. These are structural views, not evidence of a currently running experiment.
 
 [Open the Architect project](http://localhost:5173/?project=bef694bf-c6ef-44e5-b591-7a67990d4079). The local Architect backend and frontend must be running. The diagrams are persisted in its regular file-backed database; the files below are portable copies of the verified revisions.
 
@@ -9,9 +9,9 @@ I created these four views from the current implementation on 15 November 2026. 
 | C1 | Researcher, experiment system and Kubernetes platform | [Open C1](http://localhost:5173/?project=bef694bf-c6ef-44e5-b591-7a67990d4079&diagram=a155ecbb-b1f2-425f-8649-541d2086f17b) | [JSON](c1.architect.json) | [SVG](c1.svg) / [PNG](c1.png) |
 | C2 | Browser, Lab server, benchmark CLI, offline analysis, evidence, serving and metrics processes | [Open C2](http://localhost:5173/?project=bef694bf-c6ef-44e5-b591-7a67990d4079&diagram=3be9d52c-97d6-437a-a310-f2202dd169af) | [JSON](c2.architect.json) | [SVG](c2.svg) / [PNG](c2.png) |
 | C3 | Components of the Python tools shown in C2, grouped by HTTP, CLI and offline-analysis responsibilities | [Open C3](http://localhost:5173/?project=bef694bf-c6ef-44e5-b591-7a67990d4079&diagram=d56e1114-e3c1-4391-a505-f91f5eb4e3ca) | [JSON](c3.architect.json) | [SVG](c3.svg) / [PNG](c3.png) |
-| C4 | Detailed code map of the owned application as UML modules, classes and selected dependencies | [Open C4](http://localhost:5173/?project=bef694bf-c6ef-44e5-b591-7a67990d4079&diagram=b2f9ccf0-a924-43c1-89db-a15b02c58d9f) | [JSON](c4.architect.json) | [SVG](c4.svg) / [PNG](c4.png) |
+| C4 | Detailed code map of the application as UML modules, classes and selected dependencies | [Open C4](http://localhost:5173/?project=bef694bf-c6ef-44e5-b591-7a67990d4079&diagram=b2f9ccf0-a924-43c1-89db-a15b02c58d9f) | [JSON](c4.architect.json) | [SVG](c4.svg) / [PNG](c4.png) |
 
-C1 expands to C2; the Python processes in C2 expand to the grouped component view in C3. C4 maps those responsibilities to source code and also includes the browser and workload code. In C2, a container means a running application or data store, not necessarily a Docker container. The benchmark CLI represents successive processes using the same executable toolchain. Kubernetes infrastructure is distinguished from the owned experiment code. Both policies in the custom-metric comparison use the Envoy route; the main and peak-12 experiments use the direct Ollama Service route.
+C1 expands to C2; the Python processes in C2 expand to the grouped component view in C3. C4 maps those responsibilities to source code and also includes the browser and workload code. In C2, a container means a running application or data store, not necessarily a Docker container. The benchmark CLI represents successive processes using the same executable toolchain. Kubernetes infrastructure is distinguished from the experiment code in this repository. Both policies in the custom-metric comparison use the Envoy route; the main and peak-12 experiments use the direct Ollama Service route.
 
 ## UML scope and notation
 
@@ -25,6 +25,6 @@ C4 is a large zoomable diagram. Use the interactive canvas or SVG for detail; th
 
 ## Verification and recovery
 
-I created and reread all four diagrams through Architect's actual HTTP MCP endpoint. Each saved model passed `validate_diagram`; every Python module's function list and every class's method list were compared with source ASTs. Native PNG and SVG exports were produced at the verified revisions. The browser loaded the persisted views, and the C4 card geometry check found no intersecting cards. [Verification metadata](verification.json) records IDs, revisions, counts and saved checkpoints.
+The four diagrams passed model validation and source-coverage checks. Native PNG and SVG exports were produced at the verified revisions. The saved views loaded in the browser, and the C4 cards do not overlap. [Verification metadata](verification.json) records IDs, revisions, counts and saved checkpoints.
 
 Import an `*.architect.json` file through Architect's normal JSON import to make a new editable copy. Existing FigJam boards and the historical C4 PDF were preserved. These exports are not a Portflow submission.

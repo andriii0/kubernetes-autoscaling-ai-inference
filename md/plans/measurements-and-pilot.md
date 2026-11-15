@@ -145,7 +145,7 @@ Repeat the selected low and peak candidates for 5 minutes each, at least twice, 
 
 ## Fresh rate selection: 2026-10-27
 
-I requested a new one-copy pilot after the completed main series and wait/no-wait pair. Its purpose is to select rates for a possible later comparison under current host conditions. This is a separate exploratory series; protocol v1.1 and all earlier results remain unchanged. I have not requested HPA or another main matrix as part of this background job.
+A new one-copy pilot followed the completed main series and wait/no-wait pair. Its purpose is to select rates for a possible later comparison under current host conditions. This is a separate exploratory series; protocol v1.1 and all earlier results remain unchanged. This background job does not include HPA or another main matrix.
 
 Reuse the existing launcher, workload, observer, recovery/quiet-state gates, Service-tunnel helper and analyzer. A narrow `--pilot-preparation` option uses the already tested prepared fixed-one path and records purpose `pilot-recalibration`, without main-protocol metadata. A small sequential driver saves its fixed selection rules before load and stops after discovery and confirmations.
 
@@ -157,7 +157,7 @@ Reuse the existing launcher, workload, observer, recovery/quiet-state gates, Ser
 
 Acceptance: the manifest reports the selected rates and confirmation verdict, or the exact reason selection could not be established. No old path is overwritten. No additional series, HPA run, commit or push follows automatically. Verify the new driver selection/stop rules and the launcher preparation path with local fixtures before starting actual load.
 
-I requested one check about an hour after actual launch. If still running, schedule another check thirty minutes later and end the first check without monitoring. At that later check, follow to completion only if the current phase and remaining run count support an estimate of ten minutes or less; otherwise schedule another thirty-minute check. Pause the follow-up when the job finishes or stops, review saved outcomes and report any problem without starting replacement load.
+One check was scheduled about an hour after launch. If still running, schedule another check thirty minutes later and end the first check without monitoring. At that later check, follow to completion only if the current phase and remaining run count support an estimate of ten minutes or less; otherwise schedule another thirty-minute check. Pause the follow-up when the job finishes or stops, review saved outcomes and report any problem without starting replacement load.
 
 Pre-launch verification: all 152 bench tests passed, including a real-k6/local-HTTP check of the new prepared pilot path and driver selection/stop fixtures. All 1,207 earlier result files retain their hashes. Docker was started and the existing ai-lab profile resumed without recreation. One Ready copy and no HPA were observed before launch; the retained restart is from recovery before measurement. No main-protocol settings or earlier executable archives changed. Current code/doc changes are uncommitted.
 
@@ -165,9 +165,9 @@ Outcome reviewed on 2026-10-27: [the background series](../../results/pilot/reca
 
 ### Explicit retry after interruption
 
-I requested another fresh pilot on 2026-10-27 with the same candidate rates, criteria, preparation and four confirmations. The new path is `results/pilot/recalibration-20261027-172726/`; no previous result is reused as a confirmation or overwritten. The existing measurement/selection code remains unchanged. A hidden PowerShell launcher records the driver PID and observed exit code separately because the previous process disappeared without a final record. The wrapper does not alter workload or collection rules.
+Another fresh pilot started on 2026-10-27 with the same candidate rates, criteria, preparation and four confirmations. The new path is `results/pilot/recalibration-20261027-172726/`; no previous result is reused as a confirmation or overwritten. The existing measurement/selection code remains unchanged. A hidden PowerShell launcher records the driver PID and observed exit code separately because the previous process disappeared without a final record. The wrapper does not alter workload or collection rules.
 
-I requested checks after thirty and sixty minutes. If still running at sixty minutes, schedule the next check twenty minutes later and continue at that interval. Do not continuously observe between checks; at later twenty-minute checks, follow only if the current phase and measured durations support no more than ten minutes remaining. Delete the heartbeat on completion or failure. Do not automatically restart failed attempts, start HPA, modify the main protocol or publish changes.
+Checks were scheduled after thirty and sixty minutes. If still running at sixty minutes, schedule the next check twenty minutes later and continue at that interval. Do not continuously observe between checks; at later twenty-minute checks, follow only if the current phase and measured durations support no more than ten minutes remaining. Delete the heartbeat on completion or failure. Do not automatically restart failed attempts, start HPA, modify the main protocol or publish changes.
 
 Retry startup confirmed at 17:31:47 UTC on 2026-10-27, with driver PID 6684 and a new manifest. The launcher syntax check passed; measurement code is unchanged from the 152-test verification. Heartbeat `30-60-20` records the requested follow-up cadence. The initial unsigned-script block happened before load and its log remains saved; the successful launch changes execution permission only for that wrapper process.
 
@@ -175,7 +175,7 @@ Completion reviewed on 2026-10-27: [all eight retry runs](../../results/pilot/re
 
 ### Another full repeat after the completed pilot
 
-I requested one more full pilot on 2026-10-27 after reviewing the completed retry. New path: `results/pilot/recalibration-20261027-191145/`. Reuse the same driver, preparation, low/peak candidates, criteria and four-confirmation order. The outcome may differ; do not force peak 12 or replace an unfavorable result. Preserve both earlier fresh series and main protocol v1.1.
+One more full pilot started on 2026-10-27 after the completed retry was reviewed. New path: `results/pilot/recalibration-20261027-191145/`. Reuse the same driver, preparation, low/peak candidates, criteria and four-confirmation order. The outcome may differ; do not force peak 12 or replace an unfavorable result. Preserve both earlier fresh series and main protocol v1.1.
 
 Use the same background check cadence: thirty minutes, sixty minutes, then every twenty minutes while still active. No continuous observation between checks; at later twenty-minute checks, follow only if at most ten minutes remain. Delete the heartbeat when done. The operational wrapper retains the process handle before waiting; a no-load exit-code-7 check verifies exit recording. No measurement code or workload change is included, so no full suite rerun or additional validation load precedes this repeat. No HPA or publication follows automatically.
 
@@ -183,7 +183,7 @@ Actual startup was confirmed at 19:12:54 UTC on 2026-10-27. The [repeat complete
 
 ### Publication checkpoint after both complete searches
 
-I requested commit and push on 2026-10-27 after reviewing both complete 2/12 pilots and the interrupted attempt. Preserve all three series, including partial records, original verdicts, per-run archives and analysis. The publication includes the prepared fixed-one pilot option, bounded search driver and its tests. External temporary launchers, scheduling records and QA logs are excluded; no measured input or raw file is pruned to reduce the file count.
+The 2026-10-27 publication checkpoint followed review of both complete 2/12 pilots and the interrupted attempt. Preserve all three series, including partial records, original verdicts, per-run archives and analysis. The publication includes the prepared fixed-one pilot option, bounded search driver and its tests. External temporary launchers, scheduling records and QA logs are excluded; no measured input or raw file is pruned to reduce the file count.
 
 The publication review replayed all 19 completed runs, checked saved analysis and archived hashes, and confirmed that current executable files still match the last verified live pilot. The earlier 152-test verification is retained without another full suite run for unchanged code. Historical verification and Markdown checks pass. Any later fixed-three/HPA probe is a separate task; main v1.1 settings and its completed matrix remain unchanged.
 

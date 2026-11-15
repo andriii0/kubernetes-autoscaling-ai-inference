@@ -43,7 +43,7 @@ Steps: compare the local technology research with Notion; update source ownershi
 
 Acceptance: all six Notion choice sections and the local research source URLs are retained; no active links reference removed research; local files/anchors resolve; runnable guide code blocks, runtime sources, Word/PDF files and result evidence remain byte-identical. No commit or publication is included.
 
-Verified: 82 local links/anchors passed; all runnable guide blocks and protected runtime/evidence/Word/PDF bytes are unchanged. Notion owns the six detailed choices and retains every source URL from the removed local duplicate. No application tests were needed for this documentation-only change.
+Verified: 82 local links/anchors passed; all runnable guide blocks and protected runtime/evidence/Word/PDF bytes are unchanged. Notion contains the six detailed choices and all source URLs from the removed local duplicate. No application tests were needed for this documentation-only change.
 
 ## Documentation cleanup: 2026-10-18
 
@@ -57,7 +57,7 @@ Verified: 82 local links/anchors resolve. Normal ripgrep discovery omits tempora
 
 ## English getting started guide: 2026-10-18
 
-Objective: use simple English and keep every guide topic, with links to the document that owns each procedure or decision.
+Objective: use simple English and keep every guide topic, with links to the document that describes each procedure or decision.
 
 Steps: rename the guide to `md/GETTING_STARTED.md`; keep setup, short checks, troubleshooting and restart instructions; use the existing pilot plan for pilot rules; move future scaling/run/analysis details into `md/plans/scaling-experiment.md` with explicit prerequisites and planned status. Link existing source files instead of copying their JavaScript, Dockerfile or Deployment contents. Update incoming references and status without changing milestones or runtime files.
 

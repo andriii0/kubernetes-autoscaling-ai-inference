@@ -19,7 +19,7 @@ I maintain a local Windows browser UI for saved results and existing experiment 
 
 I use Python's standard-library HTTP server on loopback and plain HTML/CSS/JavaScript. This adds no runtime dependency. The browser reads saved evidence; it does not replay collection on every refresh. A saved `running` field alone does not prove a live process. Reviewed interruptions and corrupt/partial files remain visible.
 
-`bench/run_pilot.py` runs one experiment. The UI pilot preset is fixed one, steady, 2 requests/10 s, 120 seconds, one repetition, prepared quiet gates and a 5000-ms target. A small adapter owns the existing Service tunnel. Its dry run validates arguments without cluster access or result creation.
+`bench/run_pilot.py` runs one experiment. The UI pilot preset is fixed one, steady, 2 requests/10 s, 120 seconds, one repetition, prepared quiet gates and a 5000-ms target. A small adapter manages the existing Service tunnel. Its dry run validates arguments without cluster access or result creation.
 
 `bench/run_series.py` needs a completed prefix of a v1.1 series and matching archived executable hashes. I expose continuation and its real `--dry-run`; I do not imply it creates a new matrix. The minimal future extension is an explicit `--new-series` path in that driver, exclusive directory creation and the existing `matrix()`/`execute()` flow with its review/stop rules.
 

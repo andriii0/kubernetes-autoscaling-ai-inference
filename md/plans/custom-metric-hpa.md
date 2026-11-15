@@ -1,6 +1,6 @@
 # Custom-metric HPA comparison
 
-Status (15 November): the [fresh evening series](../../results/custom-metric/series-20261114-191048/README.md) completed both preparations and all six accepted cells. Active-request HPA met the paired improvement rule, but passed service targets in 1/3 runs versus CPU 0/3. I retain the earlier stopped cycles separately. The [reliability plan](clock-and-run-reliability.md) owns timing and restoration; the clock guard remains strict. The checkpoints and recovery sections below are historical records through the last old-series failure, not current progress. The preparation and outcome rules remain the declared procedure.
+Status (15 November): the [fresh evening series](../../results/custom-metric/series-20261114-191048/README.md) completed both preparations and all six accepted cells. Active-request HPA met the paired improvement rule, but passed service targets in 1/3 runs versus CPU 0/3. The earlier stopped cycles remain separate. The [reliability plan](clock-and-run-reliability.md) documents timing and restoration; the clock guard remains strict. The checkpoints and recovery sections below are historical records through the last old-series failure, not current progress. The preparation and outcome rules remain the declared procedure.
 
 ## Implementation checkpoint
 
@@ -12,7 +12,7 @@ The [container check](../../results/custom-metric/container-check-20261113-b4116
 
 ## Comparison and interruption history
 
-The [first comparison](../../results/custom-metric/comparison-20261113-180650/README.md) stopped on the earlier clock check with no accepted cells. The separate [comparison v2 report](../../results/custom-metric/comparison-20261113-192512/README.md) owns the four accepted results, the kubectl crash, the application interruption and the latest pre-load stop. Target misses count as valid results when collection is complete.
+The [first comparison](../../results/custom-metric/comparison-20261113-180650/README.md) stopped on the earlier clock check with no accepted cells. The separate [comparison v2 report](../../results/custom-metric/comparison-20261113-192512/README.md) documents the four accepted results, the kubectl crash, the application interruption and the latest pre-load stop. Target misses count as valid results when collection is complete.
 
 Explicit continuation revalidates the accepted prefix against archived inputs, preserves the previous manifest and writes each replacement to a separate retry directory. It rejects workload and collector changes. Only comparison-driver and archived-review-helper changes may be recorded at continuation. Its original verification passed 51 focused and 263 full Python tests; the later interruption recovery passed 17 continuation tests. The report links those outputs.
 
@@ -38,7 +38,7 @@ The host rebooted after the stopped retry 03. Docker and ai-lab were stopped whe
 
 The comparison driver may use this explicit instance-renewal record only on continuation between complete pairs. It must reject an unrecorded identity change. The collector remains unchanged and continues to reject any restart or identity change within a run. The first four results remain intact; both cells in pair 3 will share the recovered environment. This adds a session boundary to report with the final comparison, not a new target-selection opportunity.
 
-Verification passed: all 269 Python tests, 60 idle observations over five minutes, full cleanup, four-cell replay and 737 unchanged protected files. At 2026-11-14T12:05:07.884164+00:00, the independent continuation was running `attempt-05-cpu-retry-04` in measured CPU load with four of six cells accepted. 44 requests had started and 38 had completed, more than two minutes after the first measured request, with no recorded collection errors. The active-1 cell follows only after this CPU cell passes full load, post-load, collection and cleanup checks. This confirms startup, not an accepted fifth result. The [repair record](../../results/custom-metric/comparison-20261113-192512/resume-repair-20261114/README.md) owns the evidence.
+Verification passed: all 269 Python tests, 60 idle observations over five minutes, full cleanup, four-cell replay and 737 unchanged protected files. At 2026-11-14T12:05:07.884164+00:00, the independent continuation was running `attempt-05-cpu-retry-04` in measured CPU load with four of six cells accepted. 44 requests had started and 38 had completed, more than two minutes after the first measured request, with no recorded collection errors. The active-1 cell follows only after this CPU cell passes full load, post-load, collection and cleanup checks. This confirms startup, not an accepted fifth result. The [repair record](../../results/custom-metric/comparison-20261113-192512/resume-repair-20261114/README.md) contains the evidence.
 
 ## Latest failure and protocol boundary
 

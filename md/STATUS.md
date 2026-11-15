@@ -4,7 +4,7 @@ Updated: 2026-11-15. I completed the 18-run main v1.1 series, separate nine-run 
 
 ## Completed main v1.1 comparison
 
-All 5,189 requests across 18 runs succeeded, with no dropped or unfinished requests. All modes met the agreed targets at peak 8 requests/10 s, including fixed one. HPA scaled, but this series did not show that extra copies were needed. The [combined analysis](../results/main/series-2026-10-25-v1.1/analysis-main-2026-10-26/README.md) owns the tables, plots and validation; the [series record](../results/main/series-2026-10-25-v1.1/README.md) retains the pause and restart history.
+All 5,189 requests across 18 runs succeeded, with no dropped or unfinished requests. All modes met the agreed targets at peak 8 requests/10 s, including fixed one. HPA scaled, but this series did not show that extra copies were needed. The [combined analysis](../results/main/series-2026-10-25-v1.1/analysis-main-2026-10-26/README.md) contains the tables, plots and validation; the [series record](../results/main/series-2026-10-25-v1.1/README.md) keeps the pause and restart history.
 
 ## Completed controlled peak-12 comparison
 
@@ -14,7 +14,7 @@ The comparison had two interruptions after valid load: an assessment-format mism
 
 ## Pilots and preliminary checks
 
-The original pilot selected 2/8 requests per 10 s. Its severe slowdown did not recur in the main series or in the wait/no-wait diagnostic pair. Two later completed pilots selected 2/12, with different timeout severity. I retain the interrupted search and both completed pilots. The [discrepancy note](PILOT_MAIN_DISCREPANCY.md) owns this history and its evidence links; the original physical cause remains unresolved.
+The original pilot selected 2/8 requests per 10 s. Its severe slowdown did not recur in the main series or in the wait/no-wait diagnostic pair. Two later completed pilots selected 2/12, with different timeout severity. The interrupted search and both completed pilots remain available. The [discrepancy note](PILOT_MAIN_DISCREPANCY.md) documents this history and links to its evidence; the original physical cause remains unresolved.
 
 ### Completed prepared HPA check at peak 12
 
@@ -22,7 +22,7 @@ The separate [preliminary HPA burst](../results/autoscaling/check-20261028-18171
 
 ## Implementation and verification
 
-I created and refined the [C1-C4 architecture project in Architect](diagrams/architect/README.md) on 15 November. C1 now contains only the researcher, experiment and Kubernetes platform. C3 points from Analysis + comparisons to Saved results reader with `Reads saved assessment`. C4 is the renamed `Detailed code map`: it retains all 34 production Python modules and 14 classes, browser/workload JavaScript and the Go timer while removing external library cards and reducing method rows to architectural operations. All four models passed live MCP validation, persisted rereads and native PNG/SVG export at revisions 3, 2, 2 and 7; rendered views were inspected. This was diagram authoring, not a live experiment or Portflow submission.
+The [C1-C4 architecture project in Architect](diagrams/architect/README.md) was refined on 15 November. C1 now contains only the researcher, experiment and Kubernetes platform. C3 points from Analysis + comparisons to Saved results reader with `Reads saved assessment`. C4 is the renamed `Detailed code map`: it retains all 34 production Python modules and 14 classes, browser/workload JavaScript and the Go timer while removing external library cards and reducing method rows to architectural operations. All four models passed validation and were exported as PNG/SVG at revisions 3, 2, 2 and 7; the rendered views were inspected. This was diagram authoring, not a live experiment or Portflow submission.
 
 The benchmark prepares each mode, archives inputs, collects request and cluster records, checks collection, and produces assessments and plots. A target miss is separate from invalid or incomplete evidence. Missing CPU coverage stays visible. The [architecture](ARCHITECTURE.md), [scaling procedure](plans/scaling-experiment.md), [collection plan](plans/measurements-and-pilot.md) and [benchmark review fixes](plans/bench-review-fixes.md) own implementation details and historical verification.
 
@@ -34,7 +34,7 @@ The [test review](plans/test-coverage.md) added UI backend tests to root discove
 
 The 15 November documentation follow-up reread all ten project-related Notion pages. I clarified historical preparation and startup checkpoints, updated the PDP extension and main-protocol scope, and corrected local setup labels. Parent Notes now remain visible inside preparation previews. Existing custom-run plots cover both fresh preparations and all six comparison runs; new reproducible overview PNG/SVG plots show preparation and paired policy outcomes separately. All 40 lab Python tests and nine Edge browser tests passed, and the saved-data UI showed the parent context and both overviews. No new workload was started. See the [follow-up record](plans/custom-results-review.md#notes-and-documentation-follow-up).
 
-Research v0.12 (15 November 2026) and its PDF include the measured SQ4 answer, controlled overload comparison and separate six-run CPU/request comparison. The Notion findings, general and custom-metric logs, technology decisions and research outline now include this completed extension. Earlier pilot and PDP records retain their own scope. Current sources and editing ownership are in [docs/README.md](../docs/README.md). The editable FigJam C1/C2/C3 views describe the prototype; older exported diagrams and course documents remain historical.
+Research v0.12 (15 November 2026) and its PDF include the measured SQ4 answer, controlled overload comparison and separate six-run CPU/request comparison. The Notion findings, general and custom-metric logs, technology decisions and research outline now include this completed extension. Earlier pilot and PDP records remain separate. Current sources and editing locations are listed in [docs/README.md](../docs/README.md). The editable FigJam C1/C2/C3 views describe the prototype; older exported diagrams and course documents remain historical.
 
 The [step-24 check](../results/reproduction/check-2026-11-06/README.md) passed from a clean clone and new Minikube profile on the same Windows host, including a short live check and saved main-analysis replay. This is a fresh-setup check, not reproduction by another person or on another machine.
 
@@ -52,7 +52,7 @@ I retain the [13 November series](../results/custom-metric/comparison-20261113-1
 
 The later journal investigation correlates all four clock failures with Ubuntu systemd-timesyncd initial synchronization. The last measured clock step was about +1.548 seconds. Monotonic request timing remains useful but does not fix this separate host/guest clock conflict.
 
-The [evening series](../results/custom-metric/series-20261114-191048/README.md) completed both fresh preparations and all six comparison cells at 23:24:35 Berlin on 14 November. The predeclared rule selected target 1. Active-request HPA improved peak on-time success in all three pairs without increasing errors, but met the service targets in only 1/3 runs; CPU met them in 0/3. The result report owns the values, source records and capacity tradeoff. These results are separate from the old four accepted cells and the afternoon preparation.
+The [evening series](../results/custom-metric/series-20261114-191048/README.md) completed both fresh preparations and all six comparison cells at 23:24:35 Berlin on 14 November. The predeclared rule selected target 1. Active-request HPA improved peak on-time success in all three pairs without increasing errors, but met the service targets in only 1/3 runs; CPU met them in 0/3. The result report contains the values, source records and capacity tradeoff. These results are separate from the old four accepted cells and the afternoon preparation.
 
 The worker restored Ubuntu synchronization to enabled/active and exited successfully. The temporary guard prevented the observed failure during this cycle; it is not a permanent clock fix or proof of absolute UTC accuracy. The [reliability plan](plans/clock-and-run-reliability.md) retains the investigation, pre-load failures and restoration evidence. The one-second clock bound and ten-second freshness bound remain unchanged.
 

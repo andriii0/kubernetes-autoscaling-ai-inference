@@ -87,7 +87,7 @@ Report covered seconds and coverage of each instance's active part of the primar
 
 ### Main run assessment
 
-The fixed fields and combination rule are owned by protocol v1.1: data_valid, duration_complete, unfinished, dropped, primary_p95_pass, primary_errors_pass, whole_run_errors_pass, scaling_observed and overall. Incomplete data, an incomplete duration or drops prevent a full-comparison verdict. Otherwise any service-target failure means fail, all three passing means pass, and a remaining unknown means not_assessable. Resource coverage is separate. Do not turn an interrupted system failure into a successful repetition or erase it as measurement noise.
+Protocol v1.1 defines the fixed fields and combination rule: data_valid, duration_complete, unfinished, dropped, primary_p95_pass, primary_errors_pass, whole_run_errors_pass, scaling_observed and overall. Incomplete data, an incomplete duration or drops prevent a full-comparison verdict. Otherwise any service-target failure means fail, all three passing means pass, and a remaining unknown means not_assessable. Resource coverage is separate. Do not turn an interrupted system failure into a successful repetition or erase it as measurement noise.
 
 Existing pilot_records.py already counts started IDs without completions and rejects nonzero unfinished. Reuse this check. Until unfinished is zero and accounting is complete, failed/completed on the completed subset cannot certify target attainment. Retain the unmatched IDs without inventing their outcome or latency.
 

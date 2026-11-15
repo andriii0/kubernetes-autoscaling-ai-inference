@@ -25,7 +25,7 @@ I want the experiment code to be easier to navigate while retaining the current 
 ## Progress
 
 - Planning: the original local suite passed all 153 tests in this session. External Antigravity review was rejected by automatic approval review because source disclosure to that service was not authorized; review and implementation continue locally.
-- Completed: ten test modules moved to `tests/bench`; shared samples and lifecycle fixtures no longer require imports between test modules. `records.py` and `runtime.py` contain the common functions. Phase assessment/resource functions moved to `analyze.py`. `run_pilot.main` is 67 lines instead of 278; its `try/finally` still owns cleanup.
+- Completed: ten test modules moved to `tests/bench`; shared samples and lifecycle fixtures no longer require imports between test modules. `records.py` and `runtime.py` contain the common functions. Phase assessment/resource functions moved to `analyze.py`. `run_pilot.main` is 67 lines instead of 278; its `try/finally` still performs cleanup.
 
 ## Verified results
 

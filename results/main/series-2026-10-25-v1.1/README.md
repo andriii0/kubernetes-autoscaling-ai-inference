@@ -4,7 +4,7 @@ Started preparation on 2026-10-25. Source commit: 70811d87e849581378bc89544c2bbf
 
 The agreed matrix, order and rules are owned by the [Notion protocol](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd). Follow the [execution checklist](../../../md/plans/scaling-experiment.md#manual-matrix-checklist). Pilot and preliminary runs do not replace main repetitions. A target miss is retained as an outcome; a collection problem stops progression for inspection.
 
-The user confirmed that the game was closed before the first attempt. Docker/Minikube were resumed during preparation; no cluster was recreated. The initial Ollama container had restarted once before measurements. The application image ID matches the saved preliminary check. Normal desktop applications remain open on this shared computer.
+The game was closed before the first attempt. Docker/Minikube were resumed during preparation; no cluster was recreated. The initial Ollama container had restarted once before measurements. The application image ID matches the saved preliminary check. Normal desktop applications remain open on this shared computer.
 
 ## Execution interruption
 
