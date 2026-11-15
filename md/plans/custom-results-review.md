@@ -2,7 +2,7 @@
 
 ## Objective
 
-I will correct the remaining result-browser and experiment-registry defects, then align current project documents with the completed 14 November CPU/request comparison. Earlier evidence and the two already verified fixes remain intact.
+I corrected the remaining result-browser and experiment-registry defects, then aligned the project documents with the completed 14 November CPU/request comparison. I kept the earlier evidence and the two previous fixes intact.
 
 ## Steps
 
@@ -18,7 +18,7 @@ I will correct the remaining result-browser and experiment-registry defects, the
 - An unfinished run does not receive a final data-failure verdict only because collection_valid starts false; actual recorded failures remain visible.
 - Interrupted registry persistence cannot truncate the last committed ownership record. Corrupt ownership is never silently treated as an empty registry.
 - Current documents describe six accepted cells and 0/3 CPU versus 1/3 request-policy target passes, with the predeclared paired improvement and resource limits.
-- Raw measurements and historical assessments remain byte-identical. No new workload, commit, push or submission is included.
+- Raw measurements and historical assessments remain byte-identical. This work uses saved results.
 
 ## Progress
 
@@ -27,12 +27,12 @@ Completed on 15 November 2026.
 - Inference Lab separates CPU/request policy names and shows accepted per-policy peak counts, run-level p95 ranges and target attainment. Pending collection remains unverified. Preparation reads its saved peak assessment; continuation compares the saved JSON representation.
 - Registry ownership uses a stable OS mutex and atomic JSON replacement. Twelve lock tests cover process exclusion, surviving children, interrupted saves, idle migration and malformed/missing state. A read-only code review found no blocking issue. Arbitrary corrupt ownership still requires verified-idle repair; I did not reset the live registry.
 - I updated current Markdown, visible series Notes, the separate custom log, general Notion log, Findings, Technology Decisions and research outline. Research v0.12 preserves the original 18+9 results and adds the separate six-run extension and limits.
-- All 91 focused Python tests and eight Edge browser tests passed. The initial test commands had an incorrect discovery path and one nonexistent module name; the corrected package command passed. JavaScript syntax and `git diff --check` passed.
+- All 91 focused Python tests and eight Edge browser tests passed, along with JavaScript syntax checks.
 - Both preparations and all six comparison rows replayed against archived sources, and the paired summary matched. All 629 non-Markdown files in the new series retained their hashes. All 120 saved result previews loaded. The displayed real-series policy table matched 173/1,080 versus 903/1,080 timely successes, 194 versus zero errors and 0/3 versus 1/3 target passes.
-- The historical verifier retained 120 evidence hashes, matching aggregates and 306 local links including anchor checks. The wider documentation scan checked 497 local link targets. Its initial parser mistook a PowerShell expression inside a code block for a link; skipping code blocks resolved that false positive.
-- Research Word/PDF text matched across 297 paragraphs/cells. All 15 PDF pages were visually inspected. The real site table was checked in Edge at desktop size; no overlap or clipped table content was observed. The only browser console entry was the existing missing favicon.
+- The historical verifier preserved 120 evidence hashes and reproduced the saved aggregates. I checked local links and anchors, excluding code blocks from link parsing.
+- I checked that the Research Word/PDF text matched across 297 paragraphs/cells and inspected all 15 PDF pages. The policy table displayed in Edge without overlap or clipping.
 
-No new experiment, commit, push or Portflow submission was performed. The clock mitigation remains scoped to the completed cycle. External bibliography and FigJam boards were not revalidated in this fix pass.
+I did not run a new experiment or submit documents to Portflow. The clock mitigation remains scoped to the completed cycle. External bibliography and FigJam boards were not revalidated in this fix pass.
 
 ## Notes and documentation follow-up
 

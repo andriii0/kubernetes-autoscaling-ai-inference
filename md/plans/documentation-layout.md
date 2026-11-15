@@ -1,6 +1,6 @@
 # Documentation layout and first GitHub snapshot
 
-Date: 2026-10-16. Requested scope: organize project Markdown and push the current project to GitHub.
+Date: 2026-10-16. I organized the project Markdown and saved the first GitHub snapshot.
 
 ## Steps
 
@@ -13,7 +13,7 @@ Date: 2026-10-16. Requested scope: organize project Markdown and push the curren
 
 ## Acceptance
 
-- Requested core files exist under `md/`; root instructions explain the new reading/planning workflow.
+- Core files exist under `md/`; root instructions explain the new reading/planning workflow.
 - Local Markdown links resolve, and setup commands still run from the repository root.
 - Existing observer and result-analyzer tests pass; runtime code and original measurement files are unchanged.
 - Git excludes model weights, caches and credentials. The remote commit equals the local commit and repository visibility is private.
@@ -27,13 +27,13 @@ The private repository `andriii0/kubernetes-autoscaling-ai-inference` was create
 
 ## Fontys document collection: 2026-10-18
 
-Objective: collect the seven requested files from Downloads in the project `docs/` folder and clarify document ownership without changing the research contents or reorganizing unrelated files.
+Objective: collect seven files from Downloads in the project `docs/` folder and clarify document ownership without changing the research contents or reorganizing unrelated files.
 
 Steps: check existing destinations; copy the files without removing originals; verify SHA-256 hashes; add a document index; update entry points and the documentation responsibility notes.
 
-Acceptance: all seven copies match their sources; existing files are preserved; the index separates personal evidence, group context and course reference; local index links resolve; research structure and content are unchanged. No commit, publication or Portflow upload is included.
+Acceptance: all seven copies match their sources; existing files are preserved; the index separates personal evidence, group context and course reference; local index links resolve; research structure and content are unchanged. Portflow submission remains a separate task.
 
-Verified: seven source/copy SHA-256 pairs match, all local document-index links resolve, and the research file is unchanged. Current collection and editing sources are indexed; other proposed layout changes are not implemented. No runtime checks were performed.
+I checked that all seven copies matched their source SHA-256 hashes and that the document-index links resolved. The research file was unchanged. The index now identifies the editing sources; other proposed layout changes were not implemented.
 
 ## Technology research deduplication: 2026-10-18
 
@@ -41,9 +41,9 @@ Objective: maintain detailed technology choices in Notion and concise implementa
 
 Steps: compare the local technology research with Notion; update source ownership on the Notion page; verify it by fetching again; replace incoming local references; shorten duplicated guide comparisons; remove only the redundant research file.
 
-Acceptance: all six Notion choice sections and the local research source URLs are retained; no active links reference removed research; local files/anchors resolve; runnable guide code blocks, runtime sources, Word/PDF files and result evidence remain byte-identical. No commit or publication is included.
+Acceptance: all six Notion choice sections and the local research source URLs are retained; no active links reference removed research; local files/anchors resolve; runnable guide code blocks, runtime sources, Word/PDF files and result evidence remain byte-identical.
 
-Verified: 82 local links/anchors passed; all runnable guide blocks and protected runtime/evidence/Word/PDF bytes are unchanged. Notion contains the six detailed choices and all source URLs from the removed local duplicate. No application tests were needed for this documentation-only change.
+I retained all six detailed choice sections and source URLs in Notion, removed the local duplicate and checked the updated links. Runnable guide blocks, runtime sources, saved results and Word/PDF files were unchanged.
 
 ## Documentation cleanup: 2026-10-18
 
@@ -51,9 +51,9 @@ Objective: keep current state concise, link to measured results instead of dupli
 
 Steps: shorten status and repeated result summaries; define how the active plan relates to the general guide; exclude root `tmp/` from ripgrep in both project and authoring workspaces. Preserve temporary files, raw evidence, implementation and milestone completion.
 
-Acceptance: retained evidence links resolve; status names the active plan, unfinished work and verification limits; measured overhead numbers have one maintained report; normal `rg` file discovery omits temporary material while explicit inspection remains possible. No code changes, commit or publication.
+Acceptance: retained evidence links resolve; status names the active plan, unfinished work and verification limits; measured overhead numbers have one maintained report; normal `rg` file discovery omits temporary material while explicit inspection remains possible. Runtime code remains unchanged.
 
-Verified: 82 local links/anchors resolve. Normal ripgrep discovery omits temporary context in the authoring workspace; explicit `rg --no-ignore --files tmp` still finds it. Both workspaces have the root `/tmp/` exclusion (the implementation project currently has no `tmp/` directory). All 159 protected source, evidence and collected document files retain their pre-cleanup hashes. No milestone completion, runtime behavior, raw measurements, commit or publication changed. Application tests were not rerun for this Markdown/search-configuration-only change.
+Both workspaces now exclude root `/tmp/` from ordinary ripgrep searches. Explicit `rg --no-ignore --files tmp` inspection still works. All 159 protected source, evidence and collected document files retained their hashes. Milestone completion, runtime behavior and raw measurements were unchanged.
 
 ## English getting started guide: 2026-10-18
 
@@ -63,4 +63,4 @@ Steps: rename the guide to `md/GETTING_STARTED.md`; keep setup, short checks, tr
 
 Acceptance: all original numbered topics remain available; the guide has no Russian prose; each advanced topic links to its owner; HPA and general analysis remain planned; no procedure links back to a guide section that is only a pointer. Local links and PowerShell syntax pass; source/evidence/document hashes remain unchanged. These checks do not execute setup or validate the live environment.
 
-Verified: all original numbered topics 0-14, troubleshooting and restart sections are retained. The guide and scaling plan contain no Russian prose. All 140 local links/anchors resolve, all 35 PowerShell blocks parse without execution, and pinned-image extraction works against the existing Dockerfile. The original HPA proposal text is unchanged in its single planned source; no YAML library was available for a separate parser check. All 159 protected source/evidence/collected-document hashes match. Milestone completion is unchanged; HPA and the frozen-protocol file remain absent. No setup, live load test, application test, commit or publication was performed for this documentation change.
+I kept guide topics 0-14, troubleshooting and restart instructions, and checked the English prose, local links and PowerShell syntax without executing setup. Pinned-image extraction worked against the existing Dockerfile. The HPA proposal remained in its planned source; I could not check it with a separate YAML parser because no YAML library was available. All 159 protected source, evidence and collected document files retained their hashes. HPA and the frozen-protocol file were still absent at this checkpoint; milestone completion was unchanged.

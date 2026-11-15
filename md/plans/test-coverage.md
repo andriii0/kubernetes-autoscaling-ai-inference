@@ -16,7 +16,7 @@ I reviewed all existing test modules and their scenarios. Collection, analysis, 
 
 The previous discovery command skipped `tests/lab` because it lacked a package marker. Browser checks were manual scripts, not a maintained regression suite.
 
-The external review could not start because OpenCode could not open its own log file. I continued the review locally.
+I completed the review locally; the external review was unavailable.
 
 | Area | Successful paths | Failed paths and limits |
 |---|---|---|

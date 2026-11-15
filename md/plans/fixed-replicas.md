@@ -18,6 +18,6 @@ Historical completion record for the preliminary check on 2026-10-20. Its pendin
 - [x] Tests reject missing/restarted pods, incomplete warmup, wrong Service endpoints and absent/inconsistent access logs.
 - [x] Analysis preserves per-pod source clocks and missing values; totals require complete samples from the same source instant.
 - [x] Live evidence records three ready, individually warmed pods and requests handled by all three, or records the exact blocker without claiming success.
-- [x] Update status and execution instructions with verified outcomes. Keep protocol step 17 and main experiment unfinished at that time; do not commit or push.
+- [x] Update status and execution instructions with verified outcomes. Keep protocol step 17 and main experiment unfinished at that time.
 
 Verified outcome: [saved technical check](../../results/fixed-replicas/check-2026-10-20-series1/README.md). The final checks include the new negative cases, historical evidence verification and live Service/log reconciliation. At the end of this check, three copies remained deployed and the temporary tunnel was closed. The later preliminary HPA check restored one copy; neither record proves current runtime availability. The strict preliminary server/client equality rule remains in code and must be aligned with v1.1 before main load.

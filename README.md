@@ -1,6 +1,6 @@
 # AI Inference Autoscaling
 
-This is an independent research project about scaling AI inference when request load changes. The work starts with a short comparison of container orchestration platforms, then uses one selected platform for a local prototype and repeatable measurements. It is separate from the SUE group infrastructure.
+In this independent research project, I study how AI inference scales when request load changes. I first compared container orchestration platforms, then used one for a local prototype and repeatable measurements. This project is separate from the SUE group infrastructure.
 
 ## Practical research question (SQ4)
 
@@ -23,7 +23,7 @@ The browser opens at `http://127.0.0.1:8765`. Browsing needs only Python 3.12+; 
 Start with [current status](md/STATUS.md) for progress, the [setup guide](md/GETTING_STARTED.md) for commands, or [Fontys documents](docs/README.md) for research, PDP, diagrams and saved feedback.
 
 - [Roadmap](md/ROADMAP.md): milestones and completion criteria.
-- [Status](md/STATUS.md): verified progress and remaining work.
+- [Status](md/STATUS.md): progress and remaining work.
 - [Architecture](md/ARCHITECTURE.md): implemented components and runtime flow.
 - [Decisions](md/DECISIONS.md): choices, alternatives and limitations; [detailed technology decisions in Notion](https://app.notion.com/p/3fdc7c697bfd81baaaa7f197548b7c5a) explains Qwen, Ollama, CPU, k6 and CPU-based HPA.
 - [Getting started](md/GETTING_STARTED.md).
@@ -50,7 +50,7 @@ I defined one inference workload and two load profiles, compared suitable orches
 
 The separate [six-run CPU/request HPA comparison](results/custom-metric/series-20261114-191048/README.md) is complete. Active-request HPA improved peak on-time success in all three pairs, but met all service targets in only 1/3 runs versus CPU 0/3. Its preparation, clock environment and capacity tradeoff stay separate from the earlier experiments.
 
-The implemented path uses Ollama for inference, k6 for load generation and `bench/observe.py` for cluster/resource observations. The 18-run main matrix at peak 8 is complete. [Comparative tables and plots](results/main/series-2026-10-25-v1.1/analysis-main-2026-10-26/README.md) show that all three modes met the targets, including one fixed copy. The later [controlled peak-12 comparison](results/follow-up/comparison-20261110-205108-peak12/README.md) uses the same burst for fixed one, fixed three and HPA, with three repetitions per mode. Fixed three handled the overload best; HPA reduced failures but missed the five-second latency target in all three repetitions. The [step 24 reproduction check](results/reproduction/check-2026-11-06/README.md) passed in a fresh setup on the same Windows host. See [STATUS.md](md/STATUS.md) for current verification and limits.
+The implemented path uses Ollama for inference, k6 for load generation and `bench/observe.py` for cluster/resource observations. The 18-run main matrix at peak 8 is complete. [Comparative tables and plots](results/main/series-2026-10-25-v1.1/analysis-main-2026-10-26/README.md) show that all three modes met the targets, including one fixed copy. The later [controlled peak-12 comparison](results/follow-up/comparison-20261110-205108-peak12/README.md) uses the same burst for fixed one, fixed three and HPA, with three repetitions per mode. Fixed three handled the overload best; HPA reduced failures but missed the five-second latency target in all three repetitions. The [step 24 reproduction check](results/reproduction/check-2026-11-06/README.md) passed in a fresh setup on the same Windows host. See [STATUS.md](md/STATUS.md) for progress and limitations.
 
 The 5,189 successful requests belong only to the 18 main v1.1 runs at peak 8 requests/10 s. The later rate-selection pilots selected low 2 and peak 12. Their preliminary fixed-three and HPA checks used different traffic and were not directly comparable. The final peak-12 follow-up fixes that gap by running the same burst in all three modes. It remains separate from protocol v1.1 and does not replace the main series.
 

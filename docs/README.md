@@ -1,6 +1,6 @@
 # Fontys documents
 
-Collected on 2026-10-18 from my Downloads folder. These are saved documents, not confirmation of current Portflow submission. Original files were retained.
+I collected these documents from my Downloads folder on 2026-10-18 and kept the originals. I still need to confirm submission to Portflow.
 
 ## Personal experiment
 
@@ -30,4 +30,4 @@ Collected on 2026-10-18 from my Downloads folder. These are saved documents, not
 - [Main experiment methodology v1.1](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd): defines the frozen settings, targets, repeat order and outcome rules for the 18 main runs. The separate [controlled peak-12 follow-up](../results/follow-up/comparison-20261110-205108-peak12/README.md) tests the same overload burst in all three modes. The separate [CPU/request comparison](../results/custom-metric/series-20261114-191048/README.md) adds six accepted runs. The [Findings](https://app.notion.com/p/40fc7c697bfd81bbb00fcf67a8c3d00c) distinguish all three bodies of evidence. The [reproduction check](../results/reproduction/check-2026-11-06/README.md) passed on the same Windows host.
 - [Results](../results/): original run data and adjacent reports. Keep run READMEs beside their measurements; use their findings in the existing research evaluation sections when appropriate.
 
-Research v0.12 and its PDF include the controlled overload and separate CPU/request comparisons, assessment definitions, clock environment and collection-method limitations. The peer-review wording remains corrected: teacher discussion is recorded, without claiming a completed peer review. The current Architect C1-C4 set describes the implemented application, including the UML code layer; the older C4 PDF retains its historical target-architecture annotation. Local collection and GitHub storage do not replace required Fontys Portflow submission.
+Research v0.12 and its PDF include the controlled overload and separate CPU/request comparisons, assessment definitions, clock environment and collection-method limitations. I recorded the teacher discussion; I have not claimed a completed peer review. The current Architect C1-C4 set describes the implemented application, including the UML code layer; the older C4 PDF retains its historical target-architecture annotation. Local collection and GitHub storage do not replace required Fontys Portflow submission.

@@ -1,54 +1,54 @@
 # Decisions
 
-Updated: 2026-11-12. Local implementation summary for contributors. [Technology Decisions in Notion](https://app.notion.com/p/3fdc7c697bfd81baaaa7f197548b7c5a) contains the detailed technology research; the Word research and its PDF contain the orchestration-platform comparison. Accepted choices do not imply measured superiority. Numeric main settings are agreed in [main experiment methodology v1.1](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd); the main matrix and controlled peak-12 follow-up are complete; [STATUS.md](STATUS.md) records current progress.
+Updated: 2026-11-12. I summarize my implementation choices here. [Technology Decisions in Notion](https://app.notion.com/p/3fdc7c697bfd81baaaa7f197548b7c5a) contains the detailed technology research; the Word research and its PDF contain the orchestration-platform comparison. Accepted choices do not imply measured superiority. Numeric main settings are agreed in [main experiment methodology v1.1](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd); the main matrix and controlled peak-12 follow-up are complete; [STATUS.md](STATUS.md) records current progress.
 
 ## 1. Use one Kubernetes prototype after comparing alternatives
 
-Accepted. Compare alternatives first, then implement one platform. Kubernetes supplies replica control, service routing, declared resources and HPA. Nomad remains an alternative; Swarm needs an additional scaling integration and Compose is a fixed-capacity reference. See section 6 (SQ3) of the [research document](<../docs/PDP Research document.pdf>). A second complete prototype is outside the initial scope.
+I chose to compare alternatives first, then implement one platform. Kubernetes supplies replica control, service routing, declared resources and HPA. Nomad remains an alternative; Swarm needs an additional scaling integration and Compose is a fixed-capacity reference. See section 6 (SQ3) of the [research document](<../docs/PDP Research document.pdf>). A second complete prototype is outside the initial scope.
 
 ## 2. Use Minikube with Docker on the existing Windows computer
 
-Accepted for the local prototype. Image loading, metrics and Windows Service access have saved local verification. kind and k3d remain viable alternatives without a measured performance ranking. Detailed comparison: [Notion section 6](https://app.notion.com/p/3fdc7c697bfd81baaaa7f197548b7c5a). Revisit if required deployment, access or measurements stop being repeatable.
+I chose Minikube for the local prototype. I checked image loading, metrics and Windows Service access locally. kind and k3d remain viable alternatives without a measured performance ranking. Detailed comparison: [Notion section 6](https://app.notion.com/p/3fdc7c697bfd81baaaa7f197548b7c5a). Revisit if required deployment, access or measurements stop being repeatable.
 
 ## 3. Use the verified Ollama/Qwen CPU baseline for the first experiment
 
-Accepted baseline: Ollama, `qwen2.5:0.5b`, CPU, one repeated prompt, maximum 64 output tokens, context 1024, two inference threads, temperature 0 and seed 42. Saved checks establish feasibility, not model quality or comparative capacity. Alternatives, evidence and reconsideration criteria: [Notion sections 1-3](https://app.notion.com/p/3fdc7c697bfd81baaaa7f197548b7c5a). Protocol v1.1 retains this baseline for the main series.
+My baseline uses Ollama with `qwen2.5:0.5b` on CPU, one repeated prompt, maximum 64 output tokens, context 1024, two inference threads, temperature 0 and seed 42. Saved checks establish feasibility, not model quality or comparative capacity. Alternatives, evidence and reconsideration criteria: [Notion sections 1-3](https://app.notion.com/p/3fdc7c697bfd81baaaa7f197548b7c5a). Protocol v1.1 retains this baseline for the main series.
 
 ## 4. Bundle model weights into a local image
 
-Implemented. `app/Dockerfile` pins the Ollama base image by digest and includes downloaded weights; Minikube loads the image locally and the Deployment uses `imagePullPolicy: Never`. Each replica still loads its own model into memory. Mounted storage or a registry-delivered image are alternatives for another environment. Keep `app/models/` out of Git; preparation is in the setup guide.
+My `app/Dockerfile` pins the Ollama base image by digest and includes downloaded weights; Minikube loads the image locally and the Deployment uses `imagePullPolicy: Never`. Each replica still loads its own model into memory. Mounted storage or a registry-delivered image are alternatives for another environment. Keep `app/models/` out of Git; preparation is in the setup guide.
 
 ## 5. Use k6 for controlled request arrivals
 
-Implemented. k6 arrival-rate scenarios schedule requests independently of response completion; `RATE` means requests per 10 seconds. Keep successful latency, response errors and dropped starts separate. The repeated prompt may benefit from caching. Alternatives and rationale: [Notion section 4](https://app.notion.com/p/3fdc7c697bfd81baaaa7f197548b7c5a).
+I use k6 arrival-rate scenarios, which schedule requests independently of response completion; `RATE` means requests per 10 seconds. I report successful latency, response errors and dropped starts separately. The repeated prompt may benefit from caching. Alternatives and rationale: [Notion section 4](https://app.notion.com/p/3fdc7c697bfd81baaaa7f197548b7c5a).
 
 ## 6. Separate the scaling signal from resource measurements
 
-Implemented and verified. Use metrics-server for HPA input and direct kubelet `/metrics/resource` for CPU time and memory working set. The standard-library observer invokes `kubectl` and preserves raw values, source timestamps, errors and gaps. See [OBSERVATION.md](OBSERVATION.md) and [metrics-server's limitations](https://github.com/kubernetes-sigs/metrics-server). Source refresh and sequential reads limit precision; this does not measure power or cost savings.
+I use metrics-server for HPA input and direct kubelet `/metrics/resource` for CPU time and memory working set. The standard-library observer invokes `kubectl` and preserves raw values, source timestamps, errors and gaps. See [OBSERVATION.md](OBSERVATION.md) and [metrics-server's limitations](https://github.com/kubernetes-sigs/metrics-server). Source refresh and sequential reads limit precision; this does not measure power or cost savings.
 
 <a id="7-retain-a-5-second-observer-interval-provisionally"></a>
 
 ## 7. Retain a 5-second observer interval
 
-Accepted provisionally for the pilot, which has now completed, based on the checked low load: the [overhead report](../results/observer-overhead-2026-10-16-series1/README.md) records the measurements and budget decision. Protocol v1.1 retains the same 5-second interval. This does not prove negligible overhead near saturation. Record settings per run; if collection becomes disruptive, diagnose and version any protocol change instead of silently changing the interval.
+I provisionally kept this interval for the pilot based on the low-load check: the [overhead report](../results/observer-overhead-2026-10-16-series1/README.md) records the measurements and budget decision. Protocol v1.1 retains the same 5-second interval. This does not prove negligible overhead near saturation. Record settings per run; if collection becomes disruptive, diagnose and version any protocol change instead of silently changing the interval.
 
 <a id="8-keep-the-three-mode-scaling-comparison-as-planned-work"></a>
 
 ## 8. Compare three capacity policies on the same host
 
-Selected: fixed one replica, fixed three replicas and CPU-based HPA bounded to 1-3, all on one physical computer. Each copy has a 2-CPU limit, so fixed one can use up to 2 CPU while fixed three can use up to 6 CPU on the same node. This compares capacity policies, not equal total CPU budgets. The main peak-8 series did not establish an HPA advantage because one fixed copy also met the targets. In the later [controlled peak-12 follow-up](../results/follow-up/comparison-20261110-205108-peak12/README.md), fixed one was overloaded, HPA reduced failures but missed the latency target in all three runs, and fixed three handled the burst best.
+I compare fixed one replica, fixed three replicas and CPU-based HPA bounded to 1-3, all on one physical computer. Each copy has a 2-CPU limit, so fixed one can use up to 2 CPU while fixed three can use up to 6 CPU on the same node. This compares capacity policies, not equal total CPU budgets. The main peak-8 series did not establish an HPA advantage because one fixed copy also met the targets. In the later [controlled peak-12 follow-up](../results/follow-up/comparison-20261110-205108-peak12/README.md), fixed one was overloaded, HPA reduced failures but missed the latency target in all three runs, and fixed three handled the burst best.
 
 Use [deploy/hpa.yaml](../deploy/hpa.yaml) for the policy retained in main protocol v1.1: CPU utilization target 60% of requests and a 300-second downscale stabilization window. Default scale-up behavior is retained. These are starting settings, not measured optima. The peak-12 result shows the tradeoff: HPA can improve completion while extra copies start, but its CPU reaction was too slow to keep this short burst within five seconds. This does not rank other HPA policies or scaling signals.
 
 ## 9. Keep one project documentation tree
 
-Accepted. `README.md` is the entry point; `AGENTS.md` contains work rules; `md/` contains technical context, local summaries, meeting notes and plans. Detailed technology research is maintained in Notion. `docs/README.md` identifies the working Word document, PDF exports, editing sources and course references. Earlier Word versions and generation scripts stay in the separate authoring workspace. Keep original measurements and run READMEs under `results/`. Fontys Portflow submission is still required; a GitHub copy does not replace it.
+I keep `README.md` as the entry point; `AGENTS.md` contains work rules; `md/` contains technical context, local summaries, meeting notes and plans. Detailed technology research is maintained in Notion. `docs/README.md` identifies the working Word document, PDF exports, editing sources and course references. Earlier Word versions and generation scripts stay in the separate authoring workspace. Keep original measurements and run READMEs under `results/`. Fontys Portflow submission is still required; a GitHub copy does not replace it.
 
 The repository is private. Keep weights, caches and credentials out of Git. Preserve measured script and result bytes: `.gitattributes` excludes `bench/inference.js` and `results/` from line-ending conversion so historical hashes remain valid.
 
 ## 10. Distinguish server readiness from a warm model
 
-Status: accepted for the first scaling experiment. The existing `/api/tags` probe confirms that the Ollama API can accept traffic; it does not certify that the model is resident or has generated an answer. Warm every initial replica with a successful generation before the measured interval. New replicas created during autoscaling receive requests while cold, and their model loading is part of the measured scaling reaction. Record Kubernetes Ready transitions separately from response observations. For autoscaled pods, native logs show the first observed HTTP response, not a verified first successful generation; never call the Ready transition the model-ready time. A future model-warming startup/readiness gate would be a different protocol and must be evaluated separately. The deployment probe is unchanged.
+I kept the `/api/tags` readiness probe for the first scaling experiment. It confirms that the Ollama API can accept traffic; it does not certify that the model is resident or has generated an answer. Warm every initial replica with a successful generation before the measured interval. New replicas created during autoscaling receive requests while cold, and their model loading is part of the measured scaling reaction. Record Kubernetes Ready transitions separately from response observations. For autoscaled pods, native logs show the first observed HTTP response, not a verified first successful generation; never call the Ready transition the model-ready time. A future model-warming startup/readiness gate would be a different protocol and must be evaluated separately. The deployment probe is unchanged.
 
 ## 11. Freeze main experiment protocol v1.1
 
@@ -77,7 +77,6 @@ I use a local k6 runtime with a small Go timer (`time.Since`) for new request du
 New threshold preparation uses `active-requests-preparation-v2`; new comparison uses `active-requests-comparison-v3`. The one-second Prometheus/observer limit and ten-second freshness limit remain. New observations also compare wall and monotonic intervals, with a 50-ms allowance plus the measured uncertainty of each paired read. A failed clock check still stops the run.
 
 I keep the stopped 13 November series as separate evidence. The final comparison completed new preparation and six new cells. I keep them separate from the old four. One shared local lock covers CLI/UI preparation, child launchers, k6 and cleanup. The new-series driver stops on failure and does not retry automatically. See the [reliability plan](plans/clock-and-run-reliability.md).
-
 
 ### Temporary clock environment for the new 14 November cycle
 

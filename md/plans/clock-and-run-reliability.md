@@ -28,22 +28,21 @@ Earlier full test runs exposed a fast Windows fixture boundary problem. A diagno
 
 A real Windows admission probe exposed a false conflict with the driver's own venv redirector. I fixed the parent-PID/executable check; 20 affected lock/UI tests and the real no-load admission probe then passed. This focused check followed the full suite.
 
-External review was unavailable because OpenCode could not open its log file. I did not switch provider or broaden access after that filesystem failure. The patch was reviewed locally.
+I reviewed the patch locally because external review was unavailable.
 
 The physical clock jump is unresolved. I kept both synchronizers and the existing Hyper-V clocksource unchanged. The fixes are committed as `5d50420`, and old evidence as `1dd97aa`. I started the [fresh cycle](../../results/custom-metric/series-20261114-150236/README.md) at 16:05:28 Berlin on 14 November through an independent one-time Windows task. Target 1 passed collection, scaling qualification and cleanup; target 2 is preparing. The six new comparison cells remain pending. Passing idle checks and one preparation do not guarantee that the full cycle will finish. The new code and launch are also recorded in Notion.
-
 
 ## Restart after identifying the competing synchronizer
 
 The 16:05 cycle stopped at 16:38 Berlin during target-2 preparation; zero comparison cells were accepted. I matched the four clock failures to Ubuntu systemd-timesyncd initial synchronizations. Windows reported Local CMOS Clock without successful external synchronization.
 
-I will start a separate cycle under a temporary, recorded environment change: keep Ubuntu alive and mask systemd-timesyncd only in /run for the duration. Docker/WSL's existing host-relative synchronization remains active. The worker holds experiment ownership during the check, series and restoration; it restores Ubuntu's prior enabled/active service and ends its own keep-alive process afterward. No persistent clock configuration, clock tolerance, workload or model is changed. The later Windows process-window correction is recorded below.
+I will start a separate cycle under a temporary, recorded environment change: keep Ubuntu alive and mask systemd-timesyncd only in /run for the duration. Docker/WSL's existing host-relative synchronization remains active. The background process holds experiment ownership during the check, series and restoration; it restores Ubuntu's prior enabled/active service and ends its own keep-alive process afterward. No persistent clock configuration, clock tolerance, workload or model is changed. The later Windows process-window correction is recorded below.
 
 Before load: verify no competing experiment; verify the runtime mask; allow 40 seconds for the existing synchronizer; pass 180 seconds of strict Monitor observations and replay. Then run new targets 1/2 and all six new cells through the existing driver. Stop on any error, with no automatic retries. A successful startup or idle check does not prove completion.
 
 The restart record and preserved clock attribution are in [launch evidence](../../results/custom-metric/launch-20261114-191048/launch-request.json). Ninety focused timer, lock, custom-metric, comparison and UI-result tests passed before this launch. The final gate is actual preparation progress and subsequent per-cell validation, not process existence alone.
 
-The first new pre-load check, launch-20261114-185624, stopped before any workload because its diagnostic loop slept five seconds after collection; the two accepted-receipt times were 10.368 seconds apart. Ubuntu service restoration passed. I corrected only the standalone worker to include collection time in the five-second cycle, matching the existing observer scheduler. The replacement launch-20261114-185913 subsequently stopped as recorded below; production collection and its ten-second gap bound remain unchanged.
+The first new pre-load check, launch-20261114-185624, stopped before any workload because its diagnostic loop slept five seconds after collection; the two accepted-receipt times were 10.368 seconds apart. Ubuntu service restoration passed. I corrected only the standalone background process to include collection time in the five-second cycle, matching the existing observer scheduler. The replacement launch-20261114-185913 subsequently stopped as recorded below; production collection and its ten-second gap bound remain unchanged.
 
 The replacement pre-load check stopped after ten good observations because a kubectl process exited with Windows code 0xc000013a. The saved clock bounds were within 0.256 seconds and observation gaps within 5.143 seconds. No experimental load started; restoration passed. Observer.read currently launches kubectl without CREATE_NO_WINDOW, unlike the log collector. I will align this process-launch option, retain strict errors, and verify that a child launched from pythonw has no console before another fresh launch. The external source of the interruption is not established.
 
@@ -51,6 +50,8 @@ I hid the captured Windows commands and k6 windows, and hid any new driver conso
 
 The new launch passed 36 strict idle observations over three minutes. Fresh preparation started at 20:14:37 Berlin on 14 November; target 1 reached recovery quiet with no recorded errors. The six comparison cells had not started at this snapshot. See the new series README and launch startup.json. This verifies startup only.
 
-## Completed evening cycle — 15 November review
+<a id="completed-evening-cycle--15-november-review"></a>
 
-The startup snapshots above are historical. The [new series](../../results/custom-metric/series-20261114-191048/README.md) completed both preparations and all six accepted cells at 23:24:35 Berlin on 14 November. Target 1 remained selected. Every run passed collection and cleanup. The worker exited with code 0 and no errors, restored Ubuntu synchronization to enabled/active and removed its task. See the [worker record](../../results/custom-metric/launch-20261114-191048/worker.json). This verifies the temporary mitigation for this cycle, not a permanent clock repair. The stopped cycles and their original records remain intact.
+## Completed evening cycle: 15 November review
+
+The startup snapshots above are historical. The [new series](../../results/custom-metric/series-20261114-191048/README.md) completed both preparations and all six accepted cells at 23:24:35 Berlin on 14 November. Target 1 remained selected. Every run passed collection and cleanup. The background process exited with code 0 and no errors, restored Ubuntu synchronization to enabled/active and removed its task. See the [worker record](../../results/custom-metric/launch-20261114-191048/worker.json). This verifies the temporary mitigation for this cycle, not a permanent clock repair. The stopped cycles and their original records remain intact.

@@ -27,6 +27,6 @@ The comparison is complete. All nine planned cells have valid full-load evidence
 
 Attempt 07 was recovered from a rotated node log. The recovered directory contains the 25 records that were absent from the end-only snapshot, while the original failed attempt remains unchanged. The collector version changed before the last fixed-mode runs, so the final report must disclose that source boundary. It does not change the client measurements or workload settings.
 
-No more load is needed for this comparison. I published the interpretation in the findings, Research v0.10 and the project summaries. The final offline verification is recorded with the documentation update.
+I published the interpretation in the findings, Research v0.10 and the project summaries. This completes the comparison.
 
 Verification (2026-11-11): all 167 local tests passed. The historical verifier preserved 120 protected evidence files, reproduced the saved aggregates and resolved 301 local links. Research v0.9 rendered to 13 pages and every page was checked at that checkpoint. No live load or cluster change was used for that documentation update.

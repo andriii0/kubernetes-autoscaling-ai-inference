@@ -301,7 +301,6 @@ For an unfinished existing series, [the one-command continuation](plans/scaling-
 
 The continuation checks current executable hashes against saved attempts. The 2026-10-28 code refactor changes those hashes; a frozen old series cannot silently continue with the reorganized code. Offline analysis still reads its original archived inputs and measurements.
 
-
 ## 13. Turn measurements into findings
 
 [bench/analyze.py](../bench/analyze.py) generates per-run CSV/JSON summaries and aligned PNG/SVG plots for saved pilot, preliminary fixed-three and autoscaling data. It refuses an existing output directory. The [pilot report](../results/pilot/discovery-2026-10-18-series1/README.md#reproduce-and-inspect) includes a reproduction command; [Main result analysis](plans/scaling-experiment.md#4-main-result-analysis) describes how to reproduce the completed comparison and report its limits. The observation schema remains in [OBSERVATION.md](OBSERVATION.md).
@@ -407,7 +406,7 @@ python -B bench/build_k6.py
 
 The builder downloads pinned Go 1.26.5, xk6 1.5.1 and k6 2.2.0 modules. It writes `.bench-runtime/k6.exe` and a hash record; it does not replace a global k6 installation. Rebuild after changing the timer sources. Keep this directory out of Git. See [the timer source](../bench/monotonic/README.md).
 
-For an authorized fresh custom-metric series, choose a new output path:
+For a fresh custom-metric series, choose a new output path:
 
 ```powershell
 python -B bench/run_custom_series.py --output-dir results/custom-metric/series-YYYYMMDD-HHMMSS --execute

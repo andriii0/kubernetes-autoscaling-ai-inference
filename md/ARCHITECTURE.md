@@ -1,6 +1,6 @@
 # Architecture
 
-Updated: 2026-11-15. This describes the implemented local prototype. Preliminary checks, the 18-run main matrix, controlled peak-12 comparison and separate CPU/request HPA comparison have saved evidence; this is not a check of current runtime availability.
+Updated: 2026-11-15. I describe the local prototype here. Saved results cover the preliminary checks, 18-run main matrix, controlled peak-12 comparison and separate CPU/request HPA comparison. They do not establish whether the environment is running now.
 
 The [Architect C1-C4 views](diagrams/architect/README.md) map the system context, runtime containers, Python components and complete application covered by this repository as UML. The index includes editable local diagrams, portable JSON models and SVG/PNG exports verified against the current source on 15 November.
 
@@ -27,7 +27,7 @@ The cluster is the existing Docker-backed Minikube profile `ai-lab`, configured 
 | Peak-12 comparison | `bench/run_peak12_comparison.py` and `bench/resume_peak12.py` | Run the fixed comparison order, assess saved cells, retain failed attempts and continue only an accepted consecutive prefix |
 | Peak-12 plots | `bench/plot_peak12.py` | Build saved-data plots from the accepted manifest entries without rerunning load or changing assessments |
 | Local experiment UI | `lab/server.py`, `lab/results.py`, `lab/jobs.py`, `lab/launch.py`, `lab/static/` | Browse saved results, show scoped metrics and plots, serialize UI jobs and adapt existing pilot/continuation commands |
-| Warmup-wait diagnostic | `bench/run_wait_pair.py` | Run the separately authorized two-run preparation check through the existing launcher; archive order/settings and host snapshots; keep diagnostic evidence outside the main matrix |
+| Warmup-wait diagnostic | `bench/run_wait_pair.py` | Run the two-run preparation check through the existing launcher; archive order/settings and host snapshots; keep diagnostic evidence outside the main matrix |
 | Shared runtime | `bench/runtime.py` | Run child processes, manage the Service tunnel and record pre-launch host state for the scenario drivers |
 | Protocol preparation | `bench/main_protocol.py` | Define the matrix and frozen argument checks; prepare replicas, check runtime configuration and wait for quiet state |
 | Autoscaling lifecycle | `bench/autoscaling.py` and `deploy/hpa.yaml` | Reset/warm the initial copy, attach HPA, validate dynamic state, stream logs by UID, and restore one copy |
@@ -81,4 +81,4 @@ The [C3 view](https://www.figma.com/board/KaoXEMPbKjCy1gOwdFdrUE/Kubernetes-PE?n
 
 `bench/custom_metric_stack.py` renders isolated Envoy/Prometheus/Adapter resources and separate CPU/Object HPA manifests into a new directory. `bench/custom_metrics.py` checks source freshness, identity, gateway request IDs and Object-metric readiness. `bench/check_custom_metric.py` performs one read-only check of the installed signal path and saves failure evidence. These three tools do not apply resources or launch measurements.
 
-The installed chain exposes active client requests at Envoy through Kubernetes Custom Metrics API. The opt-in `bench/custom_metric_run.py` integration routes both policies through the same gateway, continuously collects the signal and gateway logs, and restores one copy after each run. `bench/prepare_custom_metric.py` performs threshold preparation; `bench/run_custom_comparison.py` runs the separate six-cell CPU/request comparison, and `bench/analyze_custom_comparison.py` assesses saved outcomes. The original CPU experiment remains available without the extension options. The [active plan](plans/custom-metric-hpa.md) records verification and remaining work.
+The installed chain exposes active client requests at Envoy through Kubernetes Custom Metrics API. The opt-in `bench/custom_metric_run.py` integration routes both policies through the same gateway, continuously collects the signal and gateway logs, and restores one copy after each run. `bench/prepare_custom_metric.py` performs threshold preparation; `bench/run_custom_comparison.py` runs the separate six-cell CPU/request comparison, and `bench/analyze_custom_comparison.py` assesses saved outcomes. The original CPU experiment remains available without the extension options. The [extension plan](plans/custom-metric-hpa.md) records the checks, results and limitations.

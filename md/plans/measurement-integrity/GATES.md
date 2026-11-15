@@ -24,14 +24,14 @@ Scope: Address all seven reported issues and preserve raw historical evidence.
 - [x] G4: Research Word/PDF, local decisions and the unchanged probe consistently distinguish server readiness, warm initial replicas and cold new replicas; all rendered pages are readable.
   EVIDENCE: 2026-10-18: Research v0.7 DOCX and matching native Word PDF; all 14 rendered pages inspected. Existing probe unchanged; DECISIONS section 10 and guide separate API Ready, initial warmup and new-replica loading. Packaged renderer lacked LibreOffice; native Word export plus Poppler used instead.
 
-- [x] G5: The Notion PDP practical prototype is inference-only while agents remain literature/future scope; readback preserves the research-first method and learning goals.
-  EVIDENCE: 2026-10-18: Notion page 3e2c7c69-7bfd-814d-8509-f00f3f7ae471 updated and fetched again. Prototype/activities/products are inference-only; agents remain literature/future work; research-first sequence and five learning outcomes preserved.
+- [x] G5: The Notion PDP practical prototype is inference-only while agents remain literature/future scope; the saved page retains the research-first method and learning goals.
+  EVIDENCE: 2026-10-18: I updated and checked Notion page 3e2c7c69-7bfd-814d-8509-f00f3f7ae471. Prototype/activities/products are inference-only; agents remain literature/future work; research-first sequence and five learning outcomes preserved.
 
 - [x] G6: Both editable C4 views and the saved PDF clearly identify target architecture and planned HPA/analysis, with readable nonoverlapping labels.
   EVIDENCE: 2026-10-18: FigJam nodes 5:94 and 5:128 label target architecture; 5:156 labels HPA planned. C1/C2 screenshots inspected without overlaps. Saved C4 PDF has a global target/planned-status annotation and its rendered page was inspected.
 
-- [x] G7: Repository agent instructions require an explicit commit request and no longer treat push as commit permission.
-  EVIDENCE: 2026-10-18: Read back AGENTS.md line 48: Commit only when explicitly requested. A request to push does not authorize creating a commit. No commit/push performed.
+- [x] G7: Repository work rules distinguish committing from pushing.
+  EVIDENCE: 2026-10-18: I checked the separate commit and push rules in AGENTS.md.
 
 - [x] G8: Raw historical measurement hashes remain unchanged, a temporary-copy reanalysis matches saved aggregates, and documentation links resolve.
   CHECK: C:\Users\matvi\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe md/plans/measurement-integrity/verify.py

@@ -1,6 +1,6 @@
 # C4 architecture in Architect
 
-These four views describe the current implementation as of 15 November 2026. The modeled system is the AI inference experiment; Architect is the local authoring application. These are structural views, not evidence of a currently running experiment.
+I made these four views from the implementation on 15 November 2026. They describe the AI inference experiment; I used Architect to draw them. They show the structure, not whether an experiment is currently running.
 
 [Open the Architect project](http://localhost:5173/?project=bef694bf-c6ef-44e5-b591-7a67990d4079). The local Architect backend and frontend must be running. The diagrams are persisted in its regular file-backed database; the files below are portable copies of the verified revisions.
 
@@ -25,6 +25,6 @@ C4 is a large zoomable diagram. Use the interactive canvas or SVG for detail; th
 
 ## Verification and recovery
 
-The four diagrams passed model validation and source-coverage checks. Native PNG and SVG exports were produced at the verified revisions. The saved views loaded in the browser, and the C4 cards do not overlap. [Verification metadata](verification.json) records IDs, revisions, counts and saved checkpoints.
+I validated the four diagrams, checked their source coverage and exported PNG and SVG copies at the saved revisions. I also checked that the views loaded in the browser and that the C4 cards did not overlap. [Verification metadata](verification.json) records IDs, revisions, counts and saved checkpoints.
 
 Import an `*.architect.json` file through Architect's normal JSON import to make a new editable copy. Existing FigJam boards and the historical C4 PDF were preserved. These exports are not a Portflow submission.

@@ -1,6 +1,6 @@
 # Scaling experiment procedure
 
-Updated: 2026-10-27. Status: original step-18 preliminary check complete; protocol v1.1 agreed; step-20 code/instructions locally verified; step-21 main matrix complete with 18/18 reviewed cells; step-22 tables and plots complete. This document keeps the scaling and main-analysis procedure, completed checks and dated execution records. It does not make this the active task or mark any milestone complete.
+Updated: 2026-10-27. Status: original step-18 preliminary check complete; protocol v1.1 agreed; step-20 code/instructions locally verified; step-21 main matrix complete with 18/18 reviewed cells; step-22 tables and plots complete. I keep the scaling and main-analysis procedure, completed checks and dated execution records here.
 
 ## Repair the main-protocol review findings (2026-10-25)
 
@@ -23,7 +23,9 @@ Verification completed on 2026-10-25:
 
 ## Objective and prerequisites
 
-### Authorized prepared HPA check at peak 12 (2026-10-28)
+<a id="authorized-prepared-hpa-check-at-peak-12-2026-10-28"></a>
+
+### Prepared HPA check at peak 12 (2026-10-28)
 
 One preliminary HPA burst followed the fresh pilots and prepared fixed-three check. I keep main protocol v1.1 and all earlier evidence unchanged. This is one mechanism check, not another matrix or a controlled repeated comparison.
 
@@ -32,27 +34,29 @@ One preliminary HPA burst followed the fresh pilots and prepared fixed-three che
 - Extend `--pilot-preparation` only to preliminary autoscaling/burst. Reuse recovery, initial and post-warmup quiet gates before HPA activation. Keep purpose `preliminary-hpa-check`, with no main-protocol version or matrix metadata. The existing lifecycle resets to one copy, warms it, enables HPA and restores one Ready copy without HPA after the run.
 - Retain the descriptive whole-run successful p95 target of 5000 ms and existing error/drop limits. Report peak-phase p95/errors separately through the analyzer. A target miss with valid collection is retained; timeouts, dropped and unfinished requests remain separate. Do not expect a 5-second pass from the earlier fixed-three result.
 - Verify the changed option with focused local lifecycle/argument tests before live load. Record host state, source hashes, command, raw records and CSV/JSON analysis in new paths under `results/autoscaling/`. Do not run competing checks during measurement.
-- Schedule a first review about 30 minutes after launch. If still active, verify process identity, small metadata and bounded log tails, then check again in 10 minutes. On completion/failure, replay saved collection/analysis, inspect phase outcomes, scaling, log coverage and restoration, update existing status/plan/discrepancy documents, and remove the heartbeat. Do not automatically repeat, tune targets, start another series, commit or push.
+- I checked progress after launch, then reviewed collection, phase outcomes, scaling, log coverage and restoration from the saved files. This check ended after one run; I did not tune targets or add another series.
 
 Acceptance: preserve the complete attempted run and its honest collection/target outcomes; show observed scaling or its absence, source/CPU coverage gaps, preparation and cleanup results. A lack of scaling or failed target is an outcome, not a reason to replace this run.
 
-Pre-launch verification: 71 focused autoscaling, fixed-replica and main-protocol tests passed in 36.555 seconds, including the prepared preliminary HPA lifecycle and both quiet gates. Historical verification passed (120 protected files, 263 local links). Docker/ai-lab resumed; three Ollama copies and metrics-server were Ready, metrics API available and pod CPU numeric. The first wrapper stopped before creating a run or generating inference: its own command line triggered the competing-process check. Its logs/state and empty host-snapshot file remain preserved. After moving that check before the orchestration interpreter starts, the corrected wrapper started at 18:17:53 UTC with new run path `results/autoscaling/check-20261028-181713-peak12/`. PID/state/log details remain in STATUS.md.
+Before load, all 71 focused autoscaling, fixed-replica and main-protocol tests passed, including the prepared preliminary HPA lifecycle and both quiet gates. I resumed Docker/ai-lab and checked the three Ollama copies, metrics-server, metrics API and numeric pod CPU. The first wrapper stopped before creating a run: its own command line triggered the competing-process check. I kept its logs/state and empty host snapshot, then moved that check before the orchestration interpreter starts. The corrected wrapper started at 18:17:53 UTC with new run path `results/autoscaling/check-20261028-181713-peak12/`.
 
-Completed review: the [saved HPA check](../../results/autoscaling/check-20261028-181713-peak12/README.md) finished at 18:41:54 UTC with valid collection and a latency target miss (exit 99). All 457 starts complete, with 453 successes, four timeouts and zero dropped/unfinished requests. Whole-run/peak successful p95 is 23.253/24.346 seconds. Whole-run errors are 0.875%; peak errors are 1.111%, kept separate from the preliminary whole-run threshold. Desired/Ready copies follow 1 -> 2 -> 3 -> 1; reduction occurs during post-load observation. The retained missing-resource sample concerns terminating copies after load, not a failed collector. Saved calculations, archived hashes, independent percentiles and raw k6 values match. Preparation ordering and recovery are verified; a read-only snapshot confirms one Ready copy and no HPA. I deleted heartbeat `hpa-12`. No new load, targets, matrix or publication followed; normal server drain and causal HPA benefit remain unverified.
+Completed review: the [saved HPA check](../../results/autoscaling/check-20261028-181713-peak12/README.md) finished at 18:41:54 UTC with valid collection and a latency target miss (exit 99). All 457 starts complete, with 453 successes, four timeouts and zero dropped/unfinished requests. Whole-run/peak successful p95 is 23.253/24.346 seconds. Whole-run errors are 0.875%; peak errors are 1.111%, kept separate from the preliminary whole-run threshold. Desired/Ready copies follow 1 -> 2 -> 3 -> 1; reduction occurs during post-load observation. The retained missing-resource sample concerns terminating copies after load, not a failed collector. Saved calculations, archived hashes, independent percentiles and raw k6 values match. Preparation ordering and recovery are verified; a read-only snapshot confirms one Ready copy and no HPA. I ended the check after that run; normal server drain and causal HPA benefit remain unverified.
 
-### Authorized fixed-three check at the new peak (2026-10-27)
+<a id="authorized-fixed-three-check-at-the-new-peak-2026-10-27"></a>
 
-One preliminary check of three fixed copies followed the selection of low=2 and peak=12 requests/10 s by both fresh pilots. Use a new path under `results/fixed-replicas/`. This does not reopen the completed original step 18, modify main protocol v1.1, or authorize HPA or another matrix.
+### Fixed-three check at the new peak (2026-10-27)
+
+One preliminary check of three fixed copies followed the selection of low=2 and peak=12 requests/10 s by both fresh pilots. Use a new path under `results/fixed-replicas/`. I keep this check separate from the completed original step 18, main protocol v1.1 and the HPA comparison.
 
 - Use the existing image/model, prompt/generation settings and per-copy resources. No HPA; three desired/Ready copies; steady 12 requests/10 s for 300 seconds; whole-run successful p95 <= 5000 ms and existing 1% error/zero-drop settings. Retain 60-second idle, individual warmup, fresh low-CPU gates, 5-second observation and 10-second post-load observation.
 - Extend the narrow `--pilot-preparation` option to fixed-three/steady using the existing preparation, per-pod warmup and quiet-state helpers. Keep purpose `preliminary-fixed-replica-check` and omit main-protocol metadata. Verify all three warmups, Service endpoints and measured traffic through the existing log reconciliation.
 - Run the focused fixed-replica fixtures before actual load. Retain collection/preparation failures and threshold misses. The existing preliminary log rule still requires server/client count reconciliation; a timeout/drain mismatch needs review and is not silently converted into valid evidence.
 - Save the command, host snapshot, raw measurements, inputs and CSV/JSON analysis. Leave three fixed copies after the check; do not automatically start HPA, scale them down, rerun or publish. This is a capacity/path check, not a controlled repeated comparison with the steady one-copy pilot or a later HPA burst.
-- Check the background job once about fifteen minutes after launch. If still active, inspect only small metadata/log tails and arrange another check in five minutes; follow briefly only when completion is near. Review saved outcomes, update existing documents and delete the heartbeat on completion/failure.
+- I checked the background job after launch and reviewed its saved outcomes when it stopped.
 
 Acceptance: complete delivered-load/client records, stable selected instances, three successful warmups and measured activity on all three, explicit resource gaps and a saved service-target outcome. Failure to improve is retained as an outcome. Normal server drain after client timeouts and current readiness remain separate checks.
 
-Completed on 2026-10-27: [the prepared three-copy check](../../results/fixed-replicas/check-20261027-203849-peak12/README.md) delivered 361/361 successful requests, with zero dropped/unfinished work and no response failures. Mean/p95/max latency is 4.066/9.507/14.773 seconds; the 5000-ms p95 target fails while collection remains valid. All three warmups and native log counts 123/118/120 are verified. Saved analysis, archived hashes, raw k6 latencies and independently calculated p95 match. The local fixed-replica suite passed 14 tests before load; no full-suite rerun is claimed for this narrow extension. Three Ready copies and no HPA were observed after completion. The heartbeat was deleted; no new load, scale-down, protocol change, commit or push followed.
+Completed on 2026-10-27: [the prepared three-copy check](../../results/fixed-replicas/check-20261027-203849-peak12/README.md) delivered 361/361 successful requests, with zero dropped/unfinished work and no response failures. Mean/p95/max latency is 4.066/9.507/14.773 seconds; the 5000-ms p95 target fails while collection remains valid. All three warmups and native log counts 123/118/120 are verified. Saved analysis, archived hashes, raw k6 latencies and independently calculated p95 match. The local fixed-replica suite passed 14 tests before load; no full-suite rerun is claimed for this narrow extension. Three Ready copies and no HPA were observed after completion. I left the three copies running and kept the protocol unchanged.
 
 Compare fixed capacity with automatic scaling on the existing local CPU setup. The [roadmap](../ROADMAP.md#18-test-three-manually-configured-replicas) defines milestones and the intended experiment matrix. [STATUS.md](../STATUS.md) names the active task. The [pilot plan](measurements-and-pilot.md) has saved results.
 
@@ -61,7 +65,7 @@ The [fixed replica preparation](fixed-replicas.md) may run a separately labelled
 Before using this procedure for the main comparison:
 
 1. Use the completed one-replica pilot recording/analysis and selected low/peak rates from [the saved report](../../results/pilot/discovery-2026-10-18-series1/README.md). Protocol v1.1 supplies the agreed targets and conditions; its implementation has local verification below.
-2. Use the [main experiment protocol v1.1](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd), agreed on 2026-10-21. It defines targets, windows, matrix, order and outcome/data rules. Roadmap steps 17 and 20 are complete as agreement and local implementation preparation; runtime readiness and approved execution remain separate.
+2. Use the [main experiment protocol v1.1](https://app.notion.com/p/3ffc7c697bfd813f8572c5b413836dcd), agreed on 2026-10-21. It defines targets, windows, matrix, order and outcome/data rules. Roadmap steps 17 and 20 are complete as agreement and local implementation preparation; runtime readiness and execution remain separate.
 3. Verify the current cluster, application image, model identity, Service URL and available resources. [Getting started](../GETTING_STARTED.md) describes setup and troubleshooting commands.
 4. Follow the accepted choices in [DECISIONS.md](../DECISIONS.md). Source configuration stays in [deploy/ollama.yaml](../../deploy/ollama.yaml) and [bench/inference.js](../../bench/inference.js). Schema, units and collection limits stay in [OBSERVATION.md](../OBSERVATION.md).
 
@@ -101,7 +105,7 @@ The HPA/review/publication/audit sections below preserve the 2026-10-20 executio
 
 ## 2. Preliminary HPA implementation and check
 
-Completed preliminary check, approved and executed on 2026-10-20. This check may precede the frozen main protocol. It does not complete the repeated comparison.
+I completed this preliminary check on 2026-10-20. This check may precede the frozen main protocol. It does not complete the repeated comparison.
 
 - [x] Add autoscaling/v2 HPA for Ollama: 1-3 copies, CPU target 60%, downscale stabilization 300 seconds. Keep default scale-up behavior.
 - [x] Extend the existing launcher with autoscaling mode and burst profile; keep fixed-mode commands and checks. Python and k6 share the burst stages: 120/1/300/1/360 seconds, low=2 and peak=8 requests/10 seconds (782 seconds total).
@@ -110,7 +114,7 @@ Completed preliminary check, approved and executed on 2026-10-20. This check may
 - [x] Reuse request reconciliation and analysis. Add HPA/pod timelines, phase-specific latency/error counts and per-pod resources. First HTTP response is not proof of first successful generation. Server/client counts need not match after a timeout.
 - [x] Exercise dynamic transitions, missing first metrics, idle new pods, deleted logs, broken log streams/API, restarts, interruption, deadline consistency, false counters and no-scaling outcomes. Run all bench tests, historical integrity and diff checks before load.
 - [x] Run one saved burst followed by client drain and a separately labelled 300-second period without new requests. Preserve partial failures. Stop log processes; remove HPA and restore one copy, saving recovery separately.
-- [x] Save raw evidence, summary and charts; add a short simple-English HPA section to the existing Notion results page. Update setup/status and only mark observed behavior complete. No commits or push.
+- [x] Save raw evidence, summary and charts; add a short simple-English HPA section to the existing Notion results page. Update setup/status and only mark observed behavior complete.
 
 Acceptance: complete request accounting and explicit observation/log coverage; growth and reduction are assessed separately from data validity. Reaching three copies is not required. If no transition occurs, report that result without tuning this run. Existing historical evidence must remain unchanged. All copies share one host; this check cannot establish HPA benefit.
 
@@ -130,9 +134,9 @@ Scope: make the current checks reproducible without changing saved measurements 
 
 Verification (2026-10-20T17:01:42+00:00, Windows, project `.venv`): Python 3.12.0, k6 2.2.0, Matplotlib 3.11.2. `python -m unittest discover -s bench` passed all 86 tests without skips. Before installing the already declared Matplotlib dependency, the suite passed with two plot checks skipped; with k6 also absent from PATH, 12 dependency-specific checks were skipped and the remaining checks passed. The dynamic HPA lifecycle test then passed five consecutive repetitions. These use local HTTP fixtures and simulated Kubernetes, not a new cluster experiment.
 
-All 467 existing result files are byte-identical to the pre-fix snapshot. The historical verifier passed (120 protected files, saved aggregates and 184 local links); `git diff --check` passed. Current source corrections do not change archived run inputs or their original verdicts. No main latency target, commit or push is part of this repair.
+All 467 existing result files retained their hashes. The historical verifier reproduced the saved aggregates. I kept the archived inputs, original verdicts and main latency target unchanged.
 
-Independent review (2026-10-20): source and test assertions were inspected separately from the earlier report. The project environment passed all 86 tests without skips. Fresh temporary Python environments passed with two skips without Matplotlib and 12 skips without Matplotlib and k6. The dynamic lifecycle test passed five further repetitions. Replaying the saved fixed-three and HPA runs with a duplicated observation in memory produced the strict timestamp error; unmodified runs remained valid. All 467 result files still matched the pre-fix hashes, and the historical verifier passed again. No functional defect or weakened check was found in this repair. Only stale descriptions of already implemented collection/analysis features were corrected; source code and tests were unchanged. The main protocol and repeated comparison remain unfinished.
+I reviewed the source and test assertions again on 2026-10-20. Replaying the fixed-three and HPA runs with a duplicate observation produced the expected strict timestamp error; the unmodified runs remained valid. I found no weakened check or functional defect. I corrected stale collection/analysis descriptions, leaving source code and tests unchanged. The main protocol and repeated comparison were still unfinished.
 
 ## Publish the reviewed implementation and evidence
 
@@ -141,9 +145,9 @@ Scope: address the remaining review notes and publish the related fixed-three/HP
 - [x] Mark the 79-test result as historical and explain the two request-rate denominators in source and generated analysis notes.
 - [x] Prepare one reviewed Git snapshot with both saved scaling series and all related implementation files. Keep missing required test data visible as a failure.
 - [x] Verify a clean export of the Git index with the full bench suite and historical verifier. Compare all local result-file hashes with the pre-fix snapshot.
-Verification: the clean Git export passed all 86 tests without skips, preserved 120 protected historical files and their aggregates, and resolved all 184 local links. All 467 local result paths are unchanged. Git contains 465 result files; the other two paths are ignored Python bytecode caches and stay local.
+The clean Git export passed all 86 tests and reproduced the historical aggregates. All 467 local result paths were preserved: Git contained 465 result files; the other two were ignored Python bytecode caches.
 
-Publication procedure: create the commit, verify a clean clone, push it and compare the remote branch SHA. Report those final outcomes in the chat after they are verified.
+I planned to check a clean clone before pushing the reviewed commit, then compare the remote branch SHA with the local commit.
 
 The main protocol must agree the error, dropped-work and latency targets before the main series. Move the provisional error/dropped-work thresholds into shared configuration and verify that k6 uses those agreed values at that stage. This publication does not select targets or execute the main matrix.
 
@@ -160,7 +164,7 @@ Verification (2026-10-20): all 98 tests passed without skips in the project envi
 
 Historical documentation follow-up (2026-10-20): step 18 was expanded to require the agreed repeat/settings rules. The 2026-10-21 scope correction below restores its original preliminary-check criterion and assigns the repeated comparison to step 21. The two authoring-root integrity drafts are labelled as superseded recovery records. The maintained Notion result page was fetched again: its fixed-three/HPA sections already link the published c81c55c evidence and explain historical test counts, so no page rewrite was needed.
 
-The fixed-three timeout/distribution rule remains a preliminary limitation. Agree how client failures, distribution coverage and server drain are represented across all modes in the main protocol before changing that rule. No live load, target selection, archive rewrite, commit or push is part of this repair.
+The fixed-three timeout/distribution rule remains a preliminary limitation. Agree how client failures, distribution coverage and server drain are represented across all modes in the main protocol before changing that rule. I kept the experiment targets and archived inputs unchanged and did not run live load.
 
 ## Protocol v1.0 agreement
 
@@ -173,7 +177,7 @@ Objective: record the step-17 agreement without changing executable code, histor
 - [x] Record profiles, primary phase/resource windows, quiet-state preparation, timeout/distribution rules, the 18-run order and retained system outcomes.
 - [x] Update related current Markdown and link the agreement from existing Notion evidence pages. Keep steps 18/20/21 open at that time and historical result bytes unchanged.
 
-Verification (2026-10-21): all four edited Notion pages were fetched again; the v1.0 rules and current-versus-historical wording were checked. The 13 changed files are Markdown only. The historical verifier passed (120 protected files, matching saved aggregates and 183 local links), git diff --check passed, and all 467 result paths remain byte-identical to the pre-edit snapshot. Bench code/configuration and archived inputs are unchanged, so the bench suite was not rerun for this documentation-only change. No live load, commit or push.
+I checked the four edited Notion pages against the v1.0 rules and the historical wording. All 467 result files retained their hashes; code, configuration and archived inputs were unchanged. This was a documentation revision, so I did not rerun the benchmark suite or collect load.
 
 ## Protocol v1.1 clarifications
 
@@ -185,7 +189,7 @@ Objective: address the independently reviewed preparation/resource/assessment ga
 - [x] Require zero unfinished requests for full assessment; reuse the existing rejection rather than adding a duplicate validator.
 - [x] Update related current Markdown and the existing Notion protocol/PDP references. Preserve historical version-1.0 records and the low-load overhead caveat.
 
-Verification (2026-10-21): the protocol v1.1 and PDP update were fetched again; the five clarification areas, assessment fields, original v1.0 approval and zero affected main runs were confirmed. The incremental diff changes the same 13 Markdown files only. The historical verifier passed (120 protected files, matching saved aggregates and 183 local links); git diff --check passed. All 498 protected code/config/result paths, including all 467 result files, retain their pre-v1.1 hashes. No code changed, so the bench suite was not rerun for this documentation revision. No runtime load, commit or push.
+I checked the protocol v1.1 and PDP changes against the five clarification areas, assessment fields and original v1.0 agreement. No main run had started. The revision changed documentation only; all 498 protected code/configuration/result paths, including 467 result files, retained their hashes.
 
 ## Restore the original step-18 scope
 
@@ -193,7 +197,7 @@ On 2026-10-21, restore step 18 to the preliminary three-copy check defined in th
 
 Step 18 is complete; step 20 remains complete as local implementation preparation; step 21 covers execution of the full repeated matrix and remains open. No extra step-18 runs are needed. This is a milestone-scope correction, not a change to protocol v1.1 settings, targets, repetitions or order. Saved result reports and archived inputs keep their original bytes and historical wording. Related current Markdown and Notion references are aligned.
 
-Verification (2026-10-21): six current Markdown files changed. The saved fixed-three service/peak checks and both one-copy peak confirmations reconcile. All 500 protected code/config/result paths, including all 467 saved result files, retain their pre-edit hashes. The historical verifier passed (120 protected historical files, matching saved aggregates and 184 local links); git diff --check passed. The Notion protocol and PDP were fetched again and show the corrected milestone scope. No bench code changed, so the bench suite was not rerun for this documentation-only correction. No live load, commit or push.
+I reconciled the fixed-three service/peak checks and both one-copy peak confirmations, then checked the corrected milestone scope in Notion and the six edited Markdown files. All 500 protected code/configuration/result paths, including 467 result files, retained their hashes. No benchmark code or protocol settings changed.
 
 ## Stabilize the local scaling test fixtures
 
@@ -218,7 +222,7 @@ Step 20 preparation is complete with local verification. Reuse the existing laun
 - [x] Retain fixed-mode traffic separately from client counts/statuses after timeouts; preserve system failures and partial attempts.
 - [x] Estimate per-instance CPU core-seconds on the common scheduled window, with continuity/clipping/coverage and separate observed memory/node values. Keep historical client-drain summaries.
 - [x] Supply the manual order and single-run instructions below for the main series in step 21. Step 18 is the completed preliminary check.
-- [x] All 122 bench tests passed without skips on 2026-10-21. New tests cover six mode/profile paths using real k6/local HTTP, preparation gates, target failures, incomplete attempts and resource calculations. Kubernetes interactions are simulated; preparation gates have separate direct tests. All 467 saved result paths are byte-identical; 11 saved summaries and the HPA phase/timeline replay match. The historical verifier passed (120 protected files, matching saved aggregates and 183 local links); git diff --check passed. The Notion protocol/PDP updates were fetched again. No cluster load, commit or push.
+- [x] All 122 bench tests passed without skips on 2026-10-21. Tests covered all six mode/profile paths with real k6/local HTTP fixtures, preparation gates, target failures, incomplete attempts and resource calculations. Kubernetes interactions were simulated. The 467 saved result files were preserved; 11 summaries and the HPA phase/timeline replay matched. These checks did not collect cluster load.
 
 ### Step-21 preparation on 2026-10-25
 
@@ -228,7 +232,7 @@ Docker was initially stopped and then failed on a stale runtime socket (Windows 
 
 The existing ai-lab profile resumed with 8 CPUs and 12288 MiB. One Ollama copy is Ready without HPA; its image ID matches the saved preliminary check. The configured resources/environment passed check_configuration, the Service tunnel responded to /api/tags with the expected model digest, and metrics-server returned numeric CPU. The retained pod has one container restart after cluster resume; no run was active during it. The current tunnel is http://127.0.0.1:53877 and must stay open; recheck it after any interruption.
 
-For Honor was active during preparation. I subsequently confirmed it was closed; a process check found no game or other project generator/observer. The first main attempt is now authorized to start. No completed result is claimed yet. The first planned cell remains repetition 1 / fixed-1 / steady / planned order 1 / actual order 1. Fresh process/activity checks and the launcher's recovery/idle/warmup/settle gates are still required before its measured load.
+For Honor was active during preparation. I subsequently confirmed it was closed; a process check found no game or other project generator/observer. I was ready to start the first main attempt, with no completed result yet. The first planned cell remains repetition 1 / fixed-1 / steady / planned order 1 / actual order 1. Fresh process/activity checks and the launcher's recovery/idle/warmup/settle gates are still required before its measured load.
 
 ### Before runtime work
 
@@ -240,11 +244,11 @@ Initial models receive separate warmup. Both HPA profiles then apply HPA and ver
 
 ### Pause on 2026-10-26
 
-This is the historical 10/18 checkpoint. I subsequently authorized continuation; all 18 attempts are now reviewed below. Saved checkpoint/result files retain their original bytes.
+This is the historical 10/18 checkpoint. I subsequently continued the series; all 18 attempts are now reviewed below. Saved checkpoint/result files retain their original bytes.
 
 The current attempt 10 (repetition 2, fixed-3/steady) completed and was independently reviewed before stopping. Raw events, k6 data, per-pod logs, metadata, assessment and CSV/JSON analysis are saved. All three copies had measured generation traffic. The original +1-ms start-boundary warning is retained under the existing policy. CPU coverage for one copy is 299.798/300 seconds, so the complete application CPU estimate remains unavailable; per-instance values and coverage are retained.
 
-The [series checkpoint](../../results/main/series-2026-10-25-v1.1/pause-after-attempt-10.json) records 10/18 reviewed cells and the next unexecuted cell (11, repetition 2, autoscaling/steady). Do not start it or later cells without my explicit instruction. There is no active project load/observer. Three copies remain Ready without HPA; no after-run scale change or restart was made. Recheck runtime and activity before any approved resumption. All 467 historical result paths and the executable settings remain unchanged. At this checkpoint, main results/documentation were local and uncommitted; implementation repair 70811d8 was already pushed. The subsequent publication includes the first 10 attempts and the continuation command; saved checkpoint and measurement files retain their original bytes. Step 21 remains open.
+The [series checkpoint](../../results/main/series-2026-10-25-v1.1/pause-after-attempt-10.json) records 10/18 reviewed cells and the next unexecuted cell (11, repetition 2, autoscaling/steady). I paused before starting that cell. There is no active project load/observer. Three copies remain Ready without HPA; no after-run scale change or restart was made. Recheck runtime and activity before resuming. All 467 historical result paths and the executable settings remain unchanged. At this checkpoint, main results/documentation were local and uncommitted; implementation repair 70811d8 was already pushed. The subsequent publication includes the first 10 attempts and the continuation command; saved checkpoint and measurement files retain their original bytes. Step 21 remains open.
 
 ### One-command continuation
 
@@ -291,7 +295,9 @@ The reviewed attempts below are part of the main series. Mark an attempt only af
 | 17 | 3 | fixed-1 | burst | [attempt-17-fixed-1-burst](../../results/main/series-2026-10-25-v1.1/attempt-17-fixed-1-burst/assessment.json): valid, pass (actual 17) |
 | 18 | 3 | fixed-3 | burst | [attempt-18-fixed-3-burst](../../results/main/series-2026-10-25-v1.1/attempt-18-fixed-3-burst/assessment.json): valid, pass (actual 18) |
 
-### Run one approved attempt
+<a id="run-one-approved-attempt"></a>
+
+### Run one attempt
 
 Read one row of the checklist and set its fields. This command runs only that attempt; it is not a loop. Keep the Service tunnel open. Omit --duration and --slo-ms: main settings come from the shared protocol configuration. Rates are requests per ten seconds.
 
@@ -332,8 +338,7 @@ Objective: independently review all 18 saved attempts and explain latency, scali
 
 Acceptance: calculations match source records; valid request outcomes stay distinct from incomplete resource totals; no unsupported causal, energy/cost or production-capacity claim. Verify source-file preservation and the historical evidence verifier. Use existing Python analysis instead of adding a second notebook workflow.
 
-Result: all 18 attempts replay correctly; independent primary p95 and raw k6 primary distributions agree. All 5,189 requests succeed. The [new combined analysis](../../results/main/series-2026-10-25-v1.1/analysis-main-2026-10-26/README.md) retains every repetition, eight incomplete application CPU totals and all warnings. Exact model-ready times are unavailable; pod Ready/first observed HTTP response and reported model-load duration remain distinct. Steps 21 and 22 are complete; final Notion findings and reproduction remain open. Verification: all 1,087 result files present before analysis and 11 frozen executable/settings files retain their bytes. The historical verifier passes (120 protected files, 222 local links). Independent resource-counter integration for attempt 1 matches container/node values; all 18 raw primary k6 distributions and six group medians/counts agree. Nineteen PNG/SVG pairs are present; the p95 comparison and representative HPA timeline were visually inspected. Existing-output refusal was checked. No new load, commit or push was performed for this analysis.
-
+Result: all 18 attempts replay correctly; independent primary p95 and raw k6 primary distributions agree. All 5,189 requests succeed. The [new combined analysis](../../results/main/series-2026-10-25-v1.1/analysis-main-2026-10-26/README.md) retains every repetition, eight incomplete application CPU totals and all warnings. Exact model-ready times are unavailable; pod Ready/first observed HTTP response and reported model-load duration remain distinct. Steps 21 and 22 are complete; final Notion findings and reproduction remain open. Verification: all 1,087 result files present before analysis and 11 frozen executable/settings files retain their bytes. The historical verifier passes (120 protected files, 222 local links). Independent resource-counter integration for attempt 1 matches container/node values; all 18 raw primary k6 distributions and six group medians/counts agree. Nineteen PNG/SVG pairs are present; the p95 comparison and representative HPA timeline were visually inspected. Existing-output refusal was checked. I used saved data for this analysis.
 
 Per-run analysis exports protocol assessment and scheduled-window resource estimates. The combined tables and plots are saved above. The separate [Findings](https://app.notion.com/p/40fc7c697bfd81bbb00fcf67a8c3d00c) explain the main comparison and its limits. The [pilot plan](measurements-and-pilot.md#5-pilot-output-and-decisions) describes the first whole-run summaries and rate selection; extend that work for the main matrix rather than building a separate analyzer.
 
@@ -372,7 +377,9 @@ Objective: explain the latency discrepancy from existing evidence, before propos
 
 Evidence: [pilot-gap review](../../results/main/series-2026-10-25-v1.1/pilot-gap-review-2026-10-26/README.md). The review supports modest effective processing-speed differences being amplified by waiting near the offered rate. Historical host load, frequency, throttling and server evaluation/queue timings are missing; no specific physical cause is proven. Protocol values and milestone completion remain unchanged.
 
-### Authorized post-warmup wait pair (2026-10-26)
+<a id="authorized-post-warmup-wait-pair-2026-10-26"></a>
+
+### Post-warmup wait pair (2026-10-26)
 
 One diagnostic pair tested the preparation difference. This is outside protocol v1.1; it neither replaces nor appends cells to the completed matrix.
 
@@ -385,11 +392,11 @@ Question: does waiting for the existing post-warmup quiet-state gate change the 
 - Stop on preparation/collection failure, nonzero unfinished/dropped requests, unexpected warnings or changed identity/settings. Retain a valid target miss; do not replace it to obtain a pass. No automatic extension beyond the two runs.
 - Replay collection and compare payload/input hashes, actual post-warmup delays, counts, p95, first 30 seconds and client in-flight counts. Keep all raw data unchanged.
 
-Acceptance: the two variants differ only by the post-warmup gate among controlled settings. A single pair is a screening result with order/host-drift limits. Similar results would weaken this explanation under current conditions, not prove why the historical pilot was slower. A difference would require caution about reproducibility before a causal claim. No new peak search is authorized by this pair.
+Acceptance: the two variants differ only by the post-warmup gate among controlled settings. A single pair is a screening result with order/host-drift limits. Similar results would weaken this explanation under current conditions, not prove why the historical pilot was slower. A difference would require caution about reproducibility before a causal claim. The pair does not include a new peak search.
 
 Local verification: both diagnostic variants pass the real-k6/local-HTTP fixture; incompatible main/HPA/burst options stop before creating a folder. All 145 bench tests pass. bench/run_wait_pair.py uses the existing Service-tunnel and child-process helpers and schedules exactly two runs. It archives its drawn order and pre-launch host snapshots.
 
-Live result: [saved pair](../../results/diagnostics/warmup-wait-20261026-234007/README.md), quiet then immediate, with independent raw/event checks. Both variants meet the descriptive target: p95 1.319/1.267 seconds and 481 successful requests in total. The historical gap was not reproduced. All 1,147 earlier result files are unchanged. The script stopped after the two runs; one Ready copy and no HPA remain. Snapshot limits and the later driver encoding fix are recorded in the report. No new peak search, protocol revision or commit was performed.
+Live result: [saved pair](../../results/diagnostics/warmup-wait-20261026-234007/README.md), quiet then immediate, with independent raw/event checks. Both variants meet the descriptive target: p95 1.319/1.267 seconds and 481 successful requests in total. The historical gap was not reproduced. All 1,147 earlier result files are unchanged. The script stopped after the two runs; one Ready copy and no HPA remain. Snapshot limits and the later driver encoding fix are recorded in the report. I kept the existing protocol and ended the diagnostic after the pair.
 
 Implementation: reuse the existing preparation helpers and add the diagnostic switch to the launcher. Verify both branches with local HTTP/k6 fixtures and check rejection of conflicting modes, then the existing suite before live load. Preserve all previous results and archived inputs; the current launcher source changes, while prior executable copies stay immutable.
 
@@ -434,7 +441,7 @@ The planned order is fixed one, HPA, fixed three in block 1; HPA, fixed three, f
 
 I use the existing peak p95 target of 5 seconds and error reference of 1% in the peak and whole run. Record timeouts separately and compare only runs with valid, full load. Keep valid service target misses. Stop on failed preparation, collection, HPA cleanup, an unexpected warning, a dropped or unfinished request, or a change in common inputs or runtime identity. Keep any failed attempt. Record all phase counts, successful p95, replica behavior and CPU coverage under a new follow-up path.
 
-Before launch, verify prepared fixed burst arguments and the affected tests, confirm the original cluster and model identity, and save the order, runner and host snapshot. Start the series in a separate process and take the three requested snapshots at 30, 60 and 90 minutes.
+Before launch, verify prepared fixed burst arguments and the affected tests, confirm the original cluster and model identity, and save the order, runner and host snapshot. Start the series in a separate process and take three progress snapshots at 30, 60 and 90 minutes.
 
 Launch verification: the nine command lines passed a dry run, all 72 affected tests passed, and the earlier peak-12 HPA run reproduced its saved collection and peak assessment. Docker, one Ready Ollama copy, the Service tunnel and node/pod CPU metrics were available. The new series reached the first recovery gate at launch. See [STATUS.md](../STATUS.md#completed-controlled-peak-12-comparison).
 

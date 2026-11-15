@@ -8,7 +8,7 @@ I showed the teachers my portfolio and the work completed for the group project 
 
 The teachers advised me to show more evidence of the personal experiment working, such as a demo, screenshots, or other proof of the implemented result.
 
-Follow-up: add evidence of the working inference prototype to Portflow. Show what already works and keep unfinished autoscaling experiments clearly marked as unfinished. Completion of this follow-up has not been verified.
+I need to add evidence of the working inference prototype to Portflow, showing what works and identifying unfinished autoscaling experiments. I have not confirmed completion of this follow-up.
 
 ## Research document and portfolio structure
 
@@ -18,6 +18,6 @@ The teacher explained that the PDP (Personal Development Plan) for the personal 
 
 ## Submission priorities
 
-I clarified on 2026-10-16: project documents must be uploaded to Fontys Portflow. Uploading them to Git is optional and is not the current priority; I planned to handle that later. This is my instruction, not an additional statement attributed to the teachers.
+I clarified on 2026-10-16: project documents must be uploaded to Fontys Portflow. Uploading them to Git is optional and is not the current priority; I planned to handle that later. This was my decision, rather than advice from the teachers.
 
-Later on 2026-10-16, a GitHub copy of the implementation and project Markdown was prepared. Word artifacts remain in the authoring workspace. Required Portflow submission is unchanged; this update is also my instruction.
+Later on 2026-10-16, I prepared a GitHub copy of the implementation and project Markdown. Word artifacts remain in the authoring workspace. I still need to submit the documents to Portflow.

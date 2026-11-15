@@ -6,7 +6,7 @@ Implementation paths are relative to the repository root.
 
 ## Objective
 
-Prepare repeatable measurements and find useful low and peak request rates for one warm CPU replica. Use the pilot to choose the settings for the later fixed-one, fixed-three and HPA comparison. Demo and portfolio uploads will be handled later.
+I use the pilot to check the measurement path and find low and peak request rates for one warm CPU replica. These rates provide the settings for the later fixed-one, fixed-three and HPA comparison. Demo and portfolio uploads are separate work.
 
 ### Completed implementation: data collection
 
@@ -29,7 +29,7 @@ Acceptance: warnings alone do not invalidate measured data; each targeted disabl
 
 The completed `bench/analyze.py` prerequisite provides one CSV row per run, successful-response percentiles, separate request outcomes, optional-token availability, measured-window container CPU/memory observations and collection coverage. Use the already installed Matplotlib as an optional analysis dependency for aligned request/resource/replica figures; keep the collector dependency-free. Preserve raw inputs and use a new output directory for each analysis.
 
-Calculated values and missing/window handling were verified against controlled fixtures and the saved live check; rendered figures were inspected. A/B/C and the intermediate probe ran sequentially with stop-rule inspection and idle recovery; both selected rates then received two five-minute confirmations. Evidence is saved beside the runs. This completed stage did not authorize publication; the later explicit publication request is recorded in [publication-review/GATES.md](publication-review/GATES.md).
+Calculated values and missing/window handling were verified against controlled fixtures and the saved live check; rendered figures were inspected. A/B/C and the intermediate probe ran sequentially with stop-rule inspection and idle recovery; both selected rates then received two five-minute confirmations. Evidence is saved beside the runs. The later publication is recorded in [publication-review/GATES.md](publication-review/GATES.md).
 
 Acceptance and evidence: [pilot-analysis/GATES.md](pilot-analysis/GATES.md). The selected rates have repeated discovery evidence. Protocol v1.1 now records the main target as a study assumption; it does not change the original pilot settings or verdicts.
 
@@ -155,31 +155,31 @@ Reuse the existing launcher, workload, observer, recovery/quiet-state gates, Ser
 - If a calm and peak candidate are found, confirm low/peak/low/peak with four separate five-minute runs. Both low confirmations must meet the criteria; both peak confirmations must miss at least one criterion. Otherwise record inconclusive selection and stop. HPA benefit is not a selection condition.
 - Save raw inputs, observations, outcomes, source/runtime identity, actual timings, collection checks and CSV/JSON analysis beside every run. Check controlled settings and initial identity across runs; preserve target failures. Keep a two-hour wall-clock budget for scheduling further runs; an active run finishes its normal cleanup before exit.
 
-Acceptance: the manifest reports the selected rates and confirmation verdict, or the exact reason selection could not be established. No old path is overwritten. No additional series, HPA run, commit or push follows automatically. Verify the new driver selection/stop rules and the launcher preparation path with local fixtures before starting actual load.
+Acceptance: the manifest reports the selected rates and confirmation verdict, or the exact reason selection could not be established. No old path is overwritten. The driver stops after this search and its confirmations. Verify the new driver selection/stop rules and the launcher preparation path with local fixtures before starting actual load.
 
-One check was scheduled about an hour after launch. If still running, schedule another check thirty minutes later and end the first check without monitoring. At that later check, follow to completion only if the current phase and remaining run count support an estimate of ten minutes or less; otherwise schedule another thirty-minute check. Pause the follow-up when the job finishes or stops, review saved outcomes and report any problem without starting replacement load.
+I checked the background job periodically and reviewed its saved outcomes when it stopped. I kept failed attempts rather than automatically starting replacement load.
 
-Pre-launch verification: all 152 bench tests passed, including a real-k6/local-HTTP check of the new prepared pilot path and driver selection/stop fixtures. All 1,207 earlier result files retain their hashes. Docker was started and the existing ai-lab profile resumed without recreation. One Ready copy and no HPA were observed before launch; the retained restart is from recovery before measurement. No main-protocol settings or earlier executable archives changed. Current code/doc changes are uncommitted.
+Pre-launch verification: all 152 bench tests passed, including a real-k6/local-HTTP check of the new prepared pilot path and driver selection/stop fixtures. All 1,207 earlier result files retain their hashes. Docker was started and the existing ai-lab profile resumed without recreation. One Ready copy and no HPA were observed before launch; the retained restart is from recovery before measurement. No main-protocol settings or earlier executable archives changed.
 
-Outcome reviewed on 2026-10-27: [the background series](../../results/pilot/recalibration-20261027-104833/README.md) was interrupted after valid two-minute probes at 2, 8 and 10 requests/10 s (242 successful requests in total). The driver disappeared before measured load at rate 12; its last phase is `initial_quiet`, with no final exit record. All three saved analyses and archived input hashes match replay. No peak candidate or four five-minute confirmations were completed. The raw `running` manifest remains preserved; the separate review records observed process absence and incomplete selection. The exit cause is unknown. The final review deleted the follow-up heartbeat; no new load was started. Any continuation needs a new instruction and new paths, while completed main v1.1 evidence remains unchanged.
+Outcome reviewed on 2026-10-27: [the background series](../../results/pilot/recalibration-20261027-104833/README.md) was interrupted after valid two-minute probes at 2, 8 and 10 requests/10 s (242 successful requests in total). The driver disappeared before measured load at rate 12; its last phase is `initial_quiet`, with no final exit record. All three saved analyses and archived input hashes match replay. No peak candidate or four five-minute confirmations were completed. The raw `running` manifest remains preserved; the separate review records observed process absence and incomplete selection. The exit cause is unknown. A later search needs fresh runtime checks and new paths; the completed main v1.1 evidence remains unchanged.
 
 ### Explicit retry after interruption
 
 Another fresh pilot started on 2026-10-27 with the same candidate rates, criteria, preparation and four confirmations. The new path is `results/pilot/recalibration-20261027-172726/`; no previous result is reused as a confirmation or overwritten. The existing measurement/selection code remains unchanged. A hidden PowerShell launcher records the driver PID and observed exit code separately because the previous process disappeared without a final record. The wrapper does not alter workload or collection rules.
 
-Checks were scheduled after thirty and sixty minutes. If still running at sixty minutes, schedule the next check twenty minutes later and continue at that interval. Do not continuously observe between checks; at later twenty-minute checks, follow only if the current phase and measured durations support no more than ten minutes remaining. Delete the heartbeat on completion or failure. Do not automatically restart failed attempts, start HPA, modify the main protocol or publish changes.
+I checked the retry after thirty and sixty minutes, then at twenty-minute intervals while it was active. Failed attempts were retained, without automatic restarts or changes to the main protocol.
 
-Retry startup confirmed at 17:31:47 UTC on 2026-10-27, with driver PID 6684 and a new manifest. The launcher syntax check passed; measurement code is unchanged from the 152-test verification. Heartbeat `30-60-20` records the requested follow-up cadence. The initial unsigned-script block happened before load and its log remains saved; the successful launch changes execution permission only for that wrapper process.
+Retry startup confirmed at 17:31:47 UTC on 2026-10-27, with driver PID 6684 and a new manifest. The launcher syntax check passed; measurement code is unchanged from the 152-test verification. The initial unsigned-script block happened before load and its log remains saved; the successful launch changes execution permission only for that wrapper process.
 
-Completion reviewed on 2026-10-27: [all eight retry runs](../../results/pilot/recalibration-20261027-172726/README.md) finished by 18:29:08 UTC. Low=2 and peak=12 requests/10 s satisfy the predefined repeated-selection rule. Five-minute low p95 is 0.894/1.135 seconds; peak p95 is 18.941/27.730 seconds, with 0/361 and 153/360 timeout failures. Both peak target misses are preserved; severe variation is not hidden. All 1,231 requests have completions, with zero dropped/unfinished work. All collection checks, saved analyses, archived hashes and controlled identities match replay. The outer wrapper exit code remains unavailable despite a final driver manifest and complete run records. The heartbeat is no longer active. No new load, protocol change or publication followed review.
+Completion reviewed on 2026-10-27: [all eight retry runs](../../results/pilot/recalibration-20261027-172726/README.md) finished by 18:29:08 UTC. Low=2 and peak=12 requests/10 s satisfy the predefined repeated-selection rule. Five-minute low p95 is 0.894/1.135 seconds; peak p95 is 18.941/27.730 seconds, with 0/361 and 153/360 timeout failures. Both peak target misses are preserved; severe variation is not hidden. All 1,231 requests have completions, with zero dropped/unfinished work. All collection checks, saved analyses, archived hashes and controlled identities match replay. The outer wrapper exit code remains unavailable despite a final driver manifest and complete run records. No new load, protocol change or publication followed review.
 
 ### Another full repeat after the completed pilot
 
 One more full pilot started on 2026-10-27 after the completed retry was reviewed. New path: `results/pilot/recalibration-20261027-191145/`. Reuse the same driver, preparation, low/peak candidates, criteria and four-confirmation order. The outcome may differ; do not force peak 12 or replace an unfavorable result. Preserve both earlier fresh series and main protocol v1.1.
 
-Use the same background check cadence: thirty minutes, sixty minutes, then every twenty minutes while still active. No continuous observation between checks; at later twenty-minute checks, follow only if at most ten minutes remain. Delete the heartbeat when done. The operational wrapper retains the process handle before waiting; a no-load exit-code-7 check verifies exit recording. No measurement code or workload change is included, so no full suite rerun or additional validation load precedes this repeat. No HPA or publication follows automatically.
+I used the same thirty-, sixty-, then twenty-minute check schedule. The launcher retains its process handle before waiting; a no-load exit-code-7 check tested exit recording. Measurement code and workload were unchanged, so I did not rerun the full suite or add validation load before this repeat.
 
-Actual startup was confirmed at 19:12:54 UTC on 2026-10-27. The [repeat completed](../../results/pilot/recalibration-20261027-191145/README.md) at 20:10:36 UTC with captured outer exit code 0, all eight valid runs and the same 2/12 selection. Low p95 is 1.148/1.234 seconds; peak p95 is 29.081/26.612 seconds, with 188/360 and 198/361 timeouts. All 1,229 requests completed, 843 successfully; no unfinished/dropped requests. Replay, saved analyses and archived hashes match. Controlled inputs also match the previous complete pilot. Selection repeats, while severe error-rate variation remains explicit. All raw files are preserved; the heartbeat was deleted and no additional load or publication followed.
+Actual startup was confirmed at 19:12:54 UTC on 2026-10-27. The [repeat completed](../../results/pilot/recalibration-20261027-191145/README.md) at 20:10:36 UTC with captured outer exit code 0, all eight valid runs and the same 2/12 selection. Low p95 is 1.148/1.234 seconds; peak p95 is 29.081/26.612 seconds, with 188/360 and 198/361 timeouts. All 1,229 requests completed, 843 successfully; no unfinished/dropped requests. Replay, saved analyses and archived hashes match. Controlled inputs also match the previous complete pilot. Selection repeats, while severe error-rate variation remains explicit. All raw files are preserved;
 
 ### Publication checkpoint after both complete searches
 
@@ -193,7 +193,7 @@ To run the same search manually from the repository root, use a new destination 
 .\.venv\Scripts\python.exe -B bench/run_pilot_search.py --series-dir results/pilot/recalibration-new
 ```
 
-This command creates real load. The example documents the entry point; it is not authorization for another run. The driver refuses an existing destination and stops after its fixed search/confirmations or a retained failure/inconclusive outcome.
+This command creates real load, so I check the runtime before using it. The driver refuses an existing destination and stops after its fixed search/confirmations or a retained failure/inconclusive outcome.
 
 ## 5. Pilot output and decisions
 
@@ -211,7 +211,6 @@ The immediate result is a tested measurement path, saved pilot runs and document
 - [Metrics Server purpose and limitations](https://github.com/kubernetes-sigs/metrics-server).
 - [Kubernetes container CPU and memory metrics](https://kubernetes.io/docs/reference/instrumentation/metrics/).
 - [k6 dropped iterations](https://grafana.com/docs/k6/latest/using-k6/scenarios/concepts/dropped-iterations/).
-
 
 ## Implementation progress
 
