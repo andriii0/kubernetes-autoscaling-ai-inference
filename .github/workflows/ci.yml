@@ -78,10 +78,12 @@ jobs:
           python-version: "3.12"
 
       - name: Install browser test dependencies
-        run: npm.cmd install --prefix tests/ui
+        working-directory: tests/ui
+        run: npm.cmd install
 
       - name: Run browser checks
         env:
           UI_TEST_PYTHON: python
           UI_TEST_CHANNEL: msedge
-        run: npm.cmd test --prefix tests/ui
+        working-directory: tests/ui
+        run: npm.cmd test
