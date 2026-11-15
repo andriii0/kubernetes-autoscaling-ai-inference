@@ -20,20 +20,11 @@
         {
           "id": "776fdad2-36fe-4aef-8b47-1935a9c9d2dc",
           "name": "AI inference experiment",
-          "comment": "Local experiment workbench and deployed inference workload. Compares fixed replicas, CPU HPA and active-request HPA. Expanded in C2.",
+          "comment": "Local experiment workbench and deployed AI inference workload. Runs controlled inference experiments against the Kubernetes platform; expanded in C2.",
           "type": "CLASS",
           "sectionId": null,
           "rows": [],
           "customTypeId": "8158926f-64b3-40c0-9e06-5e031328e129"
-        },
-        {
-          "id": "9b87e888-36e5-4e6d-8ccb-f3093bda2211",
-          "name": "Teacher / reviewer",
-          "comment": "Reviews experiment method, evidence and conclusions. Receives documentation and Portflow submissions manually.",
-          "type": "CLASS",
-          "sectionId": null,
-          "rows": [],
-          "customTypeId": "8fdd4836-1e32-427e-b20b-096690095a49"
         },
         {
           "id": "9bdb6279-c580-4a26-99dd-2afdb0a17745",
@@ -47,27 +38,11 @@
       ],
       "relations": [
         {
-          "id": "a2c615a5-ebea-4b1a-bc77-fe2e11c17947",
-          "name": "Method feedback",
-          "type": "ASSOCIATION",
-          "fromComponentId": "9b87e888-36e5-4e6d-8ccb-f3093bda2211",
-          "toComponentId": "075c8f16-83e3-4760-889a-6432bb7d7e3a",
-          "customTypeId": null
-        },
-        {
           "id": "a541f517-9460-44be-92f3-8b40fe77996b",
           "name": "Deploy, observe, scale via Kubernetes API",
           "type": "DEPENDENCY",
           "fromComponentId": "776fdad2-36fe-4aef-8b47-1935a9c9d2dc",
           "toComponentId": "9bdb6279-c580-4a26-99dd-2afdb0a17745",
-          "customTypeId": null
-        },
-        {
-          "id": "bdd898e4-7ab8-4478-b626-5345dc536998",
-          "name": "Saved evidence and written findings; manual review",
-          "type": "DEPENDENCY",
-          "fromComponentId": "776fdad2-36fe-4aef-8b47-1935a9c9d2dc",
-          "toComponentId": "9b87e888-36e5-4e6d-8ccb-f3093bda2211",
           "customTypeId": null
         },
         {
@@ -120,11 +95,6 @@
       "positionY": 220.0
     },
     {
-      "id": "9b87e888-36e5-4e6d-8ccb-f3093bda2211",
-      "positionX": 1000.0,
-      "positionY": 480.0
-    },
-    {
       "id": "9bdb6279-c580-4a26-99dd-2afdb0a17745",
       "positionX": 1000.0,
       "positionY": 0.0
@@ -132,17 +102,7 @@
   ],
   "relations": [
     {
-      "id": "a2c615a5-ebea-4b1a-bc77-fe2e11c17947",
-      "sourceHandle": "source-bottom",
-      "targetHandle": "source-bottom"
-    },
-    {
       "id": "a541f517-9460-44be-92f3-8b40fe77996b",
-      "sourceHandle": "source-right",
-      "targetHandle": "source-left"
-    },
-    {
-      "id": "bdd898e4-7ab8-4478-b626-5345dc536998",
       "sourceHandle": "source-right",
       "targetHandle": "source-left"
     },

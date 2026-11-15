@@ -6,7 +6,7 @@
       "id": "a155ecbb-b1f2-425f-8649-541d2086f17b",
       "name": "C1 - System context",
       "phase": "verified",
-      "revision": 2,
+      "revision": 3,
       "version": {
         "id": "5167a17e-71f9-43c6-8e14-3dc2b963903d",
         "diagramId": "a155ecbb-b1f2-425f-8649-541d2086f17b",
@@ -15,9 +15,10 @@
         "comment": "Final source-coverage and rendering audit, 2026-11-15",
         "reason": "MANUAL"
       },
-      "components": 4,
-      "relations": 4,
-      "sections": 0
+      "components": 3,
+      "relations": 2,
+      "sections": 0,
+      "latest_change": "Requested C1-C4 architecture refinements, 2026-11-15"
     },
     "c2": {
       "id": "3be9d52c-97d6-437a-a310-f2202dd169af",
@@ -34,13 +35,14 @@
       },
       "components": 13,
       "relations": 17,
-      "sections": 3
+      "sections": 3,
+      "latest_change": "Requested C1-C4 architecture refinements, 2026-11-15"
     },
     "c3": {
       "id": "d56e1114-e3c1-4391-a505-f91f5eb4e3ca",
       "name": "C3 - Python workbench components",
       "phase": "verified",
-      "revision": 1,
+      "revision": 2,
       "version": {
         "id": "f58e732b-aa65-4b56-a268-a93c9bac3e1b",
         "diagramId": "d56e1114-e3c1-4391-a505-f91f5eb4e3ca",
@@ -51,13 +53,14 @@
       },
       "components": 14,
       "relations": 19,
-      "sections": 3
+      "sections": 3,
+      "latest_change": "Requested C1-C4 architecture refinements, 2026-11-15"
     },
     "c4": {
       "id": "b2f9ccf0-a924-43c1-89db-a15b02c58d9f",
-      "name": "C4 - UML of the complete application",
+      "name": "Detailed code map",
       "phase": "verified",
-      "revision": 3,
+      "revision": 6,
       "version": {
         "id": "5f451fff-7cab-494e-838b-e87225b80be0",
         "diagramId": "b2f9ccf0-a924-43c1-89db-a15b02c58d9f",
@@ -66,9 +69,10 @@
         "comment": "Final source-coverage and rendering audit, 2026-11-15",
         "reason": "MANUAL"
       },
-      "components": 58,
-      "relations": 70,
-      "sections": 8
+      "components": 54,
+      "relations": 66,
+      "sections": 7,
+      "latest_change": "Requested C1-C4 architecture refinements, 2026-11-15"
     }
   }
 }

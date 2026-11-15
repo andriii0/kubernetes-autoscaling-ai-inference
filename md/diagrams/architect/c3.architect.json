@@ -213,10 +213,10 @@
         },
         {
           "id": "7a78a81d-f6b1-43bc-9971-6e7d2982d4ae",
-          "name": "Read saved assessment; do not rerun load",
+          "name": "Reads saved assessment",
           "type": "DEPENDENCY",
-          "fromComponentId": "8d1aff61-fb46-40fb-a1d2-088a34a119c8",
-          "toComponentId": "28f8eea9-295f-4e5d-8d88-67c8ce66f36f",
+          "fromComponentId": "28f8eea9-295f-4e5d-8d88-67c8ce66f36f",
+          "toComponentId": "8d1aff61-fb46-40fb-a1d2-088a34a119c8",
           "customTypeId": null
         },
         {
@@ -431,8 +431,8 @@
     },
     {
       "id": "7a78a81d-f6b1-43bc-9971-6e7d2982d4ae",
-      "sourceHandle": "source-bottom",
-      "targetHandle": "source-top"
+      "sourceHandle": "source-top",
+      "targetHandle": "source-bottom"
     },
     {
       "id": "7fbba342-a457-442a-9b7f-803577772567",
