@@ -1,6 +1,6 @@
 # Custom-metric HPA comparison
 
-Status: I retain the old four accepted cells as a stopped series. I will use fresh preparation and six new cells for the final comparison. The [reliability plan](clock-and-run-reliability.md) owns the new timing runtime, verification and launch; the one-second clock guard remains strict.
+Status (15 November): the [fresh evening series](../../results/custom-metric/series-20261114-191048/README.md) completed both preparations and all six accepted cells. Active-request HPA met the paired improvement rule, but passed service targets in 1/3 runs versus CPU 0/3. I retain the earlier stopped cycles separately. The [reliability plan](clock-and-run-reliability.md) owns timing and restoration; the clock guard remains strict. The checkpoints and recovery sections below are historical records through the last old-series failure, not current progress. The preparation and outcome rules remain the declared procedure.
 
 ## Implementation checkpoint
 
@@ -48,7 +48,7 @@ The Hyper-V clocksource was still selected at the subsequent runtime check, so t
 
 The host recovery changed instance identities, the timing environment and the continuation procedure. The first four runs retain their own validated evidence, but matching images/configuration alone does not establish that a later recovered pair forms an unchanged six-cell protocol. The original frozen-configuration rule requires an explicit decision about that boundary. I must resolve it, together with the clock failure, before treating further runs as the final comparison. A fresh complete series under stable settings is the conservative option; it has not been launched.
 
-## Remaining work and acceptance
+## Historical remaining work after the old-series stop
 
 1. Clock alignment and the existing backend quiet/fresh-zero checks passed before continuation. Keep the one-second allowance and ten-second source-age limit; stop if the discrepancy recurs. Its underlying trigger remains unproven.
 2. The independent task has exited. Do not infer authorization for another retry from its earlier startup; resolve the clock failure and continuation boundary first. Use separate attempt folders. Preserve the four accepted cells and every failed attempt. Keep the model, resources, collectors, workload, targets and observation interval unchanged.

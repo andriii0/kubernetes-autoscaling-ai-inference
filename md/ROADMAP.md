@@ -1,6 +1,6 @@
 # Project Roadmap
 
-Updated: 2026-11-11. Steps 1-24 are complete. A separate controlled peak-12 follow-up now compares fixed one, fixed three and HPA under the same burst, with three repetitions per mode.
+Updated: 2026-11-15. Steps 1-24 are complete. A separate controlled peak-12 follow-up now compares fixed one, fixed three and HPA under the same burst, with three repetitions per mode.
 
 ## Goal and current position
 
@@ -11,6 +11,8 @@ The local prototype, short load check, and continuous cluster/resource observer 
 Completed steps refer to saved evidence, not a claim that the cluster is running today. All replicas use the CPU of one physical computer. Setup commands are in [GETTING_STARTED.md](GETTING_STARTED.md). Detailed pilot and scaling procedures live in the linked task plans; guide section numbers are topic references, not the order of project work.
 
 The [controlled peak-12 follow-up](../results/follow-up/comparison-20261110-205108-peak12/README.md) keeps the main v1.1 baseline unchanged and closes the later overload-comparison gap. Fixed three handled the burst best. HPA reduced failures compared with fixed one but missed the five-second p95 target in every repetition.
+
+The later [CPU/request HPA extension](../results/custom-metric/series-20261114-191048/README.md) completed six accepted runs on 14 November. It closes the separate scaling-signal comparison without changing the original 24-step completion criteria.
 
 ## All steps
 

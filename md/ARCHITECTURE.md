@@ -1,6 +1,8 @@
 # Architecture
 
-Updated: 2026-11-12. This describes the implemented local prototype. Preliminary checks, the 18-run main matrix and controlled peak-12 comparison have saved evidence; this is not a check of current runtime availability.
+Updated: 2026-11-15. This describes the implemented local prototype. Preliminary checks, the 18-run main matrix, controlled peak-12 comparison and separate CPU/request HPA comparison have saved evidence; this is not a check of current runtime availability.
+
+The [Architect C1-C4 views](diagrams/architect/README.md) map the system context, runtime containers, Python components and complete owned application as UML. The index includes editable local diagrams, portable JSON models and SVG/PNG exports verified against the current source on 15 November.
 
 ## Runtime flow
 
@@ -49,7 +51,7 @@ I added Inference Lab on 2026-11-10. I run it with `python -B -m lab`. A standar
 
 ## Measurement flow
 
-`run_pilot.py` keeps the existing CLI and separates parsing, metadata, input archives, preparation, load and finalization into functions. Its outer `try/finally` owns cleanup. Scenario drivers use `runtime.py`; record readers and identity checks in `records.py` have no dependency on lifecycle or analysis modules. Phase assessments and resource estimates belong to `analyze.py`. The bench import graph has no cycles, including imports inside functions.
+`run_pilot.py` keeps the existing CLI and separates parsing, metadata, input archives, preparation, load and finalization into functions. Its outer `try/finally` owns cleanup. Scenario drivers use `runtime.py`; record readers and identity checks in `records.py` have no dependency on lifecycle or analysis modules. Phase assessments and resource estimates belong to `analyze.py`. The custom-metric extension has local imports between `autoscaling.py` and `custom_metrics.py`: activation checks the Object metric, while metric preparation reuses replica readiness. These imports occur inside functions, after module initialization.
 
 The observer reads selected pods, namespace Deployments/HPA, nodes and metrics-server data. It separately queries each selected pod's node at `/api/v1/nodes/<node>/proxy/metrics/resource`. Deployment metadata may not carry the pod label, so Deployment reads cover the namespace.
 

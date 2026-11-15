@@ -1,6 +1,8 @@
 # Clock and run reliability
 
-I will keep the stopped 13 November series and every failed attempt. The final comparison will use a new six-run series after verification; I will not join new results to the old four.
+Current status (15 November 2026): the stopped 13 November series and every failed attempt remain preserved. A separate evening cycle completed both preparations and six accepted comparison runs under the recorded temporary synchronization guard; its results are not joined to the old four. The final comparison is documented in `results/custom-metric/series-20261114-191048/`.
+
+The execution paragraphs below the first progress block are historical snapshots. Their future-tense statements describe the state when each check or launch was recorded; the completed-evening section is the current outcome.
 
 ## Work
 
@@ -48,3 +50,7 @@ The replacement pre-load check stopped after ten good observations because a kub
 I hid the captured Windows commands and k6 windows, and hid any new driver console while preserving inherited console interrupt behavior. The user reported pressing Ctrl+C once while an unexpected window appeared, which is consistent with the observed interruption but does not prove the exact event. A real Windows child-process check confirms no console in Observer.read. The 154-test focused suite passed, including real k6/local-HTTP lifecycle checks. I also corrected a stale missing-k6 mock that otherwise reached the real observer after the monotonic runtime migration; the test now asserts no observer construction. The previous hung suite was stopped and is not counted as passed.
 
 The new launch passed 36 strict idle observations over three minutes. Fresh preparation started at 20:14:37 Berlin on 14 November; target 1 reached recovery quiet with no recorded errors. The six comparison cells had not started at this snapshot. See the new series README and launch startup.json. This verifies startup only.
+
+## Completed evening cycle — 15 November review
+
+The startup snapshots above are historical. The [new series](../../results/custom-metric/series-20261114-191048/README.md) completed both preparations and all six accepted cells at 23:24:35 Berlin on 14 November. Target 1 remained selected. Every run passed collection and cleanup. The worker exited with code 0 and no errors, restored Ubuntu synchronization to enabled/active and removed its task. See the [worker record](../../results/custom-metric/launch-20261114-191048/worker.json). This verifies the temporary mitigation for this cycle, not a permanent clock repair. The stopped cycles and their original records remain intact.

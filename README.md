@@ -40,13 +40,15 @@ Start with [current status](md/STATUS.md) for progress, the [setup guide](md/GET
 - `tests/bench/`: local collection, lifecycle and analysis tests with shared fixtures.
 - `results/`: run settings, raw measurements, and generated figures.
 
-The [Findings](https://app.notion.com/p/40fc7c697bfd81bbb00fcf67a8c3d00c) answer SQ4 using the saved main series and the controlled peak-12 follow-up.
+The [Findings](https://app.notion.com/p/40fc7c697bfd81bbb00fcf67a8c3d00c) answer SQ4 using the saved main series, controlled peak-12 follow-up and separate CPU/request comparison.
 
 ## Research workflow
 
 I defined one inference workload and two load profiles, compared suitable orchestration platforms and documented the choice. I then built the local environment, ran a pilot and fixed the model, request format, resource limits and latency target before the main series. The saved raw data and configuration let me replay the analysis and check the findings.
 
 ## Current state
+
+The separate [six-run CPU/request HPA comparison](results/custom-metric/series-20261114-191048/README.md) is complete. Active-request HPA improved peak on-time success in all three pairs, but met all service targets in only 1/3 runs versus CPU 0/3. Its preparation, clock environment and capacity tradeoff stay separate from the earlier experiments.
 
 The implemented path uses Ollama for inference, k6 for load generation and `bench/observe.py` for cluster/resource observations. The 18-run main matrix at peak 8 is complete. [Comparative tables and plots](results/main/series-2026-10-25-v1.1/analysis-main-2026-10-26/README.md) show that all three modes met the targets, including one fixed copy. The later [controlled peak-12 comparison](results/follow-up/comparison-20261110-205108-peak12/README.md) uses the same burst for fixed one, fixed three and HPA, with three repetitions per mode. Fixed three handled the overload best; HPA reduced failures but missed the five-second latency target in all three repetitions. The [step 24 reproduction check](results/reproduction/check-2026-11-06/README.md) passed in a fresh setup on the same Windows host. See [STATUS.md](md/STATUS.md) for current verification and limits.
 
