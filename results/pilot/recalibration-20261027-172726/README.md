@@ -27,4 +27,4 @@ The final driver manifest says `finished` and `selection_confirmed: true`. Child
 
 Rate 8 stayed fast, consistent with the main series and wait/no-wait diagnostic. At 12, both five-minute runs show severe degradation. This establishes an overload candidate under current conditions, not maximum stable capacity. The first peak had no timeouts and the second had 153; repeated target failure does not imply stable severity. Shared-host/runtime variation and the physical cause of the old slowdown remain unresolved.
 
-I preserved all old and current raw records. Main protocol v1.1 still uses peak 8; this report does not change it or authorize another matrix. No HPA, replacement load, commit or push followed review. The scheduled follow-up is no longer active. The open issue remains in [PILOT_MAIN_DISCREPANCY.md](../../../md/PILOT_MAIN_DISCREPANCY.md).
+I preserved all old and current raw records. Main protocol v1.1 still uses peak 8; I have not changed it. I ended this pilot without starting HPA or replacement load. The open issue remains in [PILOT_MAIN_DISCREPANCY.md](../../../md/PILOT_MAIN_DISCREPANCY.md).

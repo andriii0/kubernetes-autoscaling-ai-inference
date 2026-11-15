@@ -8,7 +8,7 @@ I fixed continuation after a cell has been accepted but the next cell's prefligh
 
 After the host reboot, I added an explicit instance-renewal record to continuation. It is allowed only between complete pairs, validates the original identities and unchanged image digests, and is archived with the continuation. Live preflight still requires the prepared stack configuration, backend configuration, model and node resource limits. An unrecorded instance change is rejected. The unchanged collector continues to reject restarts and identity changes within each run.
 
-All 269 Python tests passed after the recovery change. Six browser tests passed for the earlier Results change; the later driver change does not alter the UI. No workload, collector, target, model or resource setting changed. No commit or push was made.
+All 269 Python tests passed after the recovery change. Six browser tests passed for the earlier Results change; the later driver change does not alter the UI. No workload, collector, target, model or resource setting changed.
 
 ## Clock investigation
 
@@ -32,7 +32,7 @@ The hidden Windows task started at 11:57:38 UTC on 14 November. It runs with Lim
 
 At 2026-11-14T12:05:07.884164+00:00, the independent continuation was running `attempt-05-cpu-retry-04` in measured CPU load with four of six cells accepted. 44 requests had started and 38 had completed, more than two minutes after the first measured request, with no recorded collection errors. The active-1 cell follows only after this CPU cell passes full load, post-load, collection and cleanup checks. This confirms startup, not an accepted fifth result.
 
-The Notion experiment-log update was attempted twice but automatic permission review timed out both times. The remote page was not confirmed updated; local Notes and this report contain the current record.
+At this checkpoint, two attempts to update the Notion experiment log had timed out. I could not confirm that the remote page was updated, so I kept the record in local Notes and this report.
 
 ## Subsequent failure and interpretation
 

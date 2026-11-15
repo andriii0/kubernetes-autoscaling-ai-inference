@@ -40,4 +40,4 @@ The saved [CSV/JSON analysis](../check-20261028-181713-peak12-analysis/README.md
 
 The earlier fixed-three steady check has p95 9.507 seconds at the same peak rate. This HPA burst includes the initial scaling response and has p95 24.346 seconds during peak. Different profiles, times and repetition counts prevent an isolated causal comparison. Scaling worked, but the 5-second latency target and an HPA performance benefit are not established. The historical rate-8 discrepancy remains open in [the issue record](../../../md/PILOT_MAIN_DISCREPANCY.md).
 
-I preserved the earlier 181350 wrapper startup failure and its empty host snapshot. It stopped before run-folder creation or inference; the corrected host check ran before the orchestration interpreter. Heartbeat `hpa-12` was deleted after this completed review. No repeat, tuning, additional series, commit or push followed.
+I preserved the earlier 181350 wrapper startup failure and its empty host snapshot. It stopped before run-folder creation or inference; the corrected host check ran before the orchestration interpreter. I kept this as a single preliminary run.

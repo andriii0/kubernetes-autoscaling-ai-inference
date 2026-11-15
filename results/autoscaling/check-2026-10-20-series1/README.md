@@ -42,11 +42,11 @@ Server logs show HTTP completions and aggregate per-pod activity. They do not id
 
 Collection valid: True. Collection errors: []. Resource-gap samples: 0. Log coverage complete: True.
 
-All 76 bench tests passed before this load, including negative cases and a shortened real-k6 burst against simulated Kubernetes. Historical integrity and diff checks passed; Kubernetes accepted a server dry-run of the HPA manifest. Independent event calculations agree with k6 and analysis; all 422 previously saved result files are unchanged and archived input hashes match. See [verification.json](verification.json), [preflight.json](preflight.json) and [test output](bench-tests-before-load.txt).
+Before load, all 76 bench tests passed, including negative cases and a shortened real-k6 burst against simulated Kubernetes. Kubernetes accepted a server dry-run of the HPA manifest. Event calculations agree with k6 and analysis, and archived inputs match their hashes. See [verification.json](verification.json), [preflight.json](preflight.json) and [test output](bench-tests-before-load.txt).
 
 Per-pod resource summaries use their own source clocks. Asynchronous CPU rates are not summed, and missing values stay missing. See [per-replica-resources.json](analysis/per-replica-resources.json) and the [aligned plot](analysis/01-burst-1.png).
 
-Restoration succeeded: HPA was removed and one ready copy remained. [Recovery diagnostics](burst-1/recovery.json) are separate from collection validity. The HPA is removed and one ready copy is the intended final state.
+Restoration succeeded: HPA was removed and one ready copy remained. [Recovery diagnostics](burst-1/recovery.json) are separate from collection validity.
 
 After final code review, all 79 tests passed. Review tightened apply timestamps, route evidence, phase boundaries and log shutdown. The current collector differs from the archived run version; [verification.json](verification.json) lists those files. Both the original and current validators accept the saved run. Raw inputs and the original collection verdict remain unchanged.
 
@@ -54,6 +54,6 @@ After final code review, all 79 tests passed. Review tightened apply timestamps,
 
 One run can verify observed scaling transitions and the collection path. It cannot establish an HPA performance advantage. The repeated fixed-one/fixed-three/autoscaling comparison, accepted latency target and final protocol remain unfinished. This experiment measures container/node resources, not Windows-wide energy or cost.
 
-Raw evidence: [burst-1](burst-1/metadata.json), [collection check](burst-1/collection-check.json), [analysis summary](analysis/summary.csv). This report and its new code/data have not been committed or pushed.
+Raw evidence: [burst-1](burst-1/metadata.json), [collection check](burst-1/collection-check.json), [analysis summary](analysis/summary.csv).
 
-Human-readable evidence and the graph are saved in [Notion](https://app.notion.com/p/3fec7c697bfd81738d08d5527424af20), section HPA check. The saved section and image were verified by reading the page again.
+I saved the report and graph in [Notion](https://app.notion.com/p/3fec7c697bfd81738d08d5527424af20), section HPA check.

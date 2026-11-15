@@ -4,7 +4,7 @@
 
 I retained this comparison with 0/6 accepted runs. Attempt 01 CPU stopped after 404.491 of the planned 782 load seconds when the collector rejected a Prometheus evaluation time about 0.78 seconds ahead of Windows. The source scrapes remained fresh; the same time check later rejected the cleanup zero. HPA removal and backend CPU quiet passed, but full cleanup validation did not.
 
-There were 364 client starts, 335 completions (236 successful, 99 failed), and 29 unfinished requests. The remaining five cells did not start. I do not reassess this partial run as complete or recover its missing load. Original metadata, source archive, manifest and raw records remain unchanged. Author explanations are in the separate `notes.md` files. The corrected collector and new comparison will have a separate version boundary and output directory.
+There were 364 client starts, 335 completions (236 successful, 99 failed), and 29 unfinished requests. The remaining five cells did not start. I do not reassess this partial run as complete or recover its missing load. Original metadata, source archive, manifest and raw records remain unchanged. My notes are in the separate `notes.md` files. The corrected collector and new comparison will have a separate version boundary and output directory.
 
 ## Original launch record
 
@@ -22,7 +22,7 @@ The [manifest](manifest.json) records progress and all completed run assessments
 - All 248 Python tests passed in the repeat; 38 focused tests passed. The first full suite had one fixed-three fixture log-count mismatch; that unchanged test passed separately and in the full repeat. Both suite outputs are retained in `prelaunch-tests-first.txt` and `prelaunch-tests-repeat.txt`.
 - The first read-only host preflight detected the local test k6 process and correctly refused admission. After tests ended, the separate saved preflight passed. Neither preflight launched inference load.
 - [Preflight](preflight.json), [source hashes](source-sha256.json), [preparation code boundary](preparation-code-boundary.json), `inputs/` and `bundle/` preserve the environment and executable inputs. Collector/workload sources are unchanged since preparation; the recorded launcher/reviewer changes add comparison labels, archives and the shared comparison assessment branch.
-- The earlier OpenCode filesystem-permission failure prevented external review. Verification reported here is local.
+- I reviewed and checked the change locally; external review was unavailable.
 
 The original launch was left unattended. The driver performed the configured collection and cleanup checks and stopped on the clock error described above.
 

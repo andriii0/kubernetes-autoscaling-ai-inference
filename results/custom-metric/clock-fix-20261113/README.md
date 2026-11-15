@@ -2,7 +2,7 @@
 
 I preserve the stopped first comparison and both threshold preparations. The collector now records query send/receive times and uses the same one-second clock allowance as initial checking. Source age in Prometheus's clock must still be between zero and ten seconds. Missing data and excessive offsets remain failures. Cleanup waits for two source zeros beyond the boundary plus the clock allowance.
 
-The first focused suite passed all 58 checks. The first browser attempt was blocked by sandbox child-process access; the next lacked the local Playwright package. Using the bundled runtime reached the UI: five existing tests passed, but my new test tried to click Results navigation while the Runs tab was still open. I corrected that test setup. These failures did not run Kubernetes load.
+The first focused suite passed all 58 checks. Browser checks initially failed because of process-access and dependency problems, then exposed an error in my test setup: it tried to use Results navigation while Runs was open. I corrected the setup; these checks sent no Kubernetes load.
 
 All 254 Python tests and six browser tests passed. Their outputs are saved here. Both archived preparations replayed successfully with the corrected validator, without changing their settings or raw data.
 
@@ -10,4 +10,4 @@ The installed check saved five zero samples: two with the normal observer clock 
 
 The [collector record](collector-fix.json) fixes the old/new hashes of the two changed collector files. [Installed evidence](installed-collector/result.json) retains signals, original timestamps, component identities and cleanup. The before/after hashes matched for all 245 protected files in the threshold preparation and stopped comparison. The new driver requires this exact verified record before accepting the collector change; other unreviewed workload changes still fail.
 
-Comparison v2 records this clock-validation boundary. HPA policies, selected target 1, routing, model, workload, source-age limit and six-cell order remain unchanged. The old interrupted run cannot be counted as complete. External OpenCode review remained unavailable because it could not access its log file; verification here is local.
+Comparison v2 records this clock-validation boundary. HPA policies, selected target 1, routing, model, workload, source-age limit and six-cell order remain unchanged. The old interrupted run cannot be counted as complete. I reviewed and checked the change locally; external review was unavailable.

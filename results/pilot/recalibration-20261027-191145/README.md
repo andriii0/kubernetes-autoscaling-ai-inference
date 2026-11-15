@@ -31,4 +31,4 @@ The existing analyzer/collector replay accepts all eight runs. Saved manifest va
 
 The final manifest is `finished` with `selection_confirmed: true`. The background wrapper captured outer driver exit code 0; each measured child returned 0 or 99. Code 99 records a service-target miss, not invalid collection. Normal server drain after client timeouts remains unverified; any later load requires fresh recovery/quiet-state and runtime checks.
 
-I preserved all previous runs and these raw files. Main protocol v1.1 still specifies peak 8; no setting or historical verdict changed. No HPA, additional matrix, replacement load, commit or push followed this review. The follow-up heartbeat was deleted. The old latency cause remains open in [PILOT_MAIN_DISCREPANCY.md](../../../md/PILOT_MAIN_DISCREPANCY.md).
+I preserved all previous runs and these raw files. Main protocol v1.1 still specifies peak 8; no setting or historical verdict changed. I ended this repeat without starting HPA, another matrix or replacement load. The old latency cause remains open in [PILOT_MAIN_DISCREPANCY.md](../../../md/PILOT_MAIN_DISCREPANCY.md).

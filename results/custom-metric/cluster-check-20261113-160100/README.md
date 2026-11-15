@@ -38,6 +38,6 @@ I required two distinct zero scrapes after the final client response. The existi
 
 ## Preserved state and limits
 
-Ollama's Deployment spec, Service spec, pod UID and container ID matched the initial snapshots. Its existing restart count remained three; the new components did not restart. HPA remained absent. `ai-lab-repro24` remained stopped. I closed the temporary local gateway port-forward and left the requested infrastructure running.
+Ollama's Deployment spec, Service spec, pod UID and container ID matched the initial snapshots. Its existing restart count remained three; the new components did not restart. HPA remained absent. `ai-lab-repro24` remained stopped. I closed the temporary local gateway port-forward and left the metric infrastructure running.
 
 This establishes the installed signal path with a few real requests. It does not establish HPA behavior, sustained overhead, recovery from an installed-stack outage or full experiment collection. The Adapter API registration still uses the documented local self-signed TLS setup. Continuous collection, source/configuration-change detection during a run, cleanup integration, the separate comparison driver and analysis remain outside this deployment check.

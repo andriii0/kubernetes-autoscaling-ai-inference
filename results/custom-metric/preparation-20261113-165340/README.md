@@ -52,4 +52,4 @@ The preserved Ollama pod's `lastState` includes a termination before this prepar
 
 All 241 Python tests passed in the final repeat (63.856 seconds). The preceding post-run suite had two failed subcases in the existing accelerated HPA lifecycle fixture: observation gaps of 0.47-0.63 seconds exceeded its 0.10-second limit. That test passed separately without changes, followed by the passing full suite. I retain [the failed test output](postrun-tests-first.txt) and [the final passing output](postrun-tests-repeat.txt). I did not change the fixture or production limits. This remains an intermittent test timing issue; it is separate from the verified preparation records.
 
-Final integrity verification preserved 120 historical evidence files, reproduced the previous aggregates and resolved 285 local links. No commit or push was made.
+The historical evidence hashes and previous aggregates were unchanged, and local links resolved.
