@@ -1,3 +1,5 @@
+Historical snapshot at the time this attempt stopped. The current outcome is recorded in the parent series report.
+
 This attempt stopped before measured load because the Prometheus and Windows clocks differed by more than one second. No measured requests were sent. Backend CPU quiet passed during recovery, but the fresh-zero check failed on the same clock error, so cleanup was not fully verified.
 
 The background task exited and deleted itself. Four earlier runs remain accepted; this attempt is incomplete.

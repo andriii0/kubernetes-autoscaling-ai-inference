@@ -1,0 +1,65 @@
+{
+  "ee38f8af-8777-45b4-aa55-7b6155c7defd": {
+    "pod_name": "ollama-7db4f544df-s6xhv",
+    "attached_at_utc": "2026-11-14T15:29:31.699612+00:00",
+    "command": [
+      "kubectl",
+      "--context",
+      "ai-lab",
+      "-n",
+      "inference",
+      "logs",
+      "ollama-7db4f544df-s6xhv",
+      "-c",
+      "ollama",
+      "--follow=true",
+      "--timestamps=true"
+    ],
+    "deleted": false,
+    "exit_code": 1,
+    "complete": true,
+    "stopped_by_collector": true
+  },
+  "585b0144-cd55-470f-8836-0098d9246491": {
+    "pod_name": "ollama-7db4f544df-srp4h",
+    "attached_at_utc": "2026-11-14T15:36:12.745005+00:00",
+    "command": [
+      "kubectl",
+      "--context",
+      "ai-lab",
+      "-n",
+      "inference",
+      "logs",
+      "ollama-7db4f544df-srp4h",
+      "-c",
+      "ollama",
+      "--follow=true",
+      "--timestamps=true"
+    ],
+    "deleted": false,
+    "exit_code": 1,
+    "complete": true,
+    "stopped_by_collector": true
+  },
+  "cff313fe-be15-4d24-98e7-3710a41a33b9": {
+    "pod_name": "ollama-7db4f544df-tb2zx",
+    "attached_at_utc": "2026-11-14T15:36:12.745005+00:00",
+    "command": [
+      "kubectl",
+      "--context",
+      "ai-lab",
+      "-n",
+      "inference",
+      "logs",
+      "ollama-7db4f544df-tb2zx",
+      "-c",
+      "ollama",
+      "--follow=true",
+      "--timestamps=true"
+    ],
+    "deleted": false,
+    "exit_code": 1,
+    "complete": true,
+    "stopped_by_collector": true
+  }
+}

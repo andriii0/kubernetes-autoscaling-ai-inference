@@ -1,0 +1,63 @@
+{
+  "ee38f8af-8777-45b4-aa55-7b6155c7defd": {
+    "pod_name": "ollama-7db4f544df-s6xhv",
+    "attached_at_utc": "2026-11-14T21:14:29.232269+00:00",
+    "command": [
+      "kubectl",
+      "--context",
+      "ai-lab",
+      "-n",
+      "inference",
+      "logs",
+      "ollama-7db4f544df-s6xhv",
+      "-c",
+      "ollama",
+      "--follow=true",
+      "--timestamps=true"
+    ],
+    "deleted": false,
+    "exit_code": 1,
+    "complete": true,
+    "stopped_by_collector": true
+  },
+  "a8e03200-05da-4f33-afff-1ba0d189bb20": {
+    "pod_name": "ollama-7db4f544df-29hmv",
+    "attached_at_utc": "2026-11-14T21:22:05.455908+00:00",
+    "command": [
+      "kubectl",
+      "--context",
+      "ai-lab",
+      "-n",
+      "inference",
+      "logs",
+      "ollama-7db4f544df-29hmv",
+      "-c",
+      "ollama",
+      "--follow=true",
+      "--timestamps=true"
+    ],
+    "deleted": true,
+    "exit_code": 0,
+    "complete": true
+  },
+  "52e1cc1c-87c9-4e5c-850b-bbf83b685807": {
+    "pod_name": "ollama-7db4f544df-pvxgh",
+    "attached_at_utc": "2026-11-14T21:24:00.663012+00:00",
+    "command": [
+      "kubectl",
+      "--context",
+      "ai-lab",
+      "-n",
+      "inference",
+      "logs",
+      "ollama-7db4f544df-pvxgh",
+      "-c",
+      "ollama",
+      "--follow=true",
+      "--timestamps=true"
+    ],
+    "deleted": true,
+    "exit_code": 0,
+    "complete": true
+  }
+}

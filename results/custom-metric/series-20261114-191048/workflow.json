@@ -1,0 +1,10 @@
+{
+  "status": "finished",
+  "pid": 49408,
+  "started_at": "2026-11-14T19:14:37.296199+00:00",
+  "errors": [],
+  "preparation_dir": "C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\results\\custom-metric\\series-20261114-191048\\preparation-new",
+  "comparison_dir": "C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\results\\custom-metric\\series-20261114-191048\\comparison-new",
+  "comparison_started_at": "2026-11-14T20:02:09.479455+00:00",
+  "finished_at": "2026-11-14T22:24:34.571279+00:00"
+}

@@ -1,0 +1,18 @@
+{
+  "status": "finished",
+  "worker_pid": 49408,
+  "started_at_utc": "2026-11-14T19:10:49.135308+00:00",
+  "series_dir": "C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\results\\custom-metric\\series-20261114-191048",
+  "errors": [],
+  "ubuntu_lease_pid": 49128,
+  "initial_timesync_active": "active",
+  "initial_timesync_enabled": "enabled",
+  "clock_samples": 36,
+  "clock_check_passed": true,
+  "clock_check_finished_at": "2026-11-14T19:14:37.294632+00:00",
+  "exit_code": 0,
+  "restored_timesync_active": "active",
+  "restored_timesync_enabled": "enabled",
+  "task_cleanup_exit_code": 0,
+  "finished_at_utc": "2026-11-14T22:24:35.641981+00:00"
+}

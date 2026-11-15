@@ -1,0 +1,32 @@
+{
+  "attempted": true,
+  "successful": true,
+  "errors": [],
+  "backend_quiet": {
+    "started_at_utc": "2026-11-14T15:27:59.934357+00:00",
+    "passed_at_utc": "2026-11-14T15:28:33.691946+00:00",
+    "identity": [
+      {
+        "pod_uid": "ee38f8af-8777-45b4-aa55-7b6155c7defd",
+        "container_id": "containerd://ce1715f807ee22bbcedf2b218b140c5091ec43907adf38abcac500ed6ff694bc",
+        "restart_count": 4
+      }
+    ]
+  },
+  "gateway_zero": {
+    "successful": true,
+    "after": 1794670115.3466299,
+    "boundary": 1794670114.3466299,
+    "clock_tolerance_seconds": 1,
+    "last_signal": {
+      "active_requests": 0.0,
+      "source_at": 1794670123.295,
+      "health_at": 1794670123.295,
+      "evaluated_at": 1794670124.818,
+      "received_at": 1794670124.8235018,
+      "gateway_uid": "6a11ae61-6111-42c7-aeab-832396d4bd4f",
+      "instance": "10.244.0.10:9901",
+      "adapter_at": 1794670124.0
+    }
+  }
+}

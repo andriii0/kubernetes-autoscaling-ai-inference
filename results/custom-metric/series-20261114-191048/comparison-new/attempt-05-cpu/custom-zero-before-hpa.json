@@ -1,0 +1,16 @@
+{
+  "successful": true,
+  "after": 1794692460.4742124,
+  "boundary": 1794692459.4742124,
+  "clock_tolerance_seconds": 1,
+  "last_signal": {
+    "active_requests": 0.0,
+    "source_at": 1794692469.88,
+    "health_at": 1794692469.88,
+    "evaluated_at": 1794692472.688,
+    "received_at": 1794692472.692918,
+    "gateway_uid": "6a11ae61-6111-42c7-aeab-832396d4bd4f",
+    "instance": "10.244.0.10:9901",
+    "adapter_at": 1794692472.0
+  }
+}

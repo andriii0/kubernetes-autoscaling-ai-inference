@@ -1,0 +1,169 @@
+{
+  "status": "stopped",
+  "protocol": "active-requests-preparation-v2",
+  "pid": 33064,
+  "started_at": "2026-11-14T15:05:28.744203+00:00",
+  "targets": [
+    1,
+    2
+  ],
+  "completed": [
+    {
+      "target": 1,
+      "run": "target-1",
+      "qualification": {
+        "qualifies": true,
+        "initial_low_one_copy": true,
+        "peak_desired_two_at_seconds": 125.47164487838745,
+        "peak_ready_two_at_seconds": 130.47020983695984,
+        "scope": "Sampled at 5s; gaps over 10s invalidate qualification. Latency is not a selection criterion."
+      },
+      "assessment": {
+        "protocol_version": "active-requests-preparation-v2",
+        "data_valid": true,
+        "duration_complete": true,
+        "unfinished": 0,
+        "dropped": 0,
+        "primary": {
+          "name": "peak",
+          "seconds": 300,
+          "target": "peak",
+          "start_seconds": 121,
+          "end_seconds": 421,
+          "assignment": "request start time",
+          "completed": 360,
+          "successful": 353,
+          "failed": 7,
+          "p95_ms": 26390.418860000023,
+          "mean_ms": 10862.659812747874,
+          "failure_categories": {
+            "timeout": 7
+          }
+        },
+        "primary_p95_pass": false,
+        "primary_errors_pass": false,
+        "whole_run_errors_pass": false,
+        "scaling_observed": "growth+reduction",
+        "overall": "fail",
+        "sensitivity_p95_pass": false,
+        "system_outcomes": [
+          {
+            "pod_uid": "ee38f8af-8777-45b4-aa55-7b6155c7defd",
+            "restart_count": 4,
+            "termination": {
+              "containerID": "containerd://44994821a853ff6bbfb3b3c0007d159dcb578b151260e56944ea22f2c8a74889",
+              "exitCode": 255,
+              "finishedAt": "2026-11-14T11:24:12Z",
+              "reason": "Unknown",
+              "startedAt": "2026-11-13T15:31:35Z"
+            }
+          },
+          {
+            "pod_uid": "3bd575a0-e5cd-44fe-a440-16528d117e76",
+            "identity_before": [
+              null,
+              0
+            ],
+            "identity_after": [
+              "containerd://f28310983d4df77647850ddccdbb0cfdd5dab097638ea8ac2cd630d163214654",
+              0
+            ],
+            "observed_at_utc": "2026-11-14T15:12:05.995210+00:00"
+          }
+        ],
+        "limitations": [],
+        "server_drain_verified": false
+      },
+      "phases": [
+        {
+          "name": "low-before",
+          "seconds": 120,
+          "target": "low",
+          "start_seconds": 0,
+          "end_seconds": 120,
+          "assignment": "request start time",
+          "completed": 23,
+          "successful": 23,
+          "failed": 0,
+          "p95_ms": 1491.2798099999995,
+          "mean_ms": 1251.80193478261,
+          "failure_categories": {}
+        },
+        {
+          "name": "rise",
+          "seconds": 1,
+          "target": "peak",
+          "start_seconds": 120,
+          "end_seconds": 121,
+          "assignment": "request start time",
+          "completed": 1,
+          "successful": 1,
+          "failed": 0,
+          "p95_ms": 1530.6787999999942,
+          "mean_ms": 1530.6787999999942,
+          "failure_categories": {}
+        },
+        {
+          "name": "peak",
+          "seconds": 300,
+          "target": "peak",
+          "start_seconds": 121,
+          "end_seconds": 421,
+          "assignment": "request start time",
+          "completed": 360,
+          "successful": 353,
+          "failed": 7,
+          "p95_ms": 26390.418860000023,
+          "mean_ms": 10862.659812747874,
+          "failure_categories": {
+            "timeout": 7
+          }
+        },
+        {
+          "name": "fall",
+          "seconds": 1,
+          "target": "low",
+          "start_seconds": 421,
+          "end_seconds": 422,
+          "assignment": "request start time",
+          "completed": 1,
+          "successful": 1,
+          "failed": 0,
+          "p95_ms": 9837.054300000018,
+          "mean_ms": 9837.054300000018,
+          "failure_categories": {}
+        },
+        {
+          "name": "low-after",
+          "seconds": 360,
+          "target": "low",
+          "start_seconds": 422,
+          "end_seconds": 782,
+          "assignment": "request start time",
+          "completed": 72,
+          "successful": 72,
+          "failed": 0,
+          "p95_ms": 1560.974835000071,
+          "mean_ms": 1337.6941652777766,
+          "failure_categories": {}
+        }
+      ],
+      "custom_metric_check": {
+        "valid": true,
+        "observations": 158,
+        "gateway": {
+          "matched": 457,
+          "complete": true,
+          "scope": "Gateway routing only; native Ollama reconciliation is still required"
+        },
+        "max_source_age_seconds": 5.008619070053101
+      }
+    }
+  ],
+  "current": "target-2",
+  "comparison_started": false,
+  "errors": [
+    "invalid preparation or cleanup: cluster observation failed: Prometheus and observer clocks differ by more than one second; Prometheus and observer clocks differ by more than one second; Prometheus and observer clocks differ by more than one second; missing request evidence: summary.json"
+  ],
+  "finished_at": "2026-11-14T15:38:29.677535+00:00"
+}

@@ -1,0 +1,87 @@
+{
+  "pairs": [
+    {
+      "pair": 1,
+      "on_time_fraction_difference": 0.7194444444444444,
+      "error_fraction_difference": -0.2388888888888889
+    },
+    {
+      "pair": 2,
+      "on_time_fraction_difference": 0.6944444444444444,
+      "error_fraction_difference": -0.1638888888888889
+    },
+    {
+      "pair": 3,
+      "on_time_fraction_difference": 0.6138888888888888,
+      "error_fraction_difference": -0.1361111111111111
+    }
+  ],
+  "arms": {
+    "cpu": {
+      "peak_on_time_fraction": {
+        "values": [
+          0.10277777777777777,
+          0.2638888888888889,
+          0.11388888888888889
+        ],
+        "median": 0.11388888888888889,
+        "min": 0.10277777777777777,
+        "max": 0.2638888888888889
+      },
+      "peak_error_fraction": {
+        "values": [
+          0.2388888888888889,
+          0.1638888888888889,
+          0.1361111111111111
+        ],
+        "median": 0.1638888888888889,
+        "min": 0.1361111111111111,
+        "max": 0.2388888888888889
+      },
+      "successful_peak_p95_ms": {
+        "values": [
+          28912.04787000001,
+          28354.90419999999,
+          28322.07654999997
+        ],
+        "median": 28354.90419999999,
+        "min": 28322.07654999997,
+        "max": 28912.04787000001
+      }
+    },
+    "active-1": {
+      "peak_on_time_fraction": {
+        "values": [
+          0.8222222222222222,
+          0.9583333333333334,
+          0.7277777777777777
+        ],
+        "median": 0.8222222222222222,
+        "min": 0.7277777777777777,
+        "max": 0.9583333333333334
+      },
+      "peak_error_fraction": {
+        "values": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "successful_peak_p95_ms": {
+        "values": [
+          6977.98421499998,
+          4820.102469999971,
+          11360.540410000005
+        ],
+        "median": 6977.98421499998,
+        "min": 4820.102469999971,
+        "max": 11360.540410000005
+      }
+    }
+  },
+  "consistent_service_improvement": true,
+  "scope": "Three descriptive pairs, not statistical significance or measured resource-cost savings."
+}

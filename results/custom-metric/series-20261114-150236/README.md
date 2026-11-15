@@ -1,5 +1,7 @@
 # Fresh CPU/request HPA cycle
 
+Current status: stopped during target-2 preparation on 14 November at 16:38 Berlin. No comparison cell started. The paragraphs below retain historical startup snapshots; the final stop and clock attribution are recorded at the end. The separate [evening cycle](../series-20261114-191048/README.md) later completed both preparations and six comparison cells.
+
 I started this cycle on 14 November 2026 at 16:05:28 Berlin (15:05:28 UTC). It uses fresh target-1 and target-2 preparation, followed by six CPU/request cells in order: CPU, active-1, active-1, CPU, CPU, active-1. Comparison starts only if valid preparation selects target 1. There are no automatic retries.
 
 The measurement code is local commit `5d50420`; [verification](../clock-check-20261114-final/verification.json) passed before launch. The independent one-time Windows task is `AI-Inference-Fresh-20261114-150236`. Its [startup snapshot](../launch-20261114-150236/startup.json) records the command and confirmed progress. Live state is in [workflow.json](workflow.json) and [preparation manifest](preparation-new/manifest.json).

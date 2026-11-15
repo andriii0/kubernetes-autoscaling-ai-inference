@@ -1,0 +1,11 @@
+{
+  "status": "stopped",
+  "pid": 33064,
+  "started_at": "2026-11-14T15:05:28.741752+00:00",
+  "errors": [
+    "Preparation stopped; see preparation-new/manifest.json"
+  ],
+  "preparation_dir": "C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\results\\custom-metric\\series-20261114-150236\\preparation-new",
+  "comparison_dir": "C:\\Users\\matvi\\PycharmProjects\\kubernetes-autoscaling-ai-inference\\results\\custom-metric\\series-20261114-150236\\comparison-new",
+  "finished_at": "2026-11-14T15:38:29.679663+00:00"
+}

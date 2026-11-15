@@ -1,0 +1,22 @@
+target-1: preflight
+target-1: recovery_quiet
+target-1: reset
+target-1: initial_quiet
+target-1: idle
+target-1: warmup
+target-1: post_warmup_quiet
+target-1: hpa_readiness
+target-1: load
+target-1: post_load_no_new_requests
+Saved 1 run summaries to C:\Users\matvi\PycharmProjects\kubernetes-autoscaling-ai-inference\results\custom-metric\series-20261114-150236\preparation-new\target-1-analysis
+target-2: preflight
+target-2: recovery_quiet
+target-2: reset
+target-2: initial_quiet
+target-2: idle
+target-2: warmup
+target-2: post_warmup_quiet
+target-2: hpa_readiness
+target-2: load
+Preparation stopped: invalid preparation or cleanup: cluster observation failed: Prometheus and observer clocks differ by more than one second; Prometheus and observer clocks differ by more than one second; Prometheus and observer clocks differ by more than one second; missing request evidence: summary.json
+Preparation stopped; see preparation-new/manifest.json

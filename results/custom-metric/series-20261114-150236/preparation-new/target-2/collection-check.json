@@ -1,0 +1,459 @@
+{
+  "schema_version": 1,
+  "valid": false,
+  "errors": [
+    "launcher reported errors",
+    "load/collection processes did not finish normally",
+    "20 requests have no completion (server-side drain is unproven)",
+    "request evidence: [Errno 2] No such file or directory: 'C:\\\\Users\\\\matvi\\\\PycharmProjects\\\\kubernetes-autoscaling-ai-inference\\\\results\\\\custom-metric\\\\series-20261114-150236\\\\preparation-new\\\\target-2\\\\summary.json'"
+  ],
+  "warnings": [],
+  "counts": {
+    "started": 100,
+    "completed": 80,
+    "successful": 73,
+    "failed": 7,
+    "unfinished": 20,
+    "dropped": null
+  },
+  "load_window": null,
+  "events_read": {
+    "started": 100,
+    "completed": 80
+  },
+  "observation": {
+    "samples": 90,
+    "collection_errors": 0,
+    "max_gap_seconds": 5.5002241134643555,
+    "resource_gap_samples": 0
+  },
+  "resource_gaps": [],
+  "logs": {
+    "complete": true,
+    "errors": [],
+    "pods": {
+      "ee38f8af-8777-45b4-aa55-7b6155c7defd": {
+        "pod_name": "ollama-7db4f544df-s6xhv",
+        "http_responses_after_load_start": 67,
+        "first_observed_http_response_at_utc": "2026-11-14T15:33:57.706368235Z",
+        "http_responses": [
+          {
+            "at_utc": "2026-11-14T15:33:57.706368235Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:34:02.663786643Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:34:07.653624635Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:34:12.631099742Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:34:17.634559095Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:34:22.611391682Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:34:27.718257506Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:34:32.626935373Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:34:37.669841404Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:34:42.733254098Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:34:47.679170293Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:34:52.655663785Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:34:57.668707753Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:35:02.763369373Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:35:07.677998402Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:35:12.654309912Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:35:17.629306240Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:35:22.628042001Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:35:27.618959859Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:35:32.874062098Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:35:37.679985380Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:35:42.644241071Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:35:47.633253840Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:35:52.753211809Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:35:54.276364560Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:35:55.836008209Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:35:57.767218697Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:35:59.279696287Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:00.807379289Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:02.290090383Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:04.016901618Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:05.704275624Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:06.923333019Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:08.548981490Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:10.383133446Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:12.020780385Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:13.771409224Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:15.452259368Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:17.473383174Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:20.805406851Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:23.822062170Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:26.932185253Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:30.336474849Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:32.905699665Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:35.614473090Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:38.060402236Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:40.431122825Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:42.686432181Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:43.816476927Z",
+            "http_status": 500
+          },
+          {
+            "at_utc": "2026-11-14T15:36:44.651452413Z",
+            "http_status": 500
+          },
+          {
+            "at_utc": "2026-11-14T15:36:47.066421768Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:47.985928035Z",
+            "http_status": 500
+          },
+          {
+            "at_utc": "2026-11-14T15:36:52.917257293Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:55.363684929Z",
+            "http_status": 500
+          },
+          {
+            "at_utc": "2026-11-14T15:36:57.863652899Z",
+            "http_status": 500
+          },
+          {
+            "at_utc": "2026-11-14T15:36:57.887648162Z",
+            "http_status": 500
+          },
+          {
+            "at_utc": "2026-11-14T15:36:57.887670863Z",
+            "http_status": 500
+          },
+          {
+            "at_utc": "2026-11-14T15:36:57.887770268Z",
+            "http_status": 500
+          },
+          {
+            "at_utc": "2026-11-14T15:36:57.888090384Z",
+            "http_status": 500
+          },
+          {
+            "at_utc": "2026-11-14T15:36:57.888100884Z",
+            "http_status": 500
+          },
+          {
+            "at_utc": "2026-11-14T15:36:57.888369397Z",
+            "http_status": 500
+          },
+          {
+            "at_utc": "2026-11-14T15:36:57.888623810Z",
+            "http_status": 500
+          },
+          {
+            "at_utc": "2026-11-14T15:36:57.888703413Z",
+            "http_status": 500
+          },
+          {
+            "at_utc": "2026-11-14T15:36:57.888765016Z",
+            "http_status": 500
+          },
+          {
+            "at_utc": "2026-11-14T15:36:57.888871722Z",
+            "http_status": 500
+          },
+          {
+            "at_utc": "2026-11-14T15:36:57.889110833Z",
+            "http_status": 500
+          },
+          {
+            "at_utc": "2026-11-14T15:36:57.889283741Z",
+            "http_status": 500
+          }
+        ]
+      },
+      "585b0144-cd55-470f-8836-0098d9246491": {
+        "pod_name": "ollama-7db4f544df-srp4h",
+        "http_responses_after_load_start": 19,
+        "first_observed_http_response_at_utc": "2026-11-14T15:36:21.360447601Z",
+        "http_responses": [
+          {
+            "at_utc": "2026-11-14T15:36:21.360447601Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:24.223061269Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:27.424490756Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:30.560856037Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:32.941842303Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:35.503320447Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:37.820896936Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:40.021977697Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:42.326125179Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:43.965924252Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:45.892421860Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:48.375547186Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:53.068159188Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:55.704993480Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:57.887809570Z",
+            "http_status": 500
+          },
+          {
+            "at_utc": "2026-11-14T15:36:57.888425500Z",
+            "http_status": 500
+          },
+          {
+            "at_utc": "2026-11-14T15:36:57.888579207Z",
+            "http_status": 500
+          },
+          {
+            "at_utc": "2026-11-14T15:36:57.888962326Z",
+            "http_status": 500
+          },
+          {
+            "at_utc": "2026-11-14T15:36:57.891909969Z",
+            "http_status": 500
+          }
+        ]
+      },
+      "cff313fe-be15-4d24-98e7-3710a41a33b9": {
+        "pod_name": "ollama-7db4f544df-tb2zx",
+        "http_responses_after_load_start": 14,
+        "first_observed_http_response_at_utc": "2026-11-14T15:36:21.367470932Z",
+        "http_responses": [
+          {
+            "at_utc": "2026-11-14T15:36:21.367470932Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:24.204750206Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:27.580204995Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:30.663713482Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:33.008015084Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:35.585584201Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:37.931443328Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:41.019787073Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:47.758405635Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:50.988943182Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:55.048156858Z",
+            "http_status": 200
+          },
+          {
+            "at_utc": "2026-11-14T15:36:57.888115485Z",
+            "http_status": 500
+          },
+          {
+            "at_utc": "2026-11-14T15:36:57.888741515Z",
+            "http_status": 500
+          },
+          {
+            "at_utc": "2026-11-14T15:36:57.889131034Z",
+            "http_status": 500
+          }
+        ]
+      }
+    },
+    "method": "Native HTTP completion logs; no client-request attribution or semantic success claim"
+  }
+}

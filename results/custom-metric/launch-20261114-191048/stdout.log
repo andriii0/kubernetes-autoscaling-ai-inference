@@ -1,0 +1,89 @@
+target-1: preflight
+target-1: recovery_quiet
+target-1: reset
+target-1: initial_quiet
+target-1: idle
+target-1: warmup
+target-1: post_warmup_quiet
+target-1: hpa_readiness
+target-1: load
+target-1: post_load_no_new_requests
+Saved 1 run summaries to C:\Users\matvi\PycharmProjects\kubernetes-autoscaling-ai-inference\results\custom-metric\series-20261114-191048\preparation-new\target-1-analysis
+target-2: preflight
+target-2: recovery_quiet
+target-2: reset
+target-2: initial_quiet
+target-2: idle
+target-2: warmup
+target-2: post_warmup_quiet
+target-2: hpa_readiness
+target-2: load
+target-2: post_load_no_new_requests
+Saved 1 run summaries to C:\Users\matvi\PycharmProjects\kubernetes-autoscaling-ai-inference\results\custom-metric\series-20261114-191048\preparation-new\target-2-analysis
+attempt-01-cpu: preflight
+attempt-01-cpu: recovery_quiet
+attempt-01-cpu: reset
+attempt-01-cpu: initial_quiet
+attempt-01-cpu: idle
+attempt-01-cpu: warmup
+attempt-01-cpu: post_warmup_quiet
+attempt-01-cpu: hpa_readiness
+attempt-01-cpu: load
+attempt-01-cpu: post_load_no_new_requests
+Saved 1 run summaries to C:\Users\matvi\PycharmProjects\kubernetes-autoscaling-ai-inference\results\custom-metric\series-20261114-191048\comparison-new\attempt-01-analysis
+attempt-02-active-1: preflight
+attempt-02-active-1: recovery_quiet
+attempt-02-active-1: reset
+attempt-02-active-1: initial_quiet
+attempt-02-active-1: idle
+attempt-02-active-1: warmup
+attempt-02-active-1: post_warmup_quiet
+attempt-02-active-1: hpa_readiness
+attempt-02-active-1: load
+attempt-02-active-1: post_load_no_new_requests
+Saved 1 run summaries to C:\Users\matvi\PycharmProjects\kubernetes-autoscaling-ai-inference\results\custom-metric\series-20261114-191048\comparison-new\attempt-02-analysis
+attempt-03-active-1: preflight
+attempt-03-active-1: recovery_quiet
+attempt-03-active-1: reset
+attempt-03-active-1: initial_quiet
+attempt-03-active-1: idle
+attempt-03-active-1: warmup
+attempt-03-active-1: post_warmup_quiet
+attempt-03-active-1: hpa_readiness
+attempt-03-active-1: load
+attempt-03-active-1: post_load_no_new_requests
+Saved 1 run summaries to C:\Users\matvi\PycharmProjects\kubernetes-autoscaling-ai-inference\results\custom-metric\series-20261114-191048\comparison-new\attempt-03-analysis
+attempt-04-cpu: preflight
+attempt-04-cpu: recovery_quiet
+attempt-04-cpu: reset
+attempt-04-cpu: initial_quiet
+attempt-04-cpu: idle
+attempt-04-cpu: warmup
+attempt-04-cpu: post_warmup_quiet
+attempt-04-cpu: hpa_readiness
+attempt-04-cpu: load
+attempt-04-cpu: post_load_no_new_requests
+attempt-04-cpu: validation
+Saved 1 run summaries to C:\Users\matvi\PycharmProjects\kubernetes-autoscaling-ai-inference\results\custom-metric\series-20261114-191048\comparison-new\attempt-04-analysis
+attempt-05-cpu: preflight
+attempt-05-cpu: recovery_quiet
+attempt-05-cpu: reset
+attempt-05-cpu: initial_quiet
+attempt-05-cpu: idle
+attempt-05-cpu: warmup
+attempt-05-cpu: post_warmup_quiet
+attempt-05-cpu: hpa_readiness
+attempt-05-cpu: load
+attempt-05-cpu: post_load_no_new_requests
+Saved 1 run summaries to C:\Users\matvi\PycharmProjects\kubernetes-autoscaling-ai-inference\results\custom-metric\series-20261114-191048\comparison-new\attempt-05-analysis
+attempt-06-active-1: preflight
+attempt-06-active-1: recovery_quiet
+attempt-06-active-1: reset
+attempt-06-active-1: initial_quiet
+attempt-06-active-1: idle
+attempt-06-active-1: warmup
+attempt-06-active-1: post_warmup_quiet
+attempt-06-active-1: hpa_readiness
+attempt-06-active-1: load
+attempt-06-active-1: post_load_no_new_requests
+Saved 1 run summaries to C:\Users\matvi\PycharmProjects\kubernetes-autoscaling-ai-inference\results\custom-metric\series-20261114-191048\comparison-new\attempt-06-analysis

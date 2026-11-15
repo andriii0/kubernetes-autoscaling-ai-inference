@@ -1,0 +1,4 @@
+{
+  "changes": {},
+  "reason": "Comparison v2 records the bounded clock correction; workload, routing and HPA policies are unchanged."
+}
